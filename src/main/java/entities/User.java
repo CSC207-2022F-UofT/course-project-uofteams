@@ -28,7 +28,7 @@ public class User {
     public boolean removeFavourite(Post toRemove) {
         /* Search for Post in this.favourites, remove the first instance found.
          * Return true if found and removed and return false otherwise */
-        for (int i; i < this.favourites.size(); i++) {
+        for (int i = 0; i < this.favourites.size(); i++) {
             if (this.favourites.get(i).equals(toRemove)) {
                 this.favourites.remove(i);
                 return true
@@ -58,7 +58,7 @@ public class User {
     public boolean removePost(Post toRemove) {
         /* Search for toRemove in this.posts and if it is the remove and return true,
          * otherwise return false */
-        for (int i; i < this.posts.size(); i++) {
+        for (int i = 0; i < this.posts.size(); i++) {
             if (this.posts.get(i).equals(toRemove)) {
                 this.posts.remove(i);
                 return true;
