@@ -29,6 +29,11 @@ public class Tag {
     }
 
     /**
+     * Returns whether the post that has this tag was successfully removed.
+     */
+    public boolean removeTag(Post post) { return taggedPosts.remove(post); }
+
+    /**
      * Returns the name of this tag.
      */
     public String getName() {
