@@ -10,7 +10,6 @@ public class Post extends Postable{
     public static int numPostsCreated = 0;
     /**The id is equal to the number of posts created.*/
     private int id;
-    private Timer timer;
     /**This is a list of the users who favourited this post.*/
     private List<User> favouritedUsers;
     private String title;
@@ -20,7 +19,6 @@ public class Post extends Postable{
 
     /**
      * @param poster the User who is posting this Post. This is an attribute of the superclass Postable.
-     * @param timer an object that keeps track of time and deletes the Post when the deadline arrives.
      * @param title this Post's title.
      * @param mainDesc this Post's description.
      * @param tags the tags this Post is added to.
@@ -29,16 +27,14 @@ public class Post extends Postable{
      * @param replies the comments that are added to this post. This is an attribute of the superclass Postable.
      * @param numPostsCreated1 the number of posts created so far.
      */
-    public Post(User poster, Timer timer, String title, String mainDesc, List<String> tags, String collaborators,
+    public Post(User poster, String title, String mainDesc, List<String> tags, String collaborators,
                 Date deadline, List<Comment> replies, int numPostsCreated1){
-        super();
         super.user = poster;
         super.body = mainDesc;
         super.replies = replies;
         numPostsCreated = numPostsCreated1;
         numPostsCreated++;
         this.id = numPostsCreated;
-        this.timer = timer;
         this.title = title;
         this.tags = tags;
         this.collaborators = collaborators;
