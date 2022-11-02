@@ -21,11 +21,11 @@ public class User {
     *
     * @param admin whether the user will have admin priviledges
     * */
-    public User(boolean admin) {
+    public User(boolean admin, int numUsersCreated) {
         this.favourites = new ArrayList<Post>();
         this.posts = new ArrayList<Post>();
         this.isAdmin = admin;
-        User.numUsers ++;
+        User.numUsers += numUsersCreated;
         this.id = User.numUsers;
     }
 
