@@ -42,6 +42,13 @@ public class Post extends Postable{
     }
 
     /**
+     * @return the Post's ID.
+     */
+    public int getID(){
+        return this.id;
+    }
+
+    /**
      * @return a list of the Users who favourited the Post.
      */
     public List<User> getFavouritedUsers(){
@@ -64,23 +71,32 @@ public class Post extends Postable{
     }
 
     /**
-     * adds a User to the list of Users who favourited the Post.
+     * adds a User to the list of Users who favourited the Post if it is not in favouritedUsers yet.
      * @param favouritedUser the User who favourited the Post.
+     * @return true if user has been added; false otherwise.
      */
-    public void addFavouritedUser(User favouritedUser){
-        this.favouritedUsers.add(favouritedUser);
+    public boolean addFavouritedUser(User favouritedUser){
+        if(!(favouritedUsers.contains(favouritedUser))){
+            this.favouritedUsers.add(favouritedUser);
+            return true;
+        }
+        return false;
     }
 
     /**
-     * remove a User from the list of Users who favourited the Post.
+     * Searches for userToRemove in the list of Users who favourited the Post, removes userToRemove if
+     * that user is there.
      * @param userToRemove the User to be removed.
+     * @return true if the user has been removed; false otherwise.
      */
-    public void removeFavouritedUser(User userToRemove){
+    public boolean removeFavouritedUser(User userToRemove){
         for(int i = 0; i < favouritedUsers.size(); i++){
             if(userToRemove.equals(favouritedUsers.get(i))){
                 favouritedUsers.remove(i);
+                return true;
             }
         }
+        return false;
     }
 
     /**
