@@ -1,32 +1,42 @@
-package entities;
+package java.entities;
+import java.util.ArrayList;
 
 public class User {
     // ArrayList of User's favourited posts
-    private ArrayList<Post> favourites;
+    private final ArrayList<Post> favourites;
 
     // ArrayList of Posts User has made
-    private ArrayList<Post> posts;
+    private final ArrayList<Post> posts;
 
     // boolean relating if User has admin privileges
-    private boolean isAdmin;
+    private final boolean isAdmin;
 
     // Number of Users created
     public static int numUsers = 0;
 
     // id is the unique identifier of User, equal to number of posts at time of creation
-    private int id;
+    private final int id;
+
+    // password is the user's input password, used to sign in
+    private final String password;
+
+    // email is the users input email, used to sign in
+    private final String email;
 
     /*
     * Initializes an instance of User
     *
     * @param admin whether the user will have admin priviledges
     * */
-    public User(boolean admin, int numUsersCreated) {
+    public User(boolean admin, int numUsersCreated, String email, String password) {
         this.favourites = new ArrayList<Post>();
         this.posts = new ArrayList<Post>();
         this.isAdmin = admin;
-        User.numUsers += numUsersCreated;
+        User.numUsers = numUsersCreated;
+        User.numUsers ++;
         this.id = User.numUsers;
+        this.email = email;
+        this.password = password;
     }
 
     /*
@@ -59,7 +69,7 @@ public class User {
         for (int i = 0; i < this.favourites.size(); i++) {
             if (this.favourites.get(i).equals(toRemove)) {
                 this.favourites.remove(i);
-                return true
+                return true;
             }
         }
         return false;
@@ -129,5 +139,32 @@ public class User {
         }  else {
             return (this.id == ((User) o).id);
         }
+    }
+
+    /*
+    * Return the id of this user
+    *
+    * @return user's id int
+    * */
+    public int getId() {
+        return this.id;
+    }
+
+    /*
+    * Returns the users email
+    *
+    * @return a String with the value of user email
+    * */
+    public String getPassword() {
+        return this.password;
+    }
+
+    /*
+    * Returns the users password
+    *
+    * @return a String with the value of User's password
+    * */
+    public String getEmail(){
+        return this.email;
     }
 }
