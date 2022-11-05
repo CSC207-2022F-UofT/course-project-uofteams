@@ -18,8 +18,8 @@ public class UserUnitTest{
     @Test
     public void testConstructorFavourites() {
         User user = new User(false, 0, "test-email", "test-password");
-        ArrayList actual = user.getFavourites();
-        ArrayList expected = new ArrayList();
+        List actual = user.getFavourites();
+        List expected = new List();
 
         assertEquals(expected, actual);
     }
@@ -36,7 +36,7 @@ public class UserUnitTest{
     @Test
     public void testUserEqualityFalse() {
         User user = new User(false, 0, "test-email", "test-password");
-        ArrayList lst = new ArrayList();
+        List lst = new List();
         boolean actual = user.equals(lst);
         boolean expected = false;
 

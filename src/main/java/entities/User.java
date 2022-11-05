@@ -1,12 +1,13 @@
-package java.entities;
+package entities;
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     // ArrayList of User's favourited posts
-    private final ArrayList<Post> favourites;
+    private final List<Post> favourites;
 
     // ArrayList of Posts User has made
-    private final ArrayList<Post> posts;
+    private final List<Post> posts;
 
     // boolean relating if User has admin privileges
     private final boolean isAdmin;
@@ -44,7 +45,7 @@ public class User {
     *
     * @return User's favourites attribute
     * */
-    public ArrayList getFavourites() {
+    public List getFavourites() {
         /* Return an ArrayList containing the favourites of this User */
         return this.favourites;
     }
@@ -65,7 +66,7 @@ public class User {
     * @param toRemove Post to be removed
     * @return boolean representing success or failure
     * */
-    public boolean removeFavourite(Post toRemove) {
+    public boolean removeUserFavourite(Post toRemove) {
         for (int i = 0; i < this.favourites.size(); i++) {
             if (this.favourites.get(i).equals(toRemove)) {
                 this.favourites.remove(i);
@@ -80,7 +81,7 @@ public class User {
     *
     * @return User's posts attribute
     * */
-    public ArrayList getPosts() {
+    public List getPosts() {
         /* return an ArrayList containing the elements of this.posts */
         return this.posts;
     }
@@ -101,7 +102,7 @@ public class User {
     * @param toRemove post to be removed
     * @returns a boolean representing success or failure
     * */
-    public boolean removePost(Post toRemove) {
+    public boolean removeUserPost(Post toRemove) {
         /* Search for toRemove in this.posts and if it is the remove and return true,
          * otherwise return false */
         for (int i = 0; i < this.posts.size(); i++) {
@@ -130,9 +131,7 @@ public class User {
     * */
     @Override
     public boolean equals (Object o) {
-        if (this == o) {
-            return true;
-        } else if (o == null) {
+        if (o == null) {
             return false;
         } else if (!(o instanceof User)) {
             return false;
