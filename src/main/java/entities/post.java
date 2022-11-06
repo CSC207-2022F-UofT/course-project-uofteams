@@ -71,6 +71,13 @@ public class Post extends Postable{
     }
 
     /**
+     * @return this post's deadline.
+     */
+    public Date getDeadline(){
+        return this.deadline;
+    }
+
+    /**
      * adds a User to the list of Users who favourited the Post if it is not in favouritedUsers yet.
      * @param favouritedUser the User who favourited the Post.
      * @return true if user has been added; false otherwise.
