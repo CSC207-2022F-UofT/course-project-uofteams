@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,11 +11,18 @@ public class Comment extends Postable{
 
     public static Date creationDate;
 
-    public Comment(User poster, String body, List<Comment> replies){
-        super.user = poster;
+    public Comment(User commenter, String body){
+        super.user = commenter;
         super.body = body;
-        super.replies = replies;
+        super.replies = new ArrayList<>();
         creationDate = new Date();
+    }
+    public String getBody(){
+        return super.body;
+    }
+
+    public User getUser(){
+        return super.user;
     }
 
 
