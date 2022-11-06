@@ -24,14 +24,12 @@ public class Post extends Postable{
      * @param tags the tags this Post is added to.
      * @param collaborators a description of the type of the collaborators the User who posted this Posts is looking for.
      * @param deadline the date on which the Post is to be deleted from the database.
-     * @param replies the comments that are added to this post. This is an attribute of the superclass Postable.
      * @param numPostsCreated1 the number of posts created so far.
      */
     public Post(User poster, String title, String mainDesc, List<String> tags, String collaborators,
-                Date deadline, List<Comment> replies, int numPostsCreated1){
+                Date deadline, int numPostsCreated1){
         super.user = poster;
         super.body = mainDesc;
-        super.replies = replies;
         numPostsCreated = numPostsCreated1;
         numPostsCreated++;
         this.id = numPostsCreated;
@@ -75,6 +73,34 @@ public class Post extends Postable{
      */
     public Date getDeadline(){
         return this.deadline;
+    }
+    /**
+     * adds a reply to the list of replies to this Post.
+     * @param reply a reply to this Post.
+     * @return true if reply has been added; false otherwise.
+     */
+    public boolean addReply(Comment reply){
+        if(!(this.replies.contains(reply))){
+            this.replies.add(reply);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Searches for reply in the list of replies to the Post, removes that reply if
+     * that it is there.
+     * @param reply the reply to be removed.
+     * @return true if the reply has been removed; false otherwise.
+     */
+    public boolean removeReply(Comment reply){
+        for(int i = 0; i < replies.size(); i++){
+            if(reply.equals(replies.get(i))){
+                replies.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
