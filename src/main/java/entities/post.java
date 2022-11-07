@@ -74,6 +74,13 @@ public class Post extends Postable{
     public Date getDeadline(){
         return this.deadline;
     }
+
+    /**
+     * @return the replies made to this Post.
+     */
+    public List<Postable> getReplies(){
+        return this.replies;
+    }
     /**
      * adds a reply to the list of replies to this Post.
      * @param reply a reply to this Post.
