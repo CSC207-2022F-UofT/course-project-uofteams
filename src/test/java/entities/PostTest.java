@@ -36,7 +36,7 @@ class PostTest extends Postable {
     void getFavouritedUsers() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
         newPost.addFavouritedUser(user);
         assertEquals(user, newPost.getFavouritedUsers().get(0));
@@ -46,7 +46,7 @@ class PostTest extends Postable {
     void getNumFavouritedUsers() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
         newPost.addFavouritedUser(user);
         assertEquals(1, newPost.getNumFavouritedUsers());
@@ -56,7 +56,7 @@ class PostTest extends Postable {
     void addFavouritedUser() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
         User user2 = new User(false, 1, "test-email", "test-password");
         newPost.addFavouritedUser(user);
@@ -69,7 +69,7 @@ class PostTest extends Postable {
     void removeFavouritedUser() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
         User user2 = new User(false, 1, "test-email", "test-password");
         newPost.addFavouritedUser(user);
@@ -81,7 +81,7 @@ class PostTest extends Postable {
     void setTags() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         newPost.setTags(new ArrayList(Arrays.asList("Sports", "Club", "Tennis", "Beginners")));
         assertTrue(newPost.getTags().contains("Beginners"));
         newPost.setTags(new ArrayList(Arrays.asList()));
@@ -92,9 +92,9 @@ class PostTest extends Postable {
     void testEquals() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        entities.Post aliasPost = newPost;
-        entities.Post newPost2 = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 1);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post aliasPost = newPost;
+        Post newPost2 = new Post(poster, title, mainDesc, tags, collaborators, deadline, 1);
         assertFalse(newPost.equals(newPost2));
         assertTrue(newPost.equals(aliasPost));
     }
@@ -103,7 +103,7 @@ class PostTest extends Postable {
     void getID() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         assertEquals(1, newPost.getID());
     }
 
@@ -111,7 +111,7 @@ class PostTest extends Postable {
     void getTags() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         newPost.setTags(new ArrayList(Arrays.asList("Sports")));
         assertEquals("Sports", newPost.getTags().get(0));
     }
@@ -120,14 +120,14 @@ class PostTest extends Postable {
     void getDeadline() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         assertEquals(deadline, newPost.getDeadline());
     }
     @Test
     void getReply(){
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         Comment comment = new Comment(poster, "Hello!", 1);
         newPost.addReply(comment);
         assertEquals(comment, newPost.getReplies().get(0));
@@ -136,7 +136,7 @@ class PostTest extends Postable {
     void addReply() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         Comment comment = new Comment(poster, "Hello!", 1);
         newPost.addReply(comment);
         newPost.addReply(comment);
@@ -148,7 +148,7 @@ class PostTest extends Postable {
     void removeReply() {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         Comment comment = new Comment(poster, "Hello!", 1);
         newPost.addReply(comment);
         newPost.removeReply(comment);
