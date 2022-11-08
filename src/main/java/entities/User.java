@@ -45,7 +45,7 @@ public class User {
     *
     * @return User's favourites attribute
     * */
-    public List getFavourites() {
+    public List<Post> getFavourites() {
         /* Return an ArrayList containing the favourites of this User */
         return this.favourites;
     }
@@ -81,7 +81,7 @@ public class User {
     *
     * @return User's posts attribute
     * */
-    public List getPosts() {
+    public List<Post> getPosts() {
         /* return an ArrayList containing the elements of this.posts */
         return this.posts;
     }
@@ -115,9 +115,9 @@ public class User {
     }
 
     /*
-    * Checks whether User has admin privledges
+    * Checks whether User has admin privileges
     *
-    * @return a boolean which represents whether User has admin priviledges
+    * @return a boolean which represents whether User has admin privileges
     * */
     public boolean isAdmin(){
         return this.isAdmin;
@@ -154,8 +154,8 @@ public class User {
     *
     * @return a String with the value of user email
     * */
-    public String getPassword() {
-        return this.password;
+    public String getEmail(){
+        return this.email;
     }
 
     /*
@@ -163,7 +163,7 @@ public class User {
     *
     * @return a String with the value of User's password
     * */
-    public String getEmail(){
-        return this.email;
+    public String getPassword() {
+        return this.password;
     }
 }
