@@ -9,8 +9,7 @@ abstract class Postable{
     List<Postable> replies;
 
     public void addComment(Comment comment){
-        this.replies.append(comment);
+        this.replies.add(comment);
     }
-
 }
 
