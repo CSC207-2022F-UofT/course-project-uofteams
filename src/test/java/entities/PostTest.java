@@ -13,13 +13,13 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PostTest extends Postable {
-    User poster = new User();
+    User poster = new User(false, 0, "email", "password");
     String title = "Title";
     String mainDesc = "Main Description";
-    String collaborators = "I would like to play tennis doubles with some fellow beginners"
+    String collaborators = "I would like to play tennis doubles with some fellow beginners";
     List<String> tags = new ArrayList(Arrays.asList("Sports", "Club", "Tennis"));
     Calendar calendar = Calendar.getInstance();
-    Comment reply1 = new Comment();
+    Comment reply1 = new Comment(poster, "comment");
     List<Comment> replies = new ArrayList<>(Arrays.asList(reply1));
     int numPostsCreated = 0;
 
@@ -128,7 +128,7 @@ class PostTest extends Postable {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
         entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!", 1);
+        Comment comment = new Comment(poster, "Hello!");
         newPost.addReply(comment);
         assertEquals(comment, newPost.getReplies().get(0));
     }
@@ -137,7 +137,7 @@ class PostTest extends Postable {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
         entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!", 1);
+        Comment comment = new Comment(poster, "Hello!");
         newPost.addReply(comment);
         newPost.addReply(comment);
         assertEquals(1, newPost.getReplies().size());
@@ -149,7 +149,7 @@ class PostTest extends Postable {
         calendar.set(2022, 11, 31, 23, 59, 59);
         Date deadline = calendar.getTime();
         entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!", 1);
+        Comment comment = new Comment(poster, "Hello!");
         newPost.addReply(comment);
         newPost.removeReply(comment);
         assertEquals(0, newPost.getReplies().size());
