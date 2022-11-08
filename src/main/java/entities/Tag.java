@@ -1,13 +1,14 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Tag {
     // The name of the tag
-    final String name;
+    private final String name;
 
     // Array of posts that are under this tag
-    final ArrayList<Post> taggedPosts;
+    private final List<Post> taggedPosts;
 
     /**
      * Initializes an instance of Tag.
@@ -20,18 +21,33 @@ public class Tag {
     }
 
     /**
-     * Add a post that has this tag.
+     * Returns whether the post was successfully added to this tag.
+     *
+     * Adds the given post to this tag, if not already in the list.
      *
      * @param post The post that has this name as a tag.
      */
-    public void addTag(Post post) {
-        taggedPosts.add(post);
+    public boolean addPostToTag(Post post) {
+        if (!taggedPosts.contains(post)) {
+            taggedPosts.add(post);
+            return true;
+        }
+        return false;
     }
 
     /**
      * Returns whether the post that has this tag was successfully removed.
+     *
+     * Removes the post from this tag, if possible.
      */
-    public boolean removeTag(Post post) { return taggedPosts.remove(post); }
+    public boolean removePostFromTag(Post post) {
+        for (Post p: taggedPosts) {
+            if (p.equals(post)) {
+                return taggedPosts.remove(post);
+            }
+        }
+        return false;
+    }
 
     /**
      * Returns the name of this tag.
@@ -39,4 +55,9 @@ public class Tag {
     public String getName() {
         return this.name;
     }
+
+    /**
+     * Returns the list of posts that has this tag.
+     */
+    public List<Post> getTaggedPosts() { return this.taggedPosts; }
 }
