@@ -12,8 +12,12 @@ abstract class Postable{
     Date creationDate;
 
     public void addComment(Comment comment){
-        this.replies.append(comment);
+        this.replies.add(comment);
     }
+
+    public List<Postable> getReplies(){return this.replies}
+
+    public Date getCreationDate(){return this.creationDate}
 
 }
 
