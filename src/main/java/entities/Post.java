@@ -1,4 +1,5 @@
 package entities;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class Post extends Postable{
                 Date deadline, int numPostsCreated1){
         super.user = poster;
         super.body = mainDesc;
+        super.replies = new ArrayList<>();
         numPostsCreated = numPostsCreated1;
         numPostsCreated++;
         this.id = numPostsCreated;
