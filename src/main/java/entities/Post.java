@@ -80,7 +80,7 @@ public class Post extends Postable{
     /**
      * @return the replies made to this Post.
      */
-    public List<Postable> getReplies(){
+    public List<Comment> getReplies(){
         return this.replies;
     }
     /**
