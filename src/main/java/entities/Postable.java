@@ -11,13 +11,24 @@ abstract class Postable{
     List<Postable> replies;
     Date creationDate;
 
+    /**
+     * Adds a comment to the replies of the given instance of Postable.
+     *
+     * @param comment the comment to be added to replies
+     */
     public void addComment(Comment comment){
         this.replies.add(comment);
     }
 
-    public List<Postable> getReplies(){return this.replies}
+    /**
+     * Returns the list of replies to a Postable object.
+     */
+    public List<Postable> getReplies(){return this.replies;}
 
-    public Date getCreationDate(){return this.creationDate}
+    /**
+     * Returns the date of which this Postable was created.
+     */
+    public Date getCreationDate(){return this.creationDate;}
 
 }
 
