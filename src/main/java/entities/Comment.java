@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import java.security.PublicKey;
-
 /**
  * Comment extends abstract class Postable and inherits all of its
  * instance attributes (user, body, replies) and addComment method.

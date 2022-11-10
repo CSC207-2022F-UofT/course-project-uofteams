@@ -3,12 +3,17 @@ package entities;
 import java.util.List;
 import java.util.Date;
 
-abstract class Postable{
+public abstract class Postable{
     // The access modifiers have been omitted so that the default settings would be applied.
     // If we make these instance attributes private they become inaccessible to the child classes.
+
+    // the User who created the Postable
     User user;
+    // the main text content of the Postable
     String body;
+    // a list of Postable objects created as a reply to this Postable
     List<Postable> replies;
+    // the date this Postable was created
     Date creationDate;
 
     /**
