@@ -35,5 +35,19 @@ public abstract class Postable{
      */
     public Date getCreationDate(){return this.creationDate;}
 
+    /**
+     * Returns the body (or text content) of this instance of Postable.
+     */
+    public String getBody(){
+        return this.body;
+    }
+
+    /**
+     * Returns the User that created this Postable.
+     */
+    public User getUser(){
+        return this.user;
+    }
+
 }
 

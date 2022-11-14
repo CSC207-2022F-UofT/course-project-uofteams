@@ -34,20 +34,6 @@ public class Comment extends Postable{
     }
 
     /**
-     * Returns the body (or text content) of this instance of Comment.
-     */
-    public String getBody(){
-        return super.body;
-    }
-
-    /**
-     * Returns the User that created this Comment.
-     */
-    public User getUser(){
-        return super.user;
-    }
-
-    /**
      * Return if Comment is equal to o
      *
      * @param o The Object to be compared to
