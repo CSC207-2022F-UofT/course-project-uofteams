@@ -1,8 +1,6 @@
-# Project Template
+# UofTeams
 
-This is a template repository for CSC 207 projects. 
-This repository contains starter code for a gradle project.
-It also contains workflow documents that give instructions on how to manage your Github repository and how to use Github Projects for efficient collaboration.
+UofTeams allows UofT students to create accounts with the purpose of creating time-sensitive posts to advertise extracurricular opportunities. The user may search for other posts by filtering by user or specific tags. A user also has the option of commenting on or favouriting a post if they’re interested in an opportunity. Users should have the option to edit and delete their own posts, respond to posts and comments, and view users who have “favourited” their own posts. Certain users are designated as “administrator accounts” which help moderate the forums.
 
 ## Checklist For Your Project
 - [ ] Verify the correct settings for your project repository
