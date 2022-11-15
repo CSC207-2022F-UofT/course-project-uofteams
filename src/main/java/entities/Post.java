@@ -26,14 +26,15 @@ public class Post extends Postable{
      * @param tags the tags this Post is added to.
      * @param collaborators a description of the type of the collaborators the User who posted this Posts is looking for.
      * @param deadline the date on which the Post is to be deleted from the database.
+     * @param creationDate the date on which the Post was created.
      * @param numPostsCreated1 the number of posts created so far.
      */
     public Post(User poster, String title, String mainDesc, List<String> tags, String collaborators,
-                LocalDate deadline, int numPostsCreated1){
+                LocalDate deadline, LocalDate creationDate, int numPostsCreated1){
         super.user = poster;
         super.body = mainDesc;
         super.replies = new ArrayList<>();
-        super.creationDate = LocalDate.now();
+        super.creationDate = creationDate;
         numPostsCreated = numPostsCreated1;
         numPostsCreated++;
         this.id = numPostsCreated;
