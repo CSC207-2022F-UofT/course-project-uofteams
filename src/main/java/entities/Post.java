@@ -33,6 +33,7 @@ public class Post extends Postable{
         super.user = poster;
         super.body = mainDesc;
         super.replies = new ArrayList<>();
+        super.creationDate = LocalDate.now();
         numPostsCreated = numPostsCreated1;
         numPostsCreated++;
         this.id = numPostsCreated;
