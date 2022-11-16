@@ -24,7 +24,6 @@ public class PostTest extends Postable {
 
     @Before
     public void setUp() {
-
     }
 
     @After
