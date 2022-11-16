@@ -1,6 +1,8 @@
 package entities;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDate;
 
 /**
  * The Post class contains all the necessary information of a post: its ID, title,
@@ -15,7 +17,7 @@ public class Post extends Postable{
     private String title;
     private List<String> tags;
     private String collaborators;
-    private Date deadline;
+    private LocalDate deadline;
 
     /**
      * @param poster the User who is posting this Post. This is an attribute of the superclass Postable.
@@ -27,9 +29,10 @@ public class Post extends Postable{
      * @param numPostsCreated1 the number of posts created so far.
      */
     public Post(User poster, String title, String mainDesc, List<String> tags, String collaborators,
-                Date deadline, int numPostsCreated1){
+                LocalDate deadline, int numPostsCreated1){
         super.user = poster;
         super.body = mainDesc;
+        super.replies = new ArrayList<>();
         numPostsCreated = numPostsCreated1;
         numPostsCreated++;
         this.id = numPostsCreated;
@@ -37,6 +40,7 @@ public class Post extends Postable{
         this.tags = tags;
         this.collaborators = collaborators;
         this.deadline = deadline;
+        this.favouritedUsers = new ArrayList<>();
     }
 
     /**
@@ -71,7 +75,7 @@ public class Post extends Postable{
     /**
      * @return this post's deadline.
      */
-    public Date getDeadline(){
+    public LocalDate getDeadline(){
         return this.deadline;
     }
 
