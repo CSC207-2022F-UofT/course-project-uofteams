@@ -6,16 +6,13 @@ import filter_post.use_case.FilterPostRequestModel;
 import java.util.List;
 
 public class FilterPostController {
-    private final FilterPostRequestModel currentTags;
     private final FilterPostInputBoundary interactor;
 
     /**
      * Initialize a FilterPostController object.
-     * @param currentTags   A FilterPostRequestModel object that stores the current filters
      * @param interactor    A FilterPostInputBoundary object that specifies the functionality of the use case.
      */
-    public FilterPostController(FilterPostRequestModel currentTags, FilterPostInputBoundary interactor) {
-        this.currentTags = currentTags;
+    public FilterPostController(FilterPostInputBoundary interactor) {
         this.interactor = interactor;
     }
 
@@ -24,7 +21,8 @@ public class FilterPostController {
      * @param filters A list of tags to filter the posts by.
      */
     public void filter(List<String> filters) {
-        currentTags.setFilterTags(filters);
-        interactor.filterPosts(currentTags);
+        FilterPostRequestModel inputData = new FilterPostRequestModel(filters);
+
+        interactor.filterPosts(inputData);
     }
 }

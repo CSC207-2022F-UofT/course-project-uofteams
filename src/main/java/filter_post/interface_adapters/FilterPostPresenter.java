@@ -4,43 +4,49 @@ import entities.Post;
 import filter_post.use_case.FilterPostOutputBoundary;
 import filter_post.use_case.FilterPostResponseModel;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An observable presenter for this use case with a list of viewable posts.
+ * The presenter for this use case that stores the view model.
  */
 public class FilterPostPresenter implements FilterPostOutputBoundary {
-    private List<Post> viewablePosts;
-    private final PropertyChangeSupport observable;
+    private final FilterPostViewModel viewModel;
 
     /**
      * Instantiate a FilterPostPresenter object.
-     * @param viewablePosts A list of posts to be displayed.
+     * @param viewModel A FilterPostViewModel object to act as the bridge between the view and presenter.
      */
-    public FilterPostPresenter(List<Post> viewablePosts) {
-        this.viewablePosts = viewablePosts;
-        this.observable = new PropertyChangeSupport(this);
-    }
-
-    /**
-     * Add a new observer to observe changes to this class.
-     * @param observer The observer to be observing this observable.
-     */
-    public void addObserver(PropertyChangeListener observer) {
-        observable.addPropertyChangeListener("viewable posts", observer);
+    public FilterPostPresenter(FilterPostViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     /**
      * Update the viewable posts and notify any observers.
-     * @param filteredPosts A FilterPostResponseModel object storing the filtered posts.
+     * @param responseModel A FilterPostResponseModel object storing the filtered posts.
      */
     @Override
-    public void updateViewablePosts(FilterPostResponseModel filteredPosts) {
-        List<Post> previousPosts = this.viewablePosts;
-        List<Post> newPosts = filteredPosts.getFilteredPosts();
-        this.viewablePosts = newPosts;
-        observable.firePropertyChange("viewable posts", previousPosts, newPosts);
+    public void updateViewablePosts(FilterPostResponseModel responseModel) {
+        List<Post> filteredPosts = responseModel.getFilteredPosts();
+
+        List<String> tempTitles = new ArrayList<>();
+        List<Integer> tempIDs = new ArrayList<>();
+        List<String> tempDescriptions = new ArrayList<>();
+
+        for (Post post: filteredPosts) {
+            tempTitles.add(post.getTitle());
+            tempIDs.add(post.getID());
+            tempDescriptions.add(post.getBody());
+        }
+
+        String[] newTitles = tempTitles.toArray(new String[0]);
+        int[] newIDs = new int[tempIDs.size()];
+        String[] newDescriptions = tempDescriptions.toArray(new String[0]);
+
+        for (int i = 0; i < tempIDs.size(); i++) {
+            newIDs[i] = tempIDs.get(i);
+        }
+
+        viewModel.updateViewModel(newTitles, newIDs, newDescriptions);
     }
 }

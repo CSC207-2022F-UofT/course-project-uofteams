@@ -2,14 +2,17 @@ package filter_post;
 
 import entities.Post;
 import entities.User;
-import filter_post.interface_adapters.FilterPostController;
+import filter_post.interface_adapters.*;
 import filter_post.use_case.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -18,15 +21,16 @@ import static org.junit.Assert.*;
  * Test the functionality of the "filter post" use case.
  *
  * Included Test Coverage:
- *  - All of filter_pose.use_case (100% coverage)
- *  - filter_post.interface_adapters.FilterPostController (100% coverage)
+ *  - All of filter_pose.use_case (100% line coverage)
+ *  - filter_post.interface_adapters (92% line coverage)
  *
- *  The test coverage did not include the rest of the components because they were UI-related and I don't
- *  know how to test them. Future work would include implementing tests for these components.
+ * Notes:
+ *  - The test coverage did not include the rest of the components because they were UI-related and I don't
+ *    know how to test them. Future work would include implementing tests for these components.
+ *  - I did not test the getters of FilterPostViewModel since there is not exactly an important behavioural
+ *    concept to test (they simply just return a value).
  */
 public class FilterPostTest {
-    FilterPostRequestModel requestModel;
-    FilterPostResponseModel responseModel;
     FilterPostDsGateway postRepository;
     FilterPostOutputBoundary presenter;
     FilterPostInputBoundary interactor;
@@ -52,9 +56,6 @@ public class FilterPostTest {
                 return dummyPosts;
             }
         };
-
-        requestModel = new FilterPostRequestModel();
-        responseModel = new FilterPostResponseModel();
     }
 
     @After
@@ -81,8 +82,8 @@ public class FilterPostTest {
             }
         };
 
-        interactor = new FilterPostInteractor(responseModel, postRepository, presenter);
-        controller = new FilterPostController(requestModel, interactor);
+        interactor = new FilterPostInteractor(postRepository, presenter);
+        controller = new FilterPostController(interactor);
 
         List<String> inputData = new ArrayList<>();
         inputData.add("3");
@@ -115,10 +116,36 @@ public class FilterPostTest {
             }
         };
 
-        interactor = new FilterPostInteractor(responseModel, postRepository, presenter);
-        controller = new FilterPostController(requestModel, interactor);
+        interactor = new FilterPostInteractor(postRepository, presenter);
+        controller = new FilterPostController(interactor);
 
         List<String> inputData = new ArrayList<>();
+
+        controller.filter(inputData);
+    }
+
+    /**
+     * Test that the presenter properly updates the observers.
+     */
+    @Test
+    public void testFilterWithObserver() {
+        FilterPostViewModel viewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
+        FilterPostOutputBoundary presenter = new FilterPostPresenter(viewModel);
+        PropertyChangeListener observer = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                List<String> properties = new ArrayList<>(Arrays.asList("titles", "ids", "descriptions"));
+
+                assertTrue(properties.contains(evt.getPropertyName()));
+            }
+        };
+
+        viewModel.addObserver(observer);
+        interactor = new FilterPostInteractor(postRepository, presenter);
+        controller = new FilterPostController(interactor);
+
+        List<String> inputData = new ArrayList<>();
+        inputData.add("3");
 
         controller.filter(inputData);
     }

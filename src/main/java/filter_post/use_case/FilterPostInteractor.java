@@ -7,21 +7,17 @@ import java.util.HashSet;
 import java.util.List;
 
 public class FilterPostInteractor implements FilterPostInputBoundary {
-    private final FilterPostResponseModel filteredPosts;
     private final FilterPostDsGateway postsGateway;
     private final FilterPostOutputBoundary filterPostPresenter;
 
     /**
      * Instantiate a FilterPostInteractor to run the use case.
      *
-     * @param filteredPosts       Stores the output data.
      * @param postsGateway        An abstraction to retrieve posts from the repository.
      * @param filterPostPresenter An abstraction to receive the filtered posts.
      */
-    public FilterPostInteractor(FilterPostResponseModel filteredPosts,
-                                FilterPostDsGateway postsGateway,
+    public FilterPostInteractor(FilterPostDsGateway postsGateway,
                                 FilterPostOutputBoundary filterPostPresenter) {
-        this.filteredPosts = filteredPosts;
         this.postsGateway = postsGateway;
         this.filterPostPresenter = filterPostPresenter;
     }
@@ -47,7 +43,8 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
             }
         }
 
-        filteredPosts.setFilteredPosts(postsWithTag);
-        filterPostPresenter.updateViewablePosts(filteredPosts);
+        FilterPostResponseModel outputData = new FilterPostResponseModel(postsWithTag);
+
+        filterPostPresenter.updateViewablePosts(outputData);
     }
 }

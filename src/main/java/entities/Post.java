@@ -44,6 +44,13 @@ public class Post extends Postable{
     }
 
     /**
+     * Return the post's title.
+     */
+    public String getTitle() {
+        return this.title;
+    }
+
+    /**
      * @return the Post's ID.
      */
     public int getID(){
