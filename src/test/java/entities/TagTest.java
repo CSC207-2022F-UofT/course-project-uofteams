@@ -4,17 +4,15 @@ import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class TagTest {
     User p;
-    Calendar c;
-    Date d;
+    LocalDate d;
     List <String> tags;
     Post sample;
     Tag tag;
@@ -22,9 +20,7 @@ public class TagTest {
     @Before
     public void setUp() {
         p = new User(false, 0, "test@email.com", "moogah");
-        c = Calendar.getInstance();
-        c.set(2022, Calendar.DECEMBER, 31, 23, 59, 59);
-        d = c.getTime();
+        d = LocalDate.of(2022, 12, 31);
         tags = new ArrayList<>();
         tags.add("TEST TAG");
         sample = new Post(
