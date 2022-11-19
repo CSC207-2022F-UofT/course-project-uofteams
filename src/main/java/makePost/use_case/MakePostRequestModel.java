@@ -2,6 +2,8 @@ package makePost.use_case;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+
 import entities.User;
 
 public class MakePostRequestModel {
@@ -10,20 +12,22 @@ public class MakePostRequestModel {
     private List<String> tags;
     private String collaborators;
     private LocalDate deadline;
-    private LocalDate creationDate;
     private User poster;
     private int numPostsCreated;
 
-    public MakePostRequestModel(String title, String mainDesc, List<String> tags, String collaborators,
-                                LocalDate deadline, LocalDate creationDate, User poster, int numPostsCreated){
-        this.title = title;
-        this.mainDesc = mainDesc;
-        this.tags = tags;
-        this.collaborators = collaborators;
-        this.deadline = deadline;
-        this.creationDate = creationDate;
-        this.poster = poster;
-        this.numPostsCreated = numPostsCreated;
+    private Map<String, Object> postAttributes;
+
+    public MakePostRequestModel(Map<String, Object> postAttributes){
+        this.title = (String) postAttributes.get("title");
+        this.mainDesc = (String) postAttributes.get("mainDescription");
+        this.tags = (List<String>) postAttributes.get("tags");
+        this.collaborators = (String) postAttributes.get("collaborators");
+        this.deadline = (LocalDate) postAttributes.get("deadline");
+        Map<String, Object> poster1 = (Map<String, Object>) postAttributes.get("poster");
+
+        this.poster = new User(poster1);
+        this.numPostsCreated = (int) postAttributes.get(numPostsCreated);
+        this.postAttributes = postAttributes;
     }
 
     public String getTitle() {
@@ -72,14 +76,6 @@ public class MakePostRequestModel {
 
     public void setPoster(User poster) {
         this.poster = poster;
-    }
-
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
     }
 
     public int getNumPostsCreated() {

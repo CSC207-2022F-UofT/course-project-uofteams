@@ -1,13 +1,15 @@
 package entities;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class User {
     // ArrayList of User's favourited posts
-    private final List<Post> favourites;
+    private final List<Integer> favourites;
 
     // ArrayList of Posts User has made
-    private final List<Post> posts;
+    private final List<Integer> posts;
 
     // boolean relating if User has admin privileges
     private final boolean isAdmin;
@@ -30,8 +32,8 @@ public class User {
     * @param admin whether the user will have admin priviledges
     * */
     public User(boolean admin, int numUsersCreated, String email, String password) {
-        this.favourites = new ArrayList<Post>();
-        this.posts = new ArrayList<Post>();
+        this.favourites = new ArrayList<Integer>();
+        this.posts = new ArrayList<Integer>();
         this.isAdmin = admin;
         User.numUsers = numUsersCreated;
         User.numUsers ++;
@@ -40,12 +42,33 @@ public class User {
         this.password = password;
     }
 
+    public User(Map<String, Object> userAttributes){
+        this.isAdmin = Boolean.parseBoolean((String) userAttributes.get("isAdmin"));
+        this.id = (int) userAttributes.get("id");
+        this.email = (String) userAttributes.get("email");
+        this.password = (String) userAttributes.get("password");
+        List<String> postList = new ArrayList<>(Arrays.asList(((String) userAttributes.get("posts")).split(" ")));
+        this.posts = new ArrayList<>();
+
+        for (String value : postList) {
+            int individualPostID = Integer.parseInt(value);
+            this.posts.add(individualPostID);
+        }
+
+        List<String> favPostList = new ArrayList<>(Arrays.asList(((String) userAttributes.get("favouritePosts")).split(" ")));
+        this.favourites = new ArrayList<>();
+        for (String s : favPostList) {
+            int individualFavPostID = Integer.parseInt(s);
+            this.favourites.add(individualFavPostID);
+        }
+    }
+
     /*
     * Returns User's favourites
     *
     * @return User's favourites attribute
     * */
-    public List<Post> getFavourites() {
+    public List<Integer> getFavourites() {
         /* Return an ArrayList containing the favourites of this User */
         return this.favourites;
     }
@@ -55,7 +78,7 @@ public class User {
     *
     * @param toAdd The Post to add to User's favourites
     * */
-    public void addFavourite(Post toAdd) {
+    public void addFavourite(int toAdd) {
         /* Add Post to this.favourites */
         this.favourites.add(toAdd);
     }
@@ -66,7 +89,7 @@ public class User {
     * @param toRemove Post to be removed
     * @return boolean representing success or failure
     * */
-    public boolean removeUserFavourite(Post toRemove) {
+    public boolean removeUserFavourite(int toRemove) {
         for (int i = 0; i < this.favourites.size(); i++) {
             if (this.favourites.get(i).equals(toRemove)) {
                 this.favourites.remove(i);
@@ -81,7 +104,7 @@ public class User {
     *
     * @return User's posts attribute
     * */
-    public List<Post> getPosts() {
+    public List<Integer> getPosts() {
         /* return an ArrayList containing the elements of this.posts */
         return this.posts;
     }
@@ -91,7 +114,7 @@ public class User {
     *
     * @param toAdd post to be added
     * */
-    public void addPost(Post toAdd) {
+    public void addPost(Integer toAdd) {
         /* add toAdd to this.posts */
         this.posts.add(toAdd);
     }
@@ -102,7 +125,7 @@ public class User {
     * @param toRemove post to be removed
     * @returns a boolean representing success or failure
     * */
-    public boolean removeUserPost(Post toRemove) {
+    public boolean removeUserPost(int toRemove) {
         /* Search for toRemove in this.posts and if it is the remove and return true,
          * otherwise return false */
         for (int i = 0; i < this.posts.size(); i++) {

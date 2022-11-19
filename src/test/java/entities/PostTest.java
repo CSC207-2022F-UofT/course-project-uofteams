@@ -12,7 +12,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PostTest extends Postable {
-    User poster = new User(false, 0, "email", "password");
+    int posterID = 1;
     String title = "Title";
     String mainDesc = "Main Description";
     String collaborators = "I would like to play tennis doubles with some fellow beginners";
@@ -20,7 +20,6 @@ public class PostTest extends Postable {
 
     int numPostsCreated = 0;
     LocalDate deadline = LocalDate.of(2022, 3, 1);
-    LocalDate creationDate = LocalDate.of(2022, 12, 31);
 
     @Before
     public void setUp() {
@@ -32,7 +31,7 @@ public class PostTest extends Postable {
     }
 
     public Post createPostForTest(){
-        return new Post(poster, title, mainDesc, tags, collaborators, deadline, creationDate, numPostsCreated);
+        return new Post(posterID, title, mainDesc, tags, collaborators, deadline, numPostsCreated);
     }
 
     @Test
@@ -89,7 +88,7 @@ public class PostTest extends Postable {
         Post aliasPost = newPost;
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         LocalDate creationDate = LocalDate.of(2018, 12, 31);
-        Post newPost2 = new Post(poster, title, mainDesc, tags, collaborators, deadline, creationDate, 1);
+        Post newPost2 = new Post(posterID, title, mainDesc, tags, collaborators, deadline, 1);
         assertNotEquals(newPost, newPost2);
         assertEquals(newPost, aliasPost);
     }
@@ -97,7 +96,7 @@ public class PostTest extends Postable {
     @Test
     public void getID() {
         Post newPost = createPostForTest();
-        Post newPost2 = new Post(poster, title, mainDesc, tags, collaborators, deadline, creationDate, 1);
+        Post newPost2 = new Post(posterID, title, mainDesc, tags, collaborators, deadline, 1);
         assertEquals(1, newPost.getID());
         assertEquals(2, newPost2.getID());
     }
@@ -118,14 +117,14 @@ public class PostTest extends Postable {
     @Test
     public void getReply(){
         Post newPost = createPostForTest();
-        Comment comment = new Comment(poster, "Hello!", 0);
+        Comment comment = new Comment(posterID, "Hello!", 0);
         newPost.addReply(comment);
         assertEquals(comment, newPost.getReplies().get(0));
     }
     @Test
     public void addReply() {
         Post newPost = createPostForTest();
-        Comment comment = new Comment(poster, "Hello!", 0);
+        Comment comment = new Comment(posterID, "Hello!", 0);
         newPost.addReply(comment);
         newPost.addReply(comment);
         assertEquals(1, newPost.getReplies().size());
@@ -135,7 +134,7 @@ public class PostTest extends Postable {
     @Test
     public void removeReply() {
         Post newPost = createPostForTest();
-        Comment comment = new Comment(poster, "Hello!", 0);
+        Comment comment = new Comment(posterID, "Hello!", 0);
         newPost.addReply(comment);
         newPost.removeReply(comment);
         assertEquals(0, newPost.getReplies().size());
