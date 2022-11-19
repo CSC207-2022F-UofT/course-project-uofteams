@@ -98,15 +98,6 @@ public class Post extends Postable{
     }
 
     /**
-     * Adds a comment to the replies of the given instance of post.
-     *
-     * @param comment the comment to be added to replies
-     */
-    public void addComment(Comment comment){
-        this.replies.add(comment);
-    }
-
-    /**
      * Searches for reply in the list of replies to the Post, removes that reply if
      * that it is there.
      * @param reply the reply to be removed.
@@ -121,6 +112,14 @@ public class Post extends Postable{
         }
         return false;
     }
+
+    /**
+     * Return the post's title.
+     */
+    public String getTitle() {
+        return this.title;
+    }
+
 
     /**
      * adds a User to the list of Users who favourited the Post if it is not in favouritedUsers yet.

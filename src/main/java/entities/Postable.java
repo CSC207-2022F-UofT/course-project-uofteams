@@ -17,12 +17,12 @@ public abstract class Postable{
     int id;
 
     /**
-     * Returns the date of which this Postable was created.
+     * Returns the id of this post.
      */
     public int getid(){return this.id;}
 
     /**
-     * Returns the date of which this Postable was created.
+     * Returns the string representation of the date when which this Postable was created.
      */
     public String getCreationDate(){return this.creationDate;}
 

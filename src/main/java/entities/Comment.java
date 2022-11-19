@@ -14,7 +14,7 @@ public class Comment extends Postable{
      *
      * @param commenter The user that posted this comment.
      * @param body The text content of the comment.
-     * @param id The number of comments created in the program so far.
+     * @param id The unique id for this comment
      */
     public Comment(User commenter, String body, int id){
         super.user = commenter;

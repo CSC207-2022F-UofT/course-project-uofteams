@@ -91,7 +91,7 @@ public class PostTest extends Postable {
     public void getID() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        assertEquals(1, newPost.getID());
+        assertEquals(0, newPost.getID());
     }
 
     @Test
