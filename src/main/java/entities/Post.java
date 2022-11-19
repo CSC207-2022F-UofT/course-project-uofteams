@@ -9,15 +9,16 @@ import java.time.LocalDate;
  * description,tags,collaborators, deadline, and users who favourited it.
  */
 public class Post extends Postable{
-    public static int numPostsCreated = 0;
-    /**The id is equal to the number of posts created.*/
-    private int id;
+
     /**This is a list of the users who favourited this post.*/
     private List<User> favouritedUsers;
     private String title;
     private List<String> tags;
     private String collaborators;
     private LocalDate deadline;
+
+    // a list of Postable objects created as a reply to this Postable
+    private List<Postable> replies;
 
     /**
      * @param poster the User who is posting this Post. This is an attribute of the superclass Postable.
@@ -26,16 +27,15 @@ public class Post extends Postable{
      * @param tags the tags this Post is added to.
      * @param collaborators a description of the type of the collaborators the User who posted this Posts is looking for.
      * @param deadline the date on which the Post is to be deleted from the database.
-     * @param numPostsCreated1 the number of posts created so far.
+     * @param id  unique identifier for this post
      */
     public Post(User poster, String title, String mainDesc, List<String> tags, String collaborators,
-                LocalDate deadline, int numPostsCreated1){
+                LocalDate deadline, int id){
         super.user = poster;
         super.body = mainDesc;
-        super.replies = new ArrayList<>();
-        numPostsCreated = numPostsCreated1;
-        numPostsCreated++;
-        this.id = numPostsCreated;
+        super.id = id;
+        super.creationDate = new Date().toString();
+        this.replies = new ArrayList<>();
         this.title = title;
         this.tags = tags;
         this.collaborators = collaborators;
@@ -80,11 +80,10 @@ public class Post extends Postable{
     }
 
     /**
-     * @return the replies made to this Post.
+     * Returns the list of replies to a Postable object.
      */
-    public List<Postable> getReplies(){
-        return this.replies;
-    }
+    public List<Postable> getReplies(){return this.replies;}
+
     /**
      * adds a reply to the list of replies to this Post.
      * @param reply a reply to this Post.
@@ -96,6 +95,15 @@ public class Post extends Postable{
             return true;
         }
         return false;
+    }
+
+    /**
+     * Adds a comment to the replies of the given instance of post.
+     *
+     * @param comment the comment to be added to replies
+     */
+    public void addComment(Comment comment){
+        this.replies.add(comment);
     }
 
     /**

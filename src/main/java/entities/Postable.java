@@ -1,7 +1,5 @@
 package entities;
 
-import java.util.List;
-import java.util.Date;
 
 public abstract class Postable{
     // The access modifiers have been omitted so that the default settings would be applied.
@@ -11,29 +9,22 @@ public abstract class Postable{
     User user;
     // the main text content of the Postable
     String body;
-    // a list of Postable objects created as a reply to this Postable
-    List<Postable> replies;
+
     // the date this Postable was created
-    Date creationDate;
+    String creationDate;
 
-    /**
-     * Adds a comment to the replies of the given instance of Postable.
-     *
-     * @param comment the comment to be added to replies
-     */
-    public void addComment(Comment comment){
-        this.replies.add(comment);
-    }
-
-    /**
-     * Returns the list of replies to a Postable object.
-     */
-    public List<Postable> getReplies(){return this.replies;}
+    // unique identifier for this postable
+    int id;
 
     /**
      * Returns the date of which this Postable was created.
      */
-    public Date getCreationDate(){return this.creationDate;}
+    public int getid(){return this.id;}
+
+    /**
+     * Returns the date of which this Postable was created.
+     */
+    public String getCreationDate(){return this.creationDate;}
 
     /**
      * Returns the body (or text content) of this instance of Postable.
