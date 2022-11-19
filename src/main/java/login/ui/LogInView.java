@@ -1,110 +1,101 @@
 package login.ui;
 
 import login.interface_adapters.LogInController;
-import login.interface_adapters.LogInViewModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class LogInView extends JPanel implements ActionListener {
+    private final LogInController logInController;
+    private final JTextField enterEmail = new JTextField("");
+    private final JTextField enterPassword = new JTextField("");
 
-    private final LogInViewModel viewModel;
-
-    private final LogInController controller;
-
-    private final JTextArea enterEmail = new JTextArea("");
-    private final JTextArea enterPassword = new JTextArea("");
-
-
-    public LogInView(LogInController controller, LogInViewModel viewModel){
-        this.controller = controller;
-        this.viewModel = viewModel;
-
-
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-
-        JLabel textLabel = new JLabel("Log In");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 5;
-        constraints.gridy = 6;
-        this.add(textLabel, constraints);
-
-        JLabel email = new JLabel("Email");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 3;
-        constraints.gridy = 8;
-        this.add(email, constraints);
-
-
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 3;
-        constraints.gridy = 10;
-        this.add(enterEmail, constraints);
-
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 3;
-        constraints.gridy = 12;
-        this.add(enterPassword, constraints);
+    /**
+     * the log in view that takes users input data and passes it to the controller
+     * @param controller the controller that will start the use case
+     */
+    public LogInView(LogInController controller){
+        this.logInController = controller;
 
         JButton logInButton = new JButton("Log In");
         logInButton.addActionListener(this);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 3;
-        constraints.gridy = 14;
-        this.add(logInButton, constraints);
 
-        this.setVisible(true);
+        this.setLayout(new GridLayout(6,3,0,1));
+
+        JLabel emptyLabel = new JLabel();
+        this.add(emptyLabel);
+        this.add(new BackButton());
+
+        this.add(emptyLabel);
+
+        JLabel topLabel = new JLabel("Log In to your Account");
+        this.add(topLabel);
+
+        this.add(emptyLabel);
+
+        JLabel emailLabel = new JLabel("Enter your Email");
+        this.add(emailLabel);
+
+        this.add(emptyLabel);
+
+        this.add(enterEmail);
+
+        JLabel passLabel = new JLabel("Enter your Password");
+        this.add(passLabel);
+
+        this.add(emptyLabel);
+
+        this.add(enterPassword);
+
+        this.add(emptyLabel);
+
+        this.add(logInButton);
     }
 
-
-
+    /**
+     * When the login button is clicked pass the info to controller to start the LogIn Use Case
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String emailInput = enterEmail.getText();
-        String passwordInput = enterPassword.getText();
+        String passInput = enterPassword.getText();
 
-        enterEmail.setText(" ");
-        enterPassword.setText(" ");
+        enterEmail.setText("");
+        enterPassword.setText("");
 
-        controller.logInInitializer(emailInput, passwordInput);
-        if (viewModel.getLogInSuccess()){
-            // call main view
-        } else {
-            JFrame error = new JFrame("ERROR");
-            error.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        LogInController input = new LogInController(emailInput, passInput);
 
-            Container errors = error.getContentPane();
+        logInController.logInInitializer(input);
 
-            JLabel errorLabel = new JLabel();
-            String errorMessage = viewModel.getLogInError();
-
-            switch (errorMessage) {
-                case "Empty Email or Password":
-                    errorLabel.setText("Empty Email or Password");
-                    break;
-                case "Incorrect Email":
-                    errorLabel.setText("Incorrect Email");
-                    break;
-                case "Incorrect Password":
-                    errorLabel.setText("Incorrect Password");
-                    break;
-            }
-
-        errors.setLayout(new BorderLayout());
-        errorLabel.setPreferredSize(new Dimension(100, 100));
-        errors.add(errorLabel, BorderLayout.CENTER);
-
-        error.pack();
-        error.setVisible(true);
-        }
     }
 
+    private static class BackButton extends JPanel implements ActionListener{
+        private final PropertyChangeSupport observable;
+
+        public BackButton(){
+            this.observable = new PropertyChangeSupport(this);
+
+            JButton backButton = new JButton("Back");
+            backButton.addActionListener(this);
+
+            this.add(backButton);
+        }
+
+        public void addObserver(PropertyChangeListener observer){
+            this.observable.addPropertyChangeListener("back button", observer);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            observable.firePropertyChange(new PropertyChangeEvent(this, "go back",
+                    "", ""));
+
+        }
+    }
 }
