@@ -4,59 +4,77 @@ import entities.CurrentUser;
 import entities.User;
 import sign_up.use_case.exceptions.MakeUserException;
 
+import java.util.List;
+
 public class SignUpInteractor implements SignUpInputBoundary{
     // An object that accesses the database
-    private final SignUpDataAccessInterface dataAccess;
+    private final SignUpDSGateway dataAccess;
 
     // An object that accesses the UI
-    private final SignUpOutputBoundary outputBoundary;
+    private SignUpOutputBoundary outputBoundary;
 
     // An object whose job is to create User elements
     private final UserFactory userFactory;
 
-    public SignUpInteractor(SignUpDataAccessInterface dataAccess, SignUpOutputBoundary outputBoundary){
+    /*
+    * Initialize a new instance of Sign Up Interactor
+    *
+    * @ param dataAccess A class implementing SignUpDSGateway with database access
+    * */
+    public SignUpInteractor(SignUpDSGateway dataAccess){
         this.dataAccess = dataAccess;
-        this.outputBoundary = outputBoundary;
         this.userFactory = new UserFactory();
     }
 
+    /*
+    * The use case method for Sign up Interactor
+    *
+    * @param requestModel The data interactor requires to perform the use case
+    * */
     @Override
     public void signUp(SignUpRequestModel requestModel) {
         try {
             SignUpResponseModel responseModel = this.signUpHelper(requestModel);
-            this.outputBoundary.present(responseModel);
+            this.outputBoundary.updateViewModel(responseModel);
         }
         catch (MakeUserException e) {
             SignUpResponseModel responseModel = new SignUpResponseModel(false, e.getMessage());
+            this.outputBoundary.updateViewModel(responseModel);
         }
 
 
     }
 
     private SignUpResponseModel signUpHelper(SignUpRequestModel requestModel) throws MakeUserException {
-        if (requestModel.email.isEmpty() || requestModel.password.isEmpty()) {
+        if (requestModel.getEmail().isEmpty() || requestModel.getPassword().isEmpty()) {
             throw new MakeUserException("empty field");
         }
-        if (requestModel.email.endsWith("@mail.utoronto.ca")) {
+        if (!requestModel.getEmail().endsWith("@mail.utoronto.ca")) {
             throw new MakeUserException("incorrect email");
         }
-        if (!this.checkEmailExists(requestModel.email)) {
+        if (this.checkEmailExists(requestModel.getEmail())) {
             throw new MakeUserException("email exists");
         }
-        if (requestModel.checkAdmin && !this.checkAdminPassword(requestModel.adminPassword)) {
+        if (requestModel.isCheckAdmin() && !this.checkAdminPassword(requestModel.getAdminPassword())) {
             throw new MakeUserException("admin password");
         }
 
         int numUsers = this.dataAccess.getNumberUsers();
-        User newUser = this.createUser(requestModel.checkAdmin, numUsers, requestModel.email, requestModel.password);
+        User newUser = this.createUser(requestModel.isCheckAdmin(), numUsers, requestModel.getEmail(), requestModel.getPassword());
         this.saveUser(newUser);
         this.updateCurrentUser(newUser);
 
         return new SignUpResponseModel(true, "");
     }
 
-    private boolean checkEmailExists(String email){
-        return dataAccess.checkUserEmailExists(email);
+    private boolean checkEmailExists(String toCheck){
+        List<String> emails = dataAccess.getEmails();
+        for (String email: emails) {
+            if (email.equals(toCheck)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean checkAdminPassword(String adminPassword){
@@ -72,8 +90,11 @@ public class SignUpInteractor implements SignUpInputBoundary{
     }
 
     private void saveUser(User toSave){
-        this.dataAccess.saveUser(toSave, "user");
-        this.dataAccess.setNumberUsers(User.numUsers);
+        this.dataAccess.saveUser(toSave);
+    }
+
+    public void setOutputBoundary(SignUpOutputBoundary outputBoundary){
+        this.outputBoundary = outputBoundary;
     }
 
 

@@ -7,7 +7,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.opencsv:opencsv:5.7.1'
     implementation 'junit:junit:4.13.1'
+    implementation 'com:opencsv:opencsv'
     testImplementation('org.junit.jupiter:junit-jupiter:5.6.0')
 }
 

@@ -2,16 +2,16 @@ package sign_up.use_case;
 
 public class SignUpRequestModel {
     // The inputted email for the account
-    public String email;
+    private String email;
 
     // The inputted password for the account
-    public String password;
+    private String password;
 
     // boolean on whether to check admin password
-    public boolean checkAdmin;
+    private boolean checkAdmin;
 
     // The input attempt for admin password
-    public String adminPassword;
+    private String adminPassword;
 
     /*
     * Initializes a SignUpResponseModel
@@ -27,4 +27,12 @@ public class SignUpRequestModel {
         this.checkAdmin = checkAdmin;
         this.adminPassword = adminPassword;
     }
+
+    public String getEmail() {return this.email; }
+
+    public String getPassword() {return this.password; }
+
+    public boolean isCheckAdmin() {return this.checkAdmin; }
+
+    public String getAdminPassword() {return this.adminPassword; }
 }

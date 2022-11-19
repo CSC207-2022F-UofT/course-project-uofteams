@@ -2,10 +2,10 @@ package sign_up.use_case;
 
 public class SignUpResponseModel {
     // Whether the attempt to create user was successful
-    public boolean creationSuccess;
+   private final boolean creationSuccess;
 
     // The error message. empty string if creationSuccess is false
-    public String message;
+    private final String message;
 
     /*
     * Initializes the SignUpResponseModel
@@ -17,4 +17,8 @@ public class SignUpResponseModel {
         this.creationSuccess = creation;
         this.message = errorMessage;
     }
+
+    public boolean isCreationSuccess() { return creationSuccess; }
+
+    public String getMessage() {return this.message; }
 }

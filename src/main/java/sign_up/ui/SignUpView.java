@@ -1,161 +1,111 @@
 package sign_up.ui;
 
-import sign_up.drivers.DatabaseAccess;
-import sign_up.interface_adapters.SignUpViewModel;
-import sign_up.interface_adapters.View;
+import sign_up.interface_adapters.SignUpController;
+import sign_up.interface_adapters.SignUpUserInputData;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 
-public class SignUpView implements View {
+public class SignUpView extends JPanel implements ActionListener {
+    private final SignUpController signUpController;
+    private final JTextField editTextEmail = new JTextField("");
+    private final JTextField editTextPassword = new JTextField("");
+    private final JTextField editTextAdmin = new JTextField("");
 
-    private final SignUpViewModel viewModel;
-    private JButton inputButton = new JButton("Register");
-    private final JTextArea editTextEmail = new JTextArea("Enter your utoronto email here");
-    private final JTextArea editTextPassword = new JTextArea("Enter a password here");
-    private final JTextArea editTextAdmin = new JTextArea("Leave this field blank");
+    /*
+     * A part of the landing view which is responsible for taking user data to sign up and passing it on
+     * @param controller The controller which will start the use case
+     */
+    public SignUpView(SignUpController controller) {
+        this.signUpController = controller;
 
-    private String emailInput;
-    private String passwordInput;
-    private String adminInput;
+        JButton inputButton = new JButton("Register");
+        inputButton.addActionListener(this);
 
-    public SignUpView() {
-        this.viewModel = new SignUpViewModel(new DatabaseAccess(), this);
+        this.setLayout(new GridLayout(6,3, 0, 1));
+
+        JLabel emptyLabel = new JLabel();
+        this.add(emptyLabel);
+        this.add(emptyLabel);
+        this.add(new BackButton());
+
+        this.add(emptyLabel);
+
+        JLabel topLabel = new JLabel("Register New User");
+        this.add(topLabel);
+
+        this.add(emptyLabel);
+
+        JLabel userLabel = new JLabel("Enter your Utoronto Email:");
+        this.add(userLabel);
+
+        this.add(emptyLabel);
+
+        this.add(editTextEmail);
+
+        JLabel passLabel = new JLabel("Enter a Password:");
+        this.add(passLabel);
+
+        this.add(emptyLabel);
+
+        this.add(editTextPassword);
+
+        JLabel adminLabel = new JLabel("Leave this field blank:");
+        this.add(adminLabel);
+
+        this.add(emptyLabel);
+        this.add(editTextAdmin);
+        this.add(emptyLabel);
+        this.add(inputButton);
     }
 
-
-    private void addComponentsToPane(Container pane) {
-        pane.setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-
-        // This won't work for some reason - tried multiple tutorials
-        ImageIcon image = new ImageIcon("resources/logo.png");
-        JLabel imageLabel = new JLabel(image);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 4;
-        constraints.gridy = 2;
-        pane.add(imageLabel, constraints);
-
-        JLabel textLabel = new JLabel("Register New User");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 5;
-        constraints.gridy = 6;
-        pane.add(textLabel, constraints);
-
-        textLabel = new JLabel("Email:");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 3;
-        constraints.gridy = 8;
-        pane.add(textLabel, constraints);
-
-        textLabel = new JLabel("Password:");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 3;
-        constraints.gridy = 10;
-        pane.add(textLabel, constraints);
-
-        textLabel = new JLabel("Admin Password:");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 3;
-        constraints.gridy = 12;
-        pane.add(textLabel, constraints);
-
-        inputButton = new JButton("Register");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 5;
-        constraints.gridy = 15;
-        pane.add(inputButton, constraints);
-
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 7;
-        constraints.gridy = 8;
-        pane.add(editTextEmail, constraints);
-
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 7;
-        constraints.gridy = 10;
-        pane.add(editTextPassword, constraints);
-
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-        constraints.gridx = 7;
-        constraints.gridy = 12;
-        pane.add(editTextAdmin, constraints);
-
-
-    }
-
-    public void view() {
-        JFrame frame = new JFrame("UofTeams");
-
-        inputButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                emailInput = editTextEmail.getText();
-                passwordInput = editTextPassword.getText();
-                adminInput = editTextAdmin.getText();
-
-                editTextEmail.setText(" ");
-                editTextPassword.setText(" ");
-                editTextAdmin.setText(" ");
-
-                viewModel.signUp(emailInput, passwordInput, adminInput);
-            }
-        });
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        addComponentsToPane(frame.getContentPane());
-
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-
+    /*
+    * React to a button click and start the Sign Up use case
+    *
+    *  @param e The event to be processed
+    * */
     @Override
-    public void update(boolean result, String message) {
-        if (result) {
-            // Somehow call the main view ... not defined yet
-        } else {
-            JFrame errorFrame = new JFrame("ERROR");
-            errorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void actionPerformed(ActionEvent e) {
+        String emailInput = editTextEmail.getText();
+        String passInput = editTextPassword.getText();
+        String adminInput = editTextAdmin.getText();
 
-            Container content = errorFrame.getContentPane();
-            JLabel errorLabel = new JLabel();
+        editTextEmail.setText("");
+        editTextPassword.setText("");
+        editTextAdmin.setText("");
 
-            switch (message) {
-                case ("empty field"): {
-                    errorLabel.setText("Error: Email or Password was left blank.");
-                } case ("incorrect email"): {
-                    errorLabel.setText("Error: Email not in utoronto domain.");
-                } case ("email exists"): {
-                    errorLabel.setText("Error: An account with that email exists.");
-                } case ("admin password"): {
-                    errorLabel.setText("Error: admin password incorrect. If you do not" +
-                            "want to sign in as admin, leave this field blank.");
-                }}
+        SignUpUserInputData inputData = new SignUpUserInputData(emailInput, passInput, adminInput);
 
+        signUpController.signUp(inputData);
+    }
 
-            content.setLayout(new BorderLayout());
-            errorLabel.setPreferredSize(new Dimension(200, 100));
-            content.add(errorLabel, BorderLayout.CENTER);
+    private static class BackButton extends JPanel implements ActionListener{
+        private final PropertyChangeSupport observable;
 
-            errorFrame.pack();
-            errorFrame.setVisible(true);
+        public BackButton() {
+            this.observable = new PropertyChangeSupport(this);
 
-            view();
+            JButton backButton = new JButton("Back");
+            backButton.addActionListener(this);
+
+            this.add(backButton);
+        }
+
+        public void addObserver(PropertyChangeListener observer) {
+            this.observable.addPropertyChangeListener("back button", observer);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            observable.firePropertyChange(new PropertyChangeEvent(this, "go back",
+                    "", ""));
         }
     }
-
 }
+

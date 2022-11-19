@@ -1,8 +1,8 @@
 package sign_up.interface_adapters;
 
 public class SignUpUserOutputData {
-    public boolean creationSuccess;
-    public String errorMessage;
+    private final boolean creationSuccess;
+    private final String errorMessage;
 
     // Instance invariant: !success || errorMessage.isEmpty()
 
@@ -10,4 +10,8 @@ public class SignUpUserOutputData {
         this.creationSuccess = success;
         this.errorMessage = errorMessage;
     }
+
+    public boolean isCreationSuccess() { return creationSuccess; }
+
+    public String getErrorMessage() {return errorMessage; }
 }

@@ -5,5 +5,5 @@ package sign_up.use_case;
 *
 * */
 public interface SignUpOutputBoundary {
-    void present(SignUpResponseModel responseModel);
+    void updateViewModel(SignUpResponseModel responseModel);
 }
