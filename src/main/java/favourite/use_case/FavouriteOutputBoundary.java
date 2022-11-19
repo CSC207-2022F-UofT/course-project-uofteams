@@ -1,5 +1,9 @@
 package favourite.use_case;
 
 public interface FavouriteOutputBoundary {
-    public void present(FavouriteResponseModel responseModel);
+    /**
+     * Presents the FavouriteResponseModel to the UI (FavouriteView)
+     * @param responseModel carries message to be shared with the user in the UI
+     */
+    void present(FavouriteResponseModel responseModel);
 }

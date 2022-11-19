@@ -5,22 +5,31 @@ import entities.User;
 
 public interface FavouriteDataAccessInterface {
     /**
-     * Checks whether this user has already added to this user's favourites
+     * Returns the User that is trying to favourite this post
+     */
+    User getUser();
+
+    /**
+     * Returns the Post the user is trying to favourite
      *
-     * @param post post that this user is trying to favourite
-     * @param user user that is trying to favourite this post
-     * @return true if this user has already favourited this post, false otherwise
+     * @param postid id of post being searched for
      */
-    public boolean checkIfFavourited(Post post, User user);
+    Post getPost(int postid);
 
     /**
-     * Returns the User who is trying to favourite this post
+     * Saves the edited User in the database
+     *
+     * @param user User being saved
      */
-    public User getUser();
+    void saveUserInfo(User user);
 
     /**
-     * Returns the Post this user is trying to favourite
+     * Saves the edited Post in the database
+     *
+     * @param post Post being saved
+     * @param postid id of the Post being saved
      */
-    public Post getPost();
+    void savePostInfo(Post post, int postid);
+
 
 }
