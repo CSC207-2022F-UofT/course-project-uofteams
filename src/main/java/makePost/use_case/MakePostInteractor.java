@@ -58,14 +58,14 @@ public class MakePostInteractor implements MakePostInputBoundary {
         StringBuilder tagsString = new StringBuilder();
         for(int i = 0; i < tags.size(); i++){
             tagsString.append(tags.get(i) + " ");
-            tagsString.deleteCharAt(tags.size()-1);
         }
+        tagsString.deleteCharAt(tagsString.length()-1);
         postAttributes.put("tags", String.valueOf(tagsString));
         postAttributes.put("collaborators", collaborators);
         postAttributes.put("deadline", deadlineString);
         postAttributes.put("creationDate", creationDateString);
         postAttributes.put("favouritedUsersIDs", "");
-        postAttributes.put("repliedIDs", "");
+        postAttributes.put("repliesIDs", "");
 
         this.dataAccess.savePost(postAttributes);
         //increase number of posts by 1

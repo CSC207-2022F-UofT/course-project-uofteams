@@ -26,10 +26,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             // file reader as a parameter
             CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
             String[] nextRecord;
-            int numPostsCreated = Integer.valueOf(csvReader.peek()[0]);
-            return numPostsCreated;
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            return Integer.parseInt(csvReader.peek()[0]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -48,15 +45,18 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             // create CSVWriter object filewriter object as parameter
             List<String[]> csvBody = csvReader.readAll();
             csvBody.get(1)[0] = String.valueOf(newNumPostsCreated);
+            for(int i = 0; i < csvBody.size(); i++){
+                if(csvBody.get(i).length == 0 && csvBody.get(i)[0].equals("")){
+                    csvBody.remove(i);
+                }
+            }
             FileWriter outputfile = new FileWriter(file);
             CSVWriter writer = new CSVWriter(outputfile);
             writer.writeAll(csvBody);
             writer.flush();
             // closing writer connection
             writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (CsvException e) {
+        } catch (IOException | CsvException e) {
             throw new RuntimeException(e);
         }
     }
@@ -84,6 +84,12 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             // create CSVWriter object filewriter object as parameter
             List<String[]> csvBody = csvReader.readAll();
             csvBody.add(postAttributes1);
+            //this is to get rid of extra line that gets added by the csvReader!
+            for(int i = 0; i < csvBody.size(); i++){
+                if(csvBody.get(i).length == 0 && csvBody.get(i)[0].equals("")){
+                    csvBody.remove(i);
+                }
+            }
             FileWriter outputfile = new FileWriter(file);
             CSVWriter writer = new CSVWriter(outputfile);
             writer.writeAll(csvBody);
@@ -166,6 +172,12 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
                 csvBody.add(presetTags);
             }
             csvBody.add(tagsAndIDs);
+            //this is to get rid of the extra line that gets added by csvReader.
+            for(int i = 0; i < csvBody.size(); i++){
+                if(csvBody.get(i).length == 0 && csvBody.get(i)[0].equals("")){
+                    csvBody.remove(i);
+                }
+            }
             FileWriter outputfile = new FileWriter(file);
             CSVWriter writer = new CSVWriter(outputfile);
             writer.writeAll(csvBody);
