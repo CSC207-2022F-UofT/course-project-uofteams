@@ -6,7 +6,7 @@ public abstract class Postable{
     // If we make these instance attributes private they become inaccessible to the child classes.
 
     // the User who created the Postable
-    User user;
+    int userid;
     // the main text content of the Postable
     String body;
 
@@ -19,7 +19,7 @@ public abstract class Postable{
     /**
      * Returns the id of this post.
      */
-    public int getid(){return this.id;}
+    public int getId(){return this.id;}
 
     /**
      * Returns the string representation of the date when which this Postable was created.
@@ -36,8 +36,8 @@ public abstract class Postable{
     /**
      * Returns the User that created this Postable.
      */
-    public User getUser(){
-        return this.user;
+    public Integer getUserId(){
+        return this.userid;
     }
 
 }

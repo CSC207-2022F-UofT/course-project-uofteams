@@ -17,7 +17,7 @@ public class Comment extends Postable{
      * @param id The unique id for this comment
      */
     public Comment(User commenter, String body, int id){
-        super.user = commenter;
+        super.userid = commenter.getId();
         super.body = body;
         super.creationDate = new Date().toString();
         super.id = id;

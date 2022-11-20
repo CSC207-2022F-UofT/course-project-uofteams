@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tag {
-    // The name of the tag
+    // The name and unique identifier of the tag
     private final String name;
 
     // Array of posts that are under this tag

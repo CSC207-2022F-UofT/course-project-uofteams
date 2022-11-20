@@ -4,10 +4,10 @@ import java.util.List;
 
 public class User {
     // ArrayList of User's favourited posts
-    private final List<Post> favourites;
+    private final List<Integer> favourites;
 
     // ArrayList of Posts User has made
-    private final List<Post> posts;
+    private final List<Integer> posts;
 
     // boolean relating if User has admin privileges
     private final boolean isAdmin;
@@ -27,8 +27,18 @@ public class User {
     * @param admin whether the user will have admin priviledges
     * */
     public User(boolean admin, int id, String email, String password) {
-        this.favourites = new ArrayList<Post>();
-        this.posts = new ArrayList<Post>();
+        this.favourites = new ArrayList<>();
+        this.posts = new ArrayList<>();
+        this.isAdmin = admin;
+        this.id = id;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(boolean admin, int id, String email, String password, ArrayList<Integer> posts,
+                ArrayList<Integer> favourites) {
+        this.favourites = favourites;
+        this.posts = posts;
         this.isAdmin = admin;
         this.id = id;
         this.email = email;
@@ -40,7 +50,7 @@ public class User {
     *
     * @return User's favourites attribute
     * */
-    public List<Post> getFavourites() {
+    public List<Integer> getFavourites() {
         /* Return an ArrayList containing the favourites of this User */
         return this.favourites;
     }
@@ -50,7 +60,7 @@ public class User {
     *
     * @param toAdd The Post to add to User's favourites
     * */
-    public void addFavourite(Post toAdd) {
+    public void addFavourite(Integer toAdd) {
         /* Add Post to this.favourites */
         this.favourites.add(toAdd);
     }
@@ -63,7 +73,7 @@ public class User {
     * */
     public boolean removeUserFavourite(Post toRemove) {
         for (int i = 0; i < this.favourites.size(); i++) {
-            if (this.favourites.get(i).equals(toRemove)) {
+            if (this.favourites.get(i).equals(toRemove.getID())) {
                 this.favourites.remove(i);
                 return true;
             }
@@ -76,7 +86,7 @@ public class User {
     *
     * @return User's posts attribute
     * */
-    public List<Post> getPosts() {
+    public List<Integer> getPosts() {
         /* return an ArrayList containing the elements of this.posts */
         return this.posts;
     }
@@ -86,7 +96,7 @@ public class User {
     *
     * @param toAdd post to be added
     * */
-    public void addPost(Post toAdd) {
+    public void addPost(Integer toAdd) {
         /* add toAdd to this.posts */
         this.posts.add(toAdd);
     }
@@ -101,7 +111,7 @@ public class User {
         /* Search for toRemove in this.posts and if it is the remove and return true,
          * otherwise return false */
         for (int i = 0; i < this.posts.size(); i++) {
-            if (this.posts.get(i).equals(toRemove)) {
+            if (this.posts.get(i).equals(toRemove.getID())) {
                 this.posts.remove(i);
                 return true;
             }
