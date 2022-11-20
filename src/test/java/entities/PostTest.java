@@ -1,62 +1,55 @@
 package entities;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PostTest extends Postable {
+public class PostTest extends Postable {
     User poster = new User(false, 0, "email", "password");
     String title = "Title";
     String mainDesc = "Main Description";
     String collaborators = "I would like to play tennis doubles with some fellow beginners";
-    List<String> tags = new ArrayList(Arrays.asList("Sports", "Club", "Tennis"));
-    Calendar calendar = Calendar.getInstance();
-    Comment reply1 = new Comment(poster, "comment");
-    List<Comment> replies = new ArrayList<>(Arrays.asList(reply1));
+    List<String> tags = new ArrayList<>(Arrays.asList("Sports", "Club", "Tennis"));
     int numPostsCreated = 0;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
 
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
     }
 
     @Test
-    void getFavouritedUsers() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+    public void getFavouritedUsers() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
         newPost.addFavouritedUser(user);
         assertEquals(user, newPost.getFavouritedUsers().get(0));
     }
 
     @Test
-    void getNumFavouritedUsers() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+    public void getNumFavouritedUsers() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
         newPost.addFavouritedUser(user);
         assertEquals(1, newPost.getNumFavouritedUsers());
     }
 
     @Test
-    void addFavouritedUser() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+    public void addFavouritedUser() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
         User user2 = new User(false, 1, "test-email", "test-password");
         newPost.addFavouritedUser(user);
@@ -66,10 +59,9 @@ class PostTest extends Postable {
     }
 
     @Test
-    void removeFavouritedUser() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+    public void removeFavouritedUser() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
         User user2 = new User(false, 1, "test-email", "test-password");
         newPost.addFavouritedUser(user);
@@ -78,65 +70,58 @@ class PostTest extends Postable {
     }
 
     @Test
-    void setTags() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        newPost.setTags(new ArrayList(Arrays.asList("Sports", "Club", "Tennis", "Beginners")));
+    public void setTags() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        newPost.setTags(new ArrayList<>(Arrays.asList("Sports", "Club", "Tennis", "Beginners")));
         assertTrue(newPost.getTags().contains("Beginners"));
-        newPost.setTags(new ArrayList(Arrays.asList()));
-        assertTrue(newPost.getTags().size() == 0);
+        newPost.setTags(new ArrayList<>(List.of()));
+        assertEquals(0, newPost.getTags().size());
     }
 
     @Test
-    void testEquals() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        entities.Post aliasPost = newPost;
-        entities.Post newPost2 = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 1);
-        assertFalse(newPost.equals(newPost2));
-        assertTrue(newPost.equals(aliasPost));
+    public void testEquals() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post aliasPost = newPost;
+        Post newPost2 = new Post(poster, title, mainDesc, tags, collaborators, deadline, 1);
+        assertNotEquals(newPost, newPost2);
+        assertEquals(newPost, aliasPost);
     }
 
     @Test
-    void getID() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+    public void getID() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         assertEquals(1, newPost.getID());
     }
 
     @Test
-    void getTags() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        newPost.setTags(new ArrayList(Arrays.asList("Sports")));
+    public void getTags() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        newPost.setTags(new ArrayList<>(List.of("Sports")));
         assertEquals("Sports", newPost.getTags().get(0));
     }
 
     @Test
-    void getDeadline() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+    public void getDeadline() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         assertEquals(deadline, newPost.getDeadline());
     }
     @Test
-    void getReply(){
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+    public void getReply(){
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         Comment comment = new Comment(poster, "Hello!");
         newPost.addReply(comment);
         assertEquals(comment, newPost.getReplies().get(0));
     }
     @Test
-    void addReply() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+    public void addReply() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         Comment comment = new Comment(poster, "Hello!");
         newPost.addReply(comment);
         newPost.addReply(comment);
@@ -145,10 +130,9 @@ class PostTest extends Postable {
     }
 
     @Test
-    void removeReply() {
-        calendar.set(2022, 11, 31, 23, 59, 59);
-        Date deadline = calendar.getTime();
-        entities.Post newPost = new entities.Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+    public void removeReply() {
+        LocalDate deadline = LocalDate.of(2018, 12, 31);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         Comment comment = new Comment(poster, "Hello!");
         newPost.addReply(comment);
         newPost.removeReply(comment);
