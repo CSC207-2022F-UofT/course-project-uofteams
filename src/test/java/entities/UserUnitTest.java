@@ -1,8 +1,9 @@
 package entities;
 
 import org.junit.Test;
-import java.entities.User;
 import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class UserUnitTest{
@@ -19,16 +20,17 @@ public class UserUnitTest{
     public void testConstructorFavourites() {
         User user = new User(false, 0, "test-email", "test-password");
         List actual = user.getFavourites();
-        List expected = new List();
+        List expected = new ArrayList();
 
         assertEquals(expected, actual);
+
     }
 
     @Test
     public void testUserId() {
-        User user = new User(false, 0, "test-email", "test-password");
+        User user = new User(false, 21, "test-email", "test-password");
         int actual = user.getId();
-        int expected = 1;
+        int expected = 21;
 
         assertEquals(expected, actual);
     }
@@ -36,7 +38,7 @@ public class UserUnitTest{
     @Test
     public void testUserEqualityFalse() {
         User user = new User(false, 0, "test-email", "test-password");
-        List lst = new List();
+        List lst = new ArrayList();
         boolean actual = user.equals(lst);
         boolean expected = false;
 

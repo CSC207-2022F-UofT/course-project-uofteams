@@ -17,7 +17,6 @@ public class PostTest extends Postable {
     String mainDesc = "Main Description";
     String collaborators = "I would like to play tennis doubles with some fellow beginners";
     List<String> tags = new ArrayList<>(Arrays.asList("Sports", "Club", "Tennis"));
-    int numPostsCreated = 0;
 
     @Before
     public void setUp() {
@@ -83,17 +82,16 @@ public class PostTest extends Postable {
     public void testEquals() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Post aliasPost = newPost;
         Post newPost2 = new Post(poster, title, mainDesc, tags, collaborators, deadline, 1);
         assertNotEquals(newPost, newPost2);
-        assertEquals(newPost, aliasPost);
+        assertEquals(newPost, newPost);
     }
 
     @Test
     public void getID() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        assertEquals(1, newPost.getID());
+        assertEquals(0, newPost.getID());
     }
 
     @Test
@@ -114,7 +112,7 @@ public class PostTest extends Postable {
     public void getReply(){
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!");
+        Comment comment = new Comment(poster, "Hello!", 1);
         newPost.addReply(comment);
         assertEquals(comment, newPost.getReplies().get(0));
     }
@@ -122,7 +120,7 @@ public class PostTest extends Postable {
     public void addReply() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!");
+        Comment comment = new Comment(poster, "Hello!", 1);
         newPost.addReply(comment);
         newPost.addReply(comment);
         assertEquals(1, newPost.getReplies().size());
@@ -133,7 +131,7 @@ public class PostTest extends Postable {
     public void removeReply() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!");
+        Comment comment = new Comment(poster, "Hello!", id);
         newPost.addReply(comment);
         newPost.removeReply(comment);
         assertEquals(0, newPost.getReplies().size());

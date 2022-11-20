@@ -12,9 +12,6 @@ public class User {
     // boolean relating if User has admin privileges
     private final boolean isAdmin;
 
-    // Number of Users created
-    public static int numUsers = 0;
-
     // id is the unique identifier of User, equal to number of posts at time of creation
     private final int id;
 
@@ -29,13 +26,11 @@ public class User {
     *
     * @param admin whether the user will have admin priviledges
     * */
-    public User(boolean admin, int numUsersCreated, String email, String password) {
+    public User(boolean admin, int id, String email, String password) {
         this.favourites = new ArrayList<Post>();
         this.posts = new ArrayList<Post>();
         this.isAdmin = admin;
-        User.numUsers = numUsersCreated;
-        User.numUsers ++;
-        this.id = User.numUsers;
+        this.id = id;
         this.email = email;
         this.password = password;
     }
