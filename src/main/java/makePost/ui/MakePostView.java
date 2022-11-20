@@ -20,6 +20,12 @@ public class MakePostView extends JPanel implements ActionListener{
     private final JTextField enterMainDescription;
     private final JTextField enterDeadline;
 
+    /**
+     * This provides the view for making a Post. It has TextFields for entering all the information necessary for making
+     * a Post.
+     * @param presetTags These are the tags that will be used to filter the Posts.
+     * @param makePostController The controller for the Make Post use case.
+     */
     public MakePostView(String[] presetTags, MakePostController makePostController){
         this.TAGS = new String[]{"Sports", "Tech", "Startups"};
         this.makePostController = makePostController;
@@ -63,6 +69,11 @@ public class MakePostView extends JPanel implements ActionListener{
         frame.setVisible(true);
     }
 
+    /**
+     * Reacts to when the MakePost button is clicked. It then passes the information for making the post
+     * to the controller via postBody.
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         int[] selectedIndices = tagsList.getSelectedIndices();
@@ -86,3 +97,6 @@ public class MakePostView extends JPanel implements ActionListener{
         makePostController.passToInteractor(postBody);
     }
 }
+
+//To Do: Documentation, Tests, Presenter and passing back to main view after done with use case.
+//Error message popups!

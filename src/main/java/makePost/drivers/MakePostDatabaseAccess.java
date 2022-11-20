@@ -1,7 +1,6 @@
 package makePost.drivers;
 
 import com.opencsv.exceptions.CsvException;
-import makePost.ui.Main;
 import makePost.ui.MakePostView;
 import makePost.use_case.MakePostDataAccessInterface;
 
