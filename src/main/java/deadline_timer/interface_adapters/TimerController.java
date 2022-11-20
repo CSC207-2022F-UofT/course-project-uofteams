@@ -17,6 +17,5 @@ public class TimerController {
         TimerRequestModel requestModel = new TimerRequestModel(date);
 
         this.inputBoundary.timer(requestModel);
-
     }
 }

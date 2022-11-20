@@ -4,29 +4,30 @@ import entities.Post;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class TimerInteractor implements TimerInputBoundary{
-    private final TimerDataAccessInterface dataAccess;
+    private final TimerDSGateway dataAccess;
 
     private final TimerOutputBoundary outputBoundary;
 
-    private final List<Post> expiredPosts;
+    private final List<Integer> expiredPosts;
 
-    public TimerInteractor(TimerDataAccessInterface dataAccess, TimerOutputBoundary outputBoundary) {
+    public TimerInteractor(TimerDSGateway dataAccess, TimerOutputBoundary outputBoundary) {
         this.dataAccess = dataAccess;
         this.outputBoundary = outputBoundary;
-        this.expiredPosts = new ArrayList<>();
+        this.expiredPosts = new ArrayList<Integer>();
     }
-
 
     @Override
     public void timer(TimerRequestModel requestModel) {
-        ArrayList<Post> allPosts = (ArrayList<Post>) dataAccess.getPosts();
+        HashMap<Integer, Post> postHashMap = (HashMap<Integer, Post>) dataAccess.getPosts();
 
-        checkDates(allPosts, requestModel.date);
+        checkDates(postHashMap, requestModel.date);
 
-        deletePosts(this.expiredPosts);
+        deletePosts(postHashMap);
 
         boolean refresh = !this.expiredPosts.isEmpty();
 
@@ -34,17 +35,27 @@ public class TimerInteractor implements TimerInputBoundary{
         this.outputBoundary.present(responseModel);
     }
 
-    private void checkDates(List<Post> posts, LocalDate date) {
-        for (Post post: posts) {
-            if (post.getDeadline().isAfter(date) || post.getDeadline().isEqual(date)) {
-                this.expiredPosts.add(post);
+    /*
+    * Check through the values of the given map to see which are past the deadline, and add them to
+    * the expiredPosts
+    *
+    *
+    * */
+    private void checkDates(HashMap<Integer, Post> hashMap, LocalDate date) {
+        Set<Integer> keys = hashMap.keySet();
+        for (Integer key : keys) {
+            if (hashMap.get(key).getDeadline().isAfter(date) || hashMap.get(key).getDeadline().isEqual(date)) {
+                this.expiredPosts.add(key);
             }
         }
     }
 
-    private void deletePosts(List<Post> posts) {
-        for (Post post: posts) {
-            this.dataAccess.delete(post);
+    /*
+    * Delete the posts in posts by calling the delete post use case
+    * */
+    private void deletePosts(HashMap<Integer, Post> hashMap) {
+        for (Integer postId: this.expiredPosts) {
+            // create a request model for the delete post use case and pass each post in
         }
     }
 }
