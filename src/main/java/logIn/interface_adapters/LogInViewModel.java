@@ -1,6 +1,4 @@
-package login.interface_adapters;
-
-import login.use_case.*;
+package logIn.interface_adapters;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -31,11 +29,11 @@ public class LogInViewModel  {
 
     /**
      * Update the observers in observable with the log in success and possible error messages
-     * @param presenter the Presenter which contains the success or failure of logging in
+     * @param presenterData the Presenter which contains the success or failure of logging in
      */
-    public void updateViewModel(LogInPresenter presenter){
-        observable.firePropertyChange("Login Success", false, presenter.isLogInSuccess());
-        observable.firePropertyChange("Login Failure", "", presenter.getErrorMessage());
+    public void updateViewModel(LogInPresenterData presenterData){
+        observable.firePropertyChange("Login Success", false, presenterData.isSuccess());
+        observable.firePropertyChange("Login Failure", "", presenterData.getErrorMessage());
     }
 
 }

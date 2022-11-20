@@ -1,4 +1,4 @@
-package login.use_case;
+package logIn.use_case;
 
 /**
  * This Interface contains the result of the log in

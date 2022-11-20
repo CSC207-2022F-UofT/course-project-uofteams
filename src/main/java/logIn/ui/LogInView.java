@@ -1,6 +1,7 @@
-package login.ui;
+package logIn.ui;
 
-import login.interface_adapters.LogInController;
+import logIn.interface_adapters.LogInController;
+import logIn.interface_adapters.LogInControllerData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,10 +11,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class LogInView extends JPanel implements ActionListener {
+public class LogInView extends JPanel implements ActionListener, PropertyChangeListener {
     private final LogInController logInController;
     private final JTextField enterEmail = new JTextField("");
     private final JTextField enterPassword = new JTextField("");
+    private final BackButton backButton = new BackButton();
 
     /**
      * the log in view that takes users input data and passes it to the controller
@@ -25,7 +27,7 @@ public class LogInView extends JPanel implements ActionListener {
         JButton logInButton = new JButton("Log In");
         logInButton.addActionListener(this);
 
-        this.setLayout(new GridLayout(6,3,0,1));
+        this.setLayout(new GridLayout(5,3,0,1));
 
         JLabel emptyLabel = new JLabel();
         this.add(emptyLabel);
@@ -42,23 +44,19 @@ public class LogInView extends JPanel implements ActionListener {
         this.add(emailLabel);
 
         this.add(emptyLabel);
-
         this.add(enterEmail);
 
         JLabel passLabel = new JLabel("Enter your Password");
         this.add(passLabel);
 
         this.add(emptyLabel);
-
         this.add(enterPassword);
-
         this.add(emptyLabel);
-
         this.add(logInButton);
     }
 
     /**
-     * When the login button is clicked pass the info to controller to start the LogIn Use Case
+     * When the logIn button is clicked pass the info to controller to start the LogIn Use Case
      * @param e the event to be processed
      */
     @Override
@@ -69,10 +67,31 @@ public class LogInView extends JPanel implements ActionListener {
         enterEmail.setText("");
         enterPassword.setText("");
 
-        LogInController input = new LogInController(emailInput, passInput);
+        LogInControllerData input = new LogInControllerData(emailInput, passInput);
 
         logInController.logInInitializer(input);
 
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("Login Failure")){
+            JFrame errorFrame = new JFrame("ERROR");
+            switch ((String) evt.getNewValue()){
+                case ("Empty Email or Password"):
+                    JOptionPane.showMessageDialog(errorFrame, "Email Or Password are empty.",
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case ("Incorrect Email"):
+                    JOptionPane.showMessageDialog(errorFrame,"Email is not attached to any User.",
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case ("Incorrect Password"):
+                    JOptionPane.showMessageDialog(errorFrame, "Incorrect Password. Please Try Again.",
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
+        }
     }
 
     private static class BackButton extends JPanel implements ActionListener{
@@ -97,5 +116,9 @@ public class LogInView extends JPanel implements ActionListener {
                     "", ""));
 
         }
+    }
+
+    public void addObserver(PropertyChangeListener observer){
+        this.backButton.addObserver(observer);
     }
 }
