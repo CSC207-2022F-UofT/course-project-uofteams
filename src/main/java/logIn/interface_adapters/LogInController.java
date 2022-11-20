@@ -3,7 +3,9 @@ package logIn.interface_adapters;
 import logIn.use_case.LogInInputBoundary;
 import logIn.use_case.LogInRequestModel;
 
-//takes user data and coverts in into information that can be passed to the Use Case
+/**
+ * takes user data and coverts in into information that can be passed to the Use Case
+ */
 public class LogInController {
 
     private final LogInInputBoundary interactor;

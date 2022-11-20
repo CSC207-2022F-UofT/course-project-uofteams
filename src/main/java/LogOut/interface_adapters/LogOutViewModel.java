@@ -14,7 +14,7 @@ public class LogOutViewModel {
         this.observable.addPropertyChangeListener("Log Out", observer);
     }
 
-    public void updateViewModel(LogOutPresenter presenter){
-        observable.firePropertyChange("Log Out", "", presenter.isLogOutSuccess());
+    public void updateViewModel(LogOutPresenterData presenterData){
+        observable.firePropertyChange("Log Out", "", presenterData.isSuccess());
     }
 }

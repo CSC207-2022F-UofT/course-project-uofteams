@@ -1,14 +1,19 @@
 package LogOut.interface_adapters;
 
-public class LogOutPresenter {
+import LogOut.use_case.LogOutOutputBoundary;
+import LogOut.use_case.LogOutResponseModel;
 
-    private final boolean logOutSuccess;
+public class LogOutPresenter implements LogOutOutputBoundary {
 
-    public LogOutPresenter(boolean success){
-        this.logOutSuccess = success;
+    private final LogOutViewModel viewModel;
+
+    public LogOutPresenter(LogOutViewModel viewModel){
+        this.viewModel = viewModel;
     }
 
-    public boolean isLogOutSuccess(){
-        return this.logOutSuccess;
+
+    @Override
+    public void present(LogOutResponseModel responseModel) {
+        viewModel.updateViewModel(new LogOutPresenterData(responseModel.isSuccess()));
     }
 }
