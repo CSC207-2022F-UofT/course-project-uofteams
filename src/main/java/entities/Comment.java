@@ -30,7 +30,7 @@ public class Comment extends Postable{
         super.userID = commenterID;
         super.body = body;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        Locale locale = new Locale("en", "ca");
+        Locale locale = Locale.getDefault();
         formatter = formatter.withLocale(locale);  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
         super.creationDate = LocalDate.parse(creationDate, formatter);
         super.id = id;
