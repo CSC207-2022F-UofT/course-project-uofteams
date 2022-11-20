@@ -74,6 +74,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
         this.dataAccess.setNumberOfPosts(this.dataAccess.getNumberOfPosts() + 1);
         //go back to the main view
         this.dataAccess.setTags(Integer.parseInt(postAttributes.get("postID")), postAttributes.get("tags"));
+        //close the MakePostView!
 
 
     }

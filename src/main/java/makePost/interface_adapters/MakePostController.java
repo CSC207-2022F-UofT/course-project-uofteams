@@ -21,7 +21,15 @@ public class MakePostController {
     public void passToInteractor(Map<String, Object> postBody){
         //raise an error if deadline is not in the right format.
         List<String> deadlineList = new ArrayList<>(Arrays.asList(((String) postBody.get("deadline")).split("-")));
-        if(!((Integer.valueOf(deadlineList.get(0))).instanceOf(int))){
+        try{
+        if(Integer.parseInt(deadlineList.get(0)) < LocalDate.now().getYear() || Integer.parseInt(deadlineList.get(1)) > 12
+                || Integer.parseInt(deadlineList.get(1)) < 1 || Integer.parseInt(deadlineList.get(2)) > 31 ||
+                Integer.parseInt(deadlineList.get(2)) < 1){
+            //propagate error message
+        }
+        }
+        catch(NumberFormatException n){
+            //propagate error message
 
         }
 
