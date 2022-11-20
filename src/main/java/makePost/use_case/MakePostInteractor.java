@@ -50,8 +50,6 @@ public class MakePostInteractor implements MakePostInputBoundary {
         int postID = newPost.getID();
         LocalDate creationDate = newPost.getCreationDate();
         String creationDateString = creationDate.toString();
-        List<Integer> favouritedUsersIDs = new ArrayList<>();
-        List<Integer> repliesIDs = new ArrayList<>();
         Map<String, String> postAttributes = new HashMap<>();
         postAttributes.put("postID", String.valueOf(postID));
         postAttributes.put("posterID", String.valueOf(posterID));
