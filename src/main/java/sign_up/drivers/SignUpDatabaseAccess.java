@@ -1,38 +1,65 @@
 package sign_up.drivers;
 
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
 import entities.User;
 import sign_up.use_case.SignUpDSGateway;
 import com.opencsv.CSVReader;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SignUpDatabaseAccess implements SignUpDSGateway {
     private final String userFilePath;
     private final String adminFilePath;
+    private final String numUsersCreatedFilePath;
 
-    public SignUpDatabaseAccess(String userFilePath, String adminFilePath) {
+    public SignUpDatabaseAccess(String userFilePath, String adminFilePath, String numUsersCreated) {
         this.userFilePath = userFilePath;
         this.adminFilePath = adminFilePath;
+        this.numUsersCreatedFilePath = numUsersCreated;
     }
 
     @Override
     public int getNumberUsers() {
-        ArrayList<String[]> userInfo;
+        ArrayList<String[]> numUsers;
         try {
-            userInfo = readLineByLine(userFilePath);
+            numUsers = readLineByLine(numUsersCreatedFilePath);
         } catch(Exception e) {
             System.out.println("Wrong Path");
-            userInfo = new ArrayList<>();
+            String[] defaultEntry = {"0"};
+            numUsers = (ArrayList<String[]>) Arrays.asList(new String[][]{defaultEntry});
         }
-        return userInfo.size();
+
+        return Integer.parseInt(numUsers.get(1)[0]);
     }
+
+    @Override
+    public void setNumberUsers(int numberUsers) {
+        ArrayList<String[]> toWrite;
+        try {
+            toWrite = readLineByLine(numUsersCreatedFilePath);
+        } catch(Exception e) {
+            System.out.println("Wrong Path");
+            String[] defaultEntry = {"0"};
+            toWrite = (ArrayList<String[]>) Arrays.asList(new String[][]{defaultEntry});
+        }
+        int toIncrease = Integer.parseInt(toWrite.get(1)[0]);
+        toWrite.remove(1);
+        toWrite.add(new String[]{String.valueOf(toIncrease++)});
+
+        try {
+            write(toWrite, numUsersCreatedFilePath);
+        } catch (Exception e) {
+            System.out.println("Wrong path");
+        }
+        }
+
 
     @Override
     public ArrayList<String> getEmails() {
@@ -72,20 +99,20 @@ public class SignUpDatabaseAccess implements SignUpDSGateway {
         try {
             write(userInfo, userFilePath);
         } catch (Exception e) {
-            System.out.println("oopsy daisy");
+            System.out.println("Wrong Path");
         }
     }
 
     @Override
     public String getAdminPassword() {
-        ArrayList<String> userInfo;
+        ArrayList<String[]> userInfo;
         try {
-            userInfo = (ArrayList<String>) readLineByLine(adminFilePath);
+            userInfo = readLineByLine(adminFilePath);
         } catch(Exception e) {
             System.out.println("Wrong Path");
             userInfo = new ArrayList<>();
         }
-        return userInfo.get(0);
+        return userInfo.get(1)[0];
     }
 
     private ArrayList<String[]> readLineByLine(String filePath) throws Exception {
@@ -114,7 +141,7 @@ public class SignUpDatabaseAccess implements SignUpDSGateway {
         return toReturn;
     }
 
-    private String convertDatetoString(LocalDate toConvert) {
+    private String convertDateToString(LocalDate toConvert) {
         String toReturn = "";
         toReturn = toReturn.concat(String.valueOf(toConvert.getYear()));
         toReturn = toReturn.concat(".");
@@ -123,6 +150,8 @@ public class SignUpDatabaseAccess implements SignUpDSGateway {
         toReturn = toReturn.concat(String.valueOf(toConvert.getDayOfMonth()));
 
         return toReturn;
+
+
     }
 
     private String convertBoolToString(boolean toConvert) {
@@ -140,4 +169,23 @@ public class SignUpDatabaseAccess implements SignUpDSGateway {
             }
         }
     }
-    }
+
+    public String readLine(String filePath) throws Exception {
+        String toReturn;
+        String[] line;
+        try (Reader reader = Files.newBufferedReader(Path.of(filePath))) {
+            try (CSVReader csvReader = new CSVReader(reader)) {
+                // skipping the header
+                csvReader.readNext();
+
+                line = csvReader.readNext();
+
+
+            }
+        }
+            toReturn = line[0];
+            return toReturn;
+
+        }
+
+}

@@ -21,9 +21,10 @@ public class SignUpInteractor implements SignUpInputBoundary{
     *
     * @ param dataAccess A class implementing SignUpDSGateway with database access
     * */
-    public SignUpInteractor(SignUpDSGateway dataAccess){
+    public SignUpInteractor(SignUpDSGateway dataAccess, SignUpOutputBoundary outputBoundary){
         this.dataAccess = dataAccess;
         this.userFactory = new UserFactory();
+        this.outputBoundary = outputBoundary;
     }
 
     /*
@@ -63,6 +64,7 @@ public class SignUpInteractor implements SignUpInputBoundary{
         User newUser = this.createUser(requestModel.isCheckAdmin(), numUsers, requestModel.getEmail(), requestModel.getPassword());
         this.saveUser(newUser);
         this.updateCurrentUser(newUser);
+        this.setNumberUsers(numUsers);
 
         return new SignUpResponseModel(true, "");
     }
@@ -93,8 +95,8 @@ public class SignUpInteractor implements SignUpInputBoundary{
         this.dataAccess.saveUser(toSave);
     }
 
-    public void setOutputBoundary(SignUpOutputBoundary outputBoundary){
-        this.outputBoundary = outputBoundary;
+    private void setNumberUsers(int numberUsers) {
+        this.dataAccess.setNumberUsers(numberUsers);
     }
 
 

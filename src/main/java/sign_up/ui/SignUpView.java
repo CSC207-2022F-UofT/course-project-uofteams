@@ -12,11 +12,12 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 
-public class SignUpView extends JPanel implements ActionListener {
+public class SignUpView extends JPanel implements ActionListener, PropertyChangeListener {
     private final SignUpController signUpController;
     private final JTextField editTextEmail = new JTextField("");
     private final JTextField editTextPassword = new JTextField("");
     private final JTextField editTextAdmin = new JTextField("");
+    private final BackButton backButton = new BackButton();
 
     /*
      * A part of the landing view which is responsible for taking user data to sign up and passing it on
@@ -33,7 +34,7 @@ public class SignUpView extends JPanel implements ActionListener {
         JLabel emptyLabel = new JLabel();
         this.add(emptyLabel);
         this.add(emptyLabel);
-        this.add(new BackButton());
+        this.add(backButton);
 
         this.add(emptyLabel);
 
@@ -85,7 +86,35 @@ public class SignUpView extends JPanel implements ActionListener {
         signUpController.signUp(inputData);
     }
 
-    private static class BackButton extends JPanel implements ActionListener{
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("creation failure")) {
+
+            JFrame errorFrame = new JFrame("Error");
+            switch ((String) evt.getNewValue()) {
+                case ("empty field"):
+                    JOptionPane.showMessageDialog(errorFrame, "Email or Password was left blank.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case ("incorrect email"):
+                    JOptionPane.showMessageDialog(errorFrame, "A proper Utoronto email address was not entered.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case ("email exists"):
+                    JOptionPane.showMessageDialog(errorFrame, "That email already exists. Try signing in!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case ("admin password"):
+                    JOptionPane.showMessageDialog(errorFrame, "The admin password is incorrect. " +
+                                    "If you do not want to be admin, leave it blank.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
+
+        }
+    }
+
+    private class BackButton extends JPanel implements ActionListener{
         private final PropertyChangeSupport observable;
 
         public BackButton() {
@@ -106,6 +135,10 @@ public class SignUpView extends JPanel implements ActionListener {
             observable.firePropertyChange(new PropertyChangeEvent(this, "go back",
                     "", ""));
         }
+    }
+
+    public void addObserver(PropertyChangeListener observer) {
+        this.backButton.addObserver(observer);
     }
 }
 

@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    // ArrayList of User's favourited posts
+    // ArrayList of User's favourited post Id's
     private final List<Integer> favourites;
 
-    // ArrayList of Posts User has made
+    // ArrayList of Post Id's User has made
     private final List<Integer> posts;
 
     // boolean relating if User has admin privileges

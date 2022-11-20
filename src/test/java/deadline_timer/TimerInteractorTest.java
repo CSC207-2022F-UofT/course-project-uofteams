@@ -1,12 +1,14 @@
 package deadline_timer;
 
 import deadline_timer.use_case.*;
-import sign_up.entities.Post;
+import entities.Post;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import sign_up.entities.User;
+
+import entities.User;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;

@@ -114,7 +114,7 @@ public class PostTest extends Postable {
     public void getReply(){
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!");
+        Comment comment = new Comment(poster, "Hello!", 0);
         newPost.addReply(comment);
         assertEquals(comment, newPost.getReplies().get(0));
     }
@@ -122,7 +122,7 @@ public class PostTest extends Postable {
     public void addReply() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!");
+        Comment comment = new Comment(poster, "Hello!", 0);
         newPost.addReply(comment);
         newPost.addReply(comment);
         assertEquals(1, newPost.getReplies().size());
@@ -133,7 +133,7 @@ public class PostTest extends Postable {
     public void removeReply() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!");
+        Comment comment = new Comment(poster, "Hello!", 0);
         newPost.addReply(comment);
         newPost.removeReply(comment);
         assertEquals(0, newPost.getReplies().size());
