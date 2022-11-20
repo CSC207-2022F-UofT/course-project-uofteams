@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * The main functionality of this class is retrieving and saving data to/from the database.
  */
 
-public class DataAccess implements FavouriteDataAccessInterface {
+public class DataAccess implements FavouriteDSGateway {
     // postreader is used to allow class DataAccess to access PostFactory to convert data into
     // Post entity in getPost method
     private final PostReaderInterface postreader;

@@ -11,14 +11,14 @@ import java.util.List;
  * with the entities and ultimately send information back out into the UI.
  */
 public class FavouriteInteractor implements FavouriteInputBoundary{
-    private final FavouriteDataAccessInterface dataAccess;
+    private final FavouriteDSGateway dataAccess;
 
     /**
      * Initializes FavouriteInteractor
      *
      * @param dataAccess tells the FavouriteInteractor which post is being favourited/unfavourited
      */
-    public FavouriteInteractor(FavouriteDataAccessInterface dataAccess){
+    public FavouriteInteractor(FavouriteDSGateway dataAccess){
         this.dataAccess = dataAccess;
     }
 

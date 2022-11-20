@@ -28,8 +28,10 @@ public class FavouriteView extends JPanel implements View, ActionListener {
      */
     public FavouriteView(int postid){
         this.viewModel = new FavouriteViewModel(this);
-        this.add(new JButton("Favourite"));
         this.postid = postid;
+        JButton favbutton = new JButton("Favourite");
+        this.add(favbutton);
+        favbutton.addActionListener(this);
     }
 
     @Override

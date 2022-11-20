@@ -8,7 +8,7 @@ import favourite.use_case.*;
  * It runs the use case and interacts with the use case layer in response to a user's interaction with FavouriteView.
  */
 public class FavouriteViewModel implements FavouriteOutputBoundary {
-    private final FavouriteDataAccessInterface dataAccess;
+    private final FavouriteDSGateway dataAccess;
     private final View view;
     private final FavouriteInputBoundary inputBoundary;
 

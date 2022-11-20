@@ -3,7 +3,7 @@ package favourite.use_case;
 import entities.Post;
 import entities.User;
 
-public interface FavouriteDataAccessInterface {
+public interface FavouriteDSGateway {
     /**
      * Returns the User that is trying to favourite this post
      */
