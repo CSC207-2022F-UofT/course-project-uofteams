@@ -1,5 +1,6 @@
 package entities;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -8,40 +9,37 @@ import java.time.LocalDate;
  * description,tags,collaborators, deadline, and users who favourited it.
  */
 public class Post extends Postable{
-    /**The id is equal to the number of posts created.*/
-    private int id;
     private String title;
     private List<String> tags;
     private String collaborators;
     private LocalDate deadline;
     /**This is a list of the users who favourited this post.*/
-    private List<User> favouritedUsers;
-    public static int numPostsCreated = 0;
+    private List<Integer> favouritedUsersIDs;
+    // a list of Postable objects created as a reply to this Postable
+    private List<Integer> repliesIDs;
 
     /**
      * This constructor makes a new post that does not yet exist in the database.
-     * @param posterID the id of the User who is posting this Post. This is an attribute of the superclass Postable.
+     * @param posterID the ID of the User who is posting this Post. This is an attribute of the superclass Postable.
      * @param title this Post's title.
      * @param mainDesc this Post's description.
      * @param tags the tags this Post is added to.
      * @param collaborators a description of the type of the collaborators the User who posted this Posts is looking for.
      * @param deadline the date on which the Post is to be deleted from the database.
-     * @param numPostsCreated1 the number of posts created so far.
+     * @param id  unique identifier for this post
      */
     public Post(int posterID, String title, String mainDesc, List<String> tags, String collaborators,
-                LocalDate deadline, int numPostsCreated1){
-        super.user = posterID;
+                LocalDate deadline, int id){
+        super.userID = posterID;
         super.body = mainDesc;
-        super.replies = new ArrayList<>();
+        super.id = id;
         super.creationDate = LocalDate.now();
-        numPostsCreated = numPostsCreated1;
-        numPostsCreated++;
-        this.id = numPostsCreated;
+        this.repliesIDs = new ArrayList<>();
         this.title = title;
         this.tags = tags;
         this.collaborators = collaborators;
         this.deadline = deadline;
-        this.favouritedUsers = new ArrayList<>();
+        this.favouritedUsersIDs = new ArrayList<>();
     }
 
     /**
@@ -60,17 +58,18 @@ public class Post extends Postable{
      */
     public Post(int posterID, String title, String mainDesc, List<String> tags, String collaborators, LocalDate deadline,
                 LocalDate creationDate, int id, List<Integer> favouritedUsersIDs, List<Integer> repliesIDs){
-        super.user = posterID;
+        super.userID = posterID;
         super.body = mainDesc;
-        super.replies = repliesIDs;
+        this.repliesIDs = repliesIDs;
         super.creationDate = creationDate;
         this.id = id;
         this.title = title;
         this.tags = tags;
         this.collaborators = collaborators;
         this.deadline = deadline;
-        this.favouritedUsers = favouritedUsersIDs;
+        this.favouritedUsersIDs = favouritedUsersIDs;
     }
+
 
     /**
      * @return the Post's ID.
@@ -83,7 +82,7 @@ public class Post extends Postable{
      * @return a list of the Users who favourited the Post.
      */
     public List<Integer> getFavouritedUsers(){
-        return this.favouritedUsers;
+        return this.favouritedUsersIDs;
     }
 
     /**
@@ -98,7 +97,7 @@ public class Post extends Postable{
      * @return the number of Users who favourited the Post.
      */
     public int getNumFavouritedUsers(){
-        return this.favouritedUsers.size();
+        return this.favouritedUsersIDs.size();
     }
 
     /**
@@ -109,19 +108,18 @@ public class Post extends Postable{
     }
 
     /**
-     * @return the replies made to this Post.
+     * Returns the list of replies to a Postable object.
      */
-    public List<Integer> getReplies(){
-        return this.replies;
-    }
+    public List<Integer> getReplies(){return this.repliesIDs;}
+
     /**
      * adds a reply to the list of replies to this Post.
      * @param reply a reply to this Post.
      * @return true if reply has been added; false otherwise.
      */
     public boolean addReply(int reply){
-        if(!(this.replies.contains(reply))){
-            this.replies.add(reply);
+        if(!(this.repliesIDs.contains(reply))){
+            this.repliesIDs.add(reply);
             return true;
         }
         return false;
@@ -134,9 +132,9 @@ public class Post extends Postable{
      * @return true if the reply has been removed; false otherwise.
      */
     public boolean removeReply(int reply){
-        for(int i = 0; i < replies.size(); i++){
-            if(reply.equals(replies.get(i))){
-                replies.remove(i);
+        for(int i = 0; i < repliesIDs.size(); i++){
+            if(reply == repliesIDs.get(i)){
+                repliesIDs.remove(i);
                 return true;
             }
         }
@@ -144,13 +142,21 @@ public class Post extends Postable{
     }
 
     /**
+     * Return the post's title.
+     */
+    public String getTitle() {
+        return this.title;
+    }
+
+
+    /**
      * adds a User to the list of Users who favourited the Post if it is not in favouritedUsers yet.
      * @param favouritedUser the User who favourited the Post.
      * @return true if user has been added; false otherwise.
      */
     public boolean addFavouritedUser(int favouritedUser){
-        if(!(favouritedUsers.contains(favouritedUser))){
-            this.favouritedUsers.add(favouritedUser);
+        if(!(favouritedUsersIDs.contains(favouritedUser))){
+            this.favouritedUsersIDs.add(favouritedUser);
             return true;
         }
         return false;
@@ -163,9 +169,9 @@ public class Post extends Postable{
      * @return true if the user has been removed; false otherwise.
      */
     public boolean removeFavouritedUser(int userToRemove){
-        for(int i = 0; i < favouritedUsers.size(); i++){
-            if(userToRemove.equals(favouritedUsers.get(i))){
-                favouritedUsers.remove(i);
+        for(int i = 0; i < favouritedUsersIDs.size(); i++){
+            if(userToRemove == favouritedUsersIDs.get(i)){
+                favouritedUsersIDs.remove(i);
                 return true;
             }
         }
@@ -181,9 +187,9 @@ public class Post extends Postable{
     }
 
     /**
-     * Checks whether two posts are equal based on whether their Post ids are equal.
+     * Checks whether two posts are equal based on whether their Post id's are equal.
      * @param o the Post to be compared to.
-     * @return a boolean that reflects whether the two Posts' ids are equal.
+     * @return a boolean that reflects whether the two Posts' id's are equal.
      */
     @Override
     public boolean equals(Object o){
@@ -196,14 +202,6 @@ public class Post extends Postable{
 
         Post other = (Post) o;
         return this.id == other.id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getCollaborators() {
-        return collaborators;
     }
 }
 

@@ -1,8 +1,6 @@
 package entities;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class User {
     // ArrayList of User's favourited posts
@@ -13,9 +11,6 @@ public class User {
 
     // boolean relating if User has admin privileges
     private final boolean isAdmin;
-
-    // Number of Users created
-    public static int numUsers = 0;
 
     // id is the unique identifier of User, equal to number of posts at time of creation
     private final int id;
@@ -31,36 +26,22 @@ public class User {
     *
     * @param admin whether the user will have admin priviledges
     * */
-    public User(boolean admin, int numUsersCreated, String email, String password) {
-        this.favourites = new ArrayList<Integer>();
-        this.posts = new ArrayList<Integer>();
+    public User(boolean admin, int id, String email, String password) {
+        this.favourites = new ArrayList<>();
+        this.posts = new ArrayList<>();
         this.isAdmin = admin;
-        User.numUsers = numUsersCreated;
-        User.numUsers ++;
-        this.id = User.numUsers;
+        this.id = id;
         this.email = email;
         this.password = password;
     }
 
-    public User(Map<String, Object> userAttributes){
-        this.isAdmin = Boolean.parseBoolean((String) userAttributes.get("isAdmin"));
-        this.id = (int) userAttributes.get("id");
-        this.email = (String) userAttributes.get("email");
-        this.password = (String) userAttributes.get("password");
-        List<String> postList = new ArrayList<>(Arrays.asList(((String) userAttributes.get("posts")).split(" ")));
-        this.posts = new ArrayList<>();
-
-        for (String value : postList) {
-            int individualPostID = Integer.parseInt(value);
-            this.posts.add(individualPostID);
-        }
-
-        List<String> favPostList = new ArrayList<>(Arrays.asList(((String) userAttributes.get("favouritePosts")).split(" ")));
-        this.favourites = new ArrayList<>();
-        for (String s : favPostList) {
-            int individualFavPostID = Integer.parseInt(s);
-            this.favourites.add(individualFavPostID);
-        }
+    public User(boolean admin, int id, String email, String password, List<Integer> posts, List<Integer> favourites){
+        this.isAdmin = admin;
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.posts = posts;
+        this.favourites = favourites;
     }
 
     /*
@@ -114,7 +95,7 @@ public class User {
     *
     * @param toAdd post to be added
     * */
-    public void addPost(Integer toAdd) {
+    public void addPost(int toAdd) {
         /* add toAdd to this.posts */
         this.posts.add(toAdd);
     }
