@@ -3,17 +3,21 @@ package LogOut.interface_adapters;
 import LogOut.use_case.LogOutInputBoundary;
 import LogOut.use_case.LogOutRequestModel;
 
+/**
+ * creates a usable request to pass to the use case when a User wants to log out
+  */
 public class LogOutController {
 
-    private LogOutInputBoundary interactor;
-    private final String logOut;
+    private final LogOutInputBoundary interactor;
 
-    public LogOutController(String logOut){
-        this.logOut = logOut;
+
+    public LogOutController(LogOutInputBoundary inputBoundary){
+        this.interactor = inputBoundary;
     }
 
-    public void LogOutInitializer(LogOutController controller){
-        LogOutRequestModel requestModel = new LogOutRequestModel(this.logOut);
+    //Initializes the logOut Use case
+    public void LogOutInitializer(LogOutControllerData controller){
+        LogOutRequestModel requestModel = new LogOutRequestModel(controller.getLogOutRequest());
         interactor.logOut(requestModel);
     }
 }
