@@ -1,6 +1,9 @@
 package entities;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Comment extends abstract class Postable and inherits all of its
@@ -12,14 +15,24 @@ public class Comment extends Postable{
     /**
      * Initializes an instance of Comment.
      *
-     * @param commenter The user that posted this comment.
+     * @param commenterID The user that posted this comment.
      * @param body The text content of the comment.
      * @param id The unique id for this comment
      */
-    public Comment(User commenter, String body, int id){
-        super.user = commenter;
+    public Comment(int commenterID, String body, int id){
+        super.userID = commenterID;
         super.body = body;
-        super.creationDate = new Date().toString();
+        super.creationDate = LocalDate.now();
+        super.id = id;
+    }
+
+    public Comment(int commenterID, String body, int id, String creationDate){
+        super.userID = commenterID;
+        super.body = body;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Locale locale = new Locale("en", "ca");
+        formatter = formatter.withLocale(locale);  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
+        super.creationDate = LocalDate.parse(creationDate, formatter);
         super.id = id;
     }
 
