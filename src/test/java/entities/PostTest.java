@@ -12,7 +12,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PostTest extends Postable {
-    User poster = new User(false, 0, "email", "password");
+    int poster = 1;
     String title = "Title";
     String mainDesc = "Main Description";
     String collaborators = "I would like to play tennis doubles with some fellow beginners";
@@ -31,7 +31,7 @@ public class PostTest extends Postable {
     public void getFavouritedUsers() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        User user = new User(false, 0, "test-email", "test-password");
+        int user = 0;
         newPost.addFavouritedUser(user);
         assertEquals(user, newPost.getFavouritedUsers().get(0));
     }
@@ -40,7 +40,7 @@ public class PostTest extends Postable {
     public void getNumFavouritedUsers() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        User user = new User(false, 0, "test-email", "test-password");
+        int user = 0;
         newPost.addFavouritedUser(user);
         assertEquals(1, newPost.getNumFavouritedUsers());
     }
@@ -49,8 +49,8 @@ public class PostTest extends Postable {
     public void addFavouritedUser() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        User user = new User(false, 0, "test-email", "test-password");
-        User user2 = new User(false, 1, "test-email", "test-password");
+        int user = 0;
+        int user2 = 1;
         newPost.addFavouritedUser(user);
         newPost.addFavouritedUser(user);
         assertEquals(user, newPost.getFavouritedUsers().get(0));
@@ -61,8 +61,8 @@ public class PostTest extends Postable {
     public void removeFavouritedUser() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        User user = new User(false, 0, "test-email", "test-password");
-        User user2 = new User(false, 1, "test-email", "test-password");
+        int user = 0;
+        int user2 = 1;
         newPost.addFavouritedUser(user);
         newPost.removeFavouritedUser(user);
         assertEquals(0, newPost.getFavouritedUsers().size());
@@ -112,7 +112,7 @@ public class PostTest extends Postable {
     public void getReply(){
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!", 1);
+        int comment = 1;
         newPost.addReply(comment);
         assertEquals(comment, newPost.getReplies().get(0));
     }
@@ -120,7 +120,7 @@ public class PostTest extends Postable {
     public void addReply() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!", 1);
+        int comment = 1;
         newPost.addReply(comment);
         newPost.addReply(comment);
         assertEquals(1, newPost.getReplies().size());
@@ -131,7 +131,7 @@ public class PostTest extends Postable {
     public void removeReply() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!", id);
+        int comment = 1;
         newPost.addReply(comment);
         newPost.removeReply(comment);
         assertEquals(0, newPost.getReplies().size());

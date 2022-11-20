@@ -40,7 +40,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
         Post newPost = new Post(mprm.getPoster().getId(), mprm.getTitle(), mprm.getMainDesc(), mprm.getTags(), mprm.getCollaborators(),
                 mprm.getDeadline(), mprm.getNumPostsCreated());
         //now we have got to save this new post to the DB.
-        int posterID = newPost.getUser().getId();
+        int posterID = newPost.getUser();
         String title = newPost.getTitle();
         String mainDesc = newPost.getBody();
         List<String> tags = newPost.getTags();

@@ -203,5 +203,9 @@ public class Post extends Postable{
         Post other = (Post) o;
         return this.id == other.id;
     }
+
+    public String getCollaborators() {
+        return this.collaborators;
+    }
 }
 

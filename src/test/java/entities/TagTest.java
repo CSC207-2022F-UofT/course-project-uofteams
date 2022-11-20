@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TagTest {
-    User p;
+    int p;
     LocalDate d;
     List <String> tags;
     Post sample;
@@ -19,7 +19,7 @@ public class TagTest {
 
     @Before
     public void setUp() {
-        p = new User(false, 0, "test@email.com", "moogah");
+        p = 0;
         d = LocalDate.of(2022, 12, 31);
         tags = new ArrayList<>();
         tags.add("TEST TAG");
