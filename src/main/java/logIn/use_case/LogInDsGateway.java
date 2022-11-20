@@ -1,4 +1,4 @@
-package login.use_case;
+package logIn.use_case;
 
 import entities.User;
 
@@ -11,5 +11,9 @@ public interface LogInDsGateway {
     boolean checkPasswordMatches(String email, String pass);
 
     // gets the user with the given email, password
-    User getUser();
+    User getUser(boolean success, String email, String pass);
+
+
+    // testing method see LogInTest for usage
+    void addUser(User user);
 }

@@ -1,8 +1,8 @@
-package login.use_case;
+package logIn.use_case;
 
 import entities.CurrentUser;
 import entities.User;
-import login.exceptions.UserException;
+import logIn.exceptions.UserException;
 
 public class LogInInteractor implements LogInInputBoundary {
     private final LogInDsGateway access;
@@ -67,13 +67,15 @@ public class LogInInteractor implements LogInInputBoundary {
         if (!this.checkPassword(requestModel.getEmail(), requestModel.getPassword())){
             throw new UserException("Incorrect Password");
         }
-        this.setCurrentUser(access.getUser());
+        if (this.checkPassword(requestModel.getEmail(), requestModel.getPassword())){
+            setCurrentUser(access.getUser(true, requestModel.getEmail(), requestModel.getPassword()));
+        }
         return new LogInResponseModel(true, "");
     }
 
 
     /**
-     * method to compile a login request from a user
+     * method to compile a logIn request from a user
      * @param requestModel a request from a user to log in containing an inputted email/password
      *
      */

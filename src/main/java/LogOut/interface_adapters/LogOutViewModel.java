@@ -1,7 +1,5 @@
 package LogOut.interface_adapters;
 
-import login.interface_adapters.LogInPresenter;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 

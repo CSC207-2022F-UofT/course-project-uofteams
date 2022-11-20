@@ -1,143 +1,216 @@
 package logIn;
 
+
 import entities.User;
-import login.use_case.LogInInteractor;
-import login.use_case.LogInOutputBoundary;
-import login.use_case.LogInDsGateway;
-import login.use_case.LogInResponseModel;
-import login.use_case.LogInRequestModel;
+import logIn.interface_adapters.*;
+
+import static org.junit.Assert.*;
+
+import logIn.use_case.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.List;
 
 public class LogInTest {
-    private static LogInInteractor logInInteractor;
-
-    private static DummyOutput dummyOutput;
-
-    private static DataList dummyUser;
-
-    private static class DataList implements LogInDsGateway {
-
-        ArrayList<User> data = new ArrayList<>();
-
-        public boolean checkUserEmailExists(String email) {
-            for (User user: data)  {
-                if (user.getEmail().equals(email)){
-                    return true;
-                }
-            }
-            return false;
-        }
-        public boolean checkPasswordMatches(String email, String pass) {
-            for (User user : data) {
-                if (user.getEmail().equals(email)) {
-                    return user.getPassword().equals(pass);
-                }
-            }
-            return false;
-        }
-
-        @Override
-        public User getUser() {
-            return null;
-        }
-
-        //testing method to add a user to test inputs
-        public void add(Object user){
-            data.add((User) user);
-        }
-    }
-
-    private static class DummyOutput implements LogInOutputBoundary {
-        public LogInResponseModel responseModel;
-
-        public void present(LogInResponseModel responseModel){
-            this.responseModel = responseModel;
-        }
-    }
+    LogInDsGateway repository;
+    LogInInputBoundary interactor;
+    LogInOutputBoundary presenter;
+    LogInController controller;
 
     @Before
-    public void init(){
-        dummyUser = new DataList();
-        dummyOutput = new DummyOutput();
-        logInInteractor = new LogInInteractor(dummyUser, dummyOutput);
+    public void logIn(){
+        repository = new LogInDsGateway() {
+            public final List<User> users = new ArrayList<>();
+
+            // method for testing purposes will update when csv is up
+            public void addUser(User user){
+                users.add(user);
+            }
+
+            @Override
+            public boolean checkUserEmailExists(String email) {
+                for (int i = 0; i <= users.size(); i++){
+                    User user = users.get(i);
+                    if (user.getEmail().equals(email)){
+                        return true;
+                    } else{
+                        i++;
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public boolean checkPasswordMatches(String email, String pass) {
+                for (int i = 0; i <= users.size(); i++){
+                    User user = users.get(i);
+                    if (user.getEmail().equals(email) && user.getPassword().equals(pass)){
+                        return true;
+                    } else{
+                        i++;
+                    }
+                }
+                return false;
+
+            }
+
+            @Override
+            public User getUser(boolean success, String email, String pass) {
+                if (success) {
+                    for (int i = 0; i <= users.size(); i++) {
+                        User user = users.get(i);
+                        if (user.getEmail().equals(email) && user.getPassword().equals(pass)) {
+                            return user;
+                        } else {
+                            i++;
+                        }
+                    }
+                }
+                return null;
+            }
+        };
     }
 
     @After
     public void teardown(){}
 
     @Test
-    public void testLogInSuccess(){
-        dummyUser.add(new User(false, 0, "email", "pass"));
+    public void logInSuccess(){
+        presenter = new LogInOutputBoundary() {
+            @Override
+            public void present(LogInResponseModel responseModel) {
+                boolean creation = responseModel.getLogInSuccess();
+                String actual = responseModel.getErrorMessage();
 
-        LogInRequestModel logInRequestModel = new LogInRequestModel("email", "pass");
+                assertTrue(creation);
+                assertEquals("", actual);
 
-        logInInteractor.logIn(logInRequestModel);
+            }
+        };
 
-        boolean success = dummyOutput.responseModel.getLogInSuccess();
-        String message = dummyOutput.responseModel.getErrorMessage();
+        interactor = new LogInInteractor(repository, presenter);
+        User user = new User(false, 0, "a", "b");
+        repository.addUser(user);
+        controller = new LogInController(interactor);
+        LogInControllerData test = new LogInControllerData("a", "b");
 
-        assert success && Objects.equals(message, "");
-
+        controller.logInInitializer(test);
     }
 
     @Test
-    public void testLogInEmailIncorrectError(){
-        dummyUser.add(new User(false, 0, "1email", "1pass"));
+    public void logInFailEmptyEmail(){
+        presenter = new LogInOutputBoundary() {
+            @Override
+            public void present(LogInResponseModel responseModel) {
+                boolean creation = responseModel.getLogInSuccess();
+                String actual = responseModel.getErrorMessage();
 
-        LogInRequestModel  logInRequestModel = new LogInRequestModel("email", "pass");
+                assertFalse(creation);
+                assertEquals("Empty Email or Password", actual);
 
-        logInInteractor.logIn(logInRequestModel);
+            }
+        };
+        interactor = new LogInInteractor(repository, presenter);
+        User user = new User(false, 0, "a", "b");
+        repository.addUser(user);
+        controller = new LogInController(interactor);
+        LogInControllerData test = new LogInControllerData("", "b");
 
-        boolean success = dummyOutput.responseModel.getLogInSuccess();
-        String message = dummyOutput.responseModel.getErrorMessage();
-
-        assert !success && Objects.equals(message, "Incorrect Email");
+        controller.logInInitializer(test);
     }
 
     @Test
-    public void testLogInPassIncorrectError(){
-        dummyUser.add(new User(false, 0, "email", "1pass"));
+    public void logInFailEmptyPass(){
+        presenter = new LogInOutputBoundary() {
+            @Override
+            public void present(LogInResponseModel responseModel) {
+                boolean creation = responseModel.getLogInSuccess();
+                String actual = responseModel.getErrorMessage();
 
-        LogInRequestModel  logInRequestModel = new LogInRequestModel("email", "pass");
+                assertFalse(creation);
+                assertEquals("Empty Email or Password", actual);
 
-        logInInteractor.logIn(logInRequestModel);
+            }
+        };
+        interactor = new LogInInteractor(repository, presenter);
+        User user = new User(false, 0, "a", "b");
+        repository.addUser(user);
+        controller = new LogInController(interactor);
+        LogInControllerData test = new LogInControllerData("a", "");
 
-        boolean success = dummyOutput.responseModel.getLogInSuccess();
-        String message = dummyOutput.responseModel.getErrorMessage();
-
-        assert !success && Objects.equals(message, "Incorrect Password");
+        controller.logInInitializer(test);
     }
 
     @Test
-    public void testLogInEmailEmptyError(){
-        dummyUser.add(new User(false, 0, "email", "1pass"));
+    public void logInIncorrectEmail(){
+        presenter = new LogInOutputBoundary() {
+            @Override
+            public void present(LogInResponseModel responseModel) {
+                boolean creation = responseModel.getLogInSuccess();
+                String actual = responseModel.getErrorMessage();
 
-        LogInRequestModel  logInRequestModel = new LogInRequestModel("", "pass");
+                assertFalse(creation);
+                assertEquals("Incorrect Email", actual);
 
-        logInInteractor.logIn(logInRequestModel);
+            }
+        };
+        interactor = new LogInInteractor(repository, presenter);
+        User user = new User(false, 0, "a", "b");
+        repository.addUser(user);
+        controller = new LogInController(interactor);
+        LogInControllerData test = new LogInControllerData("b", "a");
 
-        boolean success = dummyOutput.responseModel.getLogInSuccess();
-        String message = dummyOutput.responseModel.getErrorMessage();
-
-        assert !success && Objects.equals(message, "Empty Email or Password");
+        controller.logInInitializer(test);
     }
 
     @Test
-    public void testLogInPassEmptyError(){
-        dummyUser.add(new User(false, 0, "email", "1pass"));
+    public void logInIncorrectPass(){
+        presenter = new LogInOutputBoundary() {
+            @Override
+            public void present(LogInResponseModel responseModel) {
+                boolean creation = responseModel.getLogInSuccess();
+                String actual = responseModel.getErrorMessage();
 
-        LogInRequestModel  logInRequestModel = new LogInRequestModel("email", "");
+                assertFalse(creation);
+                assertEquals("Incorrect Password", actual);
 
-        logInInteractor.logIn(logInRequestModel);
+            }
+        };
+        interactor = new LogInInteractor(repository, presenter);
+        User user = new User(false, 0, "a", "b");
+        repository.addUser(user);
+        controller = new LogInController(interactor);
+        LogInControllerData test = new LogInControllerData("a", "c");
 
-        boolean success = dummyOutput.responseModel.getLogInSuccess();
-        String message = dummyOutput.responseModel.getErrorMessage();
+        controller.logInInitializer(test);
+    }
 
-        assert !success && Objects.equals(message, "Empty Email or Password");
+    @Test
+    public void logInObserver(){
+        LogInViewModel viewModel = new LogInViewModel();
+        presenter = new LogInPresenter(viewModel);
+        PropertyChangeListener observer = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals("Login Success")){
+                    assertTrue((boolean) evt.getNewValue());
+                }
+            }
+        };
+
+        viewModel.addObserver(observer);
+        interactor = new LogInInteractor(repository, presenter);
+        User user = new User(false, 0, "a", "b");
+        repository.addUser(user);
+        controller = new LogInController(interactor);
+
+        LogInControllerData test = new LogInControllerData("a", "b");
+        controller.logInInitializer(test);
     }
 }

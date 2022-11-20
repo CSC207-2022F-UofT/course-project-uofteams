@@ -2,7 +2,6 @@ package LogOut.interface_adapters;
 
 import LogOut.use_case.LogOutInputBoundary;
 import LogOut.use_case.LogOutRequestModel;
-import login.use_case.LogInInputBoundary;
 
 public class LogOutController {
 

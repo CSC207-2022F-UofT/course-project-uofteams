@@ -1,7 +1,5 @@
 package LogOut.interface_adapters;
 
-import login.interface_adapters.LogInPresenter;
-
 public class LogOutPresenter {
 
     private final boolean logOutSuccess;

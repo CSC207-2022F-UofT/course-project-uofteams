@@ -1,4 +1,4 @@
-package login.use_case;
+package logIn.use_case;
 
 public class LogInResponseModel {
 
@@ -10,7 +10,7 @@ public class LogInResponseModel {
 
     /**
      *
-     * @param logIn if login was successful or not
+     * @param logIn if logIn was successful or not
      * @param errorMessage the error message if failed log in
      */
     public LogInResponseModel(boolean logIn, String errorMessage){
