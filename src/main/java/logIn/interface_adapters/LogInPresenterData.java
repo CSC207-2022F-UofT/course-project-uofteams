@@ -1,5 +1,6 @@
 package logIn.interface_adapters;
 
+//data to be presented
 public class LogInPresenterData {
     private final boolean success;
     private final String errorMessage;

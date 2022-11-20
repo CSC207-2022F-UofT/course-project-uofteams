@@ -1,5 +1,6 @@
 package logIn.interface_adapters;
 
+// inputted data to be processed
 public class LogInControllerData {
     private final String emailInput;
     private final String passInput;
