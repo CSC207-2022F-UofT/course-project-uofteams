@@ -8,7 +8,7 @@ import java.util.Map;
 public interface MakePostInputBoundary {
     void makePost(MakePostRequestModel mprm);
     int getNumPostsCreated();
-    Map<String, String> getCurrentUser();
+    int getCurrentUser();
     List<Map<String, Object>> getFavouritedUsers();
 
     List<Map<String, Object>> getReplies();

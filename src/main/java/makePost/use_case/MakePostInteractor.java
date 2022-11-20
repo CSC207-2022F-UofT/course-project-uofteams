@@ -34,10 +34,10 @@ public class MakePostInteractor implements MakePostInputBoundary {
 
     @Override
     public void makePost(MakePostRequestModel mprm) {
-        if(checkDeadline(mprm) == false){
+        if(!checkDeadline(mprm)){
             //raise an error
         }
-        Post newPost = new Post(mprm.getPoster().getId(), mprm.getTitle(), mprm.getMainDesc(), mprm.getTags(), mprm.getCollaborators(),
+        Post newPost = new Post(mprm.getPoster(), mprm.getTitle(), mprm.getMainDesc(), mprm.getTags(), mprm.getCollaborators(),
                 mprm.getDeadline(), mprm.getNumPostsCreated());
         //now we have got to save this new post to the DB.
         int posterID = newPost.getUser();
@@ -77,7 +77,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
 
     }
 
-    public Map<String, String> getCurrentUser(){
+    public int getCurrentUser(){
         return this.dataAccess.getCurrentUser();
     }
 

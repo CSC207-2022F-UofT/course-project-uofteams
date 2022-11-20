@@ -15,7 +15,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
 
     @Override
     public int getNumberOfPosts(){
-        String filePath = "java/Database/numPostsCreated.csv";
+        String filePath = "src/main/java/Database/numPostsCreated.csv";
         File file = new File(filePath);
         try {
             // Create an object of filereader
@@ -38,7 +38,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
     @Override
     public void setNumberOfPosts(int newNumPostsCreated) {
         int numPostsCreated = this.getNumberOfPosts();
-        String filePath = "java/Database/numPostsCreated.csv";
+        String filePath = "src/main/java/Database/numPostsCreated.csv";
         File file = new File(filePath);
 
         try {
@@ -63,7 +63,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
 
     @Override
     public void savePost(Map<String, String> postAttributes) {
-        String filePath = "java/Database/posts.csv";
+        String filePath = "src/main/java/Database/posts.csv";
         File file = new File(filePath);
         String[] postAttributes1 = new String[postAttributes.size()];
         postAttributes1[0] = postAttributes.get("postID");
@@ -99,8 +99,8 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
     }
 
     @Override
-    public Map<String, String> getCurrentUser() {
-        String filePath = "java/Database/currentUser.csv";
+    public int getCurrentUser() {
+        String filePath = "src/main/java/Database/currentUser.csv";
         File file = new File(filePath);
         try {
             // Create an object of filereader
@@ -111,13 +111,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             // file reader as a parameter
             CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
             String[] currentUserArray = csvReader.peek();
-            Map<String, String> currentUser = new HashMap<>();
-            currentUser.put("currentUserID", currentUserArray[0]);
-            currentUser.put("isAdmin", currentUserArray[1]);
-            currentUser.put("email", currentUserArray[2]);
-            currentUser.put("password", currentUserArray[3]);
-            currentUser.put("postIDs", currentUserArray[4]);
-            currentUser.put("favouritesIDs", currentUserArray[5]);
+            int currentUser = Integer.parseInt(currentUserArray[0]);
             return currentUser;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -150,7 +144,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
     public void setTags(int postID, String tags) {
         List<String> tagsList = new ArrayList<>(Arrays.asList(tags.split(" ")));
         String[] presetTags = MakePostView.TAGS;
-        String filePath = "java/Database/tags.csv";
+        String filePath = "src/main/java/Database/tags.csv";
         File file = new File(filePath);
         String[] tagsAndIDs = new String[presetTags.length];
         for(int i = 0; i < presetTags.length; i++){

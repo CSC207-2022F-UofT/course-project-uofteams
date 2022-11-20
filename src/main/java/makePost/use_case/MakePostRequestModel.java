@@ -12,7 +12,7 @@ public class MakePostRequestModel {
     private List<String> tags;
     private String collaborators;
     private LocalDate deadline;
-    private User poster;
+    private int poster;
     private int numPostsCreated;
 
     private Map<String, Object> postAttributes;
@@ -23,10 +23,9 @@ public class MakePostRequestModel {
         this.tags = (List<String>) postAttributes.get("tags");
         this.collaborators = (String) postAttributes.get("collaborators");
         this.deadline = (LocalDate) postAttributes.get("deadline");
-        Map<String, Object> poster1 = (Map<String, Object>) postAttributes.get("poster");
 
-        this.poster = new User(poster1);
-        this.numPostsCreated = (int) postAttributes.get(numPostsCreated);
+        this.poster = (Integer) postAttributes.get("poster");
+        this.numPostsCreated = (int) postAttributes.get("numPostsCreated");
         this.postAttributes = postAttributes;
     }
 
@@ -70,11 +69,11 @@ public class MakePostRequestModel {
         this.deadline = deadline;
     }
 
-    public User getPoster() {
+    public int getPoster() {
         return poster;
     }
 
-    public void setPoster(User poster) {
+    public void setPoster(int poster) {
         this.poster = poster;
     }
 

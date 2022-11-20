@@ -9,7 +9,7 @@ public interface MakePostDataAccessInterface {
     int getNumberOfPosts();
     void setNumberOfPosts(int newNumPostsCreated);
     void savePost(Map<String, String> postAttributes);
-    Map<String, String> getCurrentUser();
+    int getCurrentUser();
     List<Map<String, Object>> getFavouritedUsers();
 
     List<Map<String, Object>> getReplies();

@@ -35,7 +35,7 @@ public class MakePostController {
 
 
         int numPostsCreated = interactor.getNumPostsCreated();
-        Map<String, String> poster = interactor.getCurrentUser();
+        int currentUserID = interactor.getCurrentUser();
 
         //converting deadline to LocalDate.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -44,7 +44,7 @@ public class MakePostController {
 
         postBody.put("deadline", deadline);
         postBody.put("numPostsCreated", numPostsCreated);
-        postBody.put("poster", poster);
+        postBody.put("poster", currentUserID);
         MakePostRequestModel makePostRequestModel = new MakePostRequestModel(postBody);
         interactor.makePost(makePostRequestModel);
     }
