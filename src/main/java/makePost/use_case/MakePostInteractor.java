@@ -3,10 +3,7 @@ package makePost.use_case;
 import entities.Post;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -26,7 +23,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
     public boolean checkDeadline(MakePostRequestModel mprm){
         LocalDate deadline = mprm.getDeadline();
         LocalDate creationDate = LocalDate.now();
-        if((deadline != null) && (DAYS.between(deadline, creationDate) <= 182.5)){
+        if((deadline != null) && ((DAYS.between(deadline, creationDate) <= 182.5) && (DAYS.between(deadline, creationDate) >= 0))){
             return true;
         }
         return false;
@@ -34,9 +31,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
 
     @Override
     public void makePost(MakePostRequestModel mprm) {
-        if(!checkDeadline(mprm)){
-            //raise an error
-        }
+
         Post newPost = new Post(mprm.getPoster(), mprm.getTitle(), mprm.getMainDesc(), mprm.getTags(), mprm.getCollaborators(),
                 mprm.getDeadline(), mprm.getNumPostsCreated());
         //now we have got to save this new post to the DB.
@@ -59,7 +54,13 @@ public class MakePostInteractor implements MakePostInputBoundary {
         for(int i = 0; i < tags.size(); i++){
             tagsString.append(tags.get(i) + " ");
         }
-        tagsString.deleteCharAt(tagsString.length()-1);
+        if(!(tagsString.length() == 0)){
+            tagsString.deleteCharAt(tagsString.length()-1);
+        }
+        else {
+            tagsString = new StringBuilder("");
+        }
+
         postAttributes.put("tags", String.valueOf(tagsString));
         postAttributes.put("collaborators", collaborators);
         postAttributes.put("deadline", deadlineString);
@@ -67,14 +68,20 @@ public class MakePostInteractor implements MakePostInputBoundary {
         postAttributes.put("favouritedUsersIDs", "");
         postAttributes.put("repliesIDs", "");
 
-        this.dataAccess.savePost(postAttributes);
-        //increase number of posts by 1
-        this.dataAccess.setNumberOfPosts(this.dataAccess.getNumberOfPosts() + 1);
-        //go back to the main view
-        this.dataAccess.setTags(Integer.parseInt(postAttributes.get("postID")), postAttributes.get("tags"));
-        //close the MakePostView!
-
-
+        try{
+            MakePostResponseModel responseModel = this.makePostHelper(mprm);
+            this.presenter.updateViewModel(responseModel);
+            this.dataAccess.savePost(postAttributes);
+            //increase number of posts by 1
+            this.dataAccess.setNumberOfPosts(this.dataAccess.getNumberOfPosts() + 1);
+            //go back to the main view
+            this.dataAccess.setTags(Integer.parseInt(postAttributes.get("postID")), postAttributes.get("tags"));
+            //close the MakePostView!
+        }
+        catch (MakePostException e) {
+            MakePostResponseModel responseModel = new MakePostResponseModel(false, e.getMessage());
+            this.presenter.updateViewModel(responseModel);
+        }
     }
 
     public int getCurrentUser(){
@@ -104,4 +111,14 @@ public class MakePostInteractor implements MakePostInputBoundary {
         return this.dataAccess.getCreationDate();
     }
 
+    private MakePostResponseModel makePostHelper(MakePostRequestModel mprm) throws MakePostException {
+        if (!checkDeadline(mprm)) {
+            throw new MakePostException("Deadline more than 6 months away or in the past");
+        }
+        return new MakePostResponseModel(true, "");
+    }
+   @Override
+    public MakePostOutputBoundary getPresenter() {
+        return presenter;
+    }
 }

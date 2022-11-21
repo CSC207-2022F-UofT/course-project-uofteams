@@ -6,12 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MakePostView extends JPanel implements ActionListener{
+public class MakePostView extends JPanel implements ActionListener, PropertyChangeListener {
     public static String[] TAGS;
     private final MakePostController makePostController;
     private final JList<String> tagsList;
@@ -38,35 +40,26 @@ public class MakePostView extends JPanel implements ActionListener{
         tagsList.setSelectionModel(new TagsListSelectionModel());
         JButton makePostButton = new JButton("Make Post");
         makePostButton.addActionListener(this);
-        JPanel makePostArea = new JPanel();
         JScrollPane tagsScroller = new JScrollPane(tagsList);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
         tagsScroller.setPreferredSize(new Dimension(100, 80));
 
-        makePostArea.setLayout(new BoxLayout(makePostArea, BoxLayout.Y_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel titleLabel = new JLabel("Enter your post's title: ");
-        makePostArea.add(titleLabel);
-        makePostArea.add(enterTitle);
+        this.add(titleLabel);
+        this.add(enterTitle);
         JLabel collaboratorLabel = new JLabel("Describe your ideal collaborators: ");
-        makePostArea.add(collaboratorLabel);
-        makePostArea.add(enterCollaborators);
+        this.add(collaboratorLabel);
+        this.add(enterCollaborators);
         JLabel tagsLabel = new JLabel("Select the appropriate tags for your post: ");
-        makePostArea.add(tagsLabel);
-        makePostArea.add(tagsScroller);
+        this.add(tagsLabel);
+        this.add(tagsScroller);
         JLabel mainDescLabel = new JLabel("Describe your project: ");
-        makePostArea.add(mainDescLabel);
-        makePostArea.add(enterMainDescription);
+        this.add(mainDescLabel);
+        this.add(enterMainDescription);
         JLabel deadlineLabel = new JLabel("Enter the date (YYYY-MM-DD) when your post should be deleted (max. six months): ");
-        makePostArea.add(deadlineLabel);
-        makePostArea.add(enterDeadline);
-        makePostArea.add(makePostButton);
-
-        JFrame frame = new JFrame();
-        frame.add(makePostArea);
-        frame.setSize((int) (3 * width/4), (int) (3 * height/4));
-        frame.setVisible(true);
+        this.add(deadlineLabel);
+        this.add(enterDeadline);
+        this.add(makePostButton);
     }
 
     /**
@@ -96,7 +89,22 @@ public class MakePostView extends JPanel implements ActionListener{
         postBody.put("tags", tags);
         makePostController.passToInteractor(postBody);
     }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("creation failure")) {
+            JFrame errorFrame = new JFrame("Error");
+            errorFrame.setVisible(true);
+            switch ((String) evt.getNewValue()) {
+                case ("Deadline more than 6 months away or in the past"):
+                    JOptionPane.showMessageDialog(errorFrame, "Deadline more than 6 months away or in the past",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case ("Date is not in the correct format."):
+                    JOptionPane.showMessageDialog(errorFrame, "Date is not in the correct format.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 }
 
-//To Do: Documentation, Tests, Presenter and passing back to main view after done with use case.
-//Error message popups!

@@ -25,10 +25,10 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             // create csvReader object passing
             // file reader as a parameter
             CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
-            String[] nextRecord;
             return Integer.parseInt(csvReader.peek()[0]);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Either wrong path or file has not been formatted correctly. ");
+            return 0;
         }
     }
 
@@ -57,7 +57,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             // closing writer connection
             writer.close();
         } catch (IOException | CsvException e) {
-            throw new RuntimeException(e);
+            System.out.println("Wrong path");
         }
     }
 

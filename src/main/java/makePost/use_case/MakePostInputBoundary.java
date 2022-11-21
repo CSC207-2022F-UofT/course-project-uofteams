@@ -1,6 +1,7 @@
 package makePost.use_case;
 
 import entities.Post;
+import makePost.interface_adapters.MakePostViewModel;
 
 import java.util.List;
 import java.util.Map;
@@ -16,4 +17,6 @@ public interface MakePostInputBoundary {
     int getCurrentPostID();
 
     String getCreationDate();
+
+    MakePostOutputBoundary getPresenter();
 }

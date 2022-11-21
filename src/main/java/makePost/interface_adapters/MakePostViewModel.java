@@ -1,5 +1,7 @@
 package makePost.interface_adapters;
 
+import makePost.ui.MakePostView;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -18,10 +20,12 @@ public class MakePostViewModel {
      * @param observer The observer to be observing this observable.
      */
     public void addObserver(PropertyChangeListener observer) {
-
+        this.observable.addPropertyChangeListener("creation success", observer);
+        this.observable.addPropertyChangeListener("creation failure", observer);
     }
 
-    public void updateViewModel() {
-
+    public void updateViewModel(boolean creationSuccess, String errorMessage) {
+        observable.firePropertyChange("creation success", false, creationSuccess);
+        observable.firePropertyChange("creation failure", "", errorMessage);
     }
 }
