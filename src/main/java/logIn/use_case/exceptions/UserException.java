@@ -1,4 +1,4 @@
-package logIn.exceptions;
+package logIn.use_case.exceptions;
 
 public class UserException extends Exception{
     private final String error;

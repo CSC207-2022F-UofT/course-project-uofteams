@@ -2,7 +2,7 @@ package logIn.use_case;
 
 import entities.CurrentUser;
 import entities.User;
-import logIn.exceptions.UserException;
+import logIn.use_case.exceptions.UserException;
 
 public class LogInInteractor implements LogInInputBoundary {
     private final LogInDsGateway access;
