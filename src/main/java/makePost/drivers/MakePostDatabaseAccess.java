@@ -18,13 +18,13 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
         String filePath = "src/main/java/Database/numPostsCreated.csv";
         File file = new File(filePath);
         try {
-            // Create an object of filereader
+            // Create an object of fileReader
             // class with CSV file as a parameter.
-            FileReader filereader = new FileReader(file);
+            FileReader fileReader = new FileReader(file);
 
             // create csvReader object passing
             // file reader as a parameter
-            CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
+            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
             return Integer.parseInt(csvReader.peek()[0]);
         } catch (IOException e) {
             System.out.println("Either wrong path or file has not been formatted correctly. ");
@@ -39,9 +39,9 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
         File file = new File(filePath);
 
         try {
-            FileReader filereader = new FileReader(file);
+            FileReader fileReader = new FileReader(file);
             // create FileWriter object with file as parameter
-            CSVReader csvReader = new CSVReader(filereader);
+            CSVReader csvReader = new CSVReader(fileReader);
             // create CSVWriter object filewriter object as parameter
             List<String[]> csvBody = csvReader.readAll();
             csvBody.get(1)[0] = String.valueOf(newNumPostsCreated);
@@ -50,8 +50,8 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
                     csvBody.remove(i);
                 }
             }
-            FileWriter outputfile = new FileWriter(file);
-            CSVWriter writer = new CSVWriter(outputfile);
+            FileWriter outputFile = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(outputFile);
             writer.writeAll(csvBody);
             writer.flush();
             // closing writer connection
@@ -78,9 +78,9 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
         postAttributes1[9] = postAttributes.get("repliesIDs");
 
         try {
-            FileReader filereader = new FileReader(file);
+            FileReader fileReader = new FileReader(file);
             // create FileWriter object with file as parameter
-            CSVReader csvReader = new CSVReader(filereader);
+            CSVReader csvReader = new CSVReader(fileReader);
             // create CSVWriter object filewriter object as parameter
             List<String[]> csvBody = csvReader.readAll();
             csvBody.add(postAttributes1);
@@ -90,8 +90,8 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
                     csvBody.remove(i);
                 }
             }
-            FileWriter outputfile = new FileWriter(file);
-            CSVWriter writer = new CSVWriter(outputfile);
+            FileWriter outputFile = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(outputFile);
             writer.writeAll(csvBody);
             writer.flush();
             // closing writer connection
@@ -109,13 +109,13 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
         String filePath = "src/main/java/Database/currentUser.csv";
         File file = new File(filePath);
         try {
-            // Create an object of filereader
+            // Create an object of fileReader
             // class with CSV file as a parameter.
-            FileReader filereader = new FileReader(file);
+            FileReader fileReader = new FileReader(file);
 
             // create csvReader object passing
             // file reader as a parameter
-            CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
+            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
             String[] currentUserArray = csvReader.peek();
             int currentUser = Integer.parseInt(currentUserArray[0]);
             return currentUser;
@@ -163,9 +163,9 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
         }
 
         try {
-            FileReader filereader = new FileReader(file);
+            FileReader fileReader = new FileReader(file);
             // create FileWriter object with file as parameter
-            CSVReader csvReader = new CSVReader(filereader);
+            CSVReader csvReader = new CSVReader(fileReader);
             // create CSVWriter object filewriter object as parameter
             List<String[]> csvBody = csvReader.readAll();
             if(csvBody.size() == 0){
@@ -178,8 +178,8 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
                     csvBody.remove(i);
                 }
             }
-            FileWriter outputfile = new FileWriter(file);
-            CSVWriter writer = new CSVWriter(outputfile);
+            FileWriter outputFile = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(outputFile);
             writer.writeAll(csvBody);
             writer.flush();
             // closing writer connection
