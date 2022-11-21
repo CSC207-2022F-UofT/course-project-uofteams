@@ -20,7 +20,7 @@ import java.util.List;
 /*
 * Test which will test for correctness of the sign up use case
 *
-*
+* Note to self: add testing for private methods
 * */
 public class SignUpTest {
     SignUpDSGateway postRepository;

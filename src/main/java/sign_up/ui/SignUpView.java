@@ -111,6 +111,8 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
                     break;
             }
 
+            errorFrame.setVisible(true);
+
         }
     }
 
@@ -132,8 +134,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            observable.firePropertyChange(new PropertyChangeEvent(this, "go back",
-                    "", ""));
+            observable.firePropertyChange("back button", false, true);
         }
     }
 

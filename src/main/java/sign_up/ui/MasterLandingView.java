@@ -8,7 +8,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 
-public class MasterLandingView extends JPanel {
+public class MasterLandingView extends JPanel implements PropertyChangeListener {
     private JLabel imageLabel = new JLabel(new ImageIcon("src/main/resources/logo1.png"));
     private JPanel mainPanel = new JPanel();
     private JPanel signUpView;
@@ -39,7 +39,15 @@ public class MasterLandingView extends JPanel {
 
     }
 
-    public class ButtonView extends JPanel implements ActionListener, PropertyChangeListener {
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("back button")) {
+            CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
+            cardLayout.show(mainPanel, "Main View");
+        }
+    }
+
+    public class ButtonView extends JPanel implements ActionListener {
         private final SignUpButton signUpButton = new SignUpButton("Sign Up");
         private final LogInButton logInButton = new LogInButton("Log In");
         /*
@@ -66,6 +74,7 @@ public class MasterLandingView extends JPanel {
             }
         }
 
+        /*
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("go back")) {
@@ -73,6 +82,8 @@ public class MasterLandingView extends JPanel {
                 cardLayout.show(mainPanel, "Main View");
             }
         }
+
+         */
     }
 
     public ButtonView getButtonView() {

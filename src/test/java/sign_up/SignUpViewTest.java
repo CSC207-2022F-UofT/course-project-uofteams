@@ -11,11 +11,13 @@ import sign_up.use_case.SignUpDSGateway;
 import sign_up.use_case.SignUpInteractor;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SignUpViewTest {
     public static void main(String[] args) {
         SignUpDSGateway dsGateway = new SignUpDSGateway() {
+            ArrayList<User> userArrayList = new ArrayList<User>();
             @Override
             public int getNumberUsers() {
                 return 0;
@@ -28,27 +30,36 @@ public class SignUpViewTest {
 
             @Override
             public List<String> getEmails() {
-                return null;
+                ArrayList<String> toReturn = new ArrayList<String>();
+                for (User user: userArrayList) {
+                    toReturn.add(user.getEmail());
+                }
+                return toReturn;
             }
 
             @Override
             public void saveUser(User toSave) {
-
+                userArrayList.add(toSave);
             }
 
             @Override
             public String getAdminPassword() {
-                return null;
+                return "123";
             }
         };
-        SignUpPresenter presenter = new SignUpPresenter(new SignUpViewModel());
+        SignUpViewModel signUpViewModel = new SignUpViewModel();
+        SignUpPresenter presenter = new SignUpPresenter(signUpViewModel);
         SignUpInteractor interactor = new SignUpInteractor(dsGateway, presenter);
         SignUpController controller = new SignUpController(interactor);
 
         SignUpView signUpView = new SignUpView(controller);
+        dsGateway.saveUser(new User(false, 0, "regan@mail.utoronto.ca", "a"));
 
         JPanel logIn = new JPanel();
         MasterLandingView masterLandingView = new MasterLandingView(signUpView, logIn);
+
+        signUpView.addObserver(masterLandingView);
+        signUpViewModel.addObserver(signUpView);
 
         JFrame jFrame = new JFrame("Test");
         jFrame.getContentPane().add(masterLandingView);
@@ -57,6 +68,5 @@ public class SignUpViewTest {
         jFrame.pack();
         jFrame.setVisible(true);
 
-        signUpView.addObserver(masterLandingView.getButtonView());
     }
 }
