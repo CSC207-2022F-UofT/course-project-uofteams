@@ -112,7 +112,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
     }
 
     private MakePostResponseModel makePostHelper(MakePostRequestModel mprm) throws MakePostException {
-        if (!checkDeadline(mprm)) {
+        if (checkDeadline(mprm)) {
             throw new MakePostException("Deadline more than 6 months away or in the past");
         }
         return new MakePostResponseModel(true, "");
