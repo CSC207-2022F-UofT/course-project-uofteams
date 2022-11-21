@@ -113,9 +113,7 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            observable.firePropertyChange(new PropertyChangeEvent(this, "go back",
-                    "", ""));
-
+            observable.firePropertyChange("back button", false, true);
         }
     }
 

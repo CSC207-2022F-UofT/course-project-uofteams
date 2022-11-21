@@ -23,6 +23,8 @@ public class LogInTest {
     LogInOutputBoundary presenter;
     LogInController controller;
 
+
+    // need to test private files
     @Before
     public void logIn(){
         repository = new LogInDsGateway() {
