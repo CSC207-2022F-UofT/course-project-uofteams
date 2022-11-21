@@ -1,14 +1,21 @@
 package view_post.use_case;
 
+import com.sun.jdi.IntegerValue;
+
+import java.util.ArrayList;
+
 /**
  * A data class for storing the output data.
  */
 public class ViewPostResponseModel {
     private final String posterEmail;
     private final String postBody;
-    private final String[] postTags;
-    private final String[] postReplies;
+    private final String postTags;
+    private final ArrayList<Integer> postReplies;
     private final String deadline;
+    private final String creationDate;
+    private final String collaborators;
+    private final int postID;
 
     /**
      * Initialize a ViewPostResponseModel object.
@@ -19,12 +26,24 @@ public class ViewPostResponseModel {
      * @param deadline      The string representation of the deadline of this post.
      */
     public ViewPostResponseModel(String posterEmail, String postBody, String[] postTags, String[] postReplies,
-                                 String deadline) {
+                                 String deadline, String creationDate, String collaborators, int postID) {
         this.posterEmail = posterEmail;
         this.postBody = postBody;
-        this.postTags = postTags;
-        this.postReplies = postReplies;
+        String tags = "";
+        for (String tag : postTags){
+            tags.concat(", ");
+            tags.concat(tag);
+        }
+        this.postTags = tags;
+        ArrayList replies = new ArrayList<>();
+        for (String reply : postReplies){
+            replies.add(Integer.valueOf(reply));
+        }
+        this.postReplies = replies;
         this.deadline = deadline;
+        this.creationDate = creationDate;
+        this.collaborators = collaborators;
+        this.postID = postID;
     }
 
     /**
@@ -44,14 +63,14 @@ public class ViewPostResponseModel {
     /**
      * Return the tags associated with this post.
      */
-    public String[] getPostTags() {
+    public String getPostTags() {
         return postTags;
     }
 
     /**
      * Return a list of replies made to this post.
      */
-    public String[] getPostReplies() {
+    public ArrayList<Integer> getPostReplies() {
         return postReplies;
     }
 
@@ -61,4 +80,27 @@ public class ViewPostResponseModel {
     public String getDeadline() {
         return deadline;
     }
+
+    /**
+     * Return a string representation of the creation date of this post.
+     */
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    /**
+     * Return a string representation of the collaborators of this post.
+     */
+    public String getCollaborators() {
+        return collaborators;
+    }
+
+    /**
+     * Return the integer representation of the id of the Post.
+     */
+    public int getPostID() {
+        return postID;
+    }
+
+
 }
