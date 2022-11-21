@@ -23,7 +23,8 @@ public class MakePostInteractor implements MakePostInputBoundary {
     public boolean checkDeadline(MakePostRequestModel mprm){
         LocalDate deadline = mprm.getDeadline();
         LocalDate creationDate = LocalDate.now();
-        if((deadline != null) && ((DAYS.between(deadline, creationDate) <= 182.5) && (DAYS.between(deadline, creationDate) >= 0))){
+        int daysBetween = (int)DAYS.between(deadline, creationDate);
+        if((deadline != null) && (((int)DAYS.between(creationDate, deadline) <= 182.5) && ((int)DAYS.between(creationDate, deadline) >= 0))){
             return true;
         }
         return false;
@@ -88,34 +89,17 @@ public class MakePostInteractor implements MakePostInputBoundary {
         return this.dataAccess.getCurrentUser();
     }
 
-    @Override
-    public List<Map<String, Object>> getFavouritedUsers() {
-        return this.dataAccess.getFavouritedUsers();
-    }
-
     public int getNumPostsCreated(){
         return this.dataAccess.getNumberOfPosts();
     }
 
-    public List<Map<String, Object>> getReplies(){
-        return this.dataAccess.getReplies();
-    }
-
-    @Override
-    public int getCurrentPostID() {
-        return this.dataAccess.getCurrentPostID();
-    }
-
-    @Override
-    public String getCreationDate() {
-        return this.dataAccess.getCreationDate();
-    }
 
     private MakePostResponseModel makePostHelper(MakePostRequestModel mprm) throws MakePostException {
-        if (checkDeadline(mprm)) {
+        if (!checkDeadline(mprm)) {
             throw new MakePostException("Deadline more than 6 months away or in the past");
         }
-        return new MakePostResponseModel(true, "");
+        else {
+        return new MakePostResponseModel(true, "");}
     }
    @Override
     public MakePostOutputBoundary getPresenter() {

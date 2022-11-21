@@ -96,10 +96,8 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             writer.flush();
             // closing writer connection
             writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (CsvException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | CsvException e) {
+            System.out.println("Cannot find file or incorrect file format.");;
         }
 
     }
@@ -119,31 +117,9 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             String[] currentUserArray = csvReader.peek();
             int currentUser = Integer.parseInt(currentUserArray[0]);
             return currentUser;
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public List<Map<String, Object>> getFavouritedUsers() {
-        return null;
-    }
-
-    @Override
-    public List<Map<String, Object>> getReplies() {
-        return null;
-    }
-
-    @Override
-    public int getCurrentPostID() {
-        return 0;
-    }
-
-    @Override
-    public String getCreationDate() {
-        return null;
     }
 
     @Override
@@ -184,9 +160,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             writer.flush();
             // closing writer connection
             writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (CsvException e) {
+        } catch (IOException | CsvException e) {
             throw new RuntimeException(e);
         }
     }

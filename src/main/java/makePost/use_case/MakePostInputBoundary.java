@@ -10,13 +10,5 @@ public interface MakePostInputBoundary {
     void makePost(MakePostRequestModel mprm);
     int getNumPostsCreated();
     int getCurrentUser();
-    List<Map<String, Object>> getFavouritedUsers();
-
-    List<Map<String, Object>> getReplies();
-
-    int getCurrentPostID();
-
-    String getCreationDate();
-
     MakePostOutputBoundary getPresenter();
 }

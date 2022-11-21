@@ -10,13 +10,5 @@ public interface MakePostDataAccessInterface {
     void setNumberOfPosts(int newNumPostsCreated);
     void savePost(Map<String, String> postAttributes);
     int getCurrentUser();
-    List<Map<String, Object>> getFavouritedUsers();
-
-    List<Map<String, Object>> getReplies();
-
-    int getCurrentPostID();
-
-    String getCreationDate();
-
     void setTags(int postID, String tags);
 }
