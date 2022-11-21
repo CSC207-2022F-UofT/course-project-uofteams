@@ -24,7 +24,7 @@ public class FavouriteRequestModel {
      *
      * @return int
      */
-    public int getUserId(){
+    public int getPostId(){
         return this.postid;
     }
 }

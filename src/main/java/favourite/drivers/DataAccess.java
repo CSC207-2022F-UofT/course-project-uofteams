@@ -4,6 +4,8 @@ import entities.Post;
 import entities.User;
 import favourite.use_case.*;
 
+
+
 import java.util.ArrayList;
 
 /**
@@ -20,29 +22,30 @@ public class DataAccess implements FavouriteDSGateway {
     private final UserReaderInterface userreader;
     // postwriter is used to allow class DataAccess to access PostStringFactory to convert Post
     // entity back into a list of strings to save it in the database in the savePostInfo method
-    private final PostWriterInterface postwriter;
-    // userwriter is used to allow class DataAccess to access UserStringFactory to convert User
-    // entity back into a list of strings to save it in the database in the saveUserInfo method
-    private final UserWriterInterface userwriter;
-
+    private final String userFilePath;
+    private final String currentUserFilePath;
+    private final String postFilePath;
     /**
      * Initializes DataAccess
      *
      * @param postreader an instance of PostReaderInterface
      * @param userreader an instance of UserReaderInterface
-     * @param postwriter an instance of PostWriterInterface
-     * @param userwriter an instance of UserWriterInterface
      */
-    public DataAccess(PostReaderInterface postreader, UserReaderInterface userreader,
-                      PostWriterInterface postwriter, UserWriterInterface userwriter){
+    public DataAccess(PostReaderInterface postreader, UserReaderInterface userreader, String userFilePath,
+                      String currentUserFilePath, String postFilePath){
         this.postreader = postreader;
         this.userreader = userreader;
-        this.postwriter = postwriter;
-        this.userwriter = userwriter;
+        this.userFilePath = userFilePath;
+        this.currentUserFilePath = currentUserFilePath;
+        this.postFilePath = postFilePath;
     }
 
     @Override
     public User getUser(){
+        ArrayList currenUser;
+        try {
+            currentUser = readLinebyLine(currentUserFilePath);
+        }
         ArrayList userdata =  new ArrayList();
         return userreader.readUser(userdata);
     }

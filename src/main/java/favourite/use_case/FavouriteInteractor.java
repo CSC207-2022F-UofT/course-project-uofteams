@@ -33,7 +33,7 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
     @Override
     public FavouriteResponseModel favouritepost(FavouriteRequestModel requestModel) {
         User user = this.getUser();
-        Post post = this.getPost(requestModel);
+        Post post = this.getPost(requestModel.getPostId());
 
         // Checking if the user has already favourited this post
         boolean favourited = this.checkIfFavourited(post, user);
@@ -41,14 +41,14 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
         // Unfavouriting post
         if (favourited){
             this.unfavourite(post, user);
-            this.updatePost(post, requestModel.getUserId());
+            this.updatePost(post, requestModel.getPostId());
             return new FavouriteResponseModel("This post has been removed from your favourites.");
         }
         // Favouriting post
         else{
             this.favourite(post, user);
             this.unfavourite(post, user);
-            this.updatePost(post, requestModel.getUserId());
+            this.updatePost(post, requestModel.getPostId());
             return new FavouriteResponseModel("This post has been successfully added to your favourites!");
         }
     }
@@ -57,7 +57,7 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
     }
 
     private Post getPost(FavouriteRequestModel requestModel){
-        return this.dataAccess.getPost(requestModel.getUserId());
+        return this.dataAccess.getPost(requestModel.getPostId());
     }
 
     private void updateUser(User user){
