@@ -1,6 +1,5 @@
 package filter_post.interface_adapters;
 
-import entities.Post;
 import filter_post.use_case.FilterPostOutputBoundary;
 import filter_post.use_case.FilterPostResponseModel;
 
@@ -27,16 +26,16 @@ public class FilterPostPresenter implements FilterPostOutputBoundary {
      */
     @Override
     public void updateViewablePosts(FilterPostResponseModel responseModel) {
-        List<Post> filteredPosts = responseModel.getFilteredPosts();
+        String[][] filteredPosts = responseModel.getFilteredPosts();
 
-        List<String> tempTitles = new ArrayList<>();
         List<Integer> tempIDs = new ArrayList<>();
+        List<String> tempTitles = new ArrayList<>();
         List<String> tempDescriptions = new ArrayList<>();
 
-        for (Post post: filteredPosts) {
-            tempTitles.add(post.getTitle());
-            tempIDs.add(post.getID());
-            tempDescriptions.add(post.getBody());
+        for (String[] postInfo: filteredPosts) {
+            tempIDs.add(Integer.parseInt(postInfo[0]));
+            tempTitles.add(postInfo[1]);
+            tempDescriptions.add(postInfo[2]);
         }
 
         String[] newTitles = tempTitles.toArray(new String[0]);

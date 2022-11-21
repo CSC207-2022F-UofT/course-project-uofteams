@@ -1,9 +1,6 @@
 package filter_post.use_case;
 
-import entities.Post;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class FilterPostInteractor implements FilterPostInputBoundary {
@@ -28,23 +25,41 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
      */
     @Override
     public void filterPosts(FilterPostRequestModel filters) {
-        List<String> filterTags = filters.getFilterTags();
-        List<Post> posts = postsGateway.getPosts();
-        List<Post> postsWithTag = new ArrayList<>();
+        String[] filterTags = filters.getFilterTags();
+        List<String[]> posts = postsGateway.getPosts();
+        List<String[]> postsWithTag = new ArrayList<>();
 
-        if (filterTags.size() == 0) {
-            // If there are no filters, return all the posts.
-            postsWithTag = posts;
-        } else {
-            for (Post post : posts) {
-                if (new HashSet<>(post.getTags()).containsAll(filterTags)) {
-                    postsWithTag.add(post);
-                }
+        for (String[] postInfo : posts) {
+            String postTags = postInfo[4];
+            if (containsAllWords(postTags, filterTags)) {
+                // Formatting the needed post info into an array: {postID, title, body}.
+                String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
+                postsWithTag.add(postData);
             }
         }
 
-        FilterPostResponseModel outputData = new FilterPostResponseModel(postsWithTag);
+        String[][] output = new String[postsWithTag.size()][];
+
+        for (int i = 0; i < postsWithTag.size(); i++) {
+            output[i] = postsWithTag.get(i);
+        }
+
+        FilterPostResponseModel outputData = new FilterPostResponseModel(output);
 
         filterPostPresenter.updateViewablePosts(outputData);
+    }
+
+    /**
+     * Return whether all the filter tags are in the tags string.
+     * @param tags        The string representation of all the tags of this post.
+     * @param filterTags  The tags the user wishes to filter with.
+     */
+    private static boolean containsAllWords(String tags, String[] filterTags) {
+        for (String tag: filterTags) {
+            if (!tags.contains(tag)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -6,8 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FilterPostBarView extends JPanel implements ActionListener{
     public final String[] TAGS;
@@ -57,11 +55,10 @@ public class FilterPostBarView extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         int[] selectedIndices = list.getSelectedIndices();
+        String[] filterTags = new String[selectedIndices.length];
 
-        List<String> filterTags = new ArrayList<>();
-
-        for (Integer i: selectedIndices) {
-            filterTags.add(TAGS[i]);
+        for (int i = 0; i < selectedIndices.length; i++) {
+            filterTags[i] = TAGS[selectedIndices[i]];
         }
 
         activeFilters.setText(String.join(", ", filterTags));

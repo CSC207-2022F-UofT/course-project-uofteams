@@ -3,8 +3,6 @@ package filter_post.interface_adapters;
 import filter_post.use_case.FilterPostInputBoundary;
 import filter_post.use_case.FilterPostRequestModel;
 
-import java.util.List;
-
 public class FilterPostController {
     private final FilterPostInputBoundary interactor;
 
@@ -20,7 +18,7 @@ public class FilterPostController {
      * Calls upon the abstraction of the use case to filter the posts.
      * @param filters A list of tags to filter the posts by.
      */
-    public void filter(List<String> filters) {
+    public void filter(String[] filters) {
         FilterPostRequestModel inputData = new FilterPostRequestModel(filters);
 
         interactor.filterPosts(inputData);
