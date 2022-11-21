@@ -15,13 +15,7 @@ public class LogInPresenter implements LogInOutputBoundary {
 
     @Override
     public void present(LogInResponseModel responseModel) {
-        if (responseModel.getLogInSuccess()){
-            viewModel.updateViewModel(new LogInPresenterData(responseModel.getLogInSuccess(),
-                    responseModel.getErrorMessage()));
-        } else {
-            viewModel.updateViewModel(new LogInPresenterData(responseModel.getLogInSuccess(),
-                    responseModel.getErrorMessage()));
-        }
-
+        viewModel.updateViewModel(new LogInPresenterData(responseModel.getLogInSuccess(),
+                responseModel.getErrorMessage()));
     }
 }

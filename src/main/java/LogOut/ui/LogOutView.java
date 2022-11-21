@@ -1,9 +1,9 @@
 package LogOut.ui;
 
 import LogOut.interface_adapters.LogOutController;
+import LogOut.interface_adapters.LogOutControllerData;
 
 import javax.swing.*;
-import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -19,12 +19,13 @@ public class LogOutView extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("Log Out")){
             String logOut = "Log Out";
-            LogOutController logOutController = new LogOutController(logOut);
-            controller.LogOutInitializer(logOutController);
+            LogOutControllerData data = new LogOutControllerData(logOut);
+            controller.LogOutInitializer(data);
 
 
-            CardLayout cardLayout = (CardLayout) this.getLayout();
-            cardLayout.show(this, "Main View");
+            // will need to implement main view which contains the 'Log Out' button
+            // and then switch that view with the Main LogIn/SignUp view
+            // cardLayout.show(this, "Main View");
         }
     }
 }
