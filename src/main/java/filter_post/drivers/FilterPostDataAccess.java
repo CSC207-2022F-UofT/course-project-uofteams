@@ -2,23 +2,25 @@ package filter_post.drivers;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import filter_post.use_case.FilterPostDsGateway;
-
 import com.opencsv.exceptions.CsvException;
+import com.opencsv.validators.RowMustHaveSameNumberOfColumnsAsFirstRowValidator;
+import com.opencsv.validators.RowValidator;
+import filter_post.use_case.FilterPostDsGateway;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class DatabasePost implements FilterPostDsGateway {
+public class FilterPostDataAccess implements FilterPostDsGateway {
     private final String path;
 
     /**
-     * Initialize a DatabasePost object.
+     * Initialize a FilterPostDataAccess object.
      * @param path The file path of the posts.csv file.
      */
-    public DatabasePost(String path) {
+    public FilterPostDataAccess(String path) {
         this.path = path;
     }
 
@@ -31,18 +33,21 @@ public class DatabasePost implements FilterPostDsGateway {
 
         try {
             FileReader fileReader = new FileReader(file);
+            CSVReaderBuilder csvReaderBuilder = new CSVReaderBuilder(fileReader);
+            RowValidator rowValidator = new RowMustHaveSameNumberOfColumnsAsFirstRowValidator();
+            csvReaderBuilder.withRowValidator(rowValidator);
 
-            CSVReader reader = new CSVReaderBuilder(fileReader).build();
+            CSVReader reader = csvReaderBuilder.build();
             List<String[]> postData = reader.readAll();
             // Remove the row corresponding to the header
             postData.remove(0);
 
             return postData;
         } catch (IOException e) {
-            System.out.println("Error during reading:" + e.getMessage());
+            System.out.println("Error during accessing file.");
         } catch (CsvException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error during reading file");
         }
-        return null;
+        return new ArrayList<>();
     }
 }

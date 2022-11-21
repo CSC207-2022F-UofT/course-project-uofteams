@@ -26,6 +26,7 @@ public class FilterPostBarView extends JPanel implements ActionListener{
 
         list.setSelectionModel(new FilterListSelectionModel());
         activeFilters.setLineWrap(true);
+        activeFilters.setWrapStyleWord(true);
         activeFilters.setEditable(false);
 
         JButton filterButton = new JButton("Filter!");
