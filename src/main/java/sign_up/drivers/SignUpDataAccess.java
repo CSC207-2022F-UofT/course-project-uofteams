@@ -3,10 +3,11 @@ package sign_up.drivers;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 import entities.User;
-import sign_up.use_case.SignUpDSGateway;
+import sign_up.use_case.DsGateway;
 import com.opencsv.CSVReader;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,12 +15,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class SignUpDatabaseAccess implements SignUpDSGateway {
+public class SignUpDataAccess implements DsGateway {
     private final String userFilePath;
     private final String adminFilePath;
     private final String numUsersCreatedFilePath;
 
-    public SignUpDatabaseAccess(String userFilePath, String adminFilePath, String numUsersCreated) {
+    public SignUpDataAccess(String userFilePath, String adminFilePath, String numUsersCreated) {
         this.userFilePath = userFilePath;
         this.adminFilePath = adminFilePath;
         this.numUsersCreatedFilePath = numUsersCreated;
@@ -30,8 +31,12 @@ public class SignUpDatabaseAccess implements SignUpDSGateway {
         ArrayList<String[]> numUsers;
         try {
             numUsers = readLineByLine(numUsersCreatedFilePath);
-        } catch(Exception e) {
+        } catch(IOException e) {
             System.out.println("Wrong Path");
+            String[] defaultEntry = {"0"};
+            numUsers = (ArrayList<String[]>) Arrays.asList(new String[][]{defaultEntry});
+        } catch(CsvValidationException e) {
+            System.out.println("Line Invalid in CSV Reader");
             String[] defaultEntry = {"0"};
             numUsers = (ArrayList<String[]>) Arrays.asList(new String[][]{defaultEntry});
         }
@@ -44,8 +49,12 @@ public class SignUpDatabaseAccess implements SignUpDSGateway {
         ArrayList<String[]> toWrite;
         try {
             toWrite = readLineByLine(numUsersCreatedFilePath);
-        } catch(Exception e) {
+        } catch(IOException e) {
             System.out.println("Wrong Path");
+            String[] defaultEntry = {"0"};
+            toWrite = (ArrayList<String[]>) Arrays.asList(new String[][]{defaultEntry});
+        } catch(CsvValidationException e) {
+            System.out.println("Line Invalid in CSV reader");
             String[] defaultEntry = {"0"};
             toWrite = (ArrayList<String[]>) Arrays.asList(new String[][]{defaultEntry});
         }
@@ -66,8 +75,11 @@ public class SignUpDatabaseAccess implements SignUpDSGateway {
         ArrayList<String[]> userInfo;
         try {
             userInfo = readLineByLine(userFilePath);
-        } catch(Exception e) {
+        } catch(IOException e) {
             System.out.println("Wrong Path");
+            userInfo = new ArrayList<>();
+        } catch(CsvValidationException e) {
+            System.out.println("Line Invalid in CSV Reader");
             userInfo = new ArrayList<>();
         }
 
@@ -85,8 +97,11 @@ public class SignUpDatabaseAccess implements SignUpDSGateway {
         ArrayList<String[]> userInfo;
         try {
             userInfo = readLineByLine(userFilePath);
-        } catch(Exception e) {
+        } catch(IOException e) {
             System.out.println("Wrong Path");
+            userInfo = new ArrayList<>();
+        } catch (CsvValidationException e) {
+            System.out.println("Line Invalid in CSV reader");
             userInfo = new ArrayList<>();
         }
 
@@ -108,22 +123,23 @@ public class SignUpDatabaseAccess implements SignUpDSGateway {
         ArrayList<String[]> userInfo;
         try {
             userInfo = readLineByLine(adminFilePath);
-        } catch(Exception e) {
+        } catch(IOException e) {
             System.out.println("Wrong Path");
+            userInfo = new ArrayList<>();
+        } catch (CsvValidationException e) {
+            System.out.println("Line Invalid in CSV reader");
             userInfo = new ArrayList<>();
         }
         return userInfo.get(1)[0];
     }
 
-    private ArrayList<String[]> readLineByLine(String filePath) throws Exception {
+    private ArrayList<String[]> readLineByLine(String filePath) throws IOException, CsvValidationException {
         ArrayList<String[]> list = new ArrayList<>();
-        try (Reader reader = Files.newBufferedReader(Path.of(filePath))) {
-            try (CSVReader csvReader = new CSVReader(reader)) {
-                String[] line;
-                while ((line = csvReader.readNext()) != null) {
-                    list.add(line);
-                }
-            }
+        Reader reader = Files.newBufferedReader(Path.of(filePath));
+        CSVReader csvReader = new CSVReader(reader);
+        String[] line;
+        while ((line = csvReader.readNext()) != null) {
+            list.add(line);
         }
         return list;
     }

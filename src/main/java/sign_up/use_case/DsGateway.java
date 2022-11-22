@@ -4,7 +4,7 @@ import entities.User;
 
 import java.util.List;
 
-public interface SignUpDSGateway {
+public interface DsGateway {
     int getNumberUsers();
 
     void setNumberUsers(int numberUsers);

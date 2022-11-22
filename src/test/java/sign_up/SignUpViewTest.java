@@ -1,13 +1,12 @@
 package sign_up;
 
 import entities.User;
-import sign_up.drivers.SignUpDatabaseAccess;
 import sign_up.interface_adapters.SignUpController;
 import sign_up.interface_adapters.SignUpPresenter;
 import sign_up.interface_adapters.SignUpViewModel;
 import sign_up.ui.MasterLandingView;
 import sign_up.ui.SignUpView;
-import sign_up.use_case.SignUpDSGateway;
+import sign_up.use_case.DsGateway;
 import sign_up.use_case.SignUpInteractor;
 
 import javax.swing.*;
@@ -16,7 +15,7 @@ import java.util.List;
 
 public class SignUpViewTest {
     public static void main(String[] args) {
-        SignUpDSGateway dsGateway = new SignUpDSGateway() {
+        DsGateway dsGateway = new DsGateway() {
             ArrayList<User> userArrayList = new ArrayList<User>();
             @Override
             public int getNumberUsers() {
