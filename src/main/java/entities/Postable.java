@@ -2,7 +2,7 @@ package entities;
 
 import java.util.List;
 
-abstract class Postable{
+public abstract class Postable{
     User user;
     String body;
 
