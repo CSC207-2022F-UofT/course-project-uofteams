@@ -1,9 +1,11 @@
 package log_in.drivers;
 
+import com.opencsv.exceptions.CsvException;
 import entities.User;
 import com.opencsv.CSVReader;
 import log_in.use_case.LogInDsGateway;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,12 +28,8 @@ public class LogInDatabaseAccess implements LogInDsGateway {
     @Override
     public boolean checkUserEmailExists(String email){
         ArrayList<String> emails = this.getData(4);
-        for (int i = 0; i < emails.size(); i++){
-            if (emails.get(i).equals(email)){
-                return true;
-            } else {
-                i++;
-            }
+        for (String s: emails){
+            return s.equals(email);
         }
         return false;
     }
@@ -64,21 +62,22 @@ public class LogInDatabaseAccess implements LogInDsGateway {
     }
 
     @Override
-    public User getUser(boolean success, String email, String pass){
+    public ArrayList<String> getUser(boolean success, String email, String pass){
+        ArrayList<String> userInfo = new ArrayList<>();
         if (success){
             ArrayList<String> emails = this.getData(4);
             ArrayList<String> admins = this.getData(2);
 
             int emailIndex = emails.indexOf(email);
             String adminValueString = admins.get(emailIndex);
-
-            boolean isAdmin;
-            isAdmin = adminValueString.equals("true");
-
-            return new User(isAdmin, 0, email, pass);
+            userInfo.add(email);
+            userInfo.add(pass);
+            userInfo.add(adminValueString);
         } else {
             return null;
         }
+
+        return userInfo;
     }
 
     //testing method see LogInTest for usage
@@ -93,12 +92,15 @@ public class LogInDatabaseAccess implements LogInDsGateway {
      * @param indexInfo the attribute of users in interest
      * @return a List of a specific attribute of all users in a csv file
      */
-    public ArrayList<String> getData(int indexInfo){
+    private ArrayList<String> getData(int indexInfo){
         ArrayList<String[]> userInfo;
         try {
-            userInfo = readLine(userPath);
-        } catch (Exception e){
+            userInfo = readLines(userPath);
+        } catch (IOException e){
             System.out.println("Wrong Path");
+            userInfo = new ArrayList<>();
+        } catch (CsvException e){
+            System.out.println("Line Invalid");
             userInfo = new ArrayList<>();
         }
 
@@ -111,15 +113,13 @@ public class LogInDatabaseAccess implements LogInDsGateway {
         return data;
     }
 
-    private ArrayList<String[]> readLine(String path) throws Exception {
+    private ArrayList<String[]> readLines(String path) throws IOException, CsvException {
         ArrayList<String[]> list = new ArrayList<>();
-        try (Reader reader = Files.newBufferedReader(Path.of(path))) {
-            try (CSVReader csvReader = new CSVReader(reader)) {
-                String[] line;
-                while ((line = csvReader.readNext()) != null) {
-                    list.add(line);
-                }
-            }
+        Reader reader = Files.newBufferedReader(Path.of(path));
+        CSVReader csvReader = new CSVReader(reader);
+        String[] line;
+        while ((line = csvReader.readNext()) != null) {
+            list.add(line);
         }
         return list;
     }

@@ -63,18 +63,41 @@ public class LogInTest {
             }
 
             @Override
-            public User getUser(boolean success, String email, String pass) {
-                if (success) {
-                    for (int i = 0; i <= users.size(); i++) {
-                        User user = users.get(i);
-                        if (user.getEmail().equals(email) && user.getPassword().equals(pass)) {
-                            return user;
+            public ArrayList<String> getUser(boolean success, String email, String pass) {
+                ArrayList<String> userInfo = new ArrayList<>();
+                if (success){
+                    ArrayList<String> emails = this.getData(4);
+                    ArrayList<String> admins = this.getData(2);
+
+                    int emailIndex = emails.indexOf(email);
+                    String adminValueString = admins.get(emailIndex);
+                    userInfo.add(email);
+                    userInfo.add(pass);
+                    userInfo.add(adminValueString);
+                } else {
+                    return null;
+                }
+
+                return userInfo;
+            }
+
+            public ArrayList<String> getData(int index){
+                ArrayList<String> userInfo = new ArrayList<>();
+                for (User i: users){
+                    if (index == 2){
+                        boolean isAdmin = i.isAdmin();
+                        String isAdminString;
+                        if (isAdmin){
+                            isAdminString = "True";
                         } else {
-                            i++;
+                            isAdminString = "False";
                         }
+                        userInfo.add(isAdminString);
+                    } if (index == 4) {
+                        userInfo.add(i.getEmail());
                     }
                 }
-                return null;
+                return userInfo;
             }
         };
     }
