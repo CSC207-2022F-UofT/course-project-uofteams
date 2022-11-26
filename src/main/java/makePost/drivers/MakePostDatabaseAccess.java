@@ -1,21 +1,25 @@
 package makePost.drivers;
 
 import com.opencsv.exceptions.CsvException;
-import makePost.ui.MakePostView;
-import makePost.use_case.MakePostDataAccessInterface;
+import makePost.use_case.MakePostDsGateway;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
+import makePost.use_case.MakePostException;
 
 import java.io.*;
 import java.util.*;
 
-public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
+public class MakePostDatabaseAccess implements MakePostDsGateway {
+    private final String filepath;
+    public MakePostDatabaseAccess(String filepath){
+        this.filepath = filepath;
 
+    }
     @Override
     public int getNumberOfPosts(){
-        String filePath = "src/main/java/Database/numPostsCreated.csv";
+        String filePath = filepath + "numPostsCreated.csv";
         File file = new File(filePath);
         try {
             // Create an object of fileReader
@@ -25,7 +29,9 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             // create csvReader object passing
             // file reader as a parameter
             CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
-            return Integer.parseInt(csvReader.peek()[0]);
+            int numPostsCreated = Integer.parseInt(csvReader.peek()[0]);
+            csvReader.close();
+            return numPostsCreated;
         } catch (IOException e) {
             System.out.println("Either wrong path or file has not been formatted correctly. ");
             return 0;
@@ -34,8 +40,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
 
     @Override
     public void setNumberOfPosts(int newNumPostsCreated) {
-        int numPostsCreated = this.getNumberOfPosts();
-        String filePath = "src/main/java/Database/numPostsCreated.csv";
+        String filePath = filepath + "numPostsCreated.csv";
         File file = new File(filePath);
 
         try {
@@ -46,6 +51,9 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             List<String[]> csvBody = csvReader.readAll();
             csvBody.get(1)[0] = String.valueOf(newNumPostsCreated);
             for(int i = 0; i < csvBody.size(); i++){
+                if(i >= csvBody.size()){
+                    break;
+                }
                 if(csvBody.get(i).length == 0 && csvBody.get(i)[0].equals("")){
                     csvBody.remove(i);
                 }
@@ -56,6 +64,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             writer.flush();
             // closing writer connection
             writer.close();
+            csvReader.close();
         } catch (IOException | CsvException e) {
             System.out.println("Wrong path");
         }
@@ -63,7 +72,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
 
     @Override
     public void savePost(Map<String, String> postAttributes) {
-        String filePath = "src/main/java/Database/posts.csv";
+        String filePath = filepath + "posts.csv";
         File file = new File(filePath);
         String[] postAttributes1 = new String[postAttributes.size()];
         postAttributes1[0] = postAttributes.get("postID");
@@ -86,6 +95,9 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             csvBody.add(postAttributes1);
             //this is to get rid of extra line that gets added by the csvReader!
             for(int i = 0; i < csvBody.size(); i++){
+                if(i >= csvBody.size()){
+                    break;
+                }
                 if(csvBody.get(i).length == 0 && csvBody.get(i)[0].equals("")){
                     csvBody.remove(i);
                 }
@@ -96,6 +108,7 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             writer.flush();
             // closing writer connection
             writer.close();
+            csvReader.close();
         } catch (IOException | CsvException e) {
             System.out.println("Cannot find file or incorrect file format.");;
         }
@@ -103,8 +116,8 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
     }
 
     @Override
-    public int getCurrentUser() {
-        String filePath = "src/main/java/Database/currentUser.csv";
+    public int getCurrentUser() throws MakePostException {
+        String filePath = filepath + "currentUser.csv";
         File file = new File(filePath);
         try {
             // Create an object of fileReader
@@ -116,52 +129,11 @@ public class MakePostDatabaseAccess implements MakePostDataAccessInterface {
             CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
             String[] currentUserArray = csvReader.peek();
             int currentUser = Integer.parseInt(currentUserArray[0]);
+            csvReader.close();
             return currentUser;
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void setTags(int postID, String tags) {
-        List<String> tagsList = new ArrayList<>(Arrays.asList(tags.split(" ")));
-        String[] presetTags = MakePostView.TAGS;
-        String filePath = "src/main/java/Database/tags.csv";
-        File file = new File(filePath);
-        String[] tagsAndIDs = new String[presetTags.length];
-        for(int i = 0; i < presetTags.length; i++){
-            if(tagsList.contains(presetTags[i])){
-                tagsAndIDs[i] = String.valueOf(postID);
-            }
-            else{
-                tagsAndIDs[i] = "";
-            }
-        }
-
-        try {
-            FileReader fileReader = new FileReader(file);
-            // create FileWriter object with file as parameter
-            CSVReader csvReader = new CSVReader(fileReader);
-            // create CSVWriter object filewriter object as parameter
-            List<String[]> csvBody = csvReader.readAll();
-            if(csvBody.size() == 0){
-                csvBody.add(presetTags);
-            }
-            csvBody.add(tagsAndIDs);
-            //this is to get rid of the extra line that gets added by csvReader.
-            for(int i = 0; i < csvBody.size(); i++){
-                if(csvBody.get(i).length == 0 && csvBody.get(i)[0].equals("")){
-                    csvBody.remove(i);
-                }
-            }
-            FileWriter outputFile = new FileWriter(file);
-            CSVWriter writer = new CSVWriter(outputFile);
-            writer.writeAll(csvBody);
-            writer.flush();
-            // closing writer connection
-            writer.close();
-        } catch (IOException | CsvException e) {
-            throw new RuntimeException(e);
+            System.out.println("Wrong file.");
+            return 0;
         }
     }
 }

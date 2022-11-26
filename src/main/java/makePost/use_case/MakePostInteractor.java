@@ -1,5 +1,6 @@
 package makePost.use_case;
 
+import entities.CurrentUser;
 import entities.Post;
 
 import java.time.LocalDate;
@@ -8,10 +9,10 @@ import java.util.*;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class MakePostInteractor implements MakePostInputBoundary {
-    private final MakePostDataAccessInterface dataAccess;
+    private final MakePostDsGateway dataAccess;
     private final MakePostOutputBoundary presenter;
 
-    public MakePostInteractor(MakePostDataAccessInterface dataAccess, MakePostOutputBoundary presenter){
+    public MakePostInteractor(MakePostDsGateway dataAccess, MakePostOutputBoundary presenter){
         this.dataAccess = dataAccess;
         this.presenter = presenter;
     }
@@ -20,8 +21,8 @@ public class MakePostInteractor implements MakePostInputBoundary {
      * Checks whether the deadline is at most six months from the creationDate.
      * @return true if the above condition is met.
      */
-    public boolean checkDeadline(MakePostRequestModel mprm){
-        LocalDate deadline = mprm.getDeadline();
+    public boolean checkDeadline(MakePostRequestModel requestModel){
+        LocalDate deadline = requestModel.getDeadline();
         LocalDate creationDate = LocalDate.now();
         int daysBetween = (int)DAYS.between(deadline, creationDate);
         if((deadline != null) && (((int)DAYS.between(creationDate, deadline) <= 182.5) && ((int)DAYS.between(creationDate, deadline) >= 0))){
@@ -31,10 +32,10 @@ public class MakePostInteractor implements MakePostInputBoundary {
     }
 
     @Override
-    public void makePost(MakePostRequestModel mprm) {
+    public void makePost(MakePostRequestModel requestModel) {
 
-        Post newPost = new Post(mprm.getPoster(), mprm.getTitle(), mprm.getMainDesc(), mprm.getTags(), mprm.getCollaborators(),
-                mprm.getDeadline(), mprm.getNumPostsCreated());
+        Post newPost = new Post(requestModel.getPoster(), requestModel.getTitle(), requestModel.getMainDesc(), requestModel.getTags(), requestModel.getCollaborators(),
+                requestModel.getDeadline(), requestModel.getNumPostsCreated());
         //now we have got to save this new post to the DB.
         int posterID = newPost.getUser();
         String title = newPost.getTitle();
@@ -61,7 +62,6 @@ public class MakePostInteractor implements MakePostInputBoundary {
         else {
             tagsString = new StringBuilder("");
         }
-
         postAttributes.put("tags", String.valueOf(tagsString));
         postAttributes.put("collaborators", collaborators);
         postAttributes.put("deadline", deadlineString);
@@ -70,13 +70,12 @@ public class MakePostInteractor implements MakePostInputBoundary {
         postAttributes.put("repliesIDs", "");
 
         try{
-            MakePostResponseModel responseModel = this.makePostHelper(mprm);
+            MakePostResponseModel responseModel = this.makePostHelper(requestModel);
             this.presenter.updateViewModel(responseModel);
             this.dataAccess.savePost(postAttributes);
             //increase number of posts by 1
             this.dataAccess.setNumberOfPosts(this.dataAccess.getNumberOfPosts() + 1);
             //go back to the main view
-            this.dataAccess.setTags(Integer.parseInt(postAttributes.get("postID")), postAttributes.get("tags"));
             //close the MakePostView!
         }
         catch (MakePostException e) {
@@ -86,7 +85,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
     }
 
     public int getCurrentUser(){
-        return this.dataAccess.getCurrentUser();
+        return CurrentUser.getCurrentUser().getId();
     }
 
     public int getNumPostsCreated(){
@@ -94,8 +93,8 @@ public class MakePostInteractor implements MakePostInputBoundary {
     }
 
 
-    private MakePostResponseModel makePostHelper(MakePostRequestModel mprm) throws MakePostException {
-        if (!checkDeadline(mprm)) {
+    private MakePostResponseModel makePostHelper(MakePostRequestModel requestModel) throws MakePostException {
+        if (!checkDeadline(requestModel)) {
             throw new MakePostException("Deadline more than 6 months away or in the past");
         }
         else {

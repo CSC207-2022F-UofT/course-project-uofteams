@@ -87,7 +87,7 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
         postBody.put("mainDescription", mainDescription);
         postBody.put("deadline", deadline);
         postBody.put("tags", tags);
-        makePostController.passToInteractor(postBody);
+        makePostController.passToMakePostInteractor(postBody);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package makePost.interface_adapters;
 
-import makePost.use_case.MakePostException;
 import makePost.use_case.MakePostInputBoundary;
 import makePost.use_case.MakePostRequestModel;
 import makePost.use_case.MakePostResponseModel;
@@ -21,7 +20,7 @@ public class MakePostController {
         this.interactor = interactor;
     }
 
-    public void passToInteractor(Map<String, Object> postBody){
+    public void passToMakePostInteractor(Map<String, Object> postBody){
         int numPostsCreated = interactor.getNumPostsCreated();
         int currentUserID = interactor.getCurrentUser();
 
@@ -30,7 +29,7 @@ public class MakePostController {
         try{
             //converting deadline to LocalDate.
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            formatter = formatter.withLocale(Locale.getDefault());
+            formatter.withLocale(Locale.getDefault());
             LocalDate deadline = LocalDate.parse((String) postBody.get("deadline"));
             if(Integer.parseInt(deadlineList.get(1)) > 12 || Integer.parseInt(deadlineList.get(1)) < 1 || Integer.parseInt(deadlineList.get(2)) > 31
                     || Integer.parseInt(deadlineList.get(2)) < 1){

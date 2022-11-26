@@ -1,14 +1,10 @@
 package makePost.use_case;
 
-import entities.Post;
-
-import java.util.List;
 import java.util.Map;
 
-public interface MakePostDataAccessInterface {
+public interface MakePostDsGateway {
     int getNumberOfPosts();
     void setNumberOfPosts(int newNumPostsCreated);
     void savePost(Map<String, String> postAttributes);
-    int getCurrentUser();
-    void setTags(int postID, String tags);
+    int getCurrentUser() throws MakePostException;
 }

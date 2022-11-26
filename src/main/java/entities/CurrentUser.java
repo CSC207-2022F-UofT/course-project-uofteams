@@ -6,8 +6,8 @@ public class CurrentUser {
     public CurrentUser() {
     }
 
-    public static String getCurrentUser() {
-        return currentUser.getEmail();
+    public static User getCurrentUser() {
+        return currentUser;
     }
 
     public static boolean getIsAdmin() {
