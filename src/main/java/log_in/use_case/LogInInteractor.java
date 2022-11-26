@@ -48,6 +48,7 @@ public class LogInInteractor implements LogInInputBoundary {
      * @param pass password of user that logged in
      */
     private void setCurrentUser(String email, String pass){
+        // create a factory to create the user for clean architecture
         ArrayList<String> userInfo;
         userInfo = access.getUser(true, email, pass);
         String userEmail = userInfo.get(0);

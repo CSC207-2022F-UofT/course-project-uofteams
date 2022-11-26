@@ -28,8 +28,10 @@ public class LogInDatabaseAccess implements LogInDsGateway {
     @Override
     public boolean checkUserEmailExists(String email){
         ArrayList<String> emails = this.getData(4);
-        for (String s: emails){
-            return s.equals(email);
+        for (int i = 0 ; i < emails.size(); i++ ){
+            if (emails.get(i).equals(email)){
+                return true;
+            }
         }
         return false;
     }
