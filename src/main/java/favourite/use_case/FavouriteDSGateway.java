@@ -19,17 +19,18 @@ public interface FavouriteDSGateway {
     /**
      * Saves the edited User in the database
      *
-     * @param user User being saved
+     * @param updateduser data of the User being saved
+     * @param userid id of the User being saved
      */
-    void saveUserInfo(User user);
+    void saveUserInfo(String[] updateduser, int userid);
 
     /**
      * Saves the edited Post in the database
      *
-     * @param post Post being saved
+     * @param updatedpost data of the Post being saved
      * @param postid id of the Post being saved
      */
-    void savePostInfo(Post post, int postid);
+    void savePostInfo(String[] updatedpost, int postid);
 
 
 }

@@ -1,0 +1,1 @@
+ userID,isAdmin,email,password,listPosts,listFavourites;1,TRUE,email1@mail.utoronto.ca,12345,5,1 2;2,FALSE,email2@mail.utoronto.ca,PasSwOrd,4 1,3;3,TRUE,email3@mail.utoronto.ca,iloveapples,3,;4,FALSE,email4@mail.utoronto.ca,482js8,2,1 4

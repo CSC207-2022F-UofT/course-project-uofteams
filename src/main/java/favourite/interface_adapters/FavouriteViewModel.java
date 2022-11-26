@@ -18,8 +18,7 @@ public class FavouriteViewModel implements FavouriteOutputBoundary {
      * @param view
      */
     public FavouriteViewModel(View view){
-        this.dataAccess = new DataAccess(new PostFactory(), new UserFactory(),
-                new PostStringFactory(), new UserStringFactory());
+        this.dataAccess = new DataAccess(new PostFactory(), new UserFactory());
         this.view = view;
         this.inputBoundary = new FavouriteInteractor(dataAccess);
     }

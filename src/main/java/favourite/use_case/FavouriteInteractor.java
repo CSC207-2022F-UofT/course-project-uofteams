@@ -3,6 +3,7 @@ package favourite.use_case;
 import entities.Post;
 import entities.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,8 +33,8 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
      */
     @Override
     public FavouriteResponseModel favouritepost(FavouriteRequestModel requestModel) {
-        User user = this.getUser();
-        Post post = this.getPost(requestModel.getPostId());
+        User user = dataAccess.getUser();
+        Post post = dataAccess.getPost(requestModel.getPostId());
 
         // Checking if the user has already favourited this post
         boolean favourited = this.checkIfFavourited(post, user);
@@ -41,14 +42,15 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
         // Unfavouriting post
         if (favourited){
             this.unfavourite(post, user);
-            this.updatePost(post, requestModel.getPostId());
+            updatePostDB(post);
+            updateUserDB(user);
             return new FavouriteResponseModel("This post has been removed from your favourites.");
         }
         // Favouriting post
         else{
-            this.favourite(post, user);
-            this.unfavourite(post, user);
-            this.updatePost(post, requestModel.getPostId());
+            favourite(post, user);
+            updatePostDB(post);
+            updateUserDB(user);
             return new FavouriteResponseModel("This post has been successfully added to your favourites!");
         }
     }
@@ -60,12 +62,14 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
         return this.dataAccess.getPost(requestModel.getPostId());
     }
 
-    private void updateUser(User user){
-        this.dataAccess.saveUserInfo(user);
+    private void updateUserDB(User user){
+        String[] userdata = convertUserToString(user);
+        dataAccess.saveUserInfo(userdata, user.getId());
     }
 
-    private void updatePost(Post post, int postid){
-        this.dataAccess.savePostInfo(post, postid);
+    private void updatePostDB(Post post){
+        String[] postdata = convertPostToString(post);
+        this.dataAccess.savePostInfo(postdata, post.getID());
     }
 
 
@@ -101,6 +105,111 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
     private void unfavourite(Post post, User user){
         post.removeFavouritedUser(user.getId()); // need to update entities to remove error line
         user.removeUserFavourite(post.getID()); // need to update entities to remove error line
+    }
+
+    /**
+     * Converts a User object into a String array so that its data can be saved in the database
+     * @param user the User to be updated in the database
+     * @return a String array of the User's data to be saved in the database
+     */
+    private String[] convertUserToString(User user){
+        String[] userdata = new String[6];
+        String userID = Integer.toString(user.getId());
+        String isAdmin = Boolean.toString(user.isAdmin());
+        String email = user.getEmail();
+        String password = user.getPassword();
+
+        String listPosts = "";
+        List<Integer> posts = user.getPosts();
+        for (int id: posts){
+            String idString = Integer.toString(id);
+            listPosts = listPosts + " " + idString;
+        }
+        if (listPosts.length() > 0){
+            listPosts.replaceFirst(" ", "");
+        }
+
+        String listFavourites = "";
+        List<Integer> favourites = user.getFavourites();
+        for (int id: favourites){
+            String idString = Integer.toString(id);
+            listFavourites = listFavourites + " " + idString;
+        }
+        if (listFavourites.length() > 0){
+            listPosts.replaceFirst(" ", "");
+        }
+
+        userdata[0] = userID;
+        userdata[1] = isAdmin;
+        userdata[2] = email;
+        userdata[3] = password;
+        userdata[4] = listPosts;
+        userdata[5] = listFavourites;
+
+        return userdata;
+    }
+
+    /**
+     * Converts a Post object into a String array so that its data can be saved in the database
+     * @param post the Post to be updated in the database
+     * @return a String array of the Post's data to be saved in the database
+     */
+    private String[] convertPostToString(Post post){
+        String[] postdata = new String[10];
+        String postID = Integer.toString(post.getID());
+        String posterID = Integer.toString(post.getUser());
+        String title = post.getTitle();
+        String mainDescription = post.getBody();
+
+        String tags = "";
+        List<String> taglist = post.getTags();
+        for (String tag: taglist){
+            tags = tags + " " + tag;
+        }
+        if (tags.length() > 0){
+            tags.replaceFirst(" ", "");
+        }
+
+        String collaborators = post.getCollaborators();
+
+        String deadline = post.getDeadline().toString();
+        deadline.replace("-", " ");
+
+        String creationDate = post.getCreationDate().toString();
+        creationDate.replace("-", " ");
+
+        String favouritedUsersIDs = "";
+        List<Integer> favUsers = post.getFavouritedUsers();
+        for (int id: favUsers){
+            String idString = Integer.toString(id);
+            favouritedUsersIDs = favouritedUsersIDs + " " + idString;
+        }
+        if (favouritedUsersIDs.length() > 0){
+            favouritedUsersIDs.replaceFirst(" ", "");
+        }
+
+        String repliesIDs = "";
+        List<Integer> replies = post.getReplies();
+        for (int id: replies){
+            String idString = Integer.toString(id);
+            repliesIDs = repliesIDs + " " + idString;
+        }
+        if (repliesIDs.length() > 0){
+            repliesIDs.replaceFirst(" ", "");
+        }
+
+        postdata[0] = postID;
+        postdata[1] = posterID;
+        postdata[3] = title;
+        postdata[4] = mainDescription;
+        postdata[5] = tags;
+        postdata[6] = collaborators;
+        postdata[7] = deadline;
+        postdata[8] = creationDate;
+        postdata[9] = favouritedUsersIDs;
+        postdata[10] = repliesIDs;
+
+        return postdata;
     }
 
 }
