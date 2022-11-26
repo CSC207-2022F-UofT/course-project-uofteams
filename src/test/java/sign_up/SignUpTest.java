@@ -23,7 +23,7 @@ import java.util.List;
 * Note to self: add testing for private methods
 * */
 public class SignUpTest {
-    DsGateway postRepository;
+    SignUpDsGateway postRepository;
     SignUpOutputBoundary presenter;
     SignUpInputBoundary interactor;
     SignUpController controller;
@@ -32,7 +32,7 @@ public class SignUpTest {
     public void setup() {
         // Create an anonymous class to mimi the data access
 
-        postRepository = new DsGateway() {
+        postRepository = new SignUpDsGateway() {
             private int numPosts;
             public final List<User> users = new ArrayList<User>();
 

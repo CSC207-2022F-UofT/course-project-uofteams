@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SignUpInteractor implements SignUpInputBoundary{
     // An object that accesses the database
-    private final DsGateway dataAccess;
+    private final SignUpDsGateway dataAccess;
 
     // An object that accesses the UI
     private SignUpOutputBoundary outputBoundary;
@@ -21,7 +21,7 @@ public class SignUpInteractor implements SignUpInputBoundary{
     *
     * @ param dataAccess A class implementing SignUpDSGateway with database access
     * */
-    public SignUpInteractor(DsGateway dataAccess, SignUpOutputBoundary outputBoundary){
+    public SignUpInteractor(SignUpDsGateway dataAccess, SignUpOutputBoundary outputBoundary){
         this.dataAccess = dataAccess;
         this.userFactory = new UserFactory();
         this.outputBoundary = outputBoundary;

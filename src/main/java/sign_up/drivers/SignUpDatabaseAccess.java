@@ -5,7 +5,7 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import entities.User;
-import sign_up.use_case.DsGateway;
+import sign_up.use_case.SignUpDsGateway;
 import com.opencsv.CSVReader;
 
 import java.io.*;
@@ -13,18 +13,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class SignUpDataAccess implements DsGateway {
+public class SignUpDatabaseAccess implements SignUpDsGateway {
     private final String userFilePath;
     private final String adminFilePath;
     private final String numUsersCreatedFilePath;
 
-    public SignUpDataAccess(String userFilePath, String adminFilePath, String numUsersCreated) {
+    public SignUpDatabaseAccess(String userFilePath, String adminFilePath, String numUsersCreatedFilePath) {
         this.userFilePath = userFilePath;
         this.adminFilePath = adminFilePath;
-        this.numUsersCreatedFilePath = numUsersCreated;
+        this.numUsersCreatedFilePath = numUsersCreatedFilePath;
     }
 
     @Override
@@ -84,7 +83,7 @@ public class SignUpDataAccess implements DsGateway {
         } catch(IOException e) {
             System.out.println("Wrong Path");
             userInfo = new ArrayList<>();
-        } catch(CsvValidationException e) {
+        } catch(CsvException e) {
             System.out.println("Line Invalid in CSV Reader");
             userInfo = new ArrayList<>();
         }
