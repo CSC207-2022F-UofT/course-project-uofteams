@@ -23,11 +23,9 @@ public class ViewPostInteractor implements ViewPostInputBoundary {
     public void displayPost(ViewPostRequestModel requestModel) {
         int postID = requestModel.getPostID();
         String[] postInfo = dsGateway.getPostInfo(postID);
-        String delimiter = "##";
 
         ViewPostResponseModel outputData = new ViewPostResponseModel(
-                postInfo[0], postInfo[1], postInfo[2].split(delimiter), postInfo[3].split(delimiter), postInfo[4]
-                );
+                postID, postInfo[0], postInfo[1], postInfo[2], postInfo[3].split(" "), postInfo[4]);
 
         presenter.updateActivePost(outputData);
     }
