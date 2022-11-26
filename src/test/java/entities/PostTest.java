@@ -30,29 +30,29 @@ public class PostTest extends Postable {
     @Test
     public void getFavouritedUsers() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
-        newPost.addFavouritedUser(user.getId());
+        newPost.addFavouritedUser(user);
         assertEquals(user, newPost.getFavouritedUsers().get(0));
     }
 
     @Test
     public void getNumFavouritedUsers() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
-        newPost.addFavouritedUser(user.getId());
+        newPost.addFavouritedUser(user);
         assertEquals(1, newPost.getNumFavouritedUsers());
     }
 
     @Test
     public void addFavouritedUser() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
         User user2 = new User(false, 1, "test-email", "test-password");
-        newPost.addFavouritedUser(user.getId());
-        newPost.addFavouritedUser(user.getId());
+        newPost.addFavouritedUser(user);
+        newPost.addFavouritedUser(user);
         assertEquals(user, newPost.getFavouritedUsers().get(0));
         assertEquals(1, newPost.getFavouritedUsers().size());
     }
@@ -60,18 +60,18 @@ public class PostTest extends Postable {
     @Test
     public void removeFavouritedUser() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         User user = new User(false, 0, "test-email", "test-password");
         User user2 = new User(false, 1, "test-email", "test-password");
-        newPost.addFavouritedUser(user.getId());
-        newPost.removeFavouritedUser(user.getId());
+        newPost.addFavouritedUser(user);
+        newPost.removeFavouritedUser(user);
         assertEquals(0, newPost.getFavouritedUsers().size());
     }
 
     @Test
     public void setTags() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         newPost.setTags(new ArrayList<>(Arrays.asList("Sports", "Club", "Tennis", "Beginners")));
         assertTrue(newPost.getTags().contains("Beginners"));
         newPost.setTags(new ArrayList<>(List.of()));
@@ -81,8 +81,8 @@ public class PostTest extends Postable {
     @Test
     public void testEquals() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
-        Post newPost2 = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 1);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost2 = new Post(poster, title, mainDesc, tags, collaborators, deadline, 1);
         assertNotEquals(newPost, newPost2);
         assertEquals(newPost, newPost);
     }
@@ -90,14 +90,14 @@ public class PostTest extends Postable {
     @Test
     public void getID() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         assertEquals(0, newPost.getID());
     }
 
     @Test
     public void getTags() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         newPost.setTags(new ArrayList<>(List.of("Sports")));
         assertEquals("Sports", newPost.getTags().get(0));
     }
@@ -105,24 +105,24 @@ public class PostTest extends Postable {
     @Test
     public void getDeadline() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         assertEquals(deadline, newPost.getDeadline());
     }
     @Test
     public void getReply(){
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster.getId(), "Hello!", 1);
-        newPost.addReply(comment.getid());
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Comment comment = new Comment(poster, "Hello!", 1);
+        newPost.addReply(comment);
         assertEquals(comment, newPost.getReplies().get(0));
     }
     @Test
     public void addReply() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster.getId(), "Hello!", 1);
-        newPost.addReply(comment.getid());
-        newPost.addReply(comment.getid());
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Comment comment = new Comment(poster, "Hello!", 1);
+        newPost.addReply(comment);
+        newPost.addReply(comment);
         assertEquals(1, newPost.getReplies().size());
         assertEquals(comment, newPost.getReplies().get(0));
     }
@@ -130,10 +130,10 @@ public class PostTest extends Postable {
     @Test
     public void removeReply() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster.getId(), "Hello!", id);
-        newPost.addReply(comment.getid());
-        newPost.removeReply(comment.getid());
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Comment comment = new Comment(poster, "Hello!", id);
+        newPost.addReply(comment);
+        newPost.removeReply(comment);
         assertEquals(0, newPost.getReplies().size());
     }
 }
