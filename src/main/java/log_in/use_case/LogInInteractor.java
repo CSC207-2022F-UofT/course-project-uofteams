@@ -4,6 +4,8 @@ import entities.CurrentUser;
 import entities.User;
 import log_in.use_case.exceptions.UserException;
 
+import java.util.ArrayList;
+
 public class LogInInteractor implements LogInInputBoundary {
     private final LogInDsGateway access;
 
@@ -42,12 +44,17 @@ public class LogInInteractor implements LogInInputBoundary {
     }
 
     /**
-     *
-     * @param userLoggedIn this will be a user who has successfully logged in
-     * Current user will set this user as a current user
+     * @param email email of user that logged in
+     * @param pass password of user that logged in
      */
-    private void setCurrentUser(User userLoggedIn){
-        CurrentUser.setCurrentUser(userLoggedIn);
+    private void setCurrentUser(String email, String pass){
+        ArrayList<String> userInfo;
+        userInfo = access.getUser(true, email, pass);
+        String userEmail = userInfo.get(0);
+        String userPass = userInfo.get(1);
+        String userAdminInfo = userInfo.get(2);
+        boolean isAdmin = userAdminInfo.equals("True");
+        CurrentUser.setCurrentUser(new User(isAdmin, 0, userEmail, userPass));
     }
 
     /**
@@ -68,7 +75,7 @@ public class LogInInteractor implements LogInInputBoundary {
             throw new UserException("Incorrect Password");
         }
         if (this.checkPassword(requestModel.getEmail(), requestModel.getPassword())){
-            setCurrentUser(access.getUser(true, requestModel.getEmail(), requestModel.getPassword()));
+            setCurrentUser(requestModel.getEmail(), requestModel.getPassword());
         }
         return new LogInResponseModel(true, "");
     }

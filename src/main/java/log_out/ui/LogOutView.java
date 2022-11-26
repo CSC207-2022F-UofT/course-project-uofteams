@@ -20,7 +20,7 @@ public class LogOutView extends JPanel implements PropertyChangeListener {
         if (evt.getPropertyName().equals("Log Out")){
             String logOut = "Log Out";
             LogOutControllerData data = new LogOutControllerData(logOut);
-            controller.LogOutInitializer(data);
+            controller.logOutInitializer(data);
 
 
             // will need to implement main view which contains the 'Log Out' button

@@ -28,7 +28,7 @@ public class logInViewTest {
             }
 
             @Override
-            public User getUser(boolean success, String email, String pass) {
+            public ArrayList<String> getUser(boolean success, String email, String pass) {
                 return null;
             }
 
