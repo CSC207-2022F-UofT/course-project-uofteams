@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    // ArrayList of User's favourited post Id's
+    // ArrayList of User's favourited posts
     private final List<Integer> favourites;
 
-    // ArrayList of Post Id's User has made
+    // ArrayList of Posts User has made
     private final List<Integer> posts;
 
     // boolean relating if User has admin privileges
@@ -22,46 +22,55 @@ public class User {
     private final String email;
 
     /*
-    * Initializes an instance of User
-    *
-    * @param admin whether the user will have admin priviledges
-    * */
-    public User(boolean admin, int numUsersCreated, String email, String password) {
-        this.favourites = new ArrayList<Integer>();
-        this.posts = new ArrayList<Integer>();
+     * Initializes an instance of User
+     *
+     * @param admin whether the user will have admin priviledges
+     * */
+    public User(boolean admin, int id, String email, String password) {
+        this.favourites = new ArrayList<>();
+        this.posts = new ArrayList<>();
         this.isAdmin = admin;
-        this.id = numUsersCreated + 1;
+        this.id = id;
         this.email = email;
         this.password = password;
     }
 
+    public User(boolean admin, int id, String email, String password, List<Integer> posts, List<Integer> favourites){
+        this.isAdmin = admin;
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.posts = posts;
+        this.favourites = favourites;
+    }
+
     /*
-    * Returns User's favourites
-    *
-    * @return User's favourites attribute
-    * */
+     * Returns User's favourites
+     *
+     * @return User's favourites attribute
+     * */
     public List<Integer> getFavourites() {
         /* Return an ArrayList containing the favourites of this User */
         return this.favourites;
     }
 
     /*
-    * Adds a Post to User's favourites
-    *
-    * @param toAdd The Post to add to User's favourites
-    * */
-    public void addFavourite(Integer toAdd) {
+     * Adds a Post to User's favourites
+     *
+     * @param toAdd The Post to add to User's favourites
+     * */
+    public void addFavourite(int toAdd) {
         /* Add Post to this.favourites */
         this.favourites.add(toAdd);
     }
 
     /*
-    * Check if a Post is in User's favourites and remove it if so
-    *
-    * @param toRemove Post to be removed
-    * @return boolean representing success or failure
-    * */
-    public boolean removeUserFavourite(Integer toRemove) {
+     * Check if a Post is in User's favourites and remove it if so
+     *
+     * @param toRemove Post to be removed
+     * @return boolean representing success or failure
+     * */
+    public boolean removeUserFavourite(int toRemove) {
         for (int i = 0; i < this.favourites.size(); i++) {
             if (this.favourites.get(i).equals(toRemove)) {
                 this.favourites.remove(i);
@@ -72,32 +81,32 @@ public class User {
     }
 
     /*
-    * Return Posts made by User
-    *
-    * @return User's posts attribute
-    * */
+     * Return Posts made by User
+     *
+     * @return User's posts attribute
+     * */
     public List<Integer> getPosts() {
         /* return an ArrayList containing the elements of this.posts */
         return this.posts;
     }
 
     /*
-    * Add a Post to User's posts
-    *
-    * @param toAdd post to be added
-    * */
-    public void addPost(Integer toAdd) {
+     * Add a Post to User's posts
+     *
+     * @param toAdd post to be added
+     * */
+    public void addPost(int toAdd) {
         /* add toAdd to this.posts */
         this.posts.add(toAdd);
     }
 
     /*
-    * Check if a Post is in User's posts and remove it if so
-    *
-    * @param toRemove post to be removed
-    * @returns a boolean representing success or failure
-    * */
-    public boolean removeUserPost(Integer toRemove) {
+     * Check if a Post is in User's posts and remove it if so
+     *
+     * @param toRemove post to be removed
+     * @returns a boolean representing success or failure
+     * */
+    public boolean removeUserPost(int toRemove) {
         /* Search for toRemove in this.posts and if it is the remove and return true,
          * otherwise return false */
         for (int i = 0; i < this.posts.size(); i++) {
@@ -110,20 +119,20 @@ public class User {
     }
 
     /*
-    * Checks whether User has admin privileges
-    *
-    * @return a boolean which represents whether User has admin privileges
-    * */
+     * Checks whether User has admin privileges
+     *
+     * @return a boolean which represents whether User has admin privileges
+     * */
     public boolean isAdmin(){
         return this.isAdmin;
     }
 
     /*
-    * Return if User is equal to o
-    *
-    * @param o The Object to be compared to
-    * @return boolean representing whether User is equal to o
-    * */
+     * Return if User is equal to o
+     *
+     * @param o The Object to be compared to
+     * @return boolean representing whether User is equal to o
+     * */
     @Override
     public boolean equals (Object o) {
         if (o == null) {
@@ -136,28 +145,28 @@ public class User {
     }
 
     /*
-    * Return the id of this user
-    *
-    * @return user's id int
-    * */
+     * Return the id of this user
+     *
+     * @return user's id int
+     * */
     public int getId() {
         return this.id;
     }
 
     /*
-    * Returns the users email
-    *
-    * @return a String with the value of user email
-    * */
+     * Returns the users email
+     *
+     * @return a String with the value of user email
+     * */
     public String getEmail(){
         return this.email;
     }
 
     /*
-    * Returns the users password
-    *
-    * @return a String with the value of User's password
-    * */
+     * Returns the users password
+     *
+     * @return a String with the value of User's password
+     * */
     public String getPassword() {
         return this.password;
     }
