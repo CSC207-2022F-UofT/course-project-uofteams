@@ -1,6 +1,6 @@
 package filter_post;
 
-import filter_post.drivers.DatabasePost;
+import filter_post.drivers.FilterPostDataAccess;
 import filter_post.interface_adapters.FilterPostController;
 import filter_post.ui.FilterPostBarView;
 import filter_post.use_case.*;
@@ -16,7 +16,7 @@ public class FilterPostMain {
         final String[] TAGS = {"0", "1", "2", "3", "4", "TEST", "CSC", "207", "PAUL", "MOOGAH"};
         JFrame frame = new JFrame();
 
-        FilterPostDsGateway dsGateway = new DatabasePost("src/test/java/filter_post/posts.csv");
+        FilterPostDsGateway dsGateway = new FilterPostDataAccess("src/test/java/filter_post/posts.csv");
         FilterPostOutputBoundary presenter = new FilterPostOutputBoundary() {
             @Override
             public void updateViewablePosts(FilterPostResponseModel filteredPosts) {
