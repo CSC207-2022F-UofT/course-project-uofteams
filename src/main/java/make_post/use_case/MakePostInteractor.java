@@ -1,7 +1,8 @@
-package makePost.use_case;
+package make_post.use_case;
 
 import entities.CurrentUser;
 import entities.Post;
+import make_post.use_case.make_post_exceptions.MakePostException;
 
 import java.time.LocalDate;
 import java.util.*;

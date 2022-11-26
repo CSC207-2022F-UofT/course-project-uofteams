@@ -1,6 +1,4 @@
-package makePost.interface_adapters;
-
-import makePost.ui.MakePostView;
+package make_post.interface_adapters;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

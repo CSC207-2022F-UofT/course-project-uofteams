@@ -1,4 +1,4 @@
-package makePost.use_case;
+package make_post.use_case;
 
 public class MakePostResponseModel {
     private boolean creationSuccess;

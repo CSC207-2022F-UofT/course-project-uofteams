@@ -1,4 +1,4 @@
-package makePost.ui;
+package make_post.ui;
 
 import javax.swing.*;
 

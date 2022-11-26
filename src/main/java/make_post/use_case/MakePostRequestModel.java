@@ -1,10 +1,8 @@
-package makePost.use_case;
+package make_post.use_case;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-
-import entities.User;
 
 public class MakePostRequestModel {
     private String title;

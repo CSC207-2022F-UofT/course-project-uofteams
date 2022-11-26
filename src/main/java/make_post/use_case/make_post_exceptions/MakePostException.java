@@ -1,4 +1,4 @@
-package makePost.use_case;
+package make_post.use_case.make_post_exceptions;
 
 public class MakePostException extends Exception{
     private final String message;

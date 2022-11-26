@@ -1,6 +1,6 @@
-package makePost.ui;
+package make_post.ui;
 
-import makePost.interface_adapters.MakePostController;
+import make_post.interface_adapters.MakePostController;
 
 import javax.swing.*;
 import java.awt.*;

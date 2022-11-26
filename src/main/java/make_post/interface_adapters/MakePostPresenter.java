@@ -1,7 +1,7 @@
-package makePost.interface_adapters;
+package make_post.interface_adapters;
 
-import makePost.use_case.MakePostOutputBoundary;
-import makePost.use_case.MakePostResponseModel;
+import make_post.use_case.MakePostOutputBoundary;
+import make_post.use_case.MakePostResponseModel;
 
 public class MakePostPresenter implements MakePostOutputBoundary {
     private MakePostViewModel viewModel;

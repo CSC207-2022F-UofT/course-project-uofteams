@@ -1,8 +1,8 @@
-package makePost.interface_adapters;
+package make_post.interface_adapters;
 
-import makePost.use_case.MakePostInputBoundary;
-import makePost.use_case.MakePostRequestModel;
-import makePost.use_case.MakePostResponseModel;
+import make_post.use_case.MakePostInputBoundary;
+import make_post.use_case.MakePostRequestModel;
+import make_post.use_case.MakePostResponseModel;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

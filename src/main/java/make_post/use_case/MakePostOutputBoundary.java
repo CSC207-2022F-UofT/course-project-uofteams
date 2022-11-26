@@ -1,6 +1,4 @@
-package makePost.use_case;
-
-import makePost.use_case.MakePostResponseModel;
+package make_post.use_case;
 
 public interface MakePostOutputBoundary {
     void updateViewModel(MakePostResponseModel responseModel);

@@ -1,12 +1,12 @@
-package makePost.drivers;
+package make_post.drivers;
 
 import com.opencsv.exceptions.CsvException;
-import makePost.use_case.MakePostDsGateway;
+import make_post.use_case.MakePostDsGateway;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
-import makePost.use_case.MakePostException;
+import make_post.use_case.make_post_exceptions.MakePostException;
 
 import java.io.*;
 import java.util.*;
