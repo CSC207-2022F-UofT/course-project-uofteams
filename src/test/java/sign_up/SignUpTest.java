@@ -5,6 +5,7 @@ import org.junit.Before;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.After;
+import sign_up.drivers.SignUpDatabaseAccess;
 import sign_up.interface_adapters.SignUpController;
 import sign_up.interface_adapters.SignUpPresenter;
 import sign_up.interface_adapters.SignUpUserInputData;
@@ -14,6 +15,7 @@ import sign_up.use_case.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -224,6 +226,21 @@ public class SignUpTest {
                 "");
 
         controller.signUp(testModel);
+    }
+
+    @Test
+    public void testSaveUser() {
+        SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/main/database/user.csv", "", "");
+        databaseAccess.saveUser(new User(true, 1, "r@mail.utoronto.ca", "q"));
+        assert true;
+    }
+
+    @Test
+    public void testGetEmails() {
+        SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/main/database/user.csv", "", "");
+        ArrayList<String> actual = databaseAccess.getEmails();
+        ArrayList<String> expected =  new ArrayList<>(Arrays.asList("e@main.utoronto.ca", "r@mail.utoronto.ca"));
+        assertEquals(expected, actual);
     }
 
 }
