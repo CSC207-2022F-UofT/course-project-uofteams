@@ -23,6 +23,11 @@ public class FavouriteViewModel {
         observable.addPropertyChangeListener("unfavourited", observer);
     }
 
+    /**
+     * Triggers PropertyChange based on whether the post was "favourited" or "unfavourited"
+     * @param favourited boolean that is true if the post was "favourited"
+     * @param unfavourited boolean that is true if the post was "unfavourited"
+     */
     public void updateViewModel(boolean favourited, boolean unfavourited) {
         observable.firePropertyChange("favourited", false, favourited);
         observable.firePropertyChange("unfavourited", false, unfavourited);

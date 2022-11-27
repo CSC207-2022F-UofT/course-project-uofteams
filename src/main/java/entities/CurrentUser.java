@@ -6,9 +6,7 @@ public class CurrentUser {
     public CurrentUser() {
     }
 
-    public static String getCurrentUser() {
-        return currentUser.getEmail();
-    }
+    public static int getCurrentUser() { return currentUser.getId();}
 
     public static boolean getIsAdmin() {
         return currentUser.isAdmin();

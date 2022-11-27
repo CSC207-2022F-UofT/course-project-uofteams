@@ -5,8 +5,9 @@ package favourite.use_case;
  * to the UI about the outcome of the use case.
  */
 public class FavouriteResponseModel {
-    // Message corresponding to whether the post was newly added to favourites or not.
+    // true if the post was "favourited"
     private final boolean favourited;
+    // true if the post was "unfavourited"
     private final boolean unfavourited;
 
     /**
@@ -21,13 +22,18 @@ public class FavouriteResponseModel {
     }
 
     /**
-     * Returns the String message carried by FavouriteResponseModel
+     * Returns the boolean value of instance var favourited
      *
-     * @return String
+     * @return boolean that expresses whether the post was "favourited"
      */
     public boolean getFavouritedBool(){
         return this.favourited;
     }
 
+    /**
+     * Returns the boolean value of instance var unfavourited
+     *
+     * @return boolean that expresses whether the post was "unfavourited"
+     */
     public boolean getUnfavouritedBool(){return this.unfavourited;}
 }

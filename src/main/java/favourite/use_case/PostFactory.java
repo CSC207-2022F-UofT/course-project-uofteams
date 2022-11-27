@@ -12,13 +12,22 @@ import java.util.List;
  */
 public class PostFactory implements PostReaderInterface{
 
+    /**
+     * Creates a new Post object based on the data stored in the database
+     * @param postdata Array of Strings, data stored in the database for a post
+     * @return Post object with qualities described in postdata
+     */
     @Override
-    public Post readPost(String[] postdata){
+    public Post readPost(String[] postdata) {
         // converting string data into acceptable types to reconstruct a Post object
         int posterID = Integer.parseInt(postdata[1]);
         String title = postdata[2];
         String mainDesc = postdata[3];
-        String[] tags = postdata[4].split(" ");
+        String[] tagarray = postdata[4].split(" ");
+        List<String> tags = new ArrayList<>();
+        for (String tag : tagarray) {
+            tags.add(tag);
+        }
         String collaborators = postdata[5];
         // creating LocalDate object for deadline
         String[] deadlineElements = postdata[6].split(" ");
@@ -36,18 +45,19 @@ public class PostFactory implements PostReaderInterface{
         // creating a List of Integers of ids of the Users who favourited this Post
         String[] favids = postdata[8].split(" ");
         List<Integer> favouritedUsersIDs = new ArrayList<>();
-        for (String ids: favids){
+        for (String ids : favids) {
             favouritedUsersIDs.add(Integer.parseInt(ids));
         }
         // creating a List of Integers of ids of the replies (Comments) made on that post
         String[] replyids = postdata[9].split(" ");
         List<Integer> repliesIDs = new ArrayList<>();
-        for (String ids: replyids){
+        for (String ids : replyids) {
             repliesIDs.add(Integer.parseInt(ids));
         }
 
         // using the variables created above to reconstruct a Post object
-        return Post(posterID, title, mainDesc, tags, collaborators, deadline, creationDate, id, favouritedUsersIDs,
+        Post post = new Post(posterID, title, mainDesc, tags, collaborators, deadline, creationDate, id, favouritedUsersIDs,
                 repliesIDs);
-
+        return post;
+    }
 }

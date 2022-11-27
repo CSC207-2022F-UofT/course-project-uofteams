@@ -7,5 +7,5 @@ public interface FavouriteInputBoundary {
      * @param requestModel carries information about the post being favourited/unfavourited
      * @return FavouriteResponseModel
      */
-    public FavouriteResponseModel favouritepost(FavouriteRequestModel requestModel);
+    void favouritepost(FavouriteRequestModel requestModel);
 }

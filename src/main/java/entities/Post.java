@@ -1,8 +1,8 @@
 package entities;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Post class contains all the necessary information of a post: its ID, title,
@@ -185,6 +185,12 @@ public class Post extends Postable{
     public void setTags(List<String> tags){
         this.tags = tags;
     }
+
+    /**
+     * Returns the collaborators of this post
+     * @return a string with the collaborator information
+     */
+    public String getCollaborators(){return this.collaborators;}
 
     /**
      * Checks whether two posts are equal based on whether their Post id's are equal.

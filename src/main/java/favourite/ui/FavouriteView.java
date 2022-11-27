@@ -31,11 +31,22 @@ public class FavouriteView extends JPanel implements ActionListener, PropertyCha
         favbutton.addActionListener(this);
     }
 
+    /**
+     * Calls the controller when the "Favourite" button is pressed by the user
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         controller.favourite(this.postid);
     }
 
+    /**
+     * Creates a pop-up JFrame that tells the user whether the post has been successfully "favourited" or "unfavourited"
+     *
+     * @param event A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent event){
         JFrame updateFrame = new JFrame();

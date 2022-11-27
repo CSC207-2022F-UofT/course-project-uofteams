@@ -29,8 +29,8 @@ public class DataAccess implements FavouriteDSGateway {
     // userreader is used to allow class DataAccess to access UserFactory to convert data into
     // User entity in getUser method
     private final UserReaderInterface userreader;
-    // postwriter is used to allow class DataAccess to access PostStringFactory to convert Post
-    // entity back into a list of strings to save it in the database in the savePostInfo method
+    // partialpath is a String that contains the partial directory that leads to all csv files in the program
+    // it is isolated from the file name so that in case the file is moved, the code is still compatible
     private final String partialpath;
     /**
      * Initializes DataAccess

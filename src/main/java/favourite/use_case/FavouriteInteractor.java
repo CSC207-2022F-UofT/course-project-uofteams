@@ -4,7 +4,6 @@ import entities.CurrentUser;
 import entities.Post;
 import entities.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,9 +29,6 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
      * Favourites a post if the user has not already, unfavourites a post if the user has favourited it already.
      *
      * @param requestModel tells the FavouriteInteractor which post is being favourited/unfavourited
-     *                     by which user
-     * @return a FavouriteResponseModel with an update message that should be presented to the user
-     * by the view
      */
     @Override
     public void favouritepost(FavouriteRequestModel requestModel) {
@@ -60,19 +56,20 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
             presenter.present(responseModel);
         }
     }
-    private User getUser(){
-        return this.dataAccess.getUser();
-    }
 
-    private Post getPost(FavouriteRequestModel requestModel){
-        return this.dataAccess.getPost(requestModel.getPostId());
-    }
-
+    /**
+     * Helper that updates the User database
+     * @param user user being saved/updated in the database
+     */
     private void updateUserDB(User user){
         String[] userdata = convertUserToString(user);
         dataAccess.saveUserInfo(userdata, user.getId());
     }
 
+    /**
+     * Helper that updates the Post database
+     * @param post post being saved/updated in the database
+     */
     private void updatePostDB(Post post){
         String[] postdata = convertPostToString(post);
         this.dataAccess.savePostInfo(postdata, post.getID());
@@ -87,7 +84,7 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
      * @return true if this user has already favourited this post, false otherwise
      */
     public boolean checkIfFavourited(Post post, User user){
-        List<Post> favourites = user.getFavourites();
+        List<Integer> favourites = user.getFavourites();
         return (favourites.contains(post.getID()));
     }
 
