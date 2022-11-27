@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MakePostView extends JPanel implements ActionListener, PropertyChangeListener {
-    public static String[] TAGS;
+    private static String[] TAGS;
     private final MakePostController makePostController;
     private final JList<String> tagsList;
     private final JTextField enterTitle;
@@ -29,7 +29,7 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
      * @param makePostController The controller for the Make Post use case.
      */
     public MakePostView(String[] presetTags, MakePostController makePostController){
-        this.TAGS = new String[]{"Sports", "Tech", "Startups"};
+        this.TAGS = presetTags;
         this.makePostController = makePostController;
         this.tagsList = new JList<>(TAGS);
         this.enterTitle = new JTextField(1);

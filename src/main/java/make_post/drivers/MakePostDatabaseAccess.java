@@ -22,12 +22,7 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
         String filePath = filepath + "numPostsCreated.csv";
         File file = new File(filePath);
         try {
-            // Create an object of fileReader
-            // class with CSV file as a parameter.
             FileReader fileReader = new FileReader(file);
-
-            // create csvReader object passing
-            // file reader as a parameter
             CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
             int numPostsCreated = Integer.parseInt(csvReader.peek()[0]);
             csvReader.close();
@@ -45,24 +40,15 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
 
         try {
             FileReader fileReader = new FileReader(file);
-            // create FileWriter object with file as parameter
             CSVReader csvReader = new CSVReader(fileReader);
-            // create CSVWriter object filewriter object as parameter
             List<String[]> csvBody = csvReader.readAll();
             csvBody.get(1)[0] = String.valueOf(newNumPostsCreated);
-            for(int i = 0; i < csvBody.size(); i++){
-                if(i >= csvBody.size()){
-                    break;
-                }
-                if(csvBody.get(i).length == 0 && csvBody.get(i)[0].equals("")){
-                    csvBody.remove(i);
-                }
-            }
+            //removing empty spaces added by csvReader
+            csvBody = removeEmptyLines(csvBody);
             FileWriter outputFile = new FileWriter(file);
             CSVWriter writer = new CSVWriter(outputFile);
             writer.writeAll(csvBody);
             writer.flush();
-            // closing writer connection
             writer.close();
             csvReader.close();
         } catch (IOException | CsvException e) {
@@ -88,25 +74,15 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
 
         try {
             FileReader fileReader = new FileReader(file);
-            // create FileWriter object with file as parameter
             CSVReader csvReader = new CSVReader(fileReader);
-            // create CSVWriter object filewriter object as parameter
             List<String[]> csvBody = csvReader.readAll();
             csvBody.add(postAttributes1);
-            //this is to get rid of extra line that gets added by the csvReader!
-            for(int i = 0; i < csvBody.size(); i++){
-                if(i >= csvBody.size()){
-                    break;
-                }
-                if(csvBody.get(i).length == 0 && csvBody.get(i)[0].equals("")){
-                    csvBody.remove(i);
-                }
-            }
+            //remove extra lines that get added by the csvReader!
+            csvBody = removeEmptyLines(csvBody);
             FileWriter outputFile = new FileWriter(file);
             CSVWriter writer = new CSVWriter(outputFile);
             writer.writeAll(csvBody);
             writer.flush();
-            // closing writer connection
             writer.close();
             csvReader.close();
         } catch (IOException | CsvException e) {
@@ -116,16 +92,11 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
     }
 
     @Override
-    public int getCurrentUser() throws MakePostException {
+    public int getCurrentUser() {
         String filePath = filepath + "currentUser.csv";
         File file = new File(filePath);
         try {
-            // Create an object of fileReader
-            // class with CSV file as a parameter.
             FileReader fileReader = new FileReader(file);
-
-            // create csvReader object passing
-            // file reader as a parameter
             CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
             String[] currentUserArray = csvReader.peek();
             int currentUser = Integer.parseInt(currentUserArray[0]);
@@ -135,5 +106,15 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
             System.out.println("Wrong file.");
             return 0;
         }
+    }
+
+    private List<String[]> removeEmptyLines(List<String[]> csvBody){
+        List<String[]> newCsvBody = new LinkedList<>();
+        for(String[] entry : csvBody){
+            if(!(entry.length == 1 && entry[0].equals(""))){
+                newCsvBody.add(entry);
+            }
+        }
+        return newCsvBody;
     }
 }
