@@ -1,41 +1,31 @@
 package favourite.interface_adapters;
 
-import favourite.drivers.DataAccess;
-import favourite.use_case.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * FavouriteViewModel in the interface adapters layer implements the FavouriteOutputBoundary interface.
  * It runs the use case and interacts with the use case layer in response to a user's interaction with FavouriteView.
  */
-public class FavouriteViewModel implements FavouriteOutputBoundary {
-    private final FavouriteDSGateway dataAccess;
-    private final View view;
-    private final FavouriteInputBoundary inputBoundary;
+public class FavouriteViewModel {
+    private final PropertyChangeSupport observable;
 
-    /**
-     * Initializes FavouriteViewModel
-     *
-     * @param view
-     */
-    public FavouriteViewModel(View view){
-        this.dataAccess = new DataAccess(new PostFactory(), new UserFactory());
-        this.view = view;
-        this.inputBoundary = new FavouriteInteractor(dataAccess);
+    public FavouriteViewModel(){
+        this.observable = new PropertyChangeSupport(this);
     }
 
     /**
-     * Creates FavouriteRequestModel and runs the favourite use case
-     *
-     * @param postid id of the post being favrourited/unfavourited
+     * Add a new observer to observe changes to this class.
+     * @param observer The observer to be observing this observable.
      */
-    public void favourite(int postid){
-        FavouriteRequestModel requestModel = new FavouriteRequestModel(postid);
-        present(inputBoundary.favouritepost(requestModel));
+    public void addObserver(PropertyChangeListener observer) {
+        observable.addPropertyChangeListener("favourited", observer);
+        observable.addPropertyChangeListener("unfavourited", observer);
     }
 
-    @Override
-    public void present(FavouriteResponseModel responseModel){
-        view.update(responseModel);
+    public void updateViewModel(boolean favourited, boolean unfavourited) {
+        observable.firePropertyChange("favourited", false, favourited);
+        observable.firePropertyChange("unfavourited", false, unfavourited);
     }
 
 }

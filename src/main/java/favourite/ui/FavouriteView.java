@@ -1,22 +1,18 @@
 package favourite.ui;
 
-import favourite.drivers.DataAccess;
 import favourite.interface_adapters.FavouriteController;
-import favourite.interface_adapters.FavouriteViewModel;
-import favourite.interface_adapters.View;
-import favourite.use_case.FavouriteResponseModel;
-import favourite.use_case.PostFactory;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * The FavouriteView class in the UI layer implements View and ActionListener interfaces.
  * Whenever a user interacts with the favourite button, this class runs the Favourite use case.
  */
-public class FavouriteView extends JPanel implements View, ActionListener {
+public class FavouriteView extends JPanel implements ActionListener, PropertyChangeListener {
     // the controllwe that gets triggered when a user interacts with the FavouriteView
     private final FavouriteController controller;
     // the id of the post being favourited/unfavourited
@@ -41,8 +37,15 @@ public class FavouriteView extends JPanel implements View, ActionListener {
     }
 
     @Override
-    public void update(FavouriteResponseModel responseModel){
-        // figure out how to present responseModel as a pop up
+    public void propertyChange(PropertyChangeEvent event){
+        JFrame updateFrame = new JFrame();
+        updateFrame.setVisible(true);
+        if (event.getPropertyName().equals("favourited")){
+            JOptionPane.showMessageDialog(updateFrame, "This post has been successfully added to " +
+                    "your favourites!");
+        }else{
+            JOptionPane.showMessageDialog(updateFrame, "This post has been removed from your favourites.");
+        }
     }
 
 }

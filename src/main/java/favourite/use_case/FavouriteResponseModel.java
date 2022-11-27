@@ -6,15 +6,18 @@ package favourite.use_case;
  */
 public class FavouriteResponseModel {
     // Message corresponding to whether the post was newly added to favourites or not.
-    private final String message;
+    private final boolean favourited;
+    private final boolean unfavourited;
 
     /**
      * Initializes FavouriteResponseModel
      *
      * @param message
      */
-    public FavouriteResponseModel(String message){
-        this.message = message;
+    public FavouriteResponseModel(boolean favourited, boolean unfavourited){
+
+        this.favourited = favourited;
+        this.unfavourited = unfavourited;
     }
 
     /**
@@ -22,7 +25,9 @@ public class FavouriteResponseModel {
      *
      * @return String
      */
-    public String getMessage(){
-        return this.message;
+    public boolean getFavouritedBool(){
+        return this.favourited;
     }
+
+    public boolean getUnfavouritedBool(){return this.unfavourited;}
 }

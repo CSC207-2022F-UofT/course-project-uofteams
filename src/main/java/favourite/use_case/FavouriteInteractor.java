@@ -1,5 +1,6 @@
 package favourite.use_case;
 
+import entities.CurrentUser;
 import entities.Post;
 import entities.User;
 
@@ -13,14 +14,16 @@ import java.util.List;
  */
 public class FavouriteInteractor implements FavouriteInputBoundary{
     private final FavouriteDSGateway dataAccess;
+    private final FavouriteOutputBoundary presenter;
 
     /**
      * Initializes FavouriteInteractor
      *
      * @param dataAccess tells the FavouriteInteractor which post is being favourited/unfavourited
      */
-    public FavouriteInteractor(FavouriteDSGateway dataAccess){
+    public FavouriteInteractor(FavouriteDSGateway dataAccess, FavouriteOutputBoundary presenter){
         this.dataAccess = dataAccess;
+        this.presenter = presenter;
     }
 
     /**
@@ -32,8 +35,9 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
      * by the view
      */
     @Override
-    public FavouriteResponseModel favouritepost(FavouriteRequestModel requestModel) {
-        User user = dataAccess.getUser();
+    public void favouritepost(FavouriteRequestModel requestModel) {
+        int userid = CurrentUser.getCurrentUser();
+        User user = dataAccess.getUser(userid);
         Post post = dataAccess.getPost(requestModel.getPostId());
 
         // Checking if the user has already favourited this post
@@ -44,14 +48,16 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
             this.unfavourite(post, user);
             updatePostDB(post);
             updateUserDB(user);
-            return new FavouriteResponseModel("This post has been removed from your favourites.");
+            FavouriteResponseModel responseModel = new FavouriteResponseModel(false, true);
+            presenter.present(responseModel);
         }
         // Favouriting post
         else{
             favourite(post, user);
             updatePostDB(post);
             updateUserDB(user);
-            return new FavouriteResponseModel("This post has been successfully added to your favourites!");
+            FavouriteResponseModel responseModel = new FavouriteResponseModel(true, false);
+            presenter.present(responseModel);
         }
     }
     private User getUser(){

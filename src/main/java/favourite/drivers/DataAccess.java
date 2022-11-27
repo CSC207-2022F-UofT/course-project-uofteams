@@ -2,6 +2,7 @@ package favourite.drivers;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import entities.Post;
 import entities.User;
 import favourite.use_case.FavouriteDSGateway;
@@ -9,15 +10,12 @@ import favourite.use_case.PostReaderInterface;
 import favourite.use_case.UserReaderInterface;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 /**
  * The DataAccess class in the driver layer implements FavouriteDataAccessInterface.
@@ -33,22 +31,17 @@ public class DataAccess implements FavouriteDSGateway {
     private final UserReaderInterface userreader;
     // postwriter is used to allow class DataAccess to access PostStringFactory to convert Post
     // entity back into a list of strings to save it in the database in the savePostInfo method
-    private final Path userFilePath;
-    private final Path currentUserFilePath;
-    private final Path postFilePath;
+    private final String partialpath;
     /**
      * Initializes DataAccess
      *
      * @param postreader an instance of PostReaderInterface
      * @param userreader an instance of UserReaderInterface
      */
-    public DataAccess(PostReaderInterface postreader, UserReaderInterface userreader, String userFilePath,
-                      String currentUserFilePath, String postFilePath){
+    public DataAccess(PostReaderInterface postreader, UserReaderInterface userreader, String partialpath){
         this.postreader = postreader;
         this.userreader = userreader;
-        this.userFilePath = Paths.get(userFilePath);
-        this.currentUserFilePath = Paths.get(currentUserFilePath);
-        this.postFilePath = Paths.get(postFilePath);
+        this.partialpath = partialpath;
     }
 
     /**
@@ -56,23 +49,26 @@ public class DataAccess implements FavouriteDSGateway {
      * @return the current user
      */
     @Override
-    public User getUser(){
-        // finding the current user's id
-        List<String[]> currentUser = readAllLines(currentUserFilePath);
-        int userID = Integer.parseInt(currentUser[1][0]);
-
-        // finding and retrieving the current user's data
-        List<String[]> allUsers = readAllLines(userFilePath);
-        String[] userdata;
-        for (String[] user: allUsers){
-            int id = Integer.parseInt(user[0]);
-            if (id==userID) {
-                userdata = user;
+    public User getUser(int userid){
+        try {
+            // finding and retrieving the current user's data
+            List<String[]> allUsers = readAllLines(Paths.get(partialpath+"users.csv"));
+            String[] userdata = new String[6];
+            for (String[] user : allUsers) {
+                int id = Integer.parseInt(user[0]);
+                if (id == userid) {
+                    userdata = user;
+                }
             }
-        }
 
-        // turning the current user's data into a user object
-        return userreader.readUser(userdata);
+            // turning the current user's data into a user object
+            return userreader.readUser(userdata);
+        }catch (IOException e1){
+            System.out.println("Error occurred while accessing file");
+        }catch (CsvException e2){
+            System.out.println("Error occurred while reading file");
+        }
+        return null;
     }
 
     /**
@@ -83,19 +79,26 @@ public class DataAccess implements FavouriteDSGateway {
      */
     @Override
     public Post getPost(int postid){
-        // finding and retrieving the current user's data
-        List<String[]> allPosts = readAllLines(postFilePath);
-        String[] postdata;
-        for (String[] post: allPosts) {
-            try{
-                int id = Integer.parseInt(post[0]);
-                if (id == postid) {
-                    postdata = post;
+        try {
+            // finding and retrieving the current user's data
+            List<String[]> allPosts = readAllLines(Paths.get(partialpath+"posts.csv"));
+            String[] postdata = new String[10];
+            for (String[] post : allPosts) {
+                try {
+                    int id = Integer.parseInt(post[0]);
+                    if (id == postid) {
+                        postdata = post;
+                    }
+                } catch (NumberFormatException ex) {
                 }
-            }catch(NumberFormatException ex){
             }
+            return postreader.readPost(postdata);
+        }catch (IOException e1){
+            System.out.println("Error occurred while accessing file");
+        }catch (CsvException e2){
+            System.out.println("Error occurred while reading file");
         }
-        return postreader.readPost(postdata);
+        return null;
     }
 
     /**
@@ -103,10 +106,12 @@ public class DataAccess implements FavouriteDSGateway {
      * @param path the path of the csv file being read
      * @return all the data from a csv file in a List of String Arrays
      */
-    private List<String[]> readAllLines(Path path){
-        Reader reader = Files.newBufferedReader(path);
-        CSVReader csvReader = new CSVReader(reader);
-        return csvReader.readAll();
+    private List<String[]> readAllLines(Path path) throws IOException, CsvException{
+        try(Reader reader = Files.newBufferedReader(path)){
+            try (CSVReader csvReader = new CSVReader(reader)){
+                return csvReader.readAll();
+            }
+        }
     }
 
     /**
@@ -116,22 +121,29 @@ public class DataAccess implements FavouriteDSGateway {
      */
     @Override
     public void saveUserInfo(String[] updateduser, int userid) {
-        // re-reading all user data
-        List<String[]> userdata = readAllLines(userFilePath);
+        try {
+            Path usersDB = Paths.get(partialpath+"users.csv");
+            // re-reading all user data
+            List<String[]> userdata = readAllLines(usersDB);
 
-        // identifying index of the user in the old data
-        int i = 1; // indexes from 1 because the first line is a header
-        boolean linefound = FALSE;
-        while (i < userdata.size() && linefound==FALSE){
-            int id = Integer.parseInt(userdata[i][0]);
-            if (id == userid){
-                linefound = TRUE;
+            // identifying index of the user in the old data
+            int i = 1; // indexes from 1 because the first line is a header
+            boolean linefound = false;
+            while (i < userdata.size() && linefound == false) {
+                int id = Integer.parseInt(userdata.get(i)[0]);
+                if (id == userid) {
+                    linefound = true;
+                }
+                i += 1;
             }
-            i+=1;
+            userdata.remove(i - 1);
+            userdata.add(updateduser);
+            writeAllLines(usersDB, userdata);
+        }catch (IOException e1){
+            System.out.println("Error occurred while accessing file");
+        }catch (CsvException e2){
+            System.out.println("Error occurred while reading file");
         }
-        userdata.remove(i-1);
-        userdata.add(updateduser);
-        writeAllLines(userFilePath, userdata);
     }
 
     /**
@@ -141,30 +153,40 @@ public class DataAccess implements FavouriteDSGateway {
      */
     @Override
     public void savePostInfo(String[] updatedpost, int postid){
-        // re-reading all post data
-        List<String[]> postdata = readAllLines(postFilePath);
+        try {
+            Path postsDB = Paths.get(partialpath+"posts.csv");
+            // re-reading all post data
+            List<String[]> postdata = readAllLines(postsDB);
 
-        // identifying index of the user in the old data
-        int i = 1; // indexes from 1 because the first line is a header
-        boolean linefound = FALSE;
-        while (i < postdata.size() && linefound==FALSE){
-            int id = Integer.parseInt(postdata[i][0]);
-            if (id == postid){
-                linefound = TRUE;
+            // identifying index of the user in the old data
+            int i = 1; // indexes from 1 because the first line is a header
+            boolean linefound = false;
+            while (i < postdata.size() && linefound == false) {
+                int id = Integer.parseInt(postdata.get(i)[0]);
+                if (id == postid) {
+                    linefound = true;
+                }
+                i += 1;
             }
-            i+=1;
+            postdata.remove(i - 1);
+            postdata.add(updatedpost);
+            writeAllLines(postsDB, postdata);
+        }catch (IOException e1){
+            System.out.println("Error occurred while accessing file");
+        }catch (CsvException e2){
+            System.out.println("Error occurred while writing file");
         }
-        postdata.remove(i-1);
-        postdata.add(updatedpost);
-        writeAllLines(postFilePath, postdata);
+
     }
+
 
     /**
      * Writes all the data into a csv file
      * @param path the path of the csv file being written into
      */
-    private void writeAllLines(Path path, List<String[]> data){
-        CSVWriter writer = new CSVWriter(new FileWriter(path.toString()));
-        writer.writeAll(data);
+    private void writeAllLines(Path path, List<String[]> data) throws IOException, CsvException{
+        try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))){
+            writer.writeAll(data);
+        }
     }
 }

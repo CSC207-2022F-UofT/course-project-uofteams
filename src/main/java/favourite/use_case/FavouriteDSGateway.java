@@ -7,7 +7,7 @@ public interface FavouriteDSGateway {
     /**
      * Returns the User that is trying to favourite this post
      */
-    User getUser();
+    User getUser(int userid);
 
     /**
      * Returns the Post the user is trying to favourite
