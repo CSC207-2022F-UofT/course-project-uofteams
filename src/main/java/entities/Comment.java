@@ -1,9 +1,9 @@
 package entities;
 
-
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
+import java.util.Locale;
 
 /**
  * Comment extends abstract class Postable and inherits all of its
@@ -11,26 +11,29 @@ import java.util.List;
  *
  */
 public class Comment extends Postable{
-    // number of Comments instantiated
-    public static int numComments = 0;
-    // id is the unique identifier of Comment, equal to number of Comments at time of instantiation
-    private final int id;
 
     /**
      * Initializes an instance of Comment.
      *
-     * @param commenter The user that posted this comment.
+     * @param commenterID The user that posted this comment.
      * @param body The text content of the comment.
-     * @param numCommentsCreated The number of comments created in the program so far.
+     * @param id The unique id for this comment
      */
-    public Comment(User commenter, String body, int numCommentsCreated){
-        super.user = commenter;
+    public Comment(int commenterID, String body, int id){
+        super.userID = commenterID;
         super.body = body;
-        super.replies = new ArrayList<>();
-        super.creationDate = new Date();
-        Comment.numComments = numCommentsCreated;
-        Comment.numComments ++;
-        this.id = Comment.numComments;
+        super.creationDate = LocalDate.now();
+        super.id = id;
+    }
+
+    public Comment(int commenterID, String body, int id, String creationDate){
+        super.userID = commenterID;
+        super.body = body;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Locale locale = Locale.getDefault();
+        formatter = formatter.withLocale(locale);  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
+        super.creationDate = LocalDate.parse(creationDate, formatter);
+        super.id = id;
     }
 
     /**
