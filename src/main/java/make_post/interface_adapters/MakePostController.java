@@ -24,18 +24,12 @@ public class MakePostController {
         int numPostsCreated = interactor.getNumPostsCreated();
         int currentUserID = interactor.getCurrentUser();
 
-        //raise an error if deadline is not in the right format.
-        List<String> deadlineList = new ArrayList<>(Arrays.asList(((String) postBody.get("deadline")).split("-")));
         try{
             //converting deadline to LocalDate.
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             formatter.withLocale(Locale.getDefault());
             LocalDate deadline = LocalDate.parse((String) postBody.get("deadline"));
-            if(Integer.parseInt(deadlineList.get(1)) > 12 || Integer.parseInt(deadlineList.get(1)) < 1 || Integer.parseInt(deadlineList.get(2)) > 31
-                    || Integer.parseInt(deadlineList.get(2)) < 1){
-                MakePostResponseModel responseModel = new MakePostResponseModel(false, "Date is not in the correct format.");
-                interactor.getPresenter().updateViewModel(responseModel);
-            }
+
             postBody.put("deadline", deadline);
             postBody.put("numPostsCreated", numPostsCreated);
             postBody.put("poster", currentUserID);

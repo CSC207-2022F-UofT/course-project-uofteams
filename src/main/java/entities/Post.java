@@ -29,10 +29,10 @@ public class Post extends Postable{
      * @param id  unique identifier for this post
      */
     public Post(int posterID, String title, String mainDesc, List<String> tags, String collaborators,
-                LocalDate deadline, int id){
+                LocalDate deadline, int numPostsCreated){
         super.userID = posterID;
         super.body = mainDesc;
-        super.id = id;
+        super.id = numPostsCreated + 1;
         super.creationDate = LocalDate.now();
         this.repliesIDs = new ArrayList<>();
         this.title = title;
