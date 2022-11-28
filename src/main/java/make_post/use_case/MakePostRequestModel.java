@@ -30,56 +30,22 @@ public class MakePostRequestModel {
     public String getTitle() {
         return title;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getMainDesc() {
         return mainDesc;
     }
-
-    public void setMainDesc(String mainDesc) {
-        this.mainDesc = mainDesc;
-    }
-
     public List<String> getTags() {
         return tags;
     }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
     public String getCollaborators() {
         return collaborators;
     }
-
-    public void setCollaborators(String collaborators) {
-        this.collaborators = collaborators;
-    }
-
     public LocalDate getDeadline() {
         return deadline;
     }
-
-    public void setDeadline(LocalDate deadline) {
-        this.deadline = deadline;
-    }
-
     public int getPoster() {
         return poster;
     }
-
-    public void setPoster(int poster) {
-        this.poster = poster;
-    }
-
     public int getNumPostsCreated() {
         return numPostsCreated;
-    }
-
-    public void setNumPostsCreated(int numPostsCreated) {
-        this.numPostsCreated = numPostsCreated;
     }
 }

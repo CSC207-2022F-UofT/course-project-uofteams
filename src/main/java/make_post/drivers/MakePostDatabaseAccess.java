@@ -6,7 +6,6 @@ import make_post.use_case.MakePostDsGateway;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
-import make_post.use_case.make_post_exceptions.MakePostException;
 
 import java.io.*;
 import java.util.*;

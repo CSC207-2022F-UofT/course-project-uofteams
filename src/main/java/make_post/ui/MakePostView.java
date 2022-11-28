@@ -41,7 +41,10 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
         JButton makePostButton = new JButton("Make Post");
         makePostButton.addActionListener(this);
         JScrollPane tagsScroller = new JScrollPane(tagsList);
-        tagsScroller.setPreferredSize(new Dimension(100, 80));
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+        tagsScroller.setPreferredSize(new Dimension((int) width/8, (int) height/10));
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel titleLabel = new JLabel("Enter your post's title: ");
