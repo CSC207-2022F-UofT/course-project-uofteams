@@ -1,6 +1,7 @@
 package entities;
 
 
+
 import java.time.LocalDate;
 
 public abstract class Postable{
@@ -10,6 +11,7 @@ public abstract class Postable{
     // the User who created the Postable
     int userID;
     // the main text content of the Postable
+
     String body;
 
     // the date this Postable was created
