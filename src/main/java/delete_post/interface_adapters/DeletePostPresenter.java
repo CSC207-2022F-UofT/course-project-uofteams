@@ -19,4 +19,5 @@ public class DeletePostPresenter implements DeletePostOutputBoundary{
     public void prepareSuccessView(DeletePostResponseModel responseModel){
         viewModel.updateViewModel();
     }
+    public void prepareTimerView(){}
 }
