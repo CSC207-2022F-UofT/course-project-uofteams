@@ -131,7 +131,7 @@ public class PostTest extends Postable {
     public void removeReply() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
-        Comment comment = new Comment(poster, "Hello!", 1);
+        Comment comment = new Comment(poster, "Hello!", id);
         newPost.addReply(comment);
         newPost.removeReply(comment);
         assertEquals(0, newPost.getReplies().size());
