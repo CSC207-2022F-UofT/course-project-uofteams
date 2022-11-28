@@ -1,15 +1,16 @@
 package view_post.interface_adapters;
 
+import view_post.ui.ViewPostView;
 import view_post.use_case.ViewPostOutputBoundary;
 import view_post.use_case.ViewPostResponseModel;
 
 import java.util.ArrayList;
 
 public class ViewPostPresenter implements ViewPostOutputBoundary {
-    private View view;
+    private ViewPostViewModel viewModel;
 
-    public ViewPostPresenter(View view){
-        this.view = view;
+    public ViewPostPresenter(ViewPostViewModel viewModel){
+        this.viewModel = viewModel;
     }
     @Override
     public void updateActivePost(ViewPostResponseModel responseModel) {
@@ -22,9 +23,9 @@ public class ViewPostPresenter implements ViewPostOutputBoundary {
         String collaborators = responseModel.getCollaborators();
         int postID = responseModel.getPostID();
 
-        ViewPostViewModel viewModel = new ViewPostViewModel(postEmail, postBody, postTags, postReplies, deadline,
+        ViewPostOutputData outputData = new ViewPostOutputData(postEmail, postBody, postTags, postReplies, deadline,
                 creationDate, collaborators, postID);
 
-        this.view.display(viewModel);
+        viewModel.updateView(outputData);
     }
 }

@@ -1,29 +1,43 @@
 package view_post.ui;
 
-import view_post.interface_adapters.View;
+import view_post.interface_adapters.ViewPostOutputData;
 import view_post.interface_adapters.ViewPostViewModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class ViewPostView implements View {
-    private final JPanel viewpostpanel;
+public class ViewPostView extends JPanel implements PropertyChangeListener {
 
+    private ViewPostOutputData data;
     /**
      * Initializes ViewPostView
      */
     public ViewPostView (){
-        this.viewpostpanel = new JPanel();
-        this.viewpostpanel.setSize(600, 680);
+        this.setSize(600, 680);
+        this.data = null;
+    }
+
+    public void setData(ViewPostOutputData data){
+        this.data = data;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent event){
+        try {
+            this.displayPost(this.data);
+        }catch(Exception e){
+            // deal with the case in which data is null
+        }
     }
 
     /**
      * Adds GUI elements for the main post being viewed onto the viewpostpanel (JPanel).
      * @param viewModel
      */
-    @Override
-    public void display(ViewPostViewModel viewModel) {
-        this.viewpostpanel.setLayout(new GridBagLayout());
+    private void displayPost(ViewPostOutputData viewModel) {
+        this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         // adding title

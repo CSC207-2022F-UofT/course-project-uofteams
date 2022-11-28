@@ -1,61 +1,21 @@
 package view_post.interface_adapters;
 
-import java.util.ArrayList;
+import view_post.ui.ViewPostView;
+
+import java.beans.PropertyChangeSupport;
 
 public class ViewPostViewModel {
-    private final String posterEmail;
-    private final String postBody;
-    private final String postTags;
-    private final ArrayList<Integer> postReplies;
-    private final String deadline;
-    private final String creationDate;
-    private final String collaborators;
-    private final int postID;
+    private final PropertyChangeSupport support;
+    private final ViewPostView view;
 
-    public ViewPostViewModel(String posterEmail, String postBody, String postTags, ArrayList<Integer> postReplies,
-                             String deadline, String creationDate, String collaborators, int postID){
-        this.posterEmail = posterEmail;
-        this.postBody = postBody;
-        this.postTags = postTags;
-        this.postReplies = postReplies;
-        this.deadline = deadline;
-        this.creationDate = creationDate;
-        this.collaborators = collaborators;
-        this.postID = postID;
+    public ViewPostViewModel(ViewPostView view){
+        this.support = new PropertyChangeSupport(this);
+        this.view = view;
     }
 
-    // getters
-    public String getPosterEmail(){
-        return this.posterEmail;
+    public void updateView(ViewPostOutputData data){
+        view.setData(data);
+        support.firePropertyChange("show post", null, data);
     }
 
-    public String getPostBody() {
-        return postBody;
-    }
-
-    public String getPostTags(){
-        return this.postTags;
-    }
-
-    public ArrayList<Integer> getPostReplies() {
-        return postReplies;
-    }
-
-    public String getDeadline(){
-        return this.deadline;
-    }
-
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public String getCollaborators() {
-        return collaborators;
-    }
-
-    public int getPostID() {
-        return postID;
-    }
 }
-
-
