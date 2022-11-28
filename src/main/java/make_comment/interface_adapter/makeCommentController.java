@@ -10,7 +10,7 @@ public class makeCommentController {
         this.interactor = interactor;
     }
 
-    public void passToInteractor(String body){
+    public void passToInteractor(String body, int postId){
         int commentId = interactor.getNumCommentCreated();
         int currentUserID = interactor.getCurrentUserID();
         commentId ++;
@@ -19,5 +19,6 @@ public class makeCommentController {
 
         MakeCommentRequestModel makeCommRequestModel = new MakeCommentRequestModel(currentUserID, body, commentId);
         interactor.constructAndSaveComment(makeCommRequestModel);
+        interactor.updatePost(postId);
     }
 }

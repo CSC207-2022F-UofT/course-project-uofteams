@@ -8,6 +8,6 @@ public interface MakeCommentInputBoundary {
     int getCurrentUserID();
     int getNumCommentCreated();
 
-    void updatePost(MakeCommentRequestModel mCRM);
+    void updatePost(int postId);
 
 }

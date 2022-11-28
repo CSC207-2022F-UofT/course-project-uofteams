@@ -10,11 +10,17 @@ public class MakeCommentResponseModel {
     /*
      * Initializes the SignUpResponseModel
      *
-     * @param creationSuccess boolean representation of whether user was successfully created
+     * @param creationSuccess boolean representation of whether Comment was successfully created
      * @param message String rep of the error
      * */
     public MakeCommentResponseModel(boolean creation, String errorMessage) {
         this.creationSuccess = creation;
         this.errorMessage = errorMessage;
+    }
+    public boolean isCreationSuccess(){
+        return creationSuccess;
+    }
+    public String getErrorMessage(){
+        return this.errorMessage;
     }
 }

@@ -120,6 +120,12 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
     }
 
     @Override
+    public Map<String, String> getCurrentPost() {
+        return null;
+    }
+
+
+    @Override
     public int getCurrentPostID() {
         return 0;
     }

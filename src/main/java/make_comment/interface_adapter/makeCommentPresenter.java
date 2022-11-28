@@ -12,8 +12,13 @@ public class makeCommentPresenter implements MakeCommentOutputBoundary {
 
     @Override
     public void present(MakeCommentResponseModel responseModel) {
-        //passes info prom responseModel to view
-
+        if (responseModel.isCreationSuccess()) {
+            viewModel.updateViewModel(responseModel.isCreationSuccess(),
+                    responseModel.getErrorMessage());
+        } else {
+            viewModel.updateViewModel(responseModel.isCreationSuccess(),
+                    responseModel.getErrorMessage());
+        }
 
     }
 }

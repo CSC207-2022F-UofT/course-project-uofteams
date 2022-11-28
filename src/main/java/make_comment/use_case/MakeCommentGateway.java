@@ -15,6 +15,8 @@ public interface MakeCommentGateway {
 
     Map<String, String> getCurrentUser();
 
+    Map<String, String> getCurrentPost();
+
     int getCurrentPostID();
 
 }

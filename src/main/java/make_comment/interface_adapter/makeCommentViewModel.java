@@ -10,11 +10,13 @@ public class makeCommentViewModel {
         this.observable = new PropertyChangeSupport(this);
     }
 
-    public void addObserver(PropertyChangeListener observer){
-        this.observable.addPropertyChangeListener("Log Out", observer);
+    public void addObserver(PropertyChangeListener observer) {
+        this.observable.addPropertyChangeListener("creation success", observer);
+        this.observable.addPropertyChangeListener("creation failure", observer);
     }
 
-    public void updateViewModel(LogOutPresenterData presenterData){
-        observable.firePropertyChange("Log Out", "", presenterData.isSuccess());
+    public void updateViewModel(boolean creationSuccess, String errorMessage) {
+        observable.firePropertyChange("creation success", false, creationSuccess);
+        observable.firePropertyChange("creation failure", "", errorMessage);
     }
 }

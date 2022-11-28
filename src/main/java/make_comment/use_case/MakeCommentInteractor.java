@@ -1,6 +1,7 @@
 package make_comment.use_case;
 
 import entities.Comment;
+import entities.Post;
 import make_comment.driver.MakeCommentDatabaseAccess;
 
 import java.util.Date;
@@ -43,20 +44,7 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
     }
 
     @Override
-    public void updatePost(MakeCommentRequestModel mCRM) {
-        int userId = mCRM.getUserId();
-        String body = mCRM.getCommentBody();
-        int commentId = mCRM.getSelfId();
-        Comment thisComment = CommentFactory.makeComment(userId, body, commentId);
-        String stringCreationDate = thisComment.getCreationDate().toString();
-        Date creationDate = new Date();
-        Map<String, String> saveFormat = new HashMap<>();
-        saveFormat.put("commentID", Integer.toString(commentId));
-        saveFormat.put("commenterID", Integer.toString(userId));
-        saveFormat.put("body", body);
-        saveFormat.put("creationDate", stringCreationDate);
-        this.dataAccess.saveComment(saveFormat);
-        this.dataAccess.setNumComments(this.getNumCommentCreated() + 1);
+    public void updatePost(int postId) {
 
     }
 }
