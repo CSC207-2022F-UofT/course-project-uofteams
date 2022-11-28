@@ -97,7 +97,6 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("creation failure")) {
             JFrame errorFrame = new JFrame("Error");
-            errorFrame.setVisible(true);
             switch ((String) evt.getNewValue()) {
                 case ("Deadline more than 6 months away or in the past"):
                     JOptionPane.showMessageDialog(errorFrame, "Deadline more than 6 months away or in the past",
