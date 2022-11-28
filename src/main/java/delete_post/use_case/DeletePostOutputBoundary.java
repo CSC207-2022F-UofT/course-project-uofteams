@@ -1,6 +1,7 @@
 package delete_post.use_case;
 
 public interface DeletePostOutputBoundary {
-    void prepareFailView(String error);
+    void prepareFailView();
     void prepareSuccessView(DeletePostResponseModel responseModel);
+    void prepareTimerView(DeletePostResponseModel responseModel);
 }

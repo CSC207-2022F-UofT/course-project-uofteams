@@ -1,37 +1,37 @@
 package delete_post.use_case;
 
 import delete_post.interface_adapters.DeletePostPresenter;
-import entities.User;
 
 public class DeletePostInteractor implements DeletePostInputBoundary{
 
-    private final DeletePostPresenter presenter;
+    private final DeletePostOutputBoundary outputBoundary;
     private final DeletePostDsGateway dataAccess;
 
-    public DeletePostInteractor(DeletePostPresenter presenter, DeletePostDsGateway dataAccess){
-        this.presenter = presenter;
+    public DeletePostInteractor(DeletePostOutputBoundary outputBoundary, DeletePostDsGateway dataAccess){
+        this.outputBoundary = outputBoundary;
         this.dataAccess = dataAccess;
     }
 
     @Override
     public void delete(DeletePostRequestModel requestModel){
-        if (requestModel.getIsTimer() || requestModel.getIsAdmin() ||
-                requestModel.getUser() == (requestModel.getPostUser())){
+        if (requestModel.getIsTimer()){
+            DeletePostResponseModel responseModel = new DeletePostResponseModel(requestModel.getPostId());
+
+            this.dataAccess.removeFavourites(requestModel.getPostId());
+            this.dataAccess.deletePost(requestModel.getPostId());
+            this.outputBoundary.prepareTimerView(responseModel);
+        }
+        else if (requestModel.getIsAdmin() ||
+                requestModel.getUserId() == this.dataAccess.getPostUser(requestModel.getPostId())){
             // delete post
-            DeletePostResponseModel responseModel = new DeletePostResponseModel(requestModel.getPost());
+            DeletePostResponseModel responseModel = new DeletePostResponseModel(requestModel.getPostId());
 
-            for (User favouriteId: responseModel.getFavourites()){
-                this.dataAccess.removeFavourite(responseModel.getId(), favouriteId);
+            this.dataAccess.removeFavourites(requestModel.getPostId());
+            this.dataAccess.deletePost(requestModel.getPostId());
+            this.outputBoundary.prepareSuccessView(responseModel);
             }
-
-            for (String tag: responseModel.getTags()){
-                this.dataAccess.removeTag(responseModel.getId(), tag);
-            }
-
-            this.dataAccess.deletePost(responseModel.getId());
-            this.presenter.prepareSuccessView(responseModel);
-            }
-
-        this.presenter.prepareFailView("You do not have permission to delete this post.");
+        else{
+            this.outputBoundary.prepareFailView();
+        }
     }
 }

@@ -1,10 +1,8 @@
 package delete_post.use_case;
 
-import java.util.List;
-
 public interface DeletePostDsGateway {
 
-    void removeFavourite(int postId, int userId)
-    void removeTag(int postId, String tag);
+    void removeFavourites(int postId);
     void deletePost(int postId);
+    int getPostUser(int postId);
 }

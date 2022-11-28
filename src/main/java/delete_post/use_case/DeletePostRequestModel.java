@@ -2,31 +2,23 @@ package delete_post.use_case;
 
 import entities.CurrentUser;
 import entities.User;
-import entities.Post;
 
 public class DeletePostRequestModel {
-    private Post post;
+    int postId;
     private boolean isAdmin = CurrentUser.getIsAdmin();
     private User currentUser = CurrentUser.getCurrentUser();
     private boolean isTimer;
 
-    public DeletePostRequestModel(Post post){
-        this.post = post;
-        this.isTimer = false;
-    }
-    public DeletePostRequestModel(Post post, boolean isTimer){
-        this.post = post;
+    public DeletePostRequestModel(int postId, boolean isTimer){
+        this.postId = postId;
         this.isTimer = isTimer;
     }
 
-    public Post getPost(){
-        return this.post;
+    public int getPostId(){
+        return this.postId;
     }
-    public User getPostUser(){
-        return this.post.getUser();
-    }
-    public User getUser(){
-        return this.currentUser;
+    public int getUserId(){
+        return this.currentUser.getId();
     }
     public boolean getIsAdmin(){
         return this.isAdmin;
