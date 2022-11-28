@@ -17,6 +17,11 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
     public ViewPostView (){
         this.setSize(600, 680);
         this.data = null;
+
+        // displaying default message
+        this.setLayout(new BorderLayout());
+        JLabel defaultMessage = new JLabel("Please select a post to view!");
+        this.add(defaultMessage, BorderLayout.CENTER);
     }
 
     public void setData(ViewPostOutputData data){
@@ -33,10 +38,28 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
     }
 
     /**
+     * Clears the panel of all visual elements.
+     */
+    private void clearPanel(){this.removeAll();}
+
+    /**
+     * Default view when the view is first called or when there are no posts to show
+     */
+    private void displayDefault(){
+        this.clearPanel();
+        this.setLayout(new BorderLayout());
+        JLabel defaultMessage = new JLabel("Please select a post to view!");
+        this.add(defaultMessage, BorderLayout.CENTER);
+    }
+
+    /**
      * Adds GUI elements for the main post being viewed onto the viewpostpanel (JPanel).
      * @param viewModel
      */
     private void displayPost(ViewPostOutputData viewModel) {
+        // clearing panel
+        this.clearPanel();
+
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
@@ -50,7 +73,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 0;
         c.gridy = 0;
-        this.viewpostpanel.add(title, c);
+        this.add(title, c);
 
         // adding blank buffer
         JLabel buffer1 = new JLabel();
@@ -58,7 +81,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 2;
         c.gridy = 0;
-        this.viewpostpanel.add(buffer1, c);
+        this.add(buffer1, c);
 
         // adding favourite button
         FavouritePostView favouriteButton = new FavouritePostView(viewModel.getPostID());
@@ -66,7 +89,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 3;
         c.gridy = 0;
-        this.viewpostpanel.add(favouriteButton, c);
+        this.add(favouriteButton, c);
 
         // adding blank buffer
         JLabel buffer2 = new JLabel();
@@ -74,7 +97,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 0;
         c.gridy = 1;
-        this.viewpostpanel.add(buffer2, c);
+        this.add(buffer2, c);
 
         // adding tags
         JLabel tags;
@@ -87,7 +110,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 0;
         c.gridy = 2;
-        this.viewpostpanel.add(tags, c);
+        this.add(tags, c);
 
         // adding poster email
         JLabel posterEmail = new JLabel("Post by: " + viewModel.getPosterEmail());
@@ -95,7 +118,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 0;
         c.gridy = 3;
-        this.viewpostpanel.add(posterEmail, c);
+        this.add(posterEmail, c);
 
         // adding collaborators
         JLabel collab;
@@ -108,7 +131,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 0;
         c.gridy = 4;
-        this.viewpostpanel.add(collab, c);
+        this.add(collab, c);
 
         // adding creation date
         JLabel creationDate = new JLabel("Post created on: " + viewModel.getCreationDate());
@@ -116,7 +139,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 0;
         c.gridy = 5;
-        this.viewpostpanel.add(creationDate, c);
+        this.add(creationDate, c);
 
         // adding expiry date
         JLabel deadline = new JLabel("Post expires on: " + viewModel.getDeadline());
@@ -124,7 +147,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 0;
         c.gridy = 6;
-        this.viewpostpanel.add(deadline, c);
+        this.add(deadline, c);
 
         // adding buffer
         JLabel buffer3 = new JLabel();
@@ -132,7 +155,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 0;
         c.gridy = 7;
-        this.viewpostpanel.add(buffer3, c);
+        this.add(buffer3, c);
 
         // adding main description
         JTextArea body = new JTextArea(viewModel.getPostBody());
@@ -144,7 +167,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 4;
         c.gridx = 0;
         c.gridy = 8;
-        this.viewpostpanel.add(description, c);
+        this.add(description, c);
 
         // adding view comment button, update later to integrate with view/post comment UC
         JButton viewcomments = new JButton("View Comments");
@@ -152,7 +175,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 1;
         c.gridy = 14;
-        this.viewpostpanel.add(viewcomments, c);
+        this.add(viewcomments, c);
 
         // adding delete post button, update later to integrate with delete UC
         JButton delete = new JButton("Delete Post");
@@ -160,11 +183,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridheight = 1;
         c.gridx = 1;
         c.gridy = 15;
-        this.viewpostpanel.add(delete, c);
-    }
-
-    public JPanel getViewPostPanel(){
-        return this.viewpostpanel;
+        this.add(delete, c);
     }
 
 }
