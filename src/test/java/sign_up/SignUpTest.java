@@ -67,6 +67,7 @@ public class SignUpTest {
             public String getAdminPassword() {
                 return "123";
             }
+
         };
     }
 
