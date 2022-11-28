@@ -1,7 +1,6 @@
 package view_post.ui;
 
 import view_post.interface_adapters.ViewPostOutputData;
-import view_post.interface_adapters.ViewPostViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -83,8 +82,8 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridy = 0;
         this.add(buffer1, c);
 
-        // adding favourite button
-        FavouritePostView favouriteButton = new FavouritePostView(viewModel.getPostID());
+        // adding favourite button, update later to integrate with favourite uc
+        JButton favouriteButton = new JButton("Favourite");
         c.gridwidth = 1;
         c.gridheight = 1;
         c.gridx = 3;
