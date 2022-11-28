@@ -112,7 +112,7 @@
 //
 //        List<Integer> actualFavourtiedUsers = post1.getFavouritedUsers();
 //        List<Integer> expectedFavouriteUsers = new ArrayList<>();
-//        expectedFavouriteUsers.add(4);
+        expectedFavouriteUsers.add(4);
 //
 //        List<Integer> actualFavouritePosts = user1.getFavourites();
 //        List<Integer> expectedFavouritePosts = new ArrayList<>();

@@ -20,28 +20,31 @@ public class PostFactory implements PostReaderInterface{
     @Override
     public Post readPost(String[] postdata) {
         // converting string data into acceptable types to reconstruct a Post object
+
+        // posterID
         int posterID = Integer.parseInt(postdata[1]);
+        // title
         String title = postdata[2];
+        // mainDesc
         String mainDesc = postdata[3];
+        // tags
         String[] tagarray = postdata[4].split(" ");
         List<String> tags = new ArrayList<>();
         for (String tag : tagarray) {
             tags.add(tag);
         }
+        //collaborators
         String collaborators = postdata[5];
-        // creating LocalDate object for deadline
-        String[] deadlineElements = postdata[6].split(" ");
-        int year1 = Integer.parseInt(deadlineElements[0]);
-        int month1 = Integer.parseInt(deadlineElements[1]);
-        int day1 = Integer.parseInt(deadlineElements[2]);
-        LocalDate deadline = LocalDate.of(year1, month1, day1);
-        // creating LocalDate object for creationDate
-        String[] cdElements = postdata[7].split(" ");
-        int year2 = Integer.parseInt(cdElements[0]);
-        int month2 = Integer.parseInt(cdElements[1]);
-        int day2 = Integer.parseInt(cdElements[2]);
-        LocalDate creationDate = LocalDate.of(year2, month2, day2);
+
+        // deadline
+        LocalDate deadline = LocalDate.parse(postdata[6]);
+
+        // creationDate
+        LocalDate creationDate = LocalDate.parse(postdata[7]);
+
+        // id
         int id = Integer.parseInt(postdata[0]);
+
         // creating a List of Integers of ids of the Users who favourited this Post
         String[] favids = postdata[8].split(" ");
         List<Integer> favouritedUsersIDs = new ArrayList<>();

@@ -54,7 +54,7 @@ public class FavouriteView extends JPanel implements ActionListener, PropertyCha
         if (event.getPropertyName().equals("favourited")){
             JOptionPane.showMessageDialog(updateFrame, "This post has been successfully added to " +
                     "your favourites!");
-        }else{
+        }else if (event.getPropertyName().equals("unfavourited")){
             JOptionPane.showMessageDialog(updateFrame, "This post has been removed from your favourites.");
         }
     }

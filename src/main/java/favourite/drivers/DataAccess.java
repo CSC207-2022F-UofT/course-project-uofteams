@@ -5,7 +5,7 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import entities.Post;
 import entities.User;
-import favourite.use_case.FavouriteDSGateway;
+import favourite.use_case.FavouriteDsGateway;
 import favourite.use_case.PostReaderInterface;
 import favourite.use_case.UserReaderInterface;
 
@@ -22,26 +22,27 @@ import java.util.List;
  * The main functionality of this class is retrieving and saving data to/from the database.
  */
 
-public class DataAccess implements FavouriteDSGateway {
+public class DataAccess implements FavouriteDsGateway {
     // postreader is used to allow class DataAccess to access PostFactory to convert data into
     // Post entity in getPost method
-    private final PostReaderInterface postreader;
+    private final PostReaderInterface postReader;
     // userreader is used to allow class DataAccess to access UserFactory to convert data into
     // User entity in getUser method
-    private final UserReaderInterface userreader;
+    private final UserReaderInterface userReader;
     // partialpath is a String that contains the partial directory that leads to all csv files in the program
     // it is isolated from the file name so that in case the file is moved, the code is still compatible
-    private final String partialpath;
+    private final String partialPath;
     /**
      * Initializes DataAccess
      *
-     * @param postreader an instance of PostReaderInterface
-     * @param userreader an instance of UserReaderInterface
+     * @param postReader an instance of PostReaderInterface
+     * @param userReader an instance of UserReaderInterface
+     * @param partialPath the partial path to database files
      */
-    public DataAccess(PostReaderInterface postreader, UserReaderInterface userreader, String partialpath){
-        this.postreader = postreader;
-        this.userreader = userreader;
-        this.partialpath = partialpath;
+    public DataAccess(PostReaderInterface postReader, UserReaderInterface userReader, String partialPath){
+        this.postReader = postReader;
+        this.userReader = userReader;
+        this.partialPath = partialPath;
     }
 
     /**
@@ -52,7 +53,7 @@ public class DataAccess implements FavouriteDSGateway {
     public User getUser(int userid){
         try {
             // finding and retrieving the current user's data
-            List<String[]> allUsers = readAllLines(Paths.get(partialpath+"users.csv"));
+            List<String[]> allUsers = readAllLines(Paths.get(partialPath+"users.csv"));
             String[] userdata = new String[6];
             for (String[] user : allUsers) {
                 int id = Integer.parseInt(user[0]);
@@ -62,7 +63,7 @@ public class DataAccess implements FavouriteDSGateway {
             }
 
             // turning the current user's data into a user object
-            return userreader.readUser(userdata);
+            return userReader.readUser(userdata);
         }catch (IOException e1){
             System.out.println("Error occurred while accessing file");
         }catch (CsvException e2){
@@ -81,7 +82,7 @@ public class DataAccess implements FavouriteDSGateway {
     public Post getPost(int postid){
         try {
             // finding and retrieving the current user's data
-            List<String[]> allPosts = readAllLines(Paths.get(partialpath+"posts.csv"));
+            List<String[]> allPosts = readAllLines(Paths.get(partialPath+"posts.csv"));
             String[] postdata = new String[10];
             for (String[] post : allPosts) {
                 try {
@@ -92,7 +93,7 @@ public class DataAccess implements FavouriteDSGateway {
                 } catch (NumberFormatException ex) {
                 }
             }
-            return postreader.readPost(postdata);
+            return postReader.readPost(postdata);
         }catch (IOException e1){
             System.out.println("Error occurred while accessing file");
         }catch (CsvException e2){
@@ -122,7 +123,7 @@ public class DataAccess implements FavouriteDSGateway {
     @Override
     public void saveUserInfo(String[] updateduser, int userid) {
         try {
-            Path usersDB = Paths.get(partialpath+"users.csv");
+            Path usersDB = Paths.get(partialPath+"users.csv");
             // re-reading all user data
             List<String[]> userdata = readAllLines(usersDB);
 
@@ -154,7 +155,7 @@ public class DataAccess implements FavouriteDSGateway {
     @Override
     public void savePostInfo(String[] updatedpost, int postid){
         try {
-            Path postsDB = Paths.get(partialpath+"posts.csv");
+            Path postsDB = Paths.get(partialPath+"posts.csv");
             // re-reading all post data
             List<String[]> postdata = readAllLines(postsDB);
 

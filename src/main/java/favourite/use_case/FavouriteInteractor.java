@@ -12,7 +12,7 @@ import java.util.List;
  * with the entities and ultimately send information back out into the UI.
  */
 public class FavouriteInteractor implements FavouriteInputBoundary{
-    private final FavouriteDSGateway dataAccess;
+    private final FavouriteDsGateway dataAccess;
     private final FavouriteOutputBoundary presenter;
 
     /**
@@ -20,7 +20,7 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
      *
      * @param dataAccess tells the FavouriteInteractor which post is being favourited/unfavourited
      */
-    public FavouriteInteractor(FavouriteDSGateway dataAccess, FavouriteOutputBoundary presenter){
+    public FavouriteInteractor(FavouriteDsGateway dataAccess, FavouriteOutputBoundary presenter){
         this.dataAccess = dataAccess;
         this.presenter = presenter;
     }
@@ -32,7 +32,7 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
      */
     @Override
     public void favouritepost(FavouriteRequestModel requestModel) {
-        int userid = CurrentUser.getCurrentUser();
+        int userid = CurrentUser.getCurrentUser().getId();
         User user = dataAccess.getUser(userid);
         Post post = dataAccess.getPost(requestModel.getPostId());
 
@@ -176,10 +176,8 @@ public class FavouriteInteractor implements FavouriteInputBoundary{
         String collaborators = post.getCollaborators();
 
         String deadline = post.getDeadline().toString();
-        deadline.replace("-", " ");
 
         String creationDate = post.getCreationDate().toString();
-        creationDate.replace("-", " ");
 
         String favouritedUsersIDs = "";
         List<Integer> favUsers = post.getFavouritedUsers();
