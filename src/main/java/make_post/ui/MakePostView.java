@@ -93,6 +93,13 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
         makePostController.passToMakePostInteractor(postBody);
     }
 
+    /**
+     * The view observes the view model. When a property change is fired, this method defines how to react.
+     * When the post fails to be created, the appropriate error popup is shown. Upon creation success, the
+     * window is closed and the main view is opened again and refreshed.
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("creation failure")) {
@@ -105,6 +112,7 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
                 case ("Date is not in the correct format."):
                     JOptionPane.showMessageDialog(errorFrame, "Date is not in the correct format.",
                             "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
             }
         }
     }

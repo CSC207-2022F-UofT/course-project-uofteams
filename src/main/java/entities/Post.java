@@ -1,6 +1,5 @@
 package entities;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -26,7 +25,7 @@ public class Post extends Postable{
      * @param tags the tags this Post is added to.
      * @param collaborators a description of the type of the collaborators the User who posted this Posts is looking for.
      * @param deadline the date on which the Post is to be deleted from the database.
-     * @param id  unique identifier for this post
+     * @param numPostsCreated  the number of posts created so far. This value is used to assign an id to this post.
      */
     public Post(int posterID, String title, String mainDesc, List<String> tags, String collaborators,
                 LocalDate deadline, int numPostsCreated){

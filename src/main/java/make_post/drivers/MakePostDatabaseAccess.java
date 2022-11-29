@@ -12,10 +12,19 @@ import java.util.*;
 
 public class MakePostDatabaseAccess implements MakePostDsGateway {
     private final String filepath;
+
+    /**
+     * Initialise a MakePostDatabaseAccess object. It is responsible for retrieving and rewriting data in the db.
+     * @param filepath  the file path from the repository root up until the file name.
+     */
     public MakePostDatabaseAccess(String filepath){
         this.filepath = filepath;
-
     }
+
+    /**
+     * Gets the number of posts made from the db.
+     * @return number of posts.
+     */
     @Override
     public int getNumberOfPosts(){
         String filePath = filepath + "numPostsCreated.csv";
@@ -27,16 +36,19 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
             csvReader.close();
             return numPostsCreated;
         } catch (IOException e) {
-            System.out.println("Either wrong path or file has not been formatted correctly. ");
+            System.out.println("Either wrong path or file has not been formatted correctly.");
             return 0;
         }
     }
 
+    /**
+     * Updates the number of posts created so far when a new post is made.
+     * @param newNumPostsCreated the new number of posts.
+     */
     @Override
     public void setNumberOfPosts(int newNumPostsCreated) {
         String filePath = filepath + "numPostsCreated.csv";
         File file = new File(filePath);
-
         try {
             FileReader fileReader = new FileReader(file);
             CSVReader csvReader = new CSVReader(fileReader);
@@ -55,6 +67,10 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
         }
     }
 
+    /**
+     * Saves a new post to the database.
+     * @param postAttributes The attributes of the new post.
+     */
     @Override
     public void savePost(Map<String, String> postAttributes) {
         String filePath = filepath + "posts.csv";
@@ -90,6 +106,10 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
 
     }
 
+    /**
+     * Gets current user from db.
+     * @return current user.
+     */
     @Override
     public int getCurrentUser() {
         String filePath = filepath + "currentUser.csv";
@@ -107,6 +127,11 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
         }
     }
 
+    /**
+     * Removes empty lines from the table. Sometimes, the csvWriter adds empty rows.
+     * @param csvBody the table to be updated.
+     * @return a new table without the empty lines.
+     */
     private List<String[]> removeEmptyLines(List<String[]> csvBody){
         List<String[]> newCsvBody = new LinkedList<>();
         for(String[] entry : csvBody){
