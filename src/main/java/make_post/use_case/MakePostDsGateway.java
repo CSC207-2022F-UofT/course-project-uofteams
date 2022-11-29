@@ -23,8 +23,4 @@ public interface MakePostDsGateway {
      */
     void savePost(Map<String, String> postAttributes);
 
-    /**
-     * @return current user's ID from db
-     */
-    int getCurrentUser();
 }

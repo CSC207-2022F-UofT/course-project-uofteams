@@ -107,27 +107,6 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
     }
 
     /**
-     * Gets current user from db.
-     * @return current user.
-     */
-    @Override
-    public int getCurrentUser() {
-        String filePath = filepath + "currentUser.csv";
-        File file = new File(filePath);
-        try {
-            FileReader fileReader = new FileReader(file);
-            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
-            String[] currentUserArray = csvReader.peek();
-            int currentUser = Integer.parseInt(currentUserArray[0]);
-            csvReader.close();
-            return currentUser;
-        } catch (IOException e) {
-            System.out.println("Wrong file.");
-            return 0;
-        }
-    }
-
-    /**
      * Removes empty lines from the table. Sometimes, the csvWriter adds empty rows.
      * @param csvBody the table to be updated.
      * @return a new table without the empty lines.

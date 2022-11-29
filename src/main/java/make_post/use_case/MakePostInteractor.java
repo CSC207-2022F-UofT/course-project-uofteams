@@ -50,10 +50,10 @@ public class MakePostInteractor implements MakePostInputBoundary {
         Map<String, String> postAttributes = constructPostAttributes(newPost);
 
         try{
+            MakePostResponseModel responseModel = this.makePostHelper(requestModel);
             this.dataAccess.savePost(postAttributes);
             //increase number of posts by 1
             this.dataAccess.setNumberOfPosts(this.dataAccess.getNumberOfPosts() + 1);
-            MakePostResponseModel responseModel = this.makePostHelper(requestModel);
             this.presenter.updateViewModel(responseModel);
             //go back to the main view
             //close the MakePostView!
