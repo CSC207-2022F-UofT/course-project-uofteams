@@ -71,6 +71,11 @@ public class MakePostInteractor implements MakePostInputBoundary {
         return CurrentUser.getCurrentUser().getId();
     }
 
+    @Override
+    public MakePostOutputBoundary getPresenter() {
+        return this.presenter;
+    }
+
     /**
      * @return the number of posts created so far.
      */

@@ -17,4 +17,9 @@ public interface MakePostInputBoundary {
      * @return the current user's id
      */
     int getCurrentUser();
+
+    /**
+     * @return the presenter used in the interactor.
+     */
+    MakePostOutputBoundary getPresenter();
 }
