@@ -46,11 +46,10 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
     }
 
     /**
-     *
+     * Updates the scrollable list of posts. When there are no posts to display, the default view is presented.
      * (Discalimer : this method depends on the indices of titles and ids to match exactly)
      */
-    // return to private once testing is done
-    public void displayList(String[] titles, int[] ids){
+    private void displayList(String[] titles, int[] ids){
         this.titles = titles;
         this.ids = ids;
         this.postList.removeAll();

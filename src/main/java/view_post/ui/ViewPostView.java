@@ -55,8 +55,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
      * Adds GUI elements for the main post being viewed onto the viewpostpanel (JPanel).
      * @param viewModel
      */
-    // return to private after testing
-    public void displayPost(ViewPostOutputData viewModel) {
+    private void displayPost(ViewPostOutputData viewModel) {
         // clearing panel
         this.clearPanel();
 
