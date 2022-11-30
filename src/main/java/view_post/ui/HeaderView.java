@@ -1,7 +1,5 @@
 package view_post.ui;
 
-import com.sun.net.httpserver.Headers;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +8,7 @@ public class HeaderView {
 
     public HeaderView(){
         this.headerpanel = new JPanel();
-        this.headerpanel.setSize(900,120);
+        this.headerpanel.setPreferredSize(new Dimension(900, 120));
         this.headerpanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 

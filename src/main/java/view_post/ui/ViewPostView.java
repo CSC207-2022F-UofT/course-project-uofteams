@@ -14,7 +14,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
      * Initializes ViewPostView
      */
     public ViewPostView (){
-        this.setSize(600, 680);
+        this.setPreferredSize(new Dimension(600, 680));
         this.data = null;
 
         // displaying default message
@@ -55,7 +55,8 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
      * Adds GUI elements for the main post being viewed onto the viewpostpanel (JPanel).
      * @param viewModel
      */
-    private void displayPost(ViewPostOutputData viewModel) {
+    // return to private after testing
+    public void displayPost(ViewPostOutputData viewModel) {
         // clearing panel
         this.clearPanel();
 
@@ -64,11 +65,11 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
 
         // adding title
         JTextArea title = new JTextArea();
-        // title.setText(viewModel.getTitle()); we need to add title
+        title.setText(viewModel.getTitle());
         title.setEditable(false);
-        title.setLineWrap(true);
+        title.setLineWrap(false);
         title.setFont(new Font("Serif", Font.BOLD, 20));
-        c.gridwidth = 2;
+        c.gridwidth = 3;
         c.gridheight = 1;
         c.gridx = 0;
         c.gridy = 0;

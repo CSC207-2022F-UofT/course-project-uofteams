@@ -1,7 +1,5 @@
 package view_post.use_case;
 
-import com.sun.jdi.IntegerValue;
-
 import java.util.ArrayList;
 
 /**
@@ -16,6 +14,7 @@ public class ViewPostResponseModel {
     private final String creationDate;
     private final String collaborators;
     private final int postID;
+    private final String title;
 
     /**
      * Initialize a ViewPostResponseModel object.
@@ -26,7 +25,7 @@ public class ViewPostResponseModel {
      * @param deadline      The string representation of the deadline of this post.
      */
     public ViewPostResponseModel(String posterEmail, String postBody, String[] postTags, String[] postReplies,
-                                 String deadline, String creationDate, String collaborators, int postID) {
+                                 String deadline, String creationDate, String collaborators, int postID, String title) {
         this.posterEmail = posterEmail;
         this.postBody = postBody;
         String tags = "";
@@ -44,6 +43,7 @@ public class ViewPostResponseModel {
         this.creationDate = creationDate;
         this.collaborators = collaborators;
         this.postID = postID;
+        this.title = title;
     }
 
     /**
@@ -101,6 +101,11 @@ public class ViewPostResponseModel {
     public int getPostID() {
         return postID;
     }
+
+    /**
+     * Return the string representation of the title of the Post.
+     */
+    public String getTitle() { return title; }
 
 
 }

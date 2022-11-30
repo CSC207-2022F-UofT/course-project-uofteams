@@ -1,6 +1,5 @@
 package view_post.interface_adapters;
 
-import view_post.ui.ViewPostView;
 import view_post.use_case.ViewPostOutputBoundary;
 import view_post.use_case.ViewPostResponseModel;
 
@@ -22,9 +21,10 @@ public class ViewPostPresenter implements ViewPostOutputBoundary {
         String creationDate = responseModel.getCreationDate();
         String collaborators = responseModel.getCollaborators();
         int postID = responseModel.getPostID();
+        String title = responseModel.getTitle();
 
         ViewPostOutputData outputData = new ViewPostOutputData(postEmail, postBody, postTags, postReplies, deadline,
-                creationDate, collaborators, postID);
+                creationDate, collaborators, postID, title);
 
         viewModel.updateView(outputData);
     }
