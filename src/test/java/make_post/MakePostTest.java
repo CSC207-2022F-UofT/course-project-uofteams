@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 /**
- * Tests the Make Post use case.
+ * Tests the make_post use case.
  * Test coverage by lines:
  * drivers: 88%
  * interface_adapters: 93%
