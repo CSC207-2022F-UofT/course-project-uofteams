@@ -1,6 +1,8 @@
 package deadline_timer.use_case;
 
-import entities.CurrentUser;
+import delete_post.use_case.DeletePostInputBoundary;
+import delete_post.use_case.DeletePostInteractor;
+import delete_post.use_case.DeletePostRequestModel;
 import entities.Post;
 
 import java.time.LocalDate;
@@ -11,16 +13,11 @@ import java.util.Set;
 
 public class TimerInteractor implements TimerInputBoundary{
     private final TimerDSGateway dataAccess;
-
-    private final TimerOutputBoundary outputBoundary;
-
     private final List<Integer> expiredPosts;
-    private final DeletePostInteractor deletePostInteractor;
+    private final DeletePostInputBoundary deletePostInteractor;
 
-    public TimerInteractor(TimerDSGateway dataAccess, TimerOutputBoundary outputBoundary,
-                           DeletePostInteractor deleteInteractor) {
+    public TimerInteractor(TimerDSGateway dataAccess, DeletePostInputBoundary deleteInteractor) {
         this.dataAccess = dataAccess;
-        this.outputBoundary = outputBoundary;
         this.expiredPosts = new ArrayList<Integer>();
         this.deletePostInteractor = deleteInteractor;
     }
@@ -32,11 +29,6 @@ public class TimerInteractor implements TimerInputBoundary{
         checkDates(postHashMap, requestModel.date);
 
         deletePosts(postHashMap);
-
-        boolean refresh = !this.expiredPosts.isEmpty();
-
-        TimerResponseModel responseModel = new TimerResponseModel(refresh);
-        this.outputBoundary.present(responseModel);
     }
 
     /*
