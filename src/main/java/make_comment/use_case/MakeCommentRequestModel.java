@@ -12,6 +12,9 @@ public class MakeCommentRequestModel {
     // id of this comment
     private int id;
 
+    // id of the post this comment is associated to
+    private int postId;
+
 
     /*
      * Initializes a SignUpResponseModel
@@ -21,10 +24,11 @@ public class MakeCommentRequestModel {
      * @param checkAdmin boolean rep of whether to check adminPassword
      * @param adminPassword String rep of admin password to check
      */
-    public MakeCommentRequestModel(int userId, String body, int id) {
+    public MakeCommentRequestModel(int userId, String body, int id, int postId) {
         this.userId = userId;
         this.body = body;
         this.id = id;
+        this.postId = postId;
     }
     public int getUserId(){
         return this.userId;
@@ -36,5 +40,9 @@ public class MakeCommentRequestModel {
 
     public int getSelfId(){
         return this.id;
+    }
+
+    public int getPostId(){
+        return this.postId;
     }
 }

@@ -4,10 +4,8 @@ package make_comment.use_case;
  *
  * */
 public interface MakeCommentInputBoundary {
-    void constructAndSaveComment(MakeCommentRequestModel requestModel);
+    void constructAndSaveCommentAndUpdatePost(MakeCommentRequestModel requestModel);
     int getCurrentUserID();
     int getNumCommentCreated();
-
-    void updatePost(int postId);
 
 }

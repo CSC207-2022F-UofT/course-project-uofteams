@@ -1,11 +1,10 @@
 package make_comment.use_case;
 
+import java.util.List;
 import java.util.Map;
 
 public interface MakeCommentGateway {
     int getNumComments();
-
-    int getCurrentUserid();
 
     void setNumComments(int newNumCommentCreated);
 
@@ -13,10 +12,7 @@ public interface MakeCommentGateway {
 
     void updatePostDB();
 
-    Map<String, String> getCurrentUser();
+    List<String[]> getCurrentPosts();
 
-    Map<String, String> getCurrentPost();
-
-    int getCurrentPostID();
 
 }

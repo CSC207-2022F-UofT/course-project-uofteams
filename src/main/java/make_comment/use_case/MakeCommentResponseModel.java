@@ -8,7 +8,7 @@ public class MakeCommentResponseModel {
     public String errorMessage;
 
     /*
-     * Initializes the SignUpResponseModel
+     * Initializes the MakeCommentResponseModel
      *
      * @param creationSuccess boolean representation of whether Comment was successfully created
      * @param message String rep of the error

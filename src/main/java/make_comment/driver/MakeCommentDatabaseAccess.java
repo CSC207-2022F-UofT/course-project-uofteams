@@ -30,17 +30,10 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
     }
 
     @Override
-    public int getCurrentUserid() {
-        int temp = Integer.parseInt(getCurrentUser().get("currentUserID"));
-        return temp;
-    }
-
-    @Override
     public void setNumComments(int newNumCommentCreated) {
 
         int numCommentsCreated = this.getNumComments();
-        String filePath = "java/database/numCommentCreated.csv";
-        File file = new File(filePath);
+        File file = fileGetter("java/database/numCommentCreated.csv");
 
         try {
             FileReader fileReader = new FileReader(file);
@@ -54,22 +47,20 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
             writer.writeAll(csvBody);
             writer.flush();
             writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (CsvException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | CsvException e) {
+            System.out.println("file not found or incorrect format, comment is not saved");
         }
     }
 
     @Override
     public void saveComment(Map<String, String> commentAttributes) {
-        String filePath = "java/Database/comments.csv";
-        File file = new File(filePath);
+        File file = fileGetter("java/Database/comments.csv");
         String[] commentAtt = new String[commentAttributes.size()];
         commentAtt[0] = commentAttributes.get("commentID");
         commentAtt[1] = commentAttributes.get("commenterID");
         commentAtt[2] = commentAttributes.get("body");
         commentAtt[3] = commentAttributes.get("creationDate");
+
         try {
             FileReader filereader = new FileReader(file);
             CSVReader csvReader = new CSVReader(filereader);
@@ -81,10 +72,8 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
             writer.writeAll(csvBody);
             writer.flush();
             writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (CsvException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | CsvException e) {
+          System.out.println("file not found or incorrect format, comment is not saved");
         }
 
     }
@@ -95,38 +84,36 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
     }
 
     @Override
-    public Map<String, String> getCurrentUser() {
-        String filePath = "java/Database/currentUser.csv";
-        File file = new File(filePath);
+    public List<String[]> getCurrentPosts() {
+
+        File file = fileGetter("java/Database/posts.csv");
+
         try {
+            FileReader fileReader = new FileReader(file);
+            CSVReaderBuilder csvReaderBuilder = new CSVReaderBuilder(fileReader);
+            CSVReader reader = csvReaderBuilder.build();
+            List<String[]> postData = reader.readAll();
+            // Remove the row corresponding to the header
+            postData.remove(0);
+            return postData;
 
-            FileReader filereader = new FileReader(file);
 
-            CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
-            String[] currentUserArray = csvReader.peek();
-            Map<String, String> currentUser = new HashMap<>();
-            currentUser.put("currentUserID", currentUserArray[0]);
-            currentUser.put("isAdmin", currentUserArray[1]);
-            currentUser.put("email", currentUserArray[2]);
-            currentUser.put("password", currentUserArray[3]);
-            currentUser.put("postIDs", currentUserArray[4]);
-            currentUser.put("favouritesIDs", currentUserArray[5]);
-            return currentUser;
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println("file not found or incorrect format");
+            return null;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error during accessing file");
+            return null;
+        } catch (CsvException e) {
+            System.out.println("Error during reading file");
+            return null;
         }
     }
-
-    @Override
-    public Map<String, String> getCurrentPost() {
-        return null;
+    private File fileGetter(String fileName){
+        String filePath = fileName;
+        File file = new File(filePath);
+        return file;
     }
 
 
-    @Override
-    public int getCurrentPostID() {
-        return 0;
-    }
 }
