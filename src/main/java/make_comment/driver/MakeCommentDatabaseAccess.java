@@ -20,7 +20,9 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
             FileReader fileReader = new FileReader(file);
             CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
             int numCommentsCreated = Integer.valueOf(csvReader.peek()[0]);
+            csvReader.close();
             return numCommentsCreated;
+
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -47,6 +49,7 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
             writer.writeAll(csvBody);
             writer.flush();
             writer.close();
+            csvReader.close();
         } catch (IOException | CsvException e) {
             System.out.println("file not found or incorrect format, comment is not saved");
         }
@@ -72,6 +75,7 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
             writer.writeAll(csvBody);
             writer.flush();
             writer.close();
+            csvReader.close();
         } catch (IOException | CsvException e) {
           System.out.println("file not found or incorrect format, comment is not saved");
         }
@@ -79,9 +83,21 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
     }
 
     @Override
-    public void updatePostDB() {
+    public void updatePostDB(List<String[]> updatedPosts) {
+        File file = fileGetter("java/Database/posts.csv");
+        try {
+            FileWriter filewriter = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(filewriter);
+            writer.writeAll(updatedPosts);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("file not found or incorrect format, comment is not saved");
+        }
+
 
     }
+
 
     @Override
     public List<String[]> getCurrentPosts() {
@@ -95,6 +111,7 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
             List<String[]> postData = reader.readAll();
             // Remove the row corresponding to the header
             postData.remove(0);
+            reader.close();
             return postData;
 
 

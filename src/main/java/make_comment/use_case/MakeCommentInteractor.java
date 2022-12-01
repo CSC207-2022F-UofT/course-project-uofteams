@@ -5,11 +5,9 @@ import entities.Comment;
 import entities.CurrentUser;
 import entities.Post;
 import make_comment.driver.MakeCommentDatabaseAccess;
+import make_post.use_case.MakePostResponseModel;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The MakeCommentInteractor in the use case layer implements the MakeCommentInputBoundary interface.
@@ -18,25 +16,35 @@ import java.util.Map;
  */
 public class MakeCommentInteractor implements MakeCommentInputBoundary {
     private final MakeCommentDatabaseAccess dataAccess;
+    private final MakeCommentOutputBoundary presenter;
 
     private final CommentFactory commentFactory;
 
-    public MakeCommentInteractor(MakeCommentDatabaseAccess dataAccess) {
+    public MakeCommentInteractor(MakeCommentDatabaseAccess dataAccess, MakeCommentOutputBoundary presenter) {
         this.dataAccess = dataAccess;
         this.commentFactory = new CommentFactory();
+        this.presenter = presenter;
     }
 
     @Override
-    public void constructAndSaveCommentAndUpdatePost (MakeCommentRequestModel mCRM){
-        int userId = mCRM.getUserId();
-        String body = mCRM.getCommentBody();
-        int commentId = mCRM.getSelfId();
-        int postId = mCRM.getPostId();
-        constructAndSaveCommentHelper(userId, body, commentId);
-        updatePostHelper(postId, commentId);
+    public void constructAndSaveCommentAndUpdatePost (MakeCommentRequestModel mCRM) {
+        try {
+            int userId = mCRM.getUserId();
+            String body = mCRM.getCommentBody();
+            int commentId = mCRM.getSelfId();
+            int postId = mCRM.getPostId();
+            constructAndSaveCommentHelper(userId, body, commentId);
+            updatePostHelper(postId, commentId);
+            MakeCommentResponseModel responseModel = new
+                    MakeCommentResponseModel(true, "comment created");
+            this.presenter.present(responseModel);
 
+        } catch (Exception e) {
+            MakeCommentResponseModel responseModel = new
+                    MakeCommentResponseModel(true, "something went wrong");
+            this.presenter.present(responseModel);
+        }
     }
-
     @Override
     public int getCurrentUserID() {
         return CurrentUser.getCurrentUserId();
@@ -50,20 +58,25 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
     private void updatePostHelper(int postId, int commentId){
         List<String[]>  postData = dataAccess.getCurrentPosts();
         Map<String, String> foundPost = new HashMap<>();
-        for(String[] post: postData){
-            String currentPostId = post[0];
+        for(int x = 0; x < postData.size(); x++){
+            String currentPostId = postData.get(x)[0];
             if (Integer.parseInt(currentPostId) == postId){
-                String newRepliesString = post[9] + Integer.toString(commentId);
-                foundPost.put("postID", post[0]);
-                foundPost.put("posterID", post[1]);
-                foundPost.put("title", post[2]);
-                foundPost.put("mainDescription", post[3]);
-                foundPost.put("tags", post[4]);
-                foundPost.put("collaborators", post[5]);
-                foundPost.put("deadline", post[6]);
-                foundPost.put("creationDate", post[7]);
-                foundPost.put("favouritedUsersIDs", post[8]);
-                foundPost.put("repliesIDs", newRepliesString);
+                String newRepliesString = postData.get(x)[9] + Integer.toString(commentId);
+                String[] newPost = {
+                        postData.get(x)[0],
+                        postData.get(x)[1],
+                        postData.get(x)[2],
+                        postData.get(x)[3],
+                        postData.get(x)[4],
+                        postData.get(x)[5],
+                        postData.get(x)[6],
+                        postData.get(x)[7],
+                        postData.get(x)[8],
+                        newRepliesString
+                };
+                postData.remove(x);
+                postData.add(newPost);
+
             }
         }
 
@@ -71,7 +84,7 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
     }
 
     private void constructAndSaveCommentHelper(int userId, String body, int commentId){
-        Comment thisComment = commentFactory.makeComment(userId, body, commentId);
+        Comment thisComment = CommentFactory.makeComment(userId, body, commentId);
         String stringCreationDate = thisComment.getCreationDate().toString();
         Map<String, String> saveFormat = new HashMap<>();
         saveFormat.put("commentID", Integer.toString(commentId));

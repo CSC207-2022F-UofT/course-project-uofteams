@@ -10,7 +10,7 @@ public interface MakeCommentGateway {
 
     void saveComment(Map<String, String> commentAttributes);
 
-    void updatePostDB();
+    void updatePostDB(List<String[]> updatedPosts);
 
     List<String[]> getCurrentPosts();
 

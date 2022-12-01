@@ -13,7 +13,6 @@ public class makeCommentController {
     public void passToInteractor(String body, int postId){
         int commentId = interactor.getNumCommentCreated();
         int currentUserID = interactor.getCurrentUserID();
-        commentId ++;
 
         //pass input info to interactor
 
