@@ -1,7 +1,12 @@
 package make_comment;
 
 import entities.User;
+import make_comment.interface_adapter.makeCommentController;
+import make_comment.interface_adapter.makeCommentPresenter;
+import make_comment.interface_adapter.makeCommentViewModel;
+import make_comment.ui.MakeCommentViewButton;
 import make_comment.use_case.MakeCommentGateway;
+import make_comment.use_case.MakeCommentInteractor;
 import sign_up.interface_adapters.SignUpController;
 import sign_up.interface_adapters.SignUpPresenter;
 import sign_up.interface_adapters.SignUpViewModel;
@@ -12,6 +17,7 @@ import sign_up.use_case.SignUpInteractor;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,13 +41,8 @@ public class MakeCommentTest {
             }
 
             @Override
-            public void updatePostDB() {
+            public void updatePostDB(List<String[]> updatedPosts) {
 
-            }
-
-            @Override
-            public Map<String, String> getCurrentUser() {
-                return null;
             }
 
             @Override
@@ -49,22 +50,22 @@ public class MakeCommentTest {
                 return null;
             }
         };
-        SignUpViewModel signUpViewModel = new SignUpViewModel();
-        SignUpPresenter presenter = new SignUpPresenter(signUpViewModel);
-        SignUpInteractor interactor = new SignUpInteractor(dsGateway, presenter);
-        SignUpController controller = new SignUpController(interactor);
 
-        SignUpView signUpView = new SignUpView(controller);
-        dsGateway.saveUser(new User(false, 0, "regan@mail.utoronto.ca", "a"));
-
-        JPanel logIn = new JPanel();
-        MasterLandingView masterLandingView = new MasterLandingView(signUpView, logIn);
-
-        signUpView.addObserver(masterLandingView);
-        signUpViewModel.addObserver(signUpView);
+        makeCommentViewModel mcvm = new makeCommentViewModel();
+        makeCommentPresenter mcPresenter = new makeCommentPresenter(mcvm);
+        MakeCommentInteractor MCI = new MakeCommentInteractor(dsGateway, mcPresenter);
+        makeCommentController MCC = new makeCommentController(MCI);
+        MakeCommentViewButton viewButton = new MakeCommentViewButton(0,MCC);
+        Map<String, String> commentAttributes = new HashMap<>();
+        commentAttributes.put("CommentID", "0");
+        commentAttributes.put("commenterID", "0");
+        commentAttributes.put("body", "test body 0");
+        commentAttributes.put("creationDate", "2022-12-01");
+        dsGateway.saveComment(commentAttributes);
 
         JFrame jFrame = new JFrame("Test");
-        jFrame.getContentPane().add(masterLandingView);
+        mcvm.addObserver(viewButton);
+        jFrame.getContentPane().add(viewButton);
 
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.pack();

@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class MakeCommentViewButton extends JPanel implements ActionListener {
+public class MakeCommentViewButton extends JPanel implements ActionListener ,PropertyChangeListener{
     private final makeCommentController controller;
     private final int postId;
 
@@ -25,17 +25,21 @@ public class MakeCommentViewButton extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == addComment){
             JFrame frame = new JFrame("commentate");
-            String commentBody = "";
-            commentBody = JOptionPane.showInputDialog(frame, "Please enter the Comment",
+            String commentBody = JOptionPane.showInputDialog(frame, "Please enter the Comment",
                     "commentate", JOptionPane.QUESTION_MESSAGE);
             controller.passToInteractor(commentBody, this.postId);
 
-        }
-
-
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("creation failure")) {
+            JFrame errorFrame = new JFrame("Error");
+            JOptionPane.showMessageDialog(errorFrame, "body was left blank.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorFrame.setVisible(true);
 
+        }
+    }
 }

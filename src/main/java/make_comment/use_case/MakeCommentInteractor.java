@@ -15,12 +15,12 @@ import java.util.*;
  * with the entities and ultimately send information back out into the UI.
  */
 public class MakeCommentInteractor implements MakeCommentInputBoundary {
-    private final MakeCommentDatabaseAccess dataAccess;
+    private final MakeCommentGateway dataAccess;
     private final MakeCommentOutputBoundary presenter;
 
     private final CommentFactory commentFactory;
 
-    public MakeCommentInteractor(MakeCommentDatabaseAccess dataAccess, MakeCommentOutputBoundary presenter) {
+    public MakeCommentInteractor(MakeCommentGateway dataAccess, MakeCommentOutputBoundary presenter) {
         this.dataAccess = dataAccess;
         this.commentFactory = new CommentFactory();
         this.presenter = presenter;
@@ -79,8 +79,6 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
 
             }
         }
-
-
     }
 
     private void constructAndSaveCommentHelper(int userId, String body, int commentId){
