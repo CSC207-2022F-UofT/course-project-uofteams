@@ -60,6 +60,7 @@ public class ViewPostGateway implements ViewPostDsGateway {
         try {
             // finding and retrieving the current user's data
             List<String[]> allUsers = readAllLines(Paths.get(partialPath+"users.csv"));
+            allUsers.subList(0,1).clear();
             String[] userData = new String[6];
             for (String[] user : allUsers) {
                 int id = Integer.parseInt(user[0]);
@@ -88,6 +89,7 @@ public class ViewPostGateway implements ViewPostDsGateway {
         try {
             // finding the post in the database
             List<String[]> allPosts = readAllLines(Paths.get(partialPath+"posts.csv"));
+            allPosts.subList(0,1).clear();
             String[] postData = new String[10];
             for (String[] post : allPosts) {
                 try {

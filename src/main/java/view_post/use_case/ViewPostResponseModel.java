@@ -30,9 +30,10 @@ public class ViewPostResponseModel {
         this.postBody = postBody;
         String tags = "";
         for (String tag : postTags){
-            tags.concat(", ");
-            tags.concat(tag);
+            tags = tags.concat(tag);
+            tags = tags.concat(", ");
         }
+        tags = tags.substring(0, tags.length() - 2);
         this.postTags = tags;
         ArrayList replies = new ArrayList<>();
         for (String reply : postReplies){
