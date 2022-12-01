@@ -5,8 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import view_post.drivers.ViewPostGateway;
 import view_post.interface_adapters.ViewPostController;
-import view_post.interface_adapters.ViewPostViewModel;
-import view_post.ui.ViewPostView;
 import view_post.use_case.*;
 
 import java.util.ArrayList;
