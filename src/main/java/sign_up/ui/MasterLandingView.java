@@ -73,17 +73,6 @@ public class MasterLandingView extends JPanel implements PropertyChangeListener 
                 cardLayout.show(mainPanel, "Log In View");
             }
         }
-
-        /*
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals("go back")) {
-                CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-                cardLayout.show(mainPanel, "Main View");
-            }
-        }
-
-         */
     }
 
     public ButtonView getButtonView() {

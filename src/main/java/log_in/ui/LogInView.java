@@ -31,7 +31,7 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
 
         JLabel emptyLabel = new JLabel();
         this.add(emptyLabel);
-        this.add(new BackButton());
+        this.add(backButton);
 
         this.add(emptyLabel);
 
@@ -97,7 +97,7 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
         }
     }
 
-    private static class BackButton extends JPanel implements ActionListener{
+    private class BackButton extends JPanel implements ActionListener{
         private final PropertyChangeSupport observable;
 
         public BackButton(){

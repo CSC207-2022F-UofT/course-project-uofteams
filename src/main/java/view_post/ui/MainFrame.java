@@ -1,6 +1,5 @@
 package view_post.ui;
 
-import com.sun.tools.javac.Main;
 import sign_up.ui.MasterLandingView;
 
 import javax.swing.*;
@@ -22,15 +21,15 @@ public class MainFrame extends JFrame implements PropertyChangeListener {
     * Initialize the card view
     * @ param the landingview and the postview
     * */
-    public MainFrame(MasterLandingView landingView, MainPostView postView){
+    public MainFrame(MasterLandingView landingView /*MainPostView postView*/){
         super("UofTeams");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         contentPane = this.getContentPane();
         contentPane.setLayout(new CardLayout());
 
-        contentPane.add(postView, MAIN);
         contentPane.add(landingView, LANDING);
+        contentPane.add(new JTextArea("Sample Text" /*postView*/), MAIN);
     }
 
     /*
