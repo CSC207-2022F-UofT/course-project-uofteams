@@ -191,7 +191,7 @@ public class FilterPostTest {
     @Test
     public void testDsGatewayCatchCsvException() {
         // The csv file contains a row that does not have the same number of columns as the header row.
-        String path = "src/test/java/filter_post/posts.csv";
+        String path = "src/test/java/filter_post/error.csv";
         postRepository = new FilterPostDataAccess(path);
 
         postRepository.getPosts();
