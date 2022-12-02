@@ -24,7 +24,7 @@ public class MakePostController {
      * passes the input made by the user to make the post to the interactor.
      * @param postBody the attributes of the post input by the user.
      */
-    public void passToMakePostInteractor(Map<String, Object> postBody){
+    public void executeMakePost(Map<String, Object> postBody){
         //get the number of posts and current user id so the interactor gets all the data it needs to make a post.
         int numPostsCreated = interactor.getNumPostsCreated();
         int currentUserID = interactor.getCurrentUser();

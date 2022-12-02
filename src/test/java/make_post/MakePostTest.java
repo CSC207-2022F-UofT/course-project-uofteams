@@ -87,7 +87,7 @@ public class MakePostTest {
             }
         };
         viewModel.addObserver(observer);
-        controller.passToMakePostInteractor(this.postBody);
+        controller.executeMakePost(this.postBody);
         assertEquals(1, postRepository.getNumberOfPosts());
         try{
             File posts = new File(postsPath);
@@ -135,7 +135,7 @@ public class MakePostTest {
         ArrayList<String> emptyTags = new ArrayList<>();
         emptyTags.add("");
         postBody.put("tags", emptyTags);
-        controller.passToMakePostInteractor(this.postBody);
+        controller.executeMakePost(this.postBody);
         assertEquals(1, postRepository.getNumberOfPosts());
         try{
             File posts = new File(postsPath);
@@ -187,7 +187,7 @@ public class MakePostTest {
         interactor = new MakePostInteractor(postRepository, presenter);
         controller = new MakePostController(interactor);
         postBody.put("deadline", "WrongFormat");
-        controller.passToMakePostInteractor(this.postBody);
+        controller.executeMakePost(this.postBody);
         assertEquals(0, postRepository.getNumberOfPosts());
         try{
             File posts = new File(postsPath);
@@ -215,7 +215,7 @@ public class MakePostTest {
         };
         viewModel.addObserver(observer);
         postBody.put("deadline", "2200-11-29");
-        controller.passToMakePostInteractor(this.postBody);
+        controller.executeMakePost(this.postBody);
         assertEquals(0, postRepository.getNumberOfPosts());
         try{
             File posts = new File(postsPath);
@@ -237,7 +237,7 @@ public class MakePostTest {
         postRepository = new MakePostDatabaseAccess(badPath);
         interactor = new MakePostInteractor(postRepository, presenter);
         controller = new MakePostController(interactor);
-        controller.passToMakePostInteractor(this.postBody);
+        controller.executeMakePost(this.postBody);
     }
 
     private void setUpDefaultTestFiles(String filepath, String[] headers){
