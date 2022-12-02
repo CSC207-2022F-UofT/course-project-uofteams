@@ -11,12 +11,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class ViewPostGateway implements ViewPostDsGateway {
+public class ViewPostDatabaseAccess implements ViewPostDsGateway {
     // partialpath is a String that contains the partial directory that leads to all csv files in the program
     // it is isolated from the file name so that in case the file is moved, the code is still compatible
     private final String partialPath;
 
-    public ViewPostGateway(String partialPath){
+    public ViewPostDatabaseAccess(String partialPath){
         this.partialPath = partialPath;
     }
 
@@ -80,10 +80,10 @@ public class ViewPostGateway implements ViewPostDsGateway {
     }
 
     /**
-     * Retrieves the post being favourited/unfavourited as a Post object from the database
+     * Retrieves the data of the post being favourited/unfavourited as a String array
      *
      * @param postid the id of the post being favourited/unfavourited
-     * @return a Post
+     * @return data of a post
      */
     private String[] getPostData(int postid){
         try {

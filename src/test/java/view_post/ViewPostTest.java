@@ -3,14 +3,14 @@ package view_post;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import view_post.drivers.ViewPostGateway;
+import view_post.drivers.ViewPostDatabaseAccess;
 import view_post.interface_adapters.ViewPostController;
 import view_post.use_case.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 public class ViewPostTest {
 
     private String partialPath = "src/test/java/view_post/";
@@ -21,7 +21,7 @@ public class ViewPostTest {
 
     @Before
     public void setUp() {
-        dataAccess = new ViewPostGateway(partialPath);
+        dataAccess = new ViewPostDatabaseAccess(partialPath);
     }
     @After
     public void tearDown() {

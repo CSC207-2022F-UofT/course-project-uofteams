@@ -8,29 +8,21 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class ViewPostView extends JPanel implements PropertyChangeListener {
-
-    private ViewPostOutputData data;
     /**
      * Initializes ViewPostView
      */
     public ViewPostView (){
         this.setPreferredSize(new Dimension(600, 680));
-        this.data = null;
-
         // displaying default message
         this.setLayout(new BorderLayout());
         JLabel defaultMessage = new JLabel("Please select a post to view!");
         this.add(defaultMessage, BorderLayout.CENTER);
     }
 
-    public void setData(ViewPostOutputData data){
-        this.data = data;
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent event){
         try {
-            this.displayPost(this.data);
+            this.displayPost((ViewPostOutputData) event.getNewValue());
         }catch(Exception e){
             // deal with the case in which data is null
         }

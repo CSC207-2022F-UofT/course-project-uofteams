@@ -14,7 +14,6 @@ public class ViewPostViewModel {
     }
 
     public void updateView(ViewPostOutputData data){
-        view.setData(data);
         support.firePropertyChange("show post", null, data);
     }
 
