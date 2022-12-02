@@ -1,7 +1,5 @@
 package make_post.use_case;
 
-import make_post.use_case.make_post_exceptions.MakePostException;
-
 import java.util.Map;
 
 public interface MakePostDsGateway {

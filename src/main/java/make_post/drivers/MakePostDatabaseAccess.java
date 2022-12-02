@@ -101,7 +101,7 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
             writer.close();
             csvReader.close();
         } catch (IOException | CsvException e) {
-            System.out.println("Wrong path, file or incorrect csv layout.");;
+            System.out.println("Wrong path, file or incorrect csv layout.");
         }
 
     }
