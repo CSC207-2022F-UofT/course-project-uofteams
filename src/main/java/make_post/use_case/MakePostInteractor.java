@@ -119,12 +119,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
         for (String tag : tags) {
             tagsString.append(tag + " ");
         }
-        if(!(tagsString.length() == 0)){
-            tagsString.deleteCharAt(tagsString.length()-1);
-        }
-        else {
-            tagsString = new StringBuilder("");
-        }
+        tagsString.deleteCharAt(tagsString.length()-1);
         postAttributes.put("postID", String.valueOf(postID));
         postAttributes.put("posterID", String.valueOf(posterID));
         postAttributes.put("title", title);

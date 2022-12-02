@@ -36,7 +36,7 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
             csvReader.close();
             return numPostsCreated;
         } catch (IOException e) {
-            System.out.println("Either wrong path or file has not been formatted correctly.");
+            System.out.println("Wrong path or file type.");
             return 0;
         }
     }
@@ -63,7 +63,7 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
             writer.close();
             csvReader.close();
         } catch (IOException | CsvException e) {
-            System.out.println("Wrong path");
+            System.out.println("Wrong path, file or incorrect csv layout.");
         }
     }
 
@@ -101,7 +101,7 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
             writer.close();
             csvReader.close();
         } catch (IOException | CsvException e) {
-            System.out.println("Cannot find file or incorrect file format.");;
+            System.out.println("Wrong path, file or incorrect csv layout.");;
         }
 
     }

@@ -18,6 +18,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -25,9 +27,9 @@ import java.util.*;
 /**
  * Tests the make_post use case.
  * Test coverage by lines:
- * drivers: 88%
- * interface_adapters: 93%
- * use_case: 98%
+ * drivers: 100%
+ * interface_adapters: 100%
+ * use_case: 100%
  *
  * It should be noted that the UI is not being tested here.
  */
@@ -76,6 +78,15 @@ public class MakePostTest {
      */
     @Test
     public void testMakePostSuccessfully(){
+        PropertyChangeListener observer = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                String propertyName = "creation success";
+
+                assertEquals(propertyName, evt.getPropertyName());
+            }
+        };
+        viewModel.addObserver(observer);
         controller.passToMakePostInteractor(this.postBody);
         assertEquals(1, postRepository.getNumberOfPosts());
         try{
@@ -111,7 +122,70 @@ public class MakePostTest {
     }
 
     @Test
+    public void testMakePostSuccessfullyEmptyTags(){
+        PropertyChangeListener observer = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                String propertyName = "creation success";
+
+                assertEquals(propertyName, evt.getPropertyName());
+            }
+        };
+        viewModel.addObserver(observer);
+        ArrayList<String> emptyTags = new ArrayList<>();
+        emptyTags.add("");
+        postBody.put("tags", emptyTags);
+        controller.passToMakePostInteractor(this.postBody);
+        assertEquals(1, postRepository.getNumberOfPosts());
+        try{
+            File posts = new File(postsPath);
+            FileReader postsReader = new FileReader(posts);
+            CSVReader postsCsvReader = new CSVReader(postsReader);
+            List<String[]> postsCsvBody = postsCsvReader.readAll();
+            String[] postAttributes = postsCsvBody.get(1);
+            String postID = postAttributes[0];
+            String posterID = postAttributes[1];
+            String title = postAttributes[2];
+            String mainDesc = postAttributes[3];
+            String tags = postAttributes[4];
+            String collaborators = postAttributes[5];
+            String deadline = postAttributes[6];
+            String creationDate = postAttributes[7];
+            String favouritedUsersIDs = postAttributes[8];
+            String repliesIDs = postAttributes[9];
+
+            assertEquals(postID, String.valueOf(1));
+            assertEquals(posterID, String.valueOf(1));
+            assertEquals(title, postBody.get("title"));
+            assertEquals(mainDesc, postBody.get("mainDescription"));
+            assertEquals("", tags);
+            assertEquals(collaborators, postBody.get("collaborators"));
+            assertEquals(deadline, postBody.get("deadline").toString());
+            assertEquals(creationDate, testCreationDate);
+            assertEquals("", favouritedUsersIDs);
+            assertEquals("", repliesIDs);
+        } catch (IOException | CsvException e) {
+            System.out.println("File was not found.");
+        }
+    }
+
+    /**
+     * test if a post is added with a deadline in the wrong format.
+     * success if the post is not added to the database.
+     */
+    @Test
     public void testMakePostWrongDateFormat(){
+        PropertyChangeListener observer = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                String propertyName = "creation failure";
+
+                assertEquals(propertyName, evt.getPropertyName());
+            }
+        };
+        viewModel.addObserver(observer);
+        interactor = new MakePostInteractor(postRepository, presenter);
+        controller = new MakePostController(interactor);
         postBody.put("deadline", "WrongFormat");
         controller.passToMakePostInteractor(this.postBody);
         assertEquals(0, postRepository.getNumberOfPosts());
@@ -125,9 +199,21 @@ public class MakePostTest {
             System.out.println("File was not found.");
         }
     }
-
+    /**
+     * test if a post is added with a deadline more than 6 months in the future.
+     * success if the post is not added to the database.
+     */
     @Test
     public void testMakePostDeadlineTooFarInFuture(){
+        PropertyChangeListener observer = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                String propertyName = "creation failure";
+
+                assertEquals(propertyName, evt.getPropertyName());
+            }
+        };
+        viewModel.addObserver(observer);
         postBody.put("deadline", "2200-11-29");
         controller.passToMakePostInteractor(this.postBody);
         assertEquals(0, postRepository.getNumberOfPosts());
@@ -140,6 +226,18 @@ public class MakePostTest {
         } catch (IOException | CsvException e) {
             System.out.println("File was not found.");
         }
+    }
+
+    /**
+     * tests if the correct error messages are being thrown.
+     */
+    @Test
+    public void testMakePostDsGatewayCatchIOException(){
+        String badPath = "/bad/path.csv";
+        postRepository = new MakePostDatabaseAccess(badPath);
+        interactor = new MakePostInteractor(postRepository, presenter);
+        controller = new MakePostController(interactor);
+        controller.passToMakePostInteractor(this.postBody);
     }
 
     private void setUpDefaultTestFiles(String filepath, String[] headers){
