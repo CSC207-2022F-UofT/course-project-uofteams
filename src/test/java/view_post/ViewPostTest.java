@@ -7,9 +7,6 @@ import view_post.drivers.ViewPostDatabaseAccess;
 import view_post.interface_adapters.ViewPostController;
 import view_post.use_case.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import static org.junit.Assert.assertEquals;
 public class ViewPostTest {
 
@@ -35,7 +32,6 @@ public class ViewPostTest {
                 String postEmail = responseModel.getPosterEmail();
                 String postBody = responseModel.getPostBody();
                 String postTags = responseModel.getPostTags();
-                ArrayList<Integer> postReplies = responseModel.getPostReplies();
                 String deadline = responseModel.getDeadline();
                 String creationDate = responseModel.getCreationDate();
                 String collaborators = responseModel.getCollaborators();
@@ -44,8 +40,6 @@ public class ViewPostTest {
                 assertEquals("test@mail.utoronto.ca", postEmail);
                 assertEquals("test", postBody);
                 assertEquals("test1, test2", postTags);
-                ArrayList<Integer> testPostReplies = new ArrayList<>(Arrays.asList(1, 2, 3));
-                assertEquals(testPostReplies, postReplies);
                 assertEquals("2023-01-31", deadline);
                 assertEquals("2022-12-31", creationDate);
                 assertEquals("test", collaborators);

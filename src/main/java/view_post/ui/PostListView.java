@@ -8,9 +8,10 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 /**
- *
+ * The view that displays the search engine and the list of posts the user can choose to view.
  */
 public class PostListView extends JPanel implements PropertyChangeListener, ListSelectionListener {
     // JPanel that includes the scrollable list of posts a user can click to view
@@ -25,7 +26,8 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
     private JList list;
 
     /**
-     * Initializes PostListView
+     * Initializes PostListView.
+     * @param controller A ViewPostController object that will be called when a post is selected to view
      */
     public PostListView(ViewPostController controller){
         this.setPreferredSize(new Dimension(300, 680));
@@ -47,7 +49,9 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
 
     /**
      * Updates the scrollable list of posts. When there are no posts to display, the default view is presented.
-     * (Discalimer : this method depends on the indices of titles and ids to match exactly)
+     * (Disclaimer : this method depends on the indices of titles and ids to match exactly)
+     * @param titles A String array of the titles of the posts being displayed on the scrollable list
+     * @param ids An integer array of the IDs of the posts being displayed on the scrollable list
      */
     private void displayList(String[] titles, int[] ids){
         this.titles = titles;
@@ -55,7 +59,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         this.postList.removeAll();
 
         if (titles.length == 0){
-            this.defaultDisplay();
+            this.defaultDisplay(); // if there are no posts display the defaultDisplay
         }else{
             JList titleList = new JList<>(this.titles);
             this.list = titleList;
@@ -69,6 +73,9 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         }
     }
 
+    /**
+     * Displays the message when there are no posts to show on the scrollable list of posts
+     */
     private void defaultDisplay(){
         JLabel noPostsText = new JLabel("No posts to show :(");
         this.postList.add(noPostsText);
@@ -81,11 +88,11 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("update".equals(evt.getPropertyName())){
-            Object newData = evt.getNewValue();
-//            String[] titles = newData.get(0);
-//            int[] ids = newData.get(1);
-//            this.displayList(titles, ids);
+        if ("Search".equals(evt.getPropertyName())){
+            ArrayList<Object> newData = (ArrayList<Object>) evt.getNewValue();
+            String[] titles = (String[]) newData.get(0);
+            int[] ids = (int[]) newData.get(1);
+            this.displayList(titles, ids);
         }
     }
 

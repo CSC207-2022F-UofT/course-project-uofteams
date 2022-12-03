@@ -1,15 +1,12 @@
 package view_post.use_case;
 
-import java.util.ArrayList;
-
 /**
- * A data class for storing the output data.
+ * A data structure class for storing the output data.
  */
 public class ViewPostResponseModel {
     private final String posterEmail;
     private final String postBody;
     private final String postTags;
-    private final ArrayList<Integer> postReplies;
     private final String deadline;
     private final String creationDate;
     private final String collaborators;
@@ -17,29 +14,21 @@ public class ViewPostResponseModel {
     private final String title;
 
     /**
-     * Initialize a ViewPostResponseModel object.
-     * @param posterEmail   The email of the user who made this post.
-     * @param postBody      The body text of this post.
-     * @param postTags      The associated tags with this post.
-     * @param postReplies   The replies made to this post.
-     * @param deadline      The string representation of the deadline of this post.
+     * Initializes ViewPostOutputData
+     * @param posterEmail A String object that represents the email of the user who created the post
+     * @param postBody A String object that represents the main description of the post
+     * @param postTags A String array of the tags the post is associated to
+     * @param deadline A String object that represents the deadline (expiry date) of the post
+     * @param creationDate A String object that represents the creation date of the post
+     * @param collaborators A String object that represents the collaborators of the post/project
+     * @param postID An Integer that represents the ID of the post
+     * @param title A String object that represents the title of the post
      */
-    public ViewPostResponseModel(String posterEmail, String postBody, String[] postTags, String[] postReplies,
+    public ViewPostResponseModel(String posterEmail, String postBody, String[] postTags,
                                  String deadline, String creationDate, String collaborators, int postID, String title) {
         this.posterEmail = posterEmail;
         this.postBody = postBody;
-        String tags = "";
-        for (String tag : postTags){
-            tags = tags.concat(tag);
-            tags = tags.concat(", ");
-        }
-        tags = tags.substring(0, tags.length() - 2);
-        this.postTags = tags;
-        ArrayList replies = new ArrayList<>();
-        for (String reply : postReplies){
-            replies.add(Integer.valueOf(reply));
-        }
-        this.postReplies = replies;
+        this.postTags = String.join(", ", postTags);
         this.deadline = deadline;
         this.creationDate = creationDate;
         this.collaborators = collaborators;
@@ -66,13 +55,6 @@ public class ViewPostResponseModel {
      */
     public String getPostTags() {
         return postTags;
-    }
-
-    /**
-     * Return a list of replies made to this post.
-     */
-    public ArrayList<Integer> getPostReplies() {
-        return postReplies;
     }
 
     /**

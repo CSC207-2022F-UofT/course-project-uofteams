@@ -11,11 +11,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * DatabaseAccess class for the View Post use case
+ */
 public class ViewPostDatabaseAccess implements ViewPostDsGateway {
     // partialpath is a String that contains the partial directory that leads to all csv files in the program
     // it is isolated from the file name so that in case the file is moved, the code is still compatible
     private final String partialPath;
 
+    /**
+     * Initializes a ViewPostDatabaseAccess object
+     * @param partialPath a String object with the path to all databases (does not include the file
+     *                    name of each database)
+     */
     public ViewPostDatabaseAccess(String partialPath){
         this.partialPath = partialPath;
     }
@@ -51,12 +59,13 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
 
         return postInfo;
     }
+
     /**
-     * Retrieves email of a User from the database
-     * @param userid user's ID
-     * @return user's email
+     * Retrieves email of a User from the database.
+     * @param userID user's ID
+     * @return the user's email
      */
-    private String getUserEmail(int userid){
+    private String getUserEmail(int userID){
         try {
             // finding and retrieving the current user's data
             List<String[]> allUsers = readAllLines(Paths.get(partialPath+"users.csv"));
@@ -64,7 +73,7 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
             String[] userData = new String[6];
             for (String[] user : allUsers) {
                 int id = Integer.parseInt(user[0]);
-                if (id == userid) {
+                if (id == userID) {
                     userData = user;
                 }
             }
@@ -80,9 +89,9 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
     }
 
     /**
-     * Retrieves the data of the post being favourited/unfavourited as a String array
+     * Retrieves the data of the post being displayed
      *
-     * @param postid the id of the post being favourited/unfavourited
+     * @param postid the id of the post being displayed
      * @return data of a post
      */
     private String[] getPostData(int postid){
@@ -98,6 +107,8 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
                         postData = post;
                     }
                 } catch (NumberFormatException ex) {
+                    // we ignore this as this only happens in the first iteration of the loop when it reads the header
+                    System.out.println("Column Title");
                 }
             }
             return postData;
