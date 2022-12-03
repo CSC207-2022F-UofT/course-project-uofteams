@@ -1,5 +1,6 @@
 package make_comment;
 
+import entities.CurrentUser;
 import entities.User;
 import make_comment.interface_adapter.makeCommentController;
 import make_comment.interface_adapter.makeCommentPresenter;
@@ -47,9 +48,15 @@ public class MakeCommentTest {
 
             @Override
             public List<String[]> getCurrentPosts() {
-                return null;
+                String[] p1 = new String[]{"1", "1", "post1", "descriptionp1", "cs", "collab", "2022-12-15", "2022-12-1", "1","2"};
+                List testlist = new ArrayList<>();
+                testlist.add(p1);
+                return testlist;
             }
         };
+        CurrentUser cUser = new CurrentUser();
+        User user = new User(false, 1, "regan@mail.utoronto.ca", "a");
+        CurrentUser.setCurrentUser(user);
 
         makeCommentViewModel mcvm = new makeCommentViewModel();
         makeCommentPresenter mcPresenter = new makeCommentPresenter(mcvm);

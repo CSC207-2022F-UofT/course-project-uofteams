@@ -34,12 +34,12 @@ public class MakeCommentViewButton extends JPanel implements ActionListener ,Pro
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("creation failure")) {
-            JFrame errorFrame = new JFrame("Error");
-            JOptionPane.showMessageDialog(errorFrame, "body was left blank.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            errorFrame.setVisible(true);
+        case ("creation failure"):
+        JOptionPane.showMessageDialog(errorFrame, "Date is not in the correct format.",
+                "Error", JOptionPane.ERROR_MESSAGE);
 
-        }
+
+
+
     }
 }

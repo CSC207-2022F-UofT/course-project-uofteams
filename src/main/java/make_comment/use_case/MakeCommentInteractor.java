@@ -61,7 +61,7 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
         for(int x = 0; x < postData.size(); x++){
             String currentPostId = postData.get(x)[0];
             if (Integer.parseInt(currentPostId) == postId){
-                String newRepliesString = postData.get(x)[9] + Integer.toString(commentId);
+                String newRepliesString = postData.get(x)[9] + (Integer.toString(commentId)+",");
                 String[] newPost = {
                         postData.get(x)[0],
                         postData.get(x)[1],
