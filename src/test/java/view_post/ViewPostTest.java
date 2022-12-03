@@ -7,6 +7,9 @@ import view_post.drivers.ViewPostDatabaseAccess;
 import view_post.interface_adapters.ViewPostController;
 import view_post.use_case.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 public class ViewPostTest {
 
@@ -60,7 +63,6 @@ public class ViewPostTest {
                 String postEmail = responseModel.getPosterEmail();
                 String postBody = responseModel.getPostBody();
                 String postTags = responseModel.getPostTags();
-                ArrayList<Integer> postReplies = responseModel.getPostReplies();
                 String deadline = responseModel.getDeadline();
                 String creationDate = responseModel.getCreationDate();
                 String collaborators = responseModel.getCollaborators();
@@ -70,7 +72,6 @@ public class ViewPostTest {
                 assertEquals("", postBody);
                 assertEquals("", postTags);
                 ArrayList<Integer> testPostReplies = new ArrayList<>(Arrays.asList());
-                assertEquals(testPostReplies, postReplies);
                 assertEquals("", deadline);
                 assertEquals("", creationDate);
                 assertEquals("", collaborators);
@@ -79,7 +80,7 @@ public class ViewPostTest {
             }
         };
         String emptyPath = "src/test/java/view_post/emptyPosts/";
-        dataAccess = new ViewPostGateway(emptyPath);
+        dataAccess = new ViewPostDatabaseAccess(emptyPath);
         interactor = new ViewPostInteractor(dataAccess, presenter);
         controller = new ViewPostController(interactor);
         controller.viewPost(1);
