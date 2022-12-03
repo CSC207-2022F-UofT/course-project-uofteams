@@ -58,4 +58,37 @@ public class ViewPostTest {
         controller.viewPost(1);
     }
 
+    @Test
+    public void testRetrieveEmptyPosts(){
+        presenter = new ViewPostOutputBoundary() {
+            @Override
+            public void updateActivePost(ViewPostResponseModel responseModel) {
+                String postEmail = responseModel.getPosterEmail();
+                String postBody = responseModel.getPostBody();
+                String postTags = responseModel.getPostTags();
+                ArrayList<Integer> postReplies = responseModel.getPostReplies();
+                String deadline = responseModel.getDeadline();
+                String creationDate = responseModel.getCreationDate();
+                String collaborators = responseModel.getCollaborators();
+                int postID = responseModel.getPostID();
+                String title = responseModel.getTitle();
+                assertEquals("", postEmail);
+                assertEquals("", postBody);
+                assertEquals("", postTags);
+                ArrayList<Integer> testPostReplies = new ArrayList<>(Arrays.asList());
+                assertEquals(testPostReplies, postReplies);
+                assertEquals("", deadline);
+                assertEquals("", creationDate);
+                assertEquals("", collaborators);
+                assertEquals(1, postID);
+                assertEquals("test", title);
+            }
+        };
+        String emptyPath = "src/test/java/view_post/emptyPosts/";
+        dataAccess = new ViewPostGateway(emptyPath);
+        interactor = new ViewPostInteractor(dataAccess, presenter);
+        controller = new ViewPostController(interactor);
+        controller.viewPost(1);
+    }
+
 }
