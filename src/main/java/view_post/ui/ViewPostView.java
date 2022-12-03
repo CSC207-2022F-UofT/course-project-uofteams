@@ -7,15 +7,16 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * The view of that displays the post the user selected to view
+ */
 public class ViewPostView extends JPanel implements PropertyChangeListener {
-
-    private ViewPostOutputData data;
     /**
-     * Initializes ViewPostView
+     * Initializes ViewPostView.
+     * ViewPostView displays the default message when it is first initialized and displayed to the user when they log in
      */
     public ViewPostView (){
         this.setPreferredSize(new Dimension(600, 680));
-        this.data = null;
 
         // displaying default message
         this.setLayout(new BorderLayout());
@@ -23,16 +24,19 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         this.add(defaultMessage, BorderLayout.CENTER);
     }
 
-    public void setData(ViewPostOutputData data){
-        this.data = data;
-    }
-
+    /**
+     * Displays a new post when a post is selected in the PostListView.
+     * @param event A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent event){
-        try {
-            this.displayPost(this.data);
-        }catch(Exception e){
-            // deal with the case in which data is null
+        if ("show post".equals(event.getPropertyName())) {
+            try {
+                this.displayPost((ViewPostOutputData) event.getNewValue());
+            } catch (Exception e) {
+                System.out.println("");
+            }
         }
     }
 
@@ -42,7 +46,8 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
     private void clearPanel(){this.removeAll();}
 
     /**
-     * Default view when the view is first called or when there are no posts to show
+     * Default view when the view is first called or when there are no posts to show.
+     * We may not need this method depending on how the rest of the use cases operate.
      */
     private void displayDefault(){
         this.clearPanel();
@@ -52,10 +57,10 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Adds GUI elements for the main post being viewed onto the viewpostpanel (JPanel).
-     * @param viewModel
+     * Adds GUI elements for the main post being viewed.
+     * @param outputData A ViewPostOutputData object with all the information about the post being displayed
      */
-    private void displayPost(ViewPostOutputData viewModel) {
+    private void displayPost(ViewPostOutputData outputData) {
         // clearing panel
         this.clearPanel();
 
@@ -64,7 +69,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
 
         // adding title
         JTextArea title = new JTextArea();
-        title.setText(viewModel.getTitle());
+        title.setText(outputData.getTitle());
         title.setEditable(false);
         title.setLineWrap(false);
         title.setFont(new Font("Serif", Font.BOLD, 20));
@@ -100,10 +105,10 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
 
         // adding tags
         JLabel tags;
-        if (viewModel.getPostTags() == ""){
+        if (outputData.getPostTags() == ""){
             tags = new JLabel("Tags: None");
         } else{
-            tags = new JLabel("Tags: " + viewModel.getPostTags());
+            tags = new JLabel("Tags: " + outputData.getPostTags());
         }
         c.gridwidth = 2;
         c.gridheight = 1;
@@ -112,7 +117,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         this.add(tags, c);
 
         // adding poster email
-        JLabel posterEmail = new JLabel("Post by: " + viewModel.getPosterEmail());
+        JLabel posterEmail = new JLabel("Post by: " + outputData.getPosterEmail());
         c.gridwidth = 2;
         c.gridheight = 1;
         c.gridx = 0;
@@ -121,10 +126,10 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
 
         // adding collaborators
         JLabel collab;
-        if (viewModel.getCollaborators() == ""){
+        if (outputData.getCollaborators() == ""){
             collab = new JLabel("Collaborators: None");
         } else{
-            collab = new JLabel("Collaborators: " + viewModel.getCollaborators());
+            collab = new JLabel("Collaborators: " + outputData.getCollaborators());
         }
         c.gridwidth = 2;
         c.gridheight = 1;
@@ -133,7 +138,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         this.add(collab, c);
 
         // adding creation date
-        JLabel creationDate = new JLabel("Post created on: " + viewModel.getCreationDate());
+        JLabel creationDate = new JLabel("Post created on: " + outputData.getCreationDate());
         c.gridwidth = 2;
         c.gridheight = 1;
         c.gridx = 0;
@@ -141,7 +146,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         this.add(creationDate, c);
 
         // adding expiry date
-        JLabel deadline = new JLabel("Post expires on: " + viewModel.getDeadline());
+        JLabel deadline = new JLabel("Post expires on: " + outputData.getDeadline());
         c.gridwidth = 2;
         c.gridheight = 1;
         c.gridx = 0;
@@ -157,7 +162,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         this.add(buffer3, c);
 
         // adding main description
-        JTextArea body = new JTextArea(viewModel.getPostBody());
+        JTextArea body = new JTextArea(outputData.getPostBody());
         body.setEditable(false);
         body.setLineWrap(true);
         JScrollPane description = new JScrollPane(body);
@@ -168,8 +173,8 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridy = 8;
         this.add(description, c);
 
-        // adding view comment button, update later to integrate with view/post comment UC
-        JButton viewcomments = new JButton("View Comments");
+        // adding comment button, update later to integrate with view/post comment UC
+        JButton viewcomments = new JButton("Comments");
         c.gridwidth = 1;
         c.gridheight = 1;
         c.gridx = 1;

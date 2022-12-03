@@ -1,5 +1,8 @@
 package view_post.use_case;
 
+/**
+ * The interactor class for the View Post use case.
+ */
 public class ViewPostInteractor implements ViewPostInputBoundary {
     private final ViewPostDsGateway dsGateway;
     private final ViewPostOutputBoundary presenter;
@@ -16,7 +19,7 @@ public class ViewPostInteractor implements ViewPostInputBoundary {
     }
 
     /**
-     * Display the selected post.
+     * Displays the selected post.
      * @param requestModel The input data from the user.
      */
     @Override
@@ -24,13 +27,10 @@ public class ViewPostInteractor implements ViewPostInputBoundary {
         int postID = requestModel.getPostID();
         String[] postInfo = dsGateway.getPostInfo(postID);
 
-        // creating a List of Integers of ids of the replies (Comments) made on that post
-        String[] replyids = postInfo[3].split(" ");
-
         String[] tags = postInfo[2].split(" ");
 
         ViewPostResponseModel outputData = new ViewPostResponseModel(postInfo[0], postInfo[1], tags,
-                replyids, postInfo[4], postInfo[5], postInfo[6], postID, postInfo[8]);
+                postInfo[4], postInfo[5], postInfo[6], postID, postInfo[8]);
 
         presenter.updateActivePost(outputData);
     }

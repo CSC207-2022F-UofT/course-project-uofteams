@@ -2,6 +2,7 @@ package filter_post.interface_adapters;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 
 public class FilterPostViewModel {
     // Using parallel arrays to store the post data.
@@ -28,9 +29,7 @@ public class FilterPostViewModel {
      * @param observer The observer to be observing this observable.
      */
     public void addObserver(PropertyChangeListener observer) {
-        observable.addPropertyChangeListener("titles", observer);
-        observable.addPropertyChangeListener("ids", observer);
-        observable.addPropertyChangeListener("descriptions", observer);
+        observable.addPropertyChangeListener("Search", observer);
     }
 
     /**
@@ -69,8 +68,10 @@ public class FilterPostViewModel {
         this.ids = ids;
         this.descriptions = descriptions;
 
-        observable.firePropertyChange("titles", oldTitles, this.titles);
-        observable.firePropertyChange("ids", oldIDs, this.ids);
-        observable.firePropertyChange("descriptions", oldDescriptions, this.descriptions);
+        ArrayList<Object> results = new ArrayList<>();
+        results.add(titles);
+        results.add(ids);
+
+        observable.firePropertyChange("Search", null, results);
     }
 }
