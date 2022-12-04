@@ -1,9 +1,9 @@
 package view_post.use_case.view_post_exceptions;
 
-public class ViewPostException extends Exception{
+public class PostDoesNotExistException extends Exception{
     private final String message;
 
-    public ViewPostException(String message) {
+    public PostDoesNotExistException(String message) {
         this.message = message;
     }
 

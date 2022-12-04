@@ -1,6 +1,6 @@
 package view_post.use_case;
 
-import view_post.use_case.view_post_exceptions.ViewPostException;
+import view_post.use_case.view_post_exceptions.PostDoesNotExistException;
 
 /**
  * The interactor class for the View Post use case.
@@ -38,7 +38,7 @@ public class ViewPostInteractor implements ViewPostInputBoundary {
 
             presenter.updateActivePost(outputData);
         }
-        catch(ViewPostException v){
+        catch(PostDoesNotExistException v){
             ViewPostResponseModel outputData = new ViewPostResponseModel("", "", new String[]{""},
                     "", "", "", -1, "");
             presenter.updateActivePost(outputData);
