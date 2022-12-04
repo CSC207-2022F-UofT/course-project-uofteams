@@ -310,6 +310,7 @@ import java.util.Map;
             writer.flush();
             // closing writer connection
             writer.close();
+            csvReader.close();
         } catch (IOException e) {
             System.out.println("Cannot find file");;
         } catch (CsvException e) {
