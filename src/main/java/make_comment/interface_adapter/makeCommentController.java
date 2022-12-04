@@ -17,7 +17,7 @@ public class makeCommentController {
         //pass input info to interactor
 
         MakeCommentRequestModel makeCommRequestModel = new
-                MakeCommentRequestModel(currentUserID, body, commentId, postId);
+                MakeCommentRequestModel(body, postId);
         interactor.constructAndSaveCommentAndUpdatePost(makeCommRequestModel);
     }
 }

@@ -26,9 +26,9 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
     @Override
     public void constructAndSaveCommentAndUpdatePost (MakeCommentRequestModel mCRM) {
         try {
-            int userId = mCRM.getUserId();
+            int userId = getCurrentUserID();
             String body = mCRM.getCommentBody();
-            int commentId = mCRM.getSelfId();
+            int commentId = getNumCommentCreated();
             int postId = mCRM.getPostId();
             constructAndSaveCommentHelper(userId, body, commentId);
             updatePostHelper(postId, commentId);
