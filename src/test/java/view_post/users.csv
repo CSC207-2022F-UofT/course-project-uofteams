@@ -1,0 +1,2 @@
+ userID,isAdmin,email,password,listPosts,listFavourites
+1,false,test@mail.utoronto.ca,abc,1,1

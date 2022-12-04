@@ -1,5 +1,10 @@
 package view_post.use_case;
 
+import view_post.use_case.view_post_exceptions.PostDoesNotExistException;
+
+/**
+ * The interactor class for the View Post use case.
+ */
 public class ViewPostInteractor implements ViewPostInputBoundary {
     private final ViewPostDsGateway dsGateway;
     private final ViewPostOutputBoundary presenter;
@@ -16,19 +21,27 @@ public class ViewPostInteractor implements ViewPostInputBoundary {
     }
 
     /**
-     * Display the selected post.
+     * Displays the selected post.
      * @param requestModel The input data from the user.
      */
     @Override
     public void displayPost(ViewPostRequestModel requestModel) {
         int postID = requestModel.getPostID();
-        String[] postInfo = dsGateway.getPostInfo(postID);
-        String delimiter = "##";
 
-        ViewPostResponseModel outputData = new ViewPostResponseModel(
-                postInfo[0], postInfo[1], postInfo[2].split(delimiter), postInfo[3].split(delimiter), postInfo[4]
-                );
+        try {
+            String[] postInfo = dsGateway.getPostInfo(postID);
 
-        presenter.updateActivePost(outputData);
+            String[] tags = postInfo[2].split(" ");
+
+            ViewPostResponseModel outputData = new ViewPostResponseModel(postInfo[0], postInfo[1], tags,
+                    postInfo[4], postInfo[5], postInfo[6], postID, postInfo[8]);
+
+            presenter.updateActivePost(outputData);
+        }
+        catch(PostDoesNotExistException v){
+            ViewPostResponseModel outputData = new ViewPostResponseModel("", "", new String[]{""},
+                    "", "", "", -1, "");
+            presenter.updateActivePost(outputData);
+        }
     }
 }
