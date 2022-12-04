@@ -3,6 +3,8 @@ package make_post.use_case;
 import entities.CurrentUser;
 import entities.Post;
 import make_post.use_case.make_post_exceptions.MakePostException;
+import use_case_general.PostFactory;
+
 
 import java.time.LocalDate;
 import java.util.*;
@@ -13,11 +15,12 @@ public class MakePostInteractor implements MakePostInputBoundary {
     private final MakePostDsGateway dataAccess;
     private final MakePostOutputBoundary presenter;
 
-    private final PostFactory postFactory = new PostFactory();
+    private final PostFactory postFactory;
 
-    public MakePostInteractor(MakePostDsGateway dataAccess, MakePostOutputBoundary presenter){
+    public MakePostInteractor(MakePostDsGateway dataAccess, MakePostOutputBoundary presenter, PostFactory postFactory){
         this.dataAccess = dataAccess;
         this.presenter = presenter;
+        this.postFactory = postFactory;
     }
 
     /**

@@ -4,6 +4,7 @@ import com.opencsv.exceptions.CsvException;
 import entities.User;
 import com.opencsv.CSVReader;
 import log_in.use_case.LogInDsGateway;
+import use_case_general.UserReaderInterface;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 
 public class LogInDatabaseAccess implements LogInDsGateway {
     private final String userPath;
+    private final UserReaderInterface userReader;
 
-    public LogInDatabaseAccess(String userPath){
+    public LogInDatabaseAccess(String userPath, UserReaderInterface userReader){
         this.userPath = userPath;
+        this.userReader = userReader;
     }
 
 
@@ -64,22 +67,35 @@ public class LogInDatabaseAccess implements LogInDsGateway {
     }
 
     @Override
-    public ArrayList<String> getUser(boolean success, String email, String pass){
-        ArrayList<String> userInfo = new ArrayList<>();
-        if (success){
-            ArrayList<String> emails = this.getData(4);
-            ArrayList<String> admins = this.getData(2);
+    public User getUser(boolean success, String email){
+        if(success) {
+            String[] userInfo = new String[6];
 
-            int emailIndex = emails.indexOf(email);
-            String adminValueString = admins.get(emailIndex);
-            userInfo.add(email);
-            userInfo.add(pass);
-            userInfo.add(adminValueString);
+            ArrayList<String> emails = this.getData(2);
+            int index = emails.indexOf(email);
+            userInfo[2] = String.valueOf(index);
+
+            ArrayList<String> ids = this.getData(0);
+            userInfo[0] = ids.get(index);
+
+            ArrayList<String> admins = this.getData(1);
+            userInfo[1] = admins.get(index);
+
+            ArrayList<String> passwords = this.getData(3);
+            userInfo[3] = passwords.get(index);
+
+            ArrayList<String> posts = this.getData(4);
+            userInfo[4] = posts.get(index);
+
+            ArrayList<String> replies = this.getData(5);
+            userInfo[5] = replies.get(index);
+
+            User user = userReader.readUser(userInfo);
+
+            return user;
         } else {
             return null;
         }
-
-        return userInfo;
     }
 
     //testing method see LogInTest for usage
