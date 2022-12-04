@@ -50,7 +50,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
      * Default view when the view is first called or when there are no posts to show.
      * We may not need this method depending on how the rest of the use cases operate.
      */
-    private void displayDefault(){
+    public void refresh(){
         this.clearPanel();
         this.setLayout(new BorderLayout());
         JLabel defaultMessage = new JLabel("Please select a post to view!");
