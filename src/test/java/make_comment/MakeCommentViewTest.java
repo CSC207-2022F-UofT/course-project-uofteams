@@ -6,7 +6,7 @@ import make_comment.interface_adapter.makeCommentController;
 import make_comment.interface_adapter.makeCommentPresenter;
 import make_comment.interface_adapter.makeCommentViewModel;
 import make_comment.ui.MakeCommentViewButton;
-import make_comment.use_case.MakeCommentGateway;
+import make_comment.use_case.MakeCommentDSGateway;
 import make_comment.use_case.MakeCommentInteractor;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class MakeCommentViewTest {
     public static void main(String[] args) {
-        MakeCommentGateway dsGateway = new MakeCommentGateway() {
+        MakeCommentDSGateway dsGateway = new MakeCommentDSGateway() {
 
             @Override
             public int getNumComments() {

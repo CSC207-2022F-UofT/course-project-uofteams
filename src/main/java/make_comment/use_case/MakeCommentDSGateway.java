@@ -3,7 +3,7 @@ package make_comment.use_case;
 import java.util.List;
 import java.util.Map;
 
-public interface MakeCommentGateway {
+public interface MakeCommentDSGateway {
     int getNumComments();
 
     void setNumComments(int newNumCommentCreated);

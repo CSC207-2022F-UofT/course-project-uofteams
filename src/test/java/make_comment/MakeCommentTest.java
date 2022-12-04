@@ -7,7 +7,7 @@ import make_comment.driver.MakeCommentDatabaseAccess;
 import make_comment.interface_adapter.makeCommentController;
 import make_comment.interface_adapter.makeCommentPresenter;
 import make_comment.interface_adapter.makeCommentViewModel;
-import make_comment.use_case.MakeCommentGateway;
+import make_comment.use_case.MakeCommentDSGateway;
 import make_comment.use_case.MakeCommentInteractor;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 public class MakeCommentTest {
     //set up test classes
-    MakeCommentGateway gateway;
+    MakeCommentDSGateway gateway;
     makeCommentViewModel MCVM;
     makeCommentController MCC;
     makeCommentPresenter mcPresenter;

@@ -13,10 +13,12 @@ import java.util.*;
  * with the entities and ultimately send information back out into the UI.
  */
 public class MakeCommentInteractor implements MakeCommentInputBoundary {
-    private final MakeCommentGateway dataAccess;
+    private final MakeCommentDSGateway dataAccess;
     private final MakeCommentOutputBoundary presenter;
 
-    public MakeCommentInteractor(MakeCommentGateway dataAccess, MakeCommentOutputBoundary presenter) {
+    private final CommentFactory commentFactory = new CommentFactory();
+
+    public MakeCommentInteractor(MakeCommentDSGateway dataAccess, MakeCommentOutputBoundary presenter) {
         this.dataAccess = dataAccess;
         this.presenter = presenter;
     }
@@ -34,7 +36,7 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
                     MakeCommentResponseModel(true, "");
             this.presenter.present(responseModel);
 
-        } catch (Exception e) {
+        } catch (MakeCommentException e) {
             MakeCommentResponseModel responseModel = new
                     MakeCommentResponseModel(false, "Comment was not created");
             this.presenter.present(responseModel);
@@ -83,11 +85,11 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
         dataAccess.updatePostDB(postData);
     }
 
-    private void constructAndSaveCommentHelper(int userId, String body, int commentId){
+    private void constructAndSaveCommentHelper(int userId, String body, int commentId) throws MakeCommentException {
         if (body.equals("")){
-            throw new RuntimeException();
+            throw new MakeCommentException("Message body is empty!");
         }
-        Comment thisComment = CommentFactory.makeComment(userId, body, commentId);
+        Comment thisComment = commentFactory.makeComment(userId, body, commentId);
         String stringCreationDate = thisComment.getCreationDate().toString();
         Map<String, String> saveFormat = new HashMap<>();
         saveFormat.put("commentID", Integer.toString(commentId));
