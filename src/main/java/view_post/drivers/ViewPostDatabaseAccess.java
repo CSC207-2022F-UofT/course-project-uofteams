@@ -36,6 +36,9 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
         String[] postInfo = new String[9];
 
         String[] rawPostData = this.getPostData(postID);
+        if(rawPostData == null){
+            throw new PostDoesNotExistException("The file does not exist.");
+        }
         if(rawPostData[0] == null){
             throw new PostDoesNotExistException("This post does not exist.");
         }
@@ -72,7 +75,7 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
     private String getUserEmail(int userID){
         try {
             // finding and retrieving the current user's data
-            List<String[]> allUsers = readAllLines(Paths.get(partialPath+"users.csv"));
+            List<String[]> allUsers = readAllLines(Paths.get(partialPath + "users.csv"));
             allUsers.subList(0,1).clear();
             String[] userData = new String[6];
             for (String[] user : allUsers) {
@@ -101,19 +104,15 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
     private String[] getPostData(int postid){
         try {
             // finding the post in the database
-            List<String[]> allPosts = readAllLines(Paths.get(partialPath+"posts.csv"));
+            List<String[]> allPosts = readAllLines(Paths.get(partialPath + "posts.csv"));
             allPosts.subList(0,1).clear();
             String[] postData = new String[10];
             for (String[] post : allPosts) {
-                try {
-                    int id = Integer.parseInt(post[0]);
-                    if (id == postid) {
-                        postData = post;
-                    }
-                } catch (NumberFormatException ex) {
-                    // we ignore this as this only happens in the first iteration of the loop when it reads the header
-                    System.out.println("Column Title");
+                int id = Integer.parseInt(post[0]);
+                if (id == postid) {
+                    postData = post;
                 }
+
             }
             return postData;
         }catch (IOException e1){
@@ -136,5 +135,4 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
             }
         }
     }
-
 }
