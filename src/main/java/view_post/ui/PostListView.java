@@ -1,5 +1,6 @@
 package view_post.ui;
 
+import filter_post.ui.FilterPostBarView;
 import view_post.interface_adapters.ViewPostController;
 
 import javax.swing.*;
@@ -29,14 +30,13 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
      * Initializes PostListView.
      * @param controller A ViewPostController object that will be called when a post is selected to view
      */
-    public PostListView(ViewPostController controller){
+    public PostListView(ViewPostController controller, FilterPostBarView filterBar){
         this.setPreferredSize(new Dimension(300, 680));
         // initializing instance variables
         this.postList = new JPanel();
         this.add(this.postList);
-        // FilterPostBarView filterPostBar = new FilterPostBarView();
-        // need to figure out whether FilterPostController should be an instance var / passed / called from main
-        // this.postList.add(filterPostBar);
+        // the FilterPostBarView is added directly into PostListView so that it does not get removed in displayList()
+        this.add(filterBar);
         this.titles = null;
         this.ids = null;
         this.controller = controller;
@@ -63,6 +63,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         }else{
             JList titleList = new JList<>(this.titles);
             this.list = titleList;
+            this.list.addListSelectionListener(this);
             titleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             titleList.setLayoutOrientation(JList.VERTICAL);
             titleList.setVisibleRowCount(-1);
