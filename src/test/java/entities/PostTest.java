@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class PostTest extends Postable {
     int poster = 1;
@@ -33,7 +33,7 @@ public class PostTest extends Postable {
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         int user = 0;
         newPost.addFavouritedUser(user);
-        assertEquals(user, newPost.getFavouritedUsers().get(0));
+        assertEquals(user, (int) newPost.getFavouritedUsers().get(0));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class PostTest extends Postable {
         int user2 = 1;
         newPost.addFavouritedUser(user);
         newPost.addFavouritedUser(user);
-        assertEquals(user, newPost.getFavouritedUsers().get(0));
+        assertEquals(user, (int) newPost.getFavouritedUsers().get(0));
         assertEquals(1, newPost.getFavouritedUsers().size());
     }
 
@@ -114,7 +114,7 @@ public class PostTest extends Postable {
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         int comment = 1;
         newPost.addReply(comment);
-        assertEquals(comment, newPost.getReplies().get(0));
+        assertEquals(comment, (int) newPost.getReplies().get(0));
     }
     @Test
     public void addReply() {
@@ -124,7 +124,7 @@ public class PostTest extends Postable {
         newPost.addReply(comment);
         newPost.addReply(comment);
         assertEquals(1, newPost.getReplies().size());
-        assertEquals(comment, newPost.getReplies().get(0));
+        assertEquals(comment, (int) newPost.getReplies().get(0));
     }
 
     @Test
