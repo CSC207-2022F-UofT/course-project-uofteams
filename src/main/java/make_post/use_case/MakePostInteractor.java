@@ -12,9 +12,13 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class MakePostInteractor implements MakePostInputBoundary {
     private final MakePostDsGateway dataAccess;
     private final MakePostOutputBoundary presenter;
-
     private final PostFactory postFactory = new PostFactory();
 
+    /**
+     * Initialises the interactor for this use case.
+     * @param dataAccess the database access class that saves the post to the db.
+     * @param presenter the presenter that updates the view model about success/failure of post creation.
+     */
     public MakePostInteractor(MakePostDsGateway dataAccess, MakePostOutputBoundary presenter){
         this.dataAccess = dataAccess;
         this.presenter = presenter;
@@ -34,17 +38,22 @@ public class MakePostInteractor implements MakePostInputBoundary {
         return false;
     }
 
+    /**
+     * save the post to the db, throw errors if necessary, and switch back to the main view upon success.
+     * @param requestModel a class containing the data that is used to create the post.
+     */
     @Override
     public void makePost(MakePostRequestModel requestModel) {
+        //make a Post entity.
         Post newPost = postFactory.create(requestModel.getPoster(), requestModel.getTitle(), requestModel.getMainDesc(), requestModel.getTags(), requestModel.getCollaborators(),
                 requestModel.getDeadline(), requestModel.getNumPostsCreated());
         Map<String, String> postAttributes = constructPostAttributes(newPost);
 
         try{
+            MakePostResponseModel responseModel = this.makePostHelper(requestModel);
             this.dataAccess.savePost(postAttributes);
             //increase number of posts by 1
             this.dataAccess.setNumberOfPosts(this.dataAccess.getNumberOfPosts() + 1);
-            MakePostResponseModel responseModel = this.makePostHelper(requestModel);
             this.presenter.updateViewModel(responseModel);
             //go back to the main view
             //close the MakePostView!
@@ -55,15 +64,32 @@ public class MakePostInteractor implements MakePostInputBoundary {
         }
     }
 
+    /**
+     * @return the current user's id.
+     */
     public int getCurrentUser(){
         return CurrentUser.getCurrentUser().getId();
     }
 
+    @Override
+    public MakePostOutputBoundary getPresenter() {
+        return this.presenter;
+    }
+
+    /**
+     * @return the number of posts created so far.
+     */
     public int getNumPostsCreated(){
         return this.dataAccess.getNumberOfPosts();
     }
 
-
+    /**
+     * this method returns the appropriate response model or throws an exception, which then tells the interactor whether
+     * post creation is a success.
+     * @param requestModel the post with its information.
+     * @return a response model containing the output data.
+     * @throws MakePostException
+     */
     private MakePostResponseModel makePostHelper(MakePostRequestModel requestModel) throws MakePostException {
         if (!checkDeadline(requestModel)) {
             throw new MakePostException("Deadline more than 6 months away or in the past");
@@ -71,11 +97,12 @@ public class MakePostInteractor implements MakePostInputBoundary {
         else {
         return new MakePostResponseModel(true, "");}
     }
-   @Override
-    public MakePostOutputBoundary getPresenter() {
-        return presenter;
-    }
 
+    /**
+     * converts the post's instance variables to the data types needed for saving the information to the database.
+     * @param newPost the post that is to be saved to the db.
+     * @return a map containing the information of the post that is to be saved to the db.
+     */
     private Map<String, String> constructPostAttributes(Post newPost){
         Map<String, String> postAttributes = new HashMap<>();
         int posterID = newPost.getUser();
@@ -92,12 +119,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
         for (String tag : tags) {
             tagsString.append(tag + " ");
         }
-        if(!(tagsString.length() == 0)){
-            tagsString.deleteCharAt(tagsString.length()-1);
-        }
-        else {
-            tagsString = new StringBuilder("");
-        }
+        tagsString.deleteCharAt(tagsString.length()-1);
         postAttributes.put("postID", String.valueOf(postID));
         postAttributes.put("posterID", String.valueOf(posterID));
         postAttributes.put("title", title);
