@@ -3,34 +3,38 @@ package favourite.use_case;
 import entities.Post;
 import entities.User;
 
+/**
+ * The interface implemented by FavouriteDatabaseAccess
+ */
 public interface FavouriteDsGateway {
     /**
-     * Returns the User that is trying to favourite this post
+     * Retrieves current user as a User object from the database
+     * @param userID the integer ID of the user being retrieved from the database
+     * @return the current user as a User object
      */
-    User getUser(int userid);
+    User getUser(int userID);
 
     /**
-     * Returns the Post the user is trying to favourite
+     * Retrieves the post being favourited/unfavourited as a Post object from the database
      *
-     * @param postid id of post being searched for
+     * @param postID the integer ID of the post being favourited/unfavourited
+     * @return a Post object
      */
-    Post getPost(int postid);
+    Post getPost(int postID);
 
     /**
-     * Saves the edited User in the database
-     *
-     * @param updateduser data of the User being saved
-     * @param userid id of the User being saved
+     * Rewrites entire csv with the updated User
+     * @param updatedUser a String array of the data of the updated user
+     * @param userID the integer ID of the updated user
      */
-    void saveUserInfo(String[] updateduser, int userid);
+    void saveUserInfo(String[] updatedUser, int userID);
 
     /**
-     * Saves the edited Post in the database
-     *
-     * @param updatedpost data of the Post being saved
-     * @param postid id of the Post being saved
+     * Rewrites entire csv with the updated Post
+     * @param updatedPost a String array of the data of the updated post
+     * @param postID the integer ID of the updated post
      */
-    void savePostInfo(String[] updatedpost, int postid);
+    void savePostInfo(String[] updatedPost, int postID);
 
 
 }

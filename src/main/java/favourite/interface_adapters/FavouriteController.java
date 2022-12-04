@@ -3,12 +3,15 @@ package favourite.interface_adapters;
 import favourite.use_case.FavouriteInputBoundary;
 import favourite.use_case.FavouriteRequestModel;
 
+/**
+ * The controller class of the Favourite use case
+ */
 public class FavouriteController{
     private final FavouriteInputBoundary interactor;
 
     /**
      * Initializes FavouriteController
-     * @param interactor the interactor, passing as a FavouriteInputBoundary
+     * @param interactor a FavouriteInteractor obejct passing as an instance of FavouriteInputBoundary
      */
     public FavouriteController (FavouriteInputBoundary interactor){
         this.interactor = interactor;
@@ -16,11 +19,10 @@ public class FavouriteController{
 
     /**
      * Creates FavouriteRequestModel and runs the favourite use case
-     *
-     * @param postid id of the post being favrourited/unfavourited
+     * @param postID the integer ID of the post being favrourited/unfavourited
      */
-    public void favourite(int postid){
-        FavouriteRequestModel requestModel = new FavouriteRequestModel(postid);
+    public void favourite(int postID){
+        FavouriteRequestModel requestModel = new FavouriteRequestModel(postID);
         interactor.favouritepost(requestModel);
     }
 

@@ -2,12 +2,14 @@ package favourite.use_case;
 
 import entities.User;
 
+/**
+ * An interface for UserFactory
+ */
 public interface UserReaderInterface {
     /**
-     * Converts csv String data for a User into a User Object
-     *
-     * @param userdata ArrayList of String data stored in the database for a user
-     * @return a User object with instance variables stored in userdata
+     * Creates a new User object based on the data stored in the database
+     * @param userData ArrayList of String data stored in the database for a user
+     * @return a User object with the qualities described in userdata
      */
-    User readUser(String[] userdata);
+    User readUser(String[] userData);
 }

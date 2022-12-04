@@ -1,8 +1,7 @@
 package favourite.use_case;
 
 /**
- * Class FavouriteResponseModel in the use case layer carries information from the FavouriteInteractor
- * to the UI about the outcome of the use case.
+ * The response model data structure class for the Favourite use case.
  */
 public class FavouriteResponseModel {
     // true if the post was "favourited"
@@ -13,7 +12,8 @@ public class FavouriteResponseModel {
     /**
      * Initializes FavouriteResponseModel
      *
-     * @param message
+     * @param favourited a boolean that is true when the post was favourited
+     * @param unfavourited a boolean that is true when the post was unfavourited
      */
     public FavouriteResponseModel(boolean favourited, boolean unfavourited){
 

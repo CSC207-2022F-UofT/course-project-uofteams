@@ -1,5 +1,6 @@
 package favourite;
 
+import entities.CurrentUser;
 import entities.Post;
 import entities.User;
 import favourite.drivers.FavouriteDatabaseAccess;
@@ -8,10 +9,10 @@ import favourite.use_case.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import sign_up.use_case.UserFactory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -22,13 +23,18 @@ public class FavouriteTest {
     FavouriteOutputBoundary presenter;
     FavouriteDatabaseAccess dataAccess;
     FavouriteDsGateway simpleDataAccess;
+    CurrentUser currentUser;
 
     @Before
     public void setUp(){
-        UserFactory userFactory = new UserFactory();
-        PostFactory postFactory = new PostFactory();
+        PostReaderInterface postFactory = new PostFactory();
+        UserReaderInterface userFactory = new UserFactory();
         String partialPath = "src/test/java/favourite/";
-        dataAccess = new FavouriteDatabaseAccess(postFactory, (UserReaderInterface) userFactory, partialPath);
+        dataAccess = new FavouriteDatabaseAccess(postFactory, userFactory, partialPath);
+
+        User user = new User(false, 1, "email@mail.utoronto.ca", "password");
+        currentUser = new CurrentUser();
+        currentUser.setCurrentUser(user);
         }
 
     @After
@@ -60,6 +66,7 @@ public class FavouriteTest {
 
     /**
      * Tests whether a post is "favourited" if the Post is not on the User's favourites list.
+     * (Also looks at whether the updated data is property converted to a savable String[] format)
      */
     @Test
     public void testFavourite(){
@@ -96,7 +103,9 @@ public class FavouriteTest {
 
             @Override
             public void savePostInfo(String[] updatedpost, int postid) {
-                String[] expectedArray = {"4", "2", "title", "description", "2022-12-25", "2022-11-30", "1", ""};
+                String[] expectedArray = {"4", "2", "title", "description", "", "", "2022-12-25", "2022-11-30", "1", ""};
+                System.out.println(Arrays.toString(expectedArray));
+                System.out.println(Arrays.toString(updatedpost));
                 assertArrayEquals(expectedArray, updatedpost);
             }
         };
@@ -107,6 +116,7 @@ public class FavouriteTest {
 
     /**
      * Tests whether a post is "unfavourited" if the Post is already on the User's favourites list.
+     * (Also looks at whether the updated data is property converted to a savable String[] format)
      */
     @Test
     public void testUnfavourite(){
@@ -145,7 +155,7 @@ public class FavouriteTest {
 
             @Override
             public void savePostInfo(String[] updatedpost, int postid) {
-                String[] expectedArray = {"4", "2", "title", "description", "2022-12-25", "2022-11-30", "", ""};
+                String[] expectedArray = {"4", "2", "title", "description", "", "", "2022-12-25", "2022-11-30", "", ""};
                 assertArrayEquals(expectedArray, updatedpost);
             }
         };

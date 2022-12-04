@@ -2,12 +2,14 @@ package favourite.use_case;
 
 import entities.Post;
 
+/**
+ * An interface for the PostFactory
+ */
 public interface PostReaderInterface {
     /**
-     * Converts csv String data for a Post into a Post Object
-     *
-     * @param postdata Array of Strings, data stored in the database for a post
-     * @return a Post object with instance variables stored in postdata
+     * Creates a new Post object based on the data stored in the database
+     * @param postData an array of Strings, data stored in the database for a post
+     * @return a Post object with qualities described in postData
      */
-    Post readPost(String[] postdata);
+    Post readPost(String[] postData);
 }

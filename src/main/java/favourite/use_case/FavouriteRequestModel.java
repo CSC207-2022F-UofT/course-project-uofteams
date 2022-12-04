@@ -1,30 +1,26 @@
 package favourite.use_case;
 
-import entities.User;
-import entities.Post;
-
 /**
- * Class FavouriteRequestModel in the use case layer carries information about the post being liked from the UI
- * to the FavouriteInteractor
+ * The request model data structure class for the Favourite use case
  */
 public class FavouriteRequestModel {
-    private int postid;
+    private int postID;
 
     /**
      * Initializes a FavouriteRequestModel
      *
-     * @param postid the post being favourited
+     * @param postID the post being favourited
      * */
-    public FavouriteRequestModel(int postid){
-        this.postid = postid;
+    public FavouriteRequestModel(int postID){
+        this.postID = postID;
     }
 
     /**
      * Returns the id of the Post being favourited/unfavourited
      *
-     * @return int
+     * @return the integer ID of a post
      */
     public int getPostId(){
-        return this.postid;
+        return this.postID;
     }
 }

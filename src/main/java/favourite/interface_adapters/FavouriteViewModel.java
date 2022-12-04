@@ -4,12 +4,14 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
- * FavouriteViewModel in the interface adapters layer implements the FavouriteOutputBoundary interface.
- * It runs the use case and interacts with the use case layer in response to a user's interaction with FavouriteView.
+ * The view model class of the Favourite use case
  */
 public class FavouriteViewModel {
     private final PropertyChangeSupport observable;
 
+    /**
+     * Initializes FavouriteViewModel
+     */
     public FavouriteViewModel(){
         this.observable = new PropertyChangeSupport(this);
     }

@@ -7,55 +7,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * PostFactory in the use case layer implements PostReaderInterface.
- * This class turns data from the database into Post entities the FavouriteInteractor can directly interact with.
+ * A class that creates new Post objects using data stored in String arrays
  */
 public class PostFactory implements PostReaderInterface{
 
     /**
      * Creates a new Post object based on the data stored in the database
-     * @param postdata Array of Strings, data stored in the database for a post
-     * @return Post object with qualities described in postdata
+     * @param postData an array of Strings, data stored in the database for a post
+     * @return a Post object with qualities described in postData
      */
     @Override
-    public Post readPost(String[] postdata) {
+    public Post readPost(String[] postData) {
         // converting string data into acceptable types to reconstruct a Post object
 
         // posterID
-        int posterID = Integer.parseInt(postdata[1]);
+        int posterID = Integer.parseInt(postData[1]);
         // title
-        String title = postdata[2];
+        String title = postData[2];
         // mainDesc
-        String mainDesc = postdata[3];
+        String mainDesc = postData[3];
         // tags
-        String[] tagarray = postdata[4].split(" ");
+        String[] tagArray = postData[4].split(" ");
         List<String> tags = new ArrayList<>();
-        for (String tag : tagarray) {
+        for (String tag : tagArray) {
             tags.add(tag);
         }
         //collaborators
-        String collaborators = postdata[5];
+        String collaborators = postData[5];
 
         // deadline
-        LocalDate deadline = LocalDate.parse(postdata[6]);
+        LocalDate deadline = LocalDate.parse(postData[6]);
 
         // creationDate
-        LocalDate creationDate = LocalDate.parse(postdata[7]);
+        LocalDate creationDate = LocalDate.parse(postData[7]);
 
         // id
-        int id = Integer.parseInt(postdata[0]);
+        int id = Integer.parseInt(postData[0]);
 
         // creating a List of Integers of ids of the Users who favourited this Post
-        String[] favids = postdata[8].split(" ");
+        String[] favIds = postData[8].split(" ");
         List<Integer> favouritedUsersIDs = new ArrayList<>();
-        for (String ids : favids) {
-            favouritedUsersIDs.add(Integer.parseInt(ids));
+        for (String ids : favIds) {
+            try{favouritedUsersIDs.add(Integer.parseInt(ids));
+            }catch(NumberFormatException e){
+                // let it pass, let the for loop continue
+            }
         }
         // creating a List of Integers of ids of the replies (Comments) made on that post
-        String[] replyids = postdata[9].split(" ");
+        String[] replyids = postData[9].split(" ");
         List<Integer> repliesIDs = new ArrayList<>();
         for (String ids : replyids) {
-            repliesIDs.add(Integer.parseInt(ids));
+            try{repliesIDs.add(Integer.parseInt(ids));
+            }catch(NumberFormatException e){
+                // let it pass, let the for loop continue
+            }
         }
 
         // using the variables created above to reconstruct a Post object

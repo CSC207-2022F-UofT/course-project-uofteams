@@ -9,8 +9,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * The FavouriteView class in the UI layer implements View and ActionListener interfaces.
- * Whenever a user interacts with the favourite button, this class runs the Favourite use case.
+ * The view of the Favourite use case.
  */
 public class FavouriteView extends JPanel implements ActionListener, PropertyChangeListener {
     // the controllwe that gets triggered when a user interacts with the FavouriteView
@@ -51,6 +50,7 @@ public class FavouriteView extends JPanel implements ActionListener, PropertyCha
     public void propertyChange(PropertyChangeEvent event){
         JFrame updateFrame = new JFrame();
         updateFrame.setVisible(true);
+        updateFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         if (event.getPropertyName().equals("favourited")){
             JOptionPane.showMessageDialog(updateFrame, "This post has been successfully added to " +
                     "your favourites!");
