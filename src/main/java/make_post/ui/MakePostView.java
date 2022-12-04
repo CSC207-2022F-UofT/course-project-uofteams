@@ -107,6 +107,11 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
                             "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+        if (evt.getPropertyName().equals("creation success")) {
+            JFrame successFrame = new JFrame("Success");
+            JOptionPane.showMessageDialog(successFrame, "Your post has been created :) Please close the window" +
+                    " in which you made your post.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }
 
