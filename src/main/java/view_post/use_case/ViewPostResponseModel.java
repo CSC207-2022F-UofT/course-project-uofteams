@@ -23,6 +23,7 @@ public class ViewPostResponseModel {
      * @param collaborators A String object that represents the collaborators of the post/project
      * @param postID An Integer that represents the ID of the post
      * @param title A String object that represents the title of the post
+     *
      */
     public ViewPostResponseModel(String posterEmail, String postBody, String[] postTags,
                                  String deadline, String creationDate, String collaborators, int postID, String title) {

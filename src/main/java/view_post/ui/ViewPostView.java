@@ -31,12 +31,13 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent event){
+        if("show error".equals(event.getPropertyName())){
+            JFrame errorFrame = new JFrame("Error");
+            JOptionPane.showMessageDialog(errorFrame, event.getNewValue(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
         if ("show post".equals(event.getPropertyName())) {
-            try {
-                this.displayPost((ViewPostOutputData) event.getNewValue());
-            } catch (Exception e) {
-                System.out.println("");
-            }
+            this.displayPost((ViewPostOutputData) event.getNewValue());
         }
     }
 

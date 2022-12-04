@@ -26,7 +26,7 @@ public class FilterPostViewModel {
 
     /**
      * Add a new observer to observe changes to this class.
-     * @param observer The observer to be observing this observable.
+     * @param observer a PostListView object which implements PropertyChangeListener
      */
     public void addObserver(PropertyChangeListener observer) {
         observable.addPropertyChangeListener("Search", observer);
