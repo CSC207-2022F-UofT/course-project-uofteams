@@ -2,9 +2,9 @@ package make_comment;
 
 import entities.CurrentUser;
 import entities.User;
-import make_comment.interface_adapter.makeCommentController;
-import make_comment.interface_adapter.makeCommentPresenter;
-import make_comment.interface_adapter.makeCommentViewModel;
+import make_comment.interface_adapter.MakeCommentController;
+import make_comment.interface_adapter.MakeCommentPresenter;
+import make_comment.interface_adapter.MakeCommentViewModel;
 import make_comment.ui.MakeCommentViewButton;
 import make_comment.use_case.MakeCommentDSGateway;
 import make_comment.use_case.MakeCommentInteractor;
@@ -50,10 +50,10 @@ public class MakeCommentViewTest {
         User user = new User(false, 1, "regan@mail.utoronto.ca", "a");
         CurrentUser.setCurrentUser(user);
 
-        makeCommentViewModel mcvm = new makeCommentViewModel();
-        makeCommentPresenter mcPresenter = new makeCommentPresenter(mcvm);
+        MakeCommentViewModel mcvm = new MakeCommentViewModel();
+        MakeCommentPresenter mcPresenter = new MakeCommentPresenter(mcvm);
         MakeCommentInteractor MCI = new MakeCommentInteractor(dsGateway, mcPresenter);
-        makeCommentController MCC = new makeCommentController(MCI);
+        MakeCommentController MCC = new MakeCommentController(MCI);
         MakeCommentViewButton viewButton = new MakeCommentViewButton(0,MCC);
         Map<String, String> commentAttributes = new HashMap<>();
         commentAttributes.put("CommentID", "0");

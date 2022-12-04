@@ -3,10 +3,10 @@ package make_comment.interface_adapter;
 import make_comment.use_case.MakeCommentOutputBoundary;
 import make_comment.use_case.MakeCommentResponseModel;
 
-public class makeCommentPresenter implements MakeCommentOutputBoundary {
-    private final makeCommentViewModel viewModel;
+public class MakeCommentPresenter implements MakeCommentOutputBoundary {
+    private final MakeCommentViewModel viewModel;
 
-    public makeCommentPresenter(makeCommentViewModel viewModel){
+    public MakeCommentPresenter(MakeCommentViewModel viewModel){
         this.viewModel = viewModel;
     }
 

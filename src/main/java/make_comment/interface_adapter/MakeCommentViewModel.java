@@ -3,10 +3,10 @@ package make_comment.interface_adapter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class makeCommentViewModel {
+public class MakeCommentViewModel {
     private final PropertyChangeSupport observable;
 
-    public makeCommentViewModel(){
+    public MakeCommentViewModel(){
         this.observable = new PropertyChangeSupport(this);
     }
 

@@ -1,6 +1,6 @@
 package make_comment.ui;
 
-import make_comment.interface_adapter.makeCommentController;
+import make_comment.interface_adapter.MakeCommentController;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,14 +9,14 @@ import java.beans.PropertyChangeListener;
 import java.util.Objects;
 
 public class MakeCommentViewButton extends JPanel implements ActionListener ,PropertyChangeListener{
-    private final makeCommentController controller;
+    private final MakeCommentController controller;
     private final int postId;
 
 
-    public MakeCommentViewButton(int postId, makeCommentController controller){
+    public MakeCommentViewButton(int postId, MakeCommentController controller){
         this.controller = controller;
         this.postId = postId;
-        JButton addComment = new JButton("add Comment");
+        JButton addComment = new JButton("Add Comment");
         addComment.addActionListener(this);
         this.add(addComment);
     }

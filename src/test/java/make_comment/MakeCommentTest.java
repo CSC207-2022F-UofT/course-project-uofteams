@@ -4,9 +4,9 @@ import com.opencsv.CSVWriter;
 import entities.CurrentUser;
 import entities.User;
 import make_comment.driver.MakeCommentDatabaseAccess;
-import make_comment.interface_adapter.makeCommentController;
-import make_comment.interface_adapter.makeCommentPresenter;
-import make_comment.interface_adapter.makeCommentViewModel;
+import make_comment.interface_adapter.MakeCommentController;
+import make_comment.interface_adapter.MakeCommentPresenter;
+import make_comment.interface_adapter.MakeCommentViewModel;
 import make_comment.use_case.MakeCommentDSGateway;
 import make_comment.use_case.MakeCommentInteractor;
 import java.beans.PropertyChangeListener;
@@ -22,9 +22,9 @@ import static org.junit.Assert.*;
 public class MakeCommentTest {
     //set up test classes
     MakeCommentDSGateway gateway;
-    makeCommentViewModel MCVM;
-    makeCommentController MCC;
-    makeCommentPresenter mcPresenter;
+    MakeCommentViewModel MCVM;
+    MakeCommentController MCC;
+    MakeCommentPresenter mcPresenter;
     MakeCommentInteractor MCI;
 
     // sets up tests.
@@ -42,10 +42,10 @@ public class MakeCommentTest {
         setupTestFiles(commentPath, cpHeader);
         String filePath = "src/test/java/make_comment/";
         this.gateway = new MakeCommentDatabaseAccess(filePath);
-        this.MCVM = new makeCommentViewModel();
-        this.mcPresenter = new makeCommentPresenter(MCVM);
+        this.MCVM = new MakeCommentViewModel();
+        this.mcPresenter = new MakeCommentPresenter(MCVM);
         this. MCI = new MakeCommentInteractor(gateway, mcPresenter);
-        this.MCC = new makeCommentController(MCI);
+        this.MCC = new MakeCommentController(MCI);
 
 
     }
