@@ -4,16 +4,16 @@ public class MakeCommentRequestModel {
     //MakeCommentRequestModel is a class that stores input data for make comment use case
 
     // id of user making comment
-    private int userId;
+    private final int userId;
 
     // The text body of the comment
-    private String body;
+    private final String body;
 
     // id of this comment
-    private int id;
+    private final int id;
 
     // id of the post this comment is associated to
-    private int postId;
+    private final int postId;
 
 
     /*

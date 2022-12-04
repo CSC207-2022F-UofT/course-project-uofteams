@@ -1,7 +1,6 @@
 package make_comment.use_case;
 
 import entities.Comment;
-import entities.User;
 
 public class CommentFactory {
 

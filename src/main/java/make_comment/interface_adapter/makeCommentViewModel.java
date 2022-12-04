@@ -18,5 +18,7 @@ public class makeCommentViewModel {
     public void updateViewModel(boolean creationSuccess, String errorMessage) {
         observable.firePropertyChange("creation success", false, creationSuccess);
         observable.firePropertyChange("creation failure", "", errorMessage);
+
+
     }
 }

@@ -3,9 +3,7 @@ package make_comment.use_case;
 
 import entities.Comment;
 import entities.CurrentUser;
-import entities.Post;
-import make_comment.driver.MakeCommentDatabaseAccess;
-import make_post.use_case.MakePostResponseModel;
+
 
 import java.util.*;
 
@@ -18,11 +16,8 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
     private final MakeCommentGateway dataAccess;
     private final MakeCommentOutputBoundary presenter;
 
-    private final CommentFactory commentFactory;
-
     public MakeCommentInteractor(MakeCommentGateway dataAccess, MakeCommentOutputBoundary presenter) {
         this.dataAccess = dataAccess;
-        this.commentFactory = new CommentFactory();
         this.presenter = presenter;
     }
 
@@ -36,12 +31,12 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
             constructAndSaveCommentHelper(userId, body, commentId);
             updatePostHelper(postId, commentId);
             MakeCommentResponseModel responseModel = new
-                    MakeCommentResponseModel(true, "comment created");
+                    MakeCommentResponseModel(true, "");
             this.presenter.present(responseModel);
 
         } catch (Exception e) {
             MakeCommentResponseModel responseModel = new
-                    MakeCommentResponseModel(true, "something went wrong");
+                    MakeCommentResponseModel(false, "Comment was not created");
             this.presenter.present(responseModel);
         }
     }
@@ -57,11 +52,16 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
 
     private void updatePostHelper(int postId, int commentId){
         List<String[]>  postData = dataAccess.getCurrentPosts();
-        Map<String, String> foundPost = new HashMap<>();
-        for(int x = 0; x < postData.size(); x++){
+        for(int x = 1; x < postData.size(); x++){
             String currentPostId = postData.get(x)[0];
             if (Integer.parseInt(currentPostId) == postId){
-                String newRepliesString = postData.get(x)[9] + (Integer.toString(commentId)+",");
+                String newRepliesString;
+                if (postData.get(x)[9].equals("")){
+                     newRepliesString =  Integer.toString(commentId);
+                } else {
+                     newRepliesString = postData.get(x)[9] + (" " + commentId);
+                }
+
                 String[] newPost = {
                         postData.get(x)[0],
                         postData.get(x)[1],
@@ -76,12 +76,17 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
                 };
                 postData.remove(x);
                 postData.add(newPost);
+                break;
 
             }
         }
+        dataAccess.updatePostDB(postData);
     }
 
     private void constructAndSaveCommentHelper(int userId, String body, int commentId){
+        if (body.equals("")){
+            throw new RuntimeException();
+        }
         Comment thisComment = CommentFactory.makeComment(userId, body, commentId);
         String stringCreationDate = thisComment.getCreationDate().toString();
         Map<String, String> saveFormat = new HashMap<>();

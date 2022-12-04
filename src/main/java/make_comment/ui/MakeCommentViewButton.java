@@ -1,20 +1,17 @@
 package make_comment.ui;
 
 import make_comment.interface_adapter.makeCommentController;
-import make_comment.use_case.MakeCommentGateway;
-
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 public class MakeCommentViewButton extends JPanel implements ActionListener ,PropertyChangeListener{
     private final makeCommentController controller;
     private final int postId;
 
-    JButton addComment;
 
     public MakeCommentViewButton(int postId, makeCommentController controller){
         this.controller = controller;
@@ -34,12 +31,18 @@ public class MakeCommentViewButton extends JPanel implements ActionListener ,Pro
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        case ("creation failure"):
-        JOptionPane.showMessageDialog(errorFrame, "Date is not in the correct format.",
-                "Error", JOptionPane.ERROR_MESSAGE);
-
-
-
-
+        if (Objects.equals(evt.getPropertyName(), "creation failure")) {
+            JFrame errorFrame = new JFrame("Error");
+            JOptionPane.showMessageDialog(errorFrame, "body was left blank.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorFrame.setVisible(false);
     }
+        else {
+            JFrame okFrame = new JFrame("Success");
+            JOptionPane.showMessageDialog(okFrame, "your comment has been record.",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+            okFrame.setVisible(false);
+
+        }
+}
 }

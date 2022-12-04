@@ -11,21 +11,24 @@ import java.io.*;
 import java.util.*;
 
 public class MakeCommentDatabaseAccess implements MakeCommentGateway {
+    private final String filepath;
+
+    public MakeCommentDatabaseAccess(String filepath) {
+        this.filepath = filepath;
+    }
 
     @Override
     public int getNumComments(){
-        String filePath = "java/database/numCommentCreated.csv";
+        String filePath = filepath + "numCommentsCreated.csv";
         File file = new File(filePath);
         try{
             FileReader fileReader = new FileReader(file);
             CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
-            int numCommentsCreated = Integer.valueOf(csvReader.peek()[0]);
+            int numCommentsCreated = Integer.parseInt(csvReader.peek()[0]);
             csvReader.close();
             return numCommentsCreated;
 
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -34,8 +37,7 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
     @Override
     public void setNumComments(int newNumCommentCreated) {
 
-        int numCommentsCreated = this.getNumComments();
-        File file = fileGetter("java/database/numCommentCreated.csv");
+        File file = fileGetter("numCommentsCreated.csv");
 
         try {
             FileReader fileReader = new FileReader(file);
@@ -57,7 +59,7 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
 
     @Override
     public void saveComment(Map<String, String> commentAttributes) {
-        File file = fileGetter("java/Database/comments.csv");
+        File file = fileGetter("comments.csv");
         String[] commentAtt = new String[commentAttributes.size()];
         commentAtt[0] = commentAttributes.get("commentID");
         commentAtt[1] = commentAttributes.get("commenterID");
@@ -84,7 +86,7 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
 
     @Override
     public void updatePostDB(List<String[]> updatedPosts) {
-        File file = fileGetter("java/Database/posts.csv");
+        File file = fileGetter("posts.csv");
         try {
             FileWriter filewriter = new FileWriter(file);
             CSVWriter writer = new CSVWriter(filewriter);
@@ -102,7 +104,7 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
     @Override
     public List<String[]> getCurrentPosts() {
 
-        File file = fileGetter("java/Database/posts.csv");
+        File file = fileGetter("posts.csv");
 
         try {
             FileReader fileReader = new FileReader(file);
@@ -110,7 +112,6 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
             CSVReader reader = csvReaderBuilder.build();
             List<String[]> postData = reader.readAll();
             // Remove the row corresponding to the header
-            postData.remove(0);
             reader.close();
             return postData;
 
@@ -127,9 +128,8 @@ public class MakeCommentDatabaseAccess implements MakeCommentGateway {
         }
     }
     private File fileGetter(String fileName){
-        String filePath = fileName;
-        File file = new File(filePath);
-        return file;
+        String filePath = filepath + fileName;
+        return new File(filePath);
     }
 
 
