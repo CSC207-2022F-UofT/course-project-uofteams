@@ -22,7 +22,7 @@ import java.util.List;
  * The main functionality of this class is retrieving and saving data to/from the database.
  */
 
-public class DataAccess implements FavouriteDsGateway {
+public class FavouriteDatabaseAccess implements FavouriteDsGateway {
     // postreader is used to allow class DataAccess to access PostFactory to convert data into
     // Post entity in getPost method
     private final PostReaderInterface postReader;
@@ -39,7 +39,7 @@ public class DataAccess implements FavouriteDsGateway {
      * @param userReader an instance of UserReaderInterface
      * @param partialPath the partial path to database files
      */
-    public DataAccess(PostReaderInterface postReader, UserReaderInterface userReader, String partialPath){
+    public FavouriteDatabaseAccess(PostReaderInterface postReader, UserReaderInterface userReader, String partialPath){
         this.postReader = postReader;
         this.userReader = userReader;
         this.partialPath = partialPath;
