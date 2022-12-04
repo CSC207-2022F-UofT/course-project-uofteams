@@ -1,35 +1,42 @@
-package view_post.use_case;
+package view_post.interface_adapters;
 
 /**
- * A data structure class for storing the output data.
+ * A data structure to pass the post data retrieved in the DatabaseAccess to the view
  */
-public class ViewPostResponseModel {
+public class ViewPostOutputData {
+    // email of the user who made the post
     private final String posterEmail;
+    // the main description of the post
     private final String postBody;
+    // the tags associated with the post
     private final String postTags;
+    // the deadline (expiry date) of the post
     private final String deadline;
+    // the creation date of the post
     private final String creationDate;
+    // the collaborators of the post/project
     private final String collaborators;
+    // the ID of the post
     private final int postID;
+    // the title of the post
     private final String title;
 
     /**
      * Initializes ViewPostOutputData
      * @param posterEmail A String object that represents the email of the user who created the post
      * @param postBody A String object that represents the main description of the post
-     * @param postTags A String array of the tags the post is associated to
+     * @param postTags A String object that lists the tags the post is associated to
      * @param deadline A String object that represents the deadline (expiry date) of the post
      * @param creationDate A String object that represents the creation date of the post
      * @param collaborators A String object that represents the collaborators of the post/project
      * @param postID An Integer that represents the ID of the post
      * @param title A String object that represents the title of the post
-     *
      */
-    public ViewPostResponseModel(String posterEmail, String postBody, String[] postTags,
-                                 String deadline, String creationDate, String collaborators, int postID, String title) {
+    public ViewPostOutputData(String posterEmail, String postBody, String postTags,
+                              String deadline, String creationDate, String collaborators, int postID, String title){
         this.posterEmail = posterEmail;
         this.postBody = postBody;
-        this.postTags = String.join(", ", postTags);
+        this.postTags = postTags;
         this.deadline = deadline;
         this.creationDate = creationDate;
         this.collaborators = collaborators;
@@ -38,58 +45,58 @@ public class ViewPostResponseModel {
     }
 
     /**
-     * Return the email of the user who made this post.
+     * Returns the email (String) of the user who created the post
      */
-    public String getPosterEmail() {
-        return posterEmail;
+    public String getPosterEmail(){
+        return this.posterEmail;
     }
 
     /**
-     * Return the body text of this post.
+     * Returns the body or main description (String) of the post
      */
     public String getPostBody() {
         return postBody;
     }
 
     /**
-     * Return the tags associated with this post.
+     * Returns the tags (String) the post is affiliated with
      */
-    public String getPostTags() {
-        return postTags;
+    public String getPostTags(){
+        return this.postTags;
     }
 
     /**
-     * Return a string representation of the deadline of this post.
+     * Returns the deadline/expiry date (String) of the post
      */
-    public String getDeadline() {
-        return deadline;
+    public String getDeadline(){
+        return this.deadline;
     }
 
     /**
-     * Return a string representation of the creation date of this post.
+     * Returns the creation date (String) of the post
      */
     public String getCreationDate() {
         return creationDate;
     }
 
     /**
-     * Return a string representation of the collaborators of this post.
+     * Returns the collaborates (String) of the post/project
      */
     public String getCollaborators() {
         return collaborators;
     }
 
     /**
-     * Return the integer representation of the id of the Post.
+     * Returns the deadline/expiry date (String) of the post
      */
     public int getPostID() {
         return postID;
     }
 
     /**
-     * Return the string representation of the title of the Post.
+     * Returns the title (String) of the post
      */
-    public String getTitle() { return title; }
-
-
+    public String getTitle(){return title;}
 }
+
+
