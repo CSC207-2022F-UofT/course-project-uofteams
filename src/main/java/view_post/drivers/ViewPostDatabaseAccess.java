@@ -3,6 +3,7 @@ package view_post.drivers;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import view_post.use_case.ViewPostDsGateway;
+import view_post.use_case.view_post_exceptions.ViewPostException;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -31,10 +32,13 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
     /**
      * Return a list of strings representing the data of the post with matching post IDs.
      */
-    public String[] getPostInfo(int postID) {
+    public String[] getPostInfo(int postID) throws ViewPostException {
         String[] postInfo = new String[9];
 
         String[] rawPostData = this.getPostData(postID);
+        if(rawPostData[0] == null){
+            throw new ViewPostException("This post does not exist.");
+        }
         int userID = Integer.parseInt(rawPostData[1]);
         String userEmail = this.getUserEmail(userID);
 

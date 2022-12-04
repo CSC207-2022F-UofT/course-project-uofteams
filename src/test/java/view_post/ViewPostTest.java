@@ -75,15 +75,15 @@ public class ViewPostTest {
                 assertEquals("", deadline);
                 assertEquals("", creationDate);
                 assertEquals("", collaborators);
-                assertEquals(1, postID);
-                assertEquals("test", title);
+                assertEquals(-1, postID);
+                assertEquals("", title);
             }
         };
-        String emptyPath = "src/test/java/view_post/emptyPosts/";
+        String emptyPath = "src/test/java/view_post/";
         dataAccess = new ViewPostDatabaseAccess(emptyPath);
         interactor = new ViewPostInteractor(dataAccess, presenter);
         controller = new ViewPostController(interactor);
-        controller.viewPost(1);
+        controller.viewPost(500);
     }
 
 }

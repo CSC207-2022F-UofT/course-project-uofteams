@@ -25,6 +25,9 @@ public class ViewPostViewModel {
      * @param data A ViewPostOutputData object that contains the data of the post that we are trying to display
      */
     public void updateView(ViewPostOutputData data){
+        if(data.getPostID() == -1){
+            support.firePropertyChange("show error", null, "This post does not exist.");
+        }
         support.firePropertyChange("show post", null, data);
     }
 

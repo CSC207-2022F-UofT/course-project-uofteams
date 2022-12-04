@@ -1,5 +1,7 @@
 package view_post.use_case;
 
+import view_post.use_case.view_post_exceptions.ViewPostException;
+
 /**
  * The interactor class for the View Post use case.
  */
@@ -25,13 +27,21 @@ public class ViewPostInteractor implements ViewPostInputBoundary {
     @Override
     public void displayPost(ViewPostRequestModel requestModel) {
         int postID = requestModel.getPostID();
-        String[] postInfo = dsGateway.getPostInfo(postID);
 
-        String[] tags = postInfo[2].split(" ");
+        try {
+            String[] postInfo = dsGateway.getPostInfo(postID);
 
-        ViewPostResponseModel outputData = new ViewPostResponseModel(postInfo[0], postInfo[1], tags,
-                postInfo[4], postInfo[5], postInfo[6], postID, postInfo[8]);
+            String[] tags = postInfo[2].split(" ");
 
-        presenter.updateActivePost(outputData);
+            ViewPostResponseModel outputData = new ViewPostResponseModel(postInfo[0], postInfo[1], tags,
+                    postInfo[4], postInfo[5], postInfo[6], postID, postInfo[8]);
+
+            presenter.updateActivePost(outputData);
+        }
+        catch(ViewPostException v){
+            ViewPostResponseModel outputData = new ViewPostResponseModel("", "", new String[]{""},
+                    "", "", "", -1, "");
+            presenter.updateActivePost(outputData);
+        }
     }
 }
