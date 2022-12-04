@@ -1,13 +1,13 @@
 package view_post.ui;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * The main view of UofTeams.
  */
-public class MainPostView {
+public class MainPostView extends JPanel{
     // A JPanel that holds the header, main post, and list of posts
-    private JPanel mainPostView;
     private ViewPostView viewPost;
     private PostListView postList;
     private HeaderView header;
@@ -20,6 +20,8 @@ public class MainPostView {
      */
     public MainPostView(ViewPostView viewPost, PostListView postList, HeaderView header){
         // adding header view
+        this.setLayout(new BorderLayout());
+
         this.header = header;
         this.header.getHeader().setBounds(0, 0, 900, 120);
 
@@ -31,17 +33,11 @@ public class MainPostView {
         this.postList = postList;
         this.postList.setBounds(0,120,300,680);
 
-        this.mainPostView = new JPanel();
-        this.mainPostView.setSize(900, 800);
-        this.mainPostView.add(header.getHeader());
-        this.mainPostView.add(this.viewPost);
-        this.mainPostView.add(this.postList);
-    }
 
-    /**
-     * Returns the mainPostView JPanel which contains all UI elements of the main UofTeams view
-     * @return A JPanel object
-     */
-    public JPanel getMainPostView(){return this.mainPostView;}
+        this.setSize(900, 800);
+        this.add(header.getHeader(), BorderLayout.NORTH);
+        this.add(this.viewPost, BorderLayout.EAST);
+        this.add(this.postList, BorderLayout.WEST);
+    }
 
 }

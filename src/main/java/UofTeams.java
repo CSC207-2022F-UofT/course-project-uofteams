@@ -50,18 +50,26 @@ import sign_up.use_case.SignUpDsGateway;
 import sign_up.use_case.SignUpInputBoundary;
 import sign_up.use_case.SignUpInteractor;
 import sign_up.use_case.SignUpOutputBoundary;
-import view_post.ui.MainFrame;
+import view_post.drivers.ViewPostDatabaseAccess;
+import view_post.interface_adapters.ViewPostController;
+import view_post.interface_adapters.ViewPostPresenter;
+import view_post.interface_adapters.ViewPostViewModel;
+import view_post.ui.*;
+import view_post.use_case.ViewPostDsGateway;
+import view_post.use_case.ViewPostInteractor;
+
+import java.util.Arrays;
 
 /*
 * The main class for the file, containing the main method which runs the program
 * */
 public class UofTeams {
-    static String adminPath = new String("");
-    static String numPostsCreatedFilePath = new String("");
-    static String numUsersCreatedFilePath = new String("");
+    static String adminPath = new String("src/main/java/Database/admin.csv");
+    static String numPostsCreatedFilePath = new String("src/main/java/Database/numPostsCreated.csv");
+    static String numUsersCreatedFilePath = new String("src/main/java/Database/numUsersCreated.csv");
     static String numCommentsCreatedFilePath = new String("");
-    static String postsFilePath = new String("");
-    static String usersFilePath = new String("");
+    static String postsFilePath = new String("src/main/java/Database/posts.csv");
+    static String usersFilePath = new String("src/main/java/Database/users.csv");
     static String commentsFilePath = new String("");
     static String generalPath = new String("src/main/java/Database/");
 
@@ -80,7 +88,7 @@ public class UofTeams {
         FilterPostInputBoundary filterPostInteractor = new FilterPostInteractor(filterPostDataAccess, filterPostPresenter);
         FilterPostController filterPostController = new FilterPostController(filterPostInteractor);
         // Requires array of preset tags
-        FilterPostBarView filterPostBarView = new FilterPostBarView(new String[0], filterPostController);
+        FilterPostBarView filterPostBarView = new FilterPostBarView(new String[]{"sports", "quantum", "math"}, filterPostController);
 
         // initialize stuff for make_post
         MakePostViewModel makePostViewModel = new MakePostViewModel();
@@ -142,21 +150,22 @@ public class UofTeams {
          */
 
         // initialize stuff for view_post
-        /*
-        ViewPostViewModel viewPostViewModel = new ViewPostViewModel();
+        ViewPostView viewPostView = new ViewPostView();
+
+        ViewPostViewModel viewPostViewModel = new ViewPostViewModel(viewPostView);
         ViewPostPresenter viewPostPresenter = new ViewPostPresenter(viewPostViewModel);
-        ViewPostGateway viewPostGateway = new ViewPostGateway();
+        ViewPostDsGateway viewPostGateway = new ViewPostDatabaseAccess(generalPath);
         ViewPostInteractor viewPostInteractor = new ViewPostInteractor(viewPostGateway, viewPostPresenter);
         ViewPostController viewPostController = new ViewPostController(viewPostInteractor);
-        PostListView postListView = new PostListView(viewPostController);
-        ViewPostView viewPostView = new ViewPostView(deletePostView, favouritePostView, makeCommentView);
-        HeaderView headerView = new HeaderView(makePostController, LogOutController);
-         */
+
+        PostListView postListView = new PostListView(viewPostController, filterPostBarView);
+        HeaderView headerView = new HeaderView(generalPath);
+
 
         // initialize main view
         MasterLandingView masterLandingView = new MasterLandingView(signUpView, logInView);
-        // MainPostView mainPostView = new MainPostView(viewPostView, postListView, headerView);
-        MainFrame mainFrame = new MainFrame(masterLandingView /*mainPostView*/);
+        MainPostView mainPostView = new MainPostView(viewPostView, postListView, headerView);
+        MainFrame mainFrame = new MainFrame(masterLandingView, mainPostView);
 
         // Setting up observers
         // filterPostViewModel.addObserver(postListView);

@@ -21,7 +21,7 @@ public class MainFrame extends JFrame implements PropertyChangeListener {
     * Initialize the card view
     * @ param the landingview and the postview
     * */
-    public MainFrame(MasterLandingView landingView /*MainPostView postView*/){
+    public MainFrame(MasterLandingView landingView, MainPostView postView){
         super("UofTeams");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -29,7 +29,7 @@ public class MainFrame extends JFrame implements PropertyChangeListener {
         contentPane.setLayout(new CardLayout());
 
         contentPane.add(landingView, LANDING);
-        contentPane.add(new JTextArea("Sample Text" /*postView*/), MAIN);
+        contentPane.add(postView, MAIN);
     }
 
     /*
