@@ -1,4 +1,4 @@
 package view_comment.interface_adapters;
 
-public class MakeCommentController {
+public class ViewCommentViewModel {
 }

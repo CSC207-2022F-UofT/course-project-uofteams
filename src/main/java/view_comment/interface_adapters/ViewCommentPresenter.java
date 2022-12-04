@@ -1,4 +1,4 @@
 package view_comment.interface_adapters;
 
-public class MakeCommentPresenter {
+public class ViewCommentPresenter {
 }
