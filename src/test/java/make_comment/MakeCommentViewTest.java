@@ -5,8 +5,9 @@ import entities.User;
 import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
-import make_comment.ui.MakeCommentViewButton;
-import make_comment.use_case.MakeCommentDSGateway;
+import make_comment.ui.MakeCommentView;
+import make_comment.use_case.CommentFactory;
+import make_comment.use_case.MakeCommentDsGateway;
 import make_comment.use_case.MakeCommentInteractor;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class MakeCommentViewTest {
     public static void main(String[] args) {
-        MakeCommentDSGateway dsGateway = new MakeCommentDSGateway() {
+        MakeCommentDsGateway dsGateway = new MakeCommentDsGateway() {
 
             @Override
             public int getNumComments() {
@@ -50,11 +51,12 @@ public class MakeCommentViewTest {
         User user = new User(false, 1, "regan@mail.utoronto.ca", "a");
         CurrentUser.setCurrentUser(user);
 
-        MakeCommentViewModel mcvm = new MakeCommentViewModel();
-        MakeCommentPresenter mcPresenter = new MakeCommentPresenter(mcvm);
-        MakeCommentInteractor MCI = new MakeCommentInteractor(dsGateway, mcPresenter);
-        MakeCommentController MCC = new MakeCommentController(MCI);
-        MakeCommentViewButton viewButton = new MakeCommentViewButton(0,MCC);
+        CommentFactory commentFactory = new CommentFactory();
+        MakeCommentViewModel makeCommentViewModel = new MakeCommentViewModel();
+        MakeCommentPresenter makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
+        MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(dsGateway, makeCommentPresenter, commentFactory);
+        MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
+        MakeCommentView makeCommentView = new MakeCommentView(0,makeCommentController);
         Map<String, String> commentAttributes = new HashMap<>();
         commentAttributes.put("CommentID", "0");
         commentAttributes.put("commenterID", "0");
@@ -63,8 +65,8 @@ public class MakeCommentViewTest {
         dsGateway.saveComment(commentAttributes);
 
         JFrame jFrame = new JFrame("Test");
-        mcvm.addObserver(viewButton);
-        jFrame.getContentPane().add(viewButton);
+        makeCommentViewModel.addObserver(makeCommentView);
+        jFrame.getContentPane().add(makeCommentView);
 
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.pack();

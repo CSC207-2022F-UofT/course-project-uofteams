@@ -13,23 +13,24 @@ import java.util.*;
  * with the entities and ultimately send information back out into the UI.
  */
 public class MakeCommentInteractor implements MakeCommentInputBoundary {
-    private final MakeCommentDSGateway dataAccess;
+    private final MakeCommentDsGateway dataAccess;
     private final MakeCommentOutputBoundary presenter;
 
-    private final CommentFactory commentFactory = new CommentFactory();
+    private final CommentFactory commentFactory;
 
-    public MakeCommentInteractor(MakeCommentDSGateway dataAccess, MakeCommentOutputBoundary presenter) {
+    public MakeCommentInteractor(MakeCommentDsGateway dataAccess, MakeCommentOutputBoundary presenter, CommentFactory commentFactory) {
         this.dataAccess = dataAccess;
         this.presenter = presenter;
+        this.commentFactory = commentFactory;
     }
 
     @Override
-    public void constructAndSaveCommentAndUpdatePost (MakeCommentRequestModel mCRM) {
+    public void constructAndSaveCommentAndUpdatePost (MakeCommentRequestModel makeCommentRequestModel) {
         try {
             int userId = getCurrentUserID();
-            String body = mCRM.getCommentBody();
+            String body = makeCommentRequestModel.getCommentBody();
             int commentId = getNumCommentCreated();
-            int postId = mCRM.getPostId();
+            int postId = makeCommentRequestModel.getPostId();
             constructAndSaveCommentHelper(userId, body, commentId);
             updatePostHelper(postId, commentId);
             MakeCommentResponseModel responseModel = new
