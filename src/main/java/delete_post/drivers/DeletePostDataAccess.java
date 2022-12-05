@@ -21,10 +21,13 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
     private final PostReaderInterface postReader;
     private final String postPath;
     private final String userPath;
+    private final String commentPath;
 
-    public DeletePostDataAccess(String postPath, String userPath, PostReaderInterface postReader){
+    public DeletePostDataAccess(String postPath, String userPath, String commentPath,
+                                PostReaderInterface postReader){
         this.postPath = postPath;
         this.userPath = userPath;
+        this.commentPath = commentPath;
         this.postReader = postReader;
     }
 
@@ -49,16 +52,11 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
     }
 
     public void deletePost(int postId){
+        deleteRow(postPath, postId);
+    }
 
-        List<String[]> postData = readFile(postPath);
-        List<String[]> newData = new ArrayList<String[]>();
-        for (String[] row: postData){
-            if (Integer.parseInt(row[0]) != postId) {
-                newData.add(row);
-            }
-        }
-
-        fileWriter(postPath, newData);
+    public void deleteComment(int commentId){
+        deleteRow(commentPath, commentId);
     }
 
     private List<String[]> readFile(String path) {
@@ -90,6 +88,17 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         } catch (IOException e) {
             System.out.println("Error during writing file.");
         }
+    }
+
+    private void deleteRow(String path, int id){
+        List<String[]> oldData = readFile(path);
+        List<String[]> newData = new ArrayList<>();
+        for (String[] row : oldData){
+            if (Integer.parseInt(row[0]) != id){
+                newData.add(row);
+            }
+        }
+        fileWriter(path, newData);
     }
 
     private void removeFromUserList(int postId, int userId, int listCol){

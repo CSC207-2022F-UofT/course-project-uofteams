@@ -1,11 +1,8 @@
 package delete_post.use_case;
 
-import entities.CurrentUser;
-import entities.User;
-
 public class DeletePostRequestModel {
-    private int postId;
-    private boolean isTimer;
+    private final int postId;
+    private final boolean isTimer;
 
     public DeletePostRequestModel(int postId, boolean isTimer){
         this.postId = postId;

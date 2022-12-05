@@ -30,13 +30,13 @@ public class DeletePostTest {
     @Before
     public void setup(){
         String[] postHeader = new String[]{"postID", "userID", "title", "mainDescription", "tags", "collaborators",
-                "deadline", "creationDate", "favouritedUsersIDs"};
+                "deadline", "creationDate", "favouritedUsersIDs", "replyIDs"};
         String[] post0 = new String[]{"0", "0", "title0", "desc0", "tag0", "collab0", "deadline0",
-                "creation0", "1 2"};
+                "creation0", "1 2", ""};
         String[] post1 = new String[]{"1", "0", "title1", "desc1", "tag0 tag1", "collab1", "deadline1",
-                "creation1", ""};
+                "creation1", "", "0"};
         String[] post2 = new String[]{"2", "1", "title2", "desc2", "tag1", "collab2", "deadline2",
-                "creation2", "1"};
+                "creation2", "1", ""};
         List<String[]> postBody = new ArrayList<String[]>();
         postBody.add(post0);
         postBody.add(post1);
@@ -56,7 +56,9 @@ public class DeletePostTest {
     }
 
     @Test
-    public void deletePostAdminSuccess(){}
+    public void deletePostAdminSuccess(){
+        presenter
+    }
     @Test
     public void deletePostUserSuccess(){}
     @Test
