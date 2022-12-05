@@ -27,8 +27,8 @@ public class CurrentUserTest{
     @Test
     public void testSetGetUser() {
         currentuser.setCurrentUser(user);
-        User expected = currentuser.getCurrentUser();
-        User actual = user;
+        int expected = currentuser.getCurrentUser();
+        int actual = user.getId();
         assertEquals(expected, actual);
     }
 }

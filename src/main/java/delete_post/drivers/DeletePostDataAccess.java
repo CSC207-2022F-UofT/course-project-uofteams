@@ -1,6 +1,8 @@
 package delete_post.drivers;
 
 import delete_post.use_case.DeletePostDsGateway;
+import delete_post.use_case.PostReaderInterface;
+import entities.Post;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -17,63 +19,47 @@ import java.util.List;
 
 public class DeletePostDataAccess implements DeletePostDsGateway{
 
+    private final PostReaderInterface postReader;
     private final String postPath;
     private final String userPath;
 
-    public DeletePostDataAccess(String postPath, String userPath){
+    public DeletePostDataAccess(String postPath, String userPath, PostReaderInterface postReader){
         this.postPath = postPath;
         this.userPath = userPath;
+        this.postReader = postReader;
     }
 
     @Override
-    public int getPostUser(int postId){
+    public Post getPost(int postId){
         List<String[]> postData = readFile(postPath);
-        try {
-            for (String[] row : postData) {
-                if (Integer.parseInt(row[0]) == postId) {
-                    return Integer.parseInt(row[1]);
-                }
+        for (String[] row : postData) {
+            if (Integer.parseInt(row[0]) == postId) {
+                return postReader.readPost(row);
             }
         }
-        catch (Exception e){
-            System.out.println("Error: Could not find post in database.");
-        }
-        return -1;
+        System.out.println("Could not find post in database");
+        return null;
     }
 
-    public void removeFavourites(int postId){
-        List<String> favUsers;
-        favUsers = new ArrayList<String>(Arrays.asList(getFavourite(postId).split(" ")));
-
-        List<String[]> userData = readFile(userPath);
-
-        for (String[] row: userData){
-            if (favUsers.contains(row[0])){
-                StringBuilder updateFav = new StringBuilder();
-                String[] oldFavList = row[8].split(" ");
-                for (String favId : oldFavList){
-                    if (Integer.parseInt(favId) != postId) {
-                        if (updateFav != null){
-                            updateFav.append(" ");
-                        }
-                        updateFav.append(favId);
-                    }
-                }
-                row[8] = updateFav.toString();
-            }
-        }
-        fileWriter(userPath, userData);
+    public void removeFavourite(int postId, int userId){
+        removeFromUserList(postId, userId, 1);
     }
+
+    public void removeUser(int postId, int userId){
+        removeFromUserList(postId, userId, 2);
+    }
+
     public void deletePost(int postId){
 
         List<String[]> postData = readFile(postPath);
 
-        int rowNum = 0;
         for (String[] row: postData){
             if (Integer.parseInt(row[0]) == postId){
-                postData.remove(rowNum);
+                for (int i=1; i<9; i++){
+                    row[i] = null;
+                }
+                break;
             }
-            rowNum++;
         }
 
         fileWriter(postPath, postData);
@@ -98,6 +84,7 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         }
         return data;
     }
+
     private void fileWriter(String path, List<String[]> data) {
         try {
             FileWriter newFile = new FileWriter(path);
@@ -109,13 +96,25 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         }
     }
 
-    private String getFavourite(int postId){
+    private void removeFromUserList(int postId, int userId, int listCol){
         List<String[]> userData = readFile(userPath);
+
         for (String[] row: userData){
-            if (Integer.parseInt(row[0]) == postId){
-                return row[8];
+            if (userId == Integer.parseInt(row[0])){
+                StringBuilder newList = new StringBuilder();
+                String[] oldList = row[listCol].split(" ");
+                for (String id : oldList){
+                    if (Integer.parseInt(id) != postId) {
+                        if (newList.length() != 0){
+                            newList.append(" ");
+                        }
+                        newList.append(id);
+                    }
+                }
+                row[listCol] = newList.toString();
+                break;
             }
         }
-        return null;
+        fileWriter(userPath, userData);
     }
 }

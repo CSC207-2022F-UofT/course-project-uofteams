@@ -1,13 +1,13 @@
 package entities;
 
 public class CurrentUser {
-    static User currentUser;
+    private static User currentUser;
 
     public CurrentUser() {
     }
 
-    public static User getCurrentUser() {
-        return currentUser;
+    public static int getCurrentUser() {
+        return currentUser.getId();
     }
 
     public static boolean getIsAdmin() {

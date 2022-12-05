@@ -12,10 +12,6 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
     private final DeletePostController controller;
     int postId;
     boolean isTimer;
-    Popup po;
-    JFrame postView;
-    PopupFactory pf;
-    JPanel popUp;
 
     public DeleteView(int postId, boolean isTimer, DeletePostController controller){
         this.controller = controller;

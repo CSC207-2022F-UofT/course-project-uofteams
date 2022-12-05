@@ -1,6 +1,7 @@
 package delete_post.use_case;
 
-import delete_post.interface_adapters.DeletePostPresenter;
+import entities.CurrentUser;
+import entities.Post;
 
 public class DeletePostInteractor implements DeletePostInputBoundary{
 
@@ -14,24 +15,29 @@ public class DeletePostInteractor implements DeletePostInputBoundary{
 
     @Override
     public void delete(DeletePostRequestModel requestModel){
-        if (requestModel.getIsTimer()){
-            DeletePostResponseModel responseModel = new DeletePostResponseModel(requestModel.getPostId());
+        Post post = dataAccess.getPost(requestModel.getPostId());
 
-            this.dataAccess.removeFavourites(requestModel.getPostId());
-            this.dataAccess.deletePost(requestModel.getPostId());
+        if (requestModel.getIsTimer()){
+            DeletePostResponseModel responseModel = deleteDatabase(requestModel, post);
             this.outputBoundary.prepareTimerView(responseModel);
         }
-        else if (requestModel.getIsAdmin() ||
-                requestModel.getUserId() == this.dataAccess.getPostUser(requestModel.getPostId())){
-            // delete post
-            DeletePostResponseModel responseModel = new DeletePostResponseModel(requestModel.getPostId());
-
-            this.dataAccess.removeFavourites(requestModel.getPostId());
-            this.dataAccess.deletePost(requestModel.getPostId());
+        else if (CurrentUser.getIsAdmin() ||
+                CurrentUser.getCurrentUser() == post.getUser()){
+            DeletePostResponseModel responseModel = deleteDatabase(requestModel, post);
             this.outputBoundary.prepareSuccessView(responseModel);
             }
         else{
             this.outputBoundary.prepareFailView();
         }
+    }
+    private DeletePostResponseModel deleteDatabase(DeletePostRequestModel requestModel, Post post){
+        DeletePostResponseModel responseModel = new DeletePostResponseModel(requestModel.getPostId());
+
+        for (int favUser : post.getFavouritedUsers()){
+            this.dataAccess.removeFavourite(requestModel.getPostId(), favUser);
+        }
+        this.dataAccess.removeUser(requestModel.getPostId(), post.getUser());
+        this.dataAccess.deletePost(requestModel.getPostId());
+        return responseModel;
     }
 }
