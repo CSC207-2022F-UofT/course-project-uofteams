@@ -22,7 +22,7 @@ public class DeletePostInteractor implements DeletePostInputBoundary{
             this.outputBoundary.prepareTimerView(responseModel);
         }
         else if (CurrentUser.getIsAdmin() ||
-                CurrentUser.getCurrentUser() == post.getUser()){
+                CurrentUser.getCurrentUser().getId() == post.getUser()){
             DeletePostResponseModel responseModel = deleteDatabase(requestModel, post);
             this.outputBoundary.prepareSuccessView(responseModel);
             }

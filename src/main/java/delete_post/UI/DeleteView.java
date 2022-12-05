@@ -11,19 +11,17 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
 
     private final DeletePostController controller;
     int postId;
-    boolean isTimer;
 
-    public DeleteView(int postId, boolean isTimer, DeletePostController controller){
+    public DeleteView(int postId, DeletePostController controller){
         this.controller = controller;
         this.postId = postId;
-        this.isTimer = isTimer;
         JButton deleteButton = new JButton("Delete");
         this.add(deleteButton);
         deleteButton.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e){
-        controller.delete(this.postId, this.isTimer);
+        controller.delete(this.postId, false);
     }
 
     public void propertyChange(PropertyChangeEvent event){
