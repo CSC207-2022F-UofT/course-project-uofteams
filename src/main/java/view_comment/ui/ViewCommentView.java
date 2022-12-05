@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class ViewCommentView extends JPanel implements ActionListener ,PropertyChangeListener{
     private final ViewCommentController controller;
@@ -17,14 +19,14 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
         JButton viewComment = new JButton("View comments");
         viewComment.addActionListener(this);
         this.add(viewComment);
-        controller.passToInteractor(postId);
+
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JFrame frame = new JFrame("Comments");
-        JList commentList = new JList();
+        controller.passToInteractor(postId);
+
 
 
 
@@ -32,6 +34,19 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        if (Objects.equals(evt.getPropertyName(), "failure")){
+            JFrame errorFrame = new JFrame("Error");
+            JOptionPane.showMessageDialog(errorFrame, "This post currently have no comment.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorFrame.setVisible(false);
+
+        } else {
+            JFrame frame = new JFrame("Comments");
+            JList commentList = new JList();
+            ArrayList<Objects> commentArrayList = evt.getNewValue();
+            for ()
+
+        }
 
     }
 }

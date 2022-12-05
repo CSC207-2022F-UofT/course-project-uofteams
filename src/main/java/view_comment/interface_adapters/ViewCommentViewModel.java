@@ -2,34 +2,55 @@ package view_comment.interface_adapters;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 
 public class ViewCommentViewModel {
 
     private final PropertyChangeSupport observable;
-    private String[] bodys;
-    private String[] commentators;
-    private String[] creationDates;
+    private ArrayList<String> bodys;
+    private ArrayList<String> commentators;
+    private ArrayList<String> creationDates;
     /**
      * Initialize the view model for the filter post use case.
      * @param bodys        A list of body for each comment
      * @param commentators           list of user of each comment
      * @param creationDates  A list creation date of each comment
      */
-    public ViewCommentViewModel(String[] bodys, String[] commentators, String[] creationDates){
+    public ViewCommentViewModel(ArrayList<String> bodys, ArrayList<String> commentators, ArrayList<String> creationDates){
         this.bodys = bodys;
         this.commentators = commentators;
         this.creationDates = creationDates;
         this.observable = new PropertyChangeSupport(this);
     }
 
-    public void addObserver(PropertyChangeListener observer) {
-        this.observable.addPropertyChangeListener("creation success", observer);
-        this.observable.addPropertyChangeListener("creation failure", observer);
+    public ArrayList<String> getCommentators() {
+        return commentators;
     }
 
-    public void updateViewModel(boolean creationSuccess, String errorMessage) {
-        observable.firePropertyChange("creation success", false, creationSuccess);
-        observable.firePropertyChange("creation failure", "", errorMessage);
+    public ArrayList<String> getBodys() {
+        return bodys;
+    }
+
+    public ArrayList<String> getCreationDates() {
+        return creationDates;
+    }
+
+    public void addObserver(PropertyChangeListener observer) {
+        this.observable.addPropertyChangeListener("success", observer);
+        this.observable.addPropertyChangeListener("failure", observer);
+    }
+
+    public void updateViewModel(boolean creationSuccess, String errorMessage,
+                                ArrayList<String> bodys, ArrayList<String> commentators, ArrayList<String> creationDates) {
+        this.bodys = bodys;
+        this.commentators = commentators;
+        this.creationDates = creationDates;
+        ArrayList<Object> results = new ArrayList<>();
+        results.add(this.bodys);
+        results.add(this.commentators);
+        results.add(this.creationDates);
+        observable.firePropertyChange("success", false, results);
+        observable.firePropertyChange("failure", "", errorMessage);
 
 
     }

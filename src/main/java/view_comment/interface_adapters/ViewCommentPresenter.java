@@ -3,6 +3,9 @@ package view_comment.interface_adapters;
 import view_comment.use_case.ViewCommentOutputBoundary;
 import view_comment.use_case.ViewCommentResponseModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewCommentPresenter implements ViewCommentOutputBoundary {
     private final ViewCommentViewModel viewModel;
 
@@ -12,8 +15,19 @@ public class ViewCommentPresenter implements ViewCommentOutputBoundary {
 
     @Override
     public void present(ViewCommentResponseModel responseModel) {
-        viewModel.updateViewModel(responseModel.isReplies(),
-                responseModel.getErrorMessage());
+        ArrayList<String[]> commentInfo = responseModel.outputComments;
+        ArrayList<String> tempBodys = new ArrayList<>();
+        ArrayList<String> tempCommentator = new ArrayList<>();
+        ArrayList<String> tempCreationDate = new ArrayList<>();
+
+        for (String[] comment: commentInfo) {
+            tempCommentator.add(comment[1]);
+            tempBodys.add((comment[2]));
+            tempCreationDate.add(comment[3]);
+        }
+
+        viewModel.updateViewModel(responseModel.isReplies(), responseModel.getErrorMessage(),
+                tempBodys, tempCommentator, tempCreationDate);
 
 
     }
