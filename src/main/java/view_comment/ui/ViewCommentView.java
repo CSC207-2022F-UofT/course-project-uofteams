@@ -17,10 +17,16 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
         JButton viewComment = new JButton("View comments");
         viewComment.addActionListener(this);
         this.add(viewComment);
+        controller.passToInteractor(postId);
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        JFrame frame = new JFrame("Comments");
+        JList commentList = new JList();
+
+
 
     }
 

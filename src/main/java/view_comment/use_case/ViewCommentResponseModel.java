@@ -1,25 +1,29 @@
 package view_comment.use_case;
 
-public class ViewCommentResponseModel {
-    public boolean hasComment;
+import java.util.ArrayList;
 
-    // The error message. empty string if given post have comments.
+public class ViewCommentResponseModel {
+    public final ArrayList<String[]> outputComments;
     public String errorMessage;
+    public boolean hasComment;
 
     /*
      * Initializes the ViewCommentResponseModel
      *
      * @param hasComment boolean representation of whether Current post has Replies
-     * @param message String rep of the error
+     * @param message String rep of the error(when give post has no comments)
+     * @param outputComments Array of comments of given post
      * */
-    public ViewCommentResponseModel(boolean hasComment, String errorMessage) {
-        this.hasComment = hasComment;
+    public ViewCommentResponseModel(ArrayList<String[]> outputComments, String errorMessage) {
+        this.hasComment = outputComments.isEmpty();
+        this.outputComments = outputComments;
         this.errorMessage = errorMessage;
     }
-    public boolean isCreationSuccess(){
+    public boolean isReplies(){
         return hasComment;
     }
     public String getErrorMessage(){
         return this.errorMessage;
     }
+    public ArrayList<String[]> getOutputComments(){return outputComments;}
 }

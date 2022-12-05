@@ -21,13 +21,13 @@ public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
 
 
     @Override
-    public List<String[]> getAllComments(int postId) {
+    public List<String[]> getAllComments() {
         File file = fileGetter("comments.csv");
         return getStrings(file);
     }
 
     @Override
-    public List<String[]> getCurrentPosts() {
+    public List<String[]> getAllPosts() {
         File file = fileGetter("post.csv");
         return getStrings(file);
     }
