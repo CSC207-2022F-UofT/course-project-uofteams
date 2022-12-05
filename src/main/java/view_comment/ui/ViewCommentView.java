@@ -42,9 +42,13 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
 
         } else {
             JFrame frame = new JFrame("Comments");
-            JList commentList = new JList();
-            ArrayList<Objects> commentArrayList = evt.getNewValue();
-            for ()
+            ArrayList<ArrayList<String>> commentArrayList = (ArrayList<ArrayList<String>>) evt.getNewValue();
+            JPanel rootPanel = new JPanel();
+            Js
+            rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
+
+            for (ArrayList<String> attribute: commentArrayList);
+            JLabel tempLabel = new JLabel();
 
         }
 
