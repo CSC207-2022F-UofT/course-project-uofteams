@@ -6,9 +6,11 @@ public class CurrentUser {
     public CurrentUser() {
     }
 
+
     public static User getCurrentUser() {
         return currentUser;
     }
+
 
     public static boolean getIsAdmin() {
         return currentUser.isAdmin();

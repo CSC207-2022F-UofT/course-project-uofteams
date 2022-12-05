@@ -1,3 +1,4 @@
+
 package delete_post.drivers;
 
 import delete_post.use_case.DeletePostDsGateway;
@@ -123,3 +124,4 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         fileWriter(userPath, userData);
     }
 }
+
