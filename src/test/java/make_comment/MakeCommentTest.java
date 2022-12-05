@@ -7,7 +7,8 @@ import make_comment.driver.MakeCommentDatabaseAccess;
 import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
-import make_comment.use_case.MakeCommentDSGateway;
+import make_comment.use_case.CommentFactory;
+import make_comment.use_case.MakeCommentDsGateway;
 import make_comment.use_case.MakeCommentInteractor;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -21,11 +22,12 @@ import static org.junit.Assert.*;
 
 public class MakeCommentTest {
     //set up test classes
-    MakeCommentDSGateway gateway;
-    MakeCommentViewModel MCVM;
-    MakeCommentController MCC;
-    MakeCommentPresenter mcPresenter;
-    MakeCommentInteractor MCI;
+    MakeCommentDsGateway gateway;
+    MakeCommentViewModel makeCommentViewModel;
+    MakeCommentController makeCommentController;
+    MakeCommentPresenter makeCommentPresenter;
+    MakeCommentInteractor makeCommentInteractor;
+    CommentFactory commentFactory;
 
     // sets up tests.
     @Before
@@ -42,10 +44,11 @@ public class MakeCommentTest {
         setupTestFiles(commentPath, cpHeader);
         String filePath = "src/test/java/make_comment/";
         this.gateway = new MakeCommentDatabaseAccess(filePath);
-        this.MCVM = new MakeCommentViewModel();
-        this.mcPresenter = new MakeCommentPresenter(MCVM);
-        this. MCI = new MakeCommentInteractor(gateway, mcPresenter);
-        this.MCC = new MakeCommentController(MCI);
+        this.makeCommentViewModel = new MakeCommentViewModel();
+        this.makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
+        this.commentFactory = new CommentFactory();
+        this.makeCommentInteractor = new MakeCommentInteractor(gateway, makeCommentPresenter, commentFactory);
+        this.makeCommentController = new MakeCommentController(makeCommentInteractor);
 
 
     }
@@ -66,13 +69,13 @@ public class MakeCommentTest {
         String body = "Test Comment 0 by CurrentUser (1)";
         CurrentUser.setCurrentUser(user);
 
-        this.MCVM.addObserver(observer);
-        this.MCC.passToInteractor(body, postId1);
+        this.makeCommentViewModel.addObserver(observer);
+        this.makeCommentController.passToInteractor(body, postId1);
         assertEquals(1,gateway.getNumComments());
         String temp = gateway.getCurrentPosts().get(1)[9];
         assertEquals("0",temp);
         String body1 = "Test Comment 1 by CurrentUser (1)";
-        this.MCC.passToInteractor(body1, postId1);
+        this.makeCommentController.passToInteractor(body1, postId1);
         assertEquals(2,gateway.getNumComments());
         String temp1 = gateway.getCurrentPosts().get(1)[9];
         assertEquals("0 1",temp1);
@@ -91,8 +94,8 @@ public class MakeCommentTest {
         String body = "";
         CurrentUser.setCurrentUser(user);
 
-        this.MCVM.addObserver(observer);
-        this.MCC.passToInteractor(body, postId1);
+        this.makeCommentViewModel.addObserver(observer);
+        this.makeCommentController.passToInteractor(body, postId1);
         assertEquals(0,gateway.getNumComments());
         String temp = gateway.getCurrentPosts().get(1)[9];
         assertEquals("",temp);

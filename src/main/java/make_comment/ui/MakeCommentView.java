@@ -8,12 +8,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
 
-public class MakeCommentViewButton extends JPanel implements ActionListener ,PropertyChangeListener{
+public class MakeCommentView extends JPanel implements ActionListener ,PropertyChangeListener{
     private final MakeCommentController controller;
     private final int postId;
 
 
-    public MakeCommentViewButton(int postId, MakeCommentController controller){
+    public MakeCommentView(int postId, MakeCommentController controller){
         this.controller = controller;
         this.postId = postId;
         JButton addComment = new JButton("Add Comment");
