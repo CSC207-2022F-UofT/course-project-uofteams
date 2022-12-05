@@ -23,34 +23,28 @@ public class ViewCommentViewModel {
         this.observable = new PropertyChangeSupport(this);
     }
 
-    public ArrayList<String> getCommentators() {
-        return commentators;
-    }
-
-    public ArrayList<String> getBodys() {
-        return bodys;
-    }
-
-    public ArrayList<String> getCreationDates() {
-        return creationDates;
-    }
-
     public void addObserver(PropertyChangeListener observer) {
         this.observable.addPropertyChangeListener("success", observer);
         this.observable.addPropertyChangeListener("failure", observer);
     }
 
-    public void updateViewModel(boolean creationSuccess, String errorMessage,
+    public void updateViewModel(boolean isReplies, String errorMessage,
                                 ArrayList<String> bodys, ArrayList<String> commentators, ArrayList<String> creationDates) {
-        this.bodys = bodys;
-        this.commentators = commentators;
-        this.creationDates = creationDates;
-        ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
-        results.add(this.bodys);
-        results.add(this.commentators);
-        results.add(this.creationDates);
-        observable.firePropertyChange("success", false, results);
-        observable.firePropertyChange("failure", "", errorMessage);
+        if (isReplies){
+            this.bodys = bodys;
+            this.commentators = commentators;
+            this.creationDates = creationDates;
+            ArrayList<ArrayList<String>> results = new ArrayList<>();
+            results.add(this.bodys);
+            results.add(this.commentators);
+            results.add(this.creationDates);
+            observable.firePropertyChange("success", false, results);
+        } else {
+            observable.firePropertyChange("failure", "", errorMessage);
+        }
+
+
+
 
 
     }

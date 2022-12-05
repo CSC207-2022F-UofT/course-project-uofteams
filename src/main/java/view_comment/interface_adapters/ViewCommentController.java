@@ -1,7 +1,6 @@
 package view_comment.interface_adapters;
 
 import view_comment.use_case.ViewCommentInputBoundary;
-import view_comment.use_case.ViewCommentOutputBoundary;
 import view_comment.use_case.ViewCommentRequestModel;
 
 public class ViewCommentController {

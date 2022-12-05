@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.CSVWriter;
+
 
 public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
     private final String filepath;
@@ -28,7 +28,7 @@ public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
 
     @Override
     public List<String[]> getAllPosts() {
-        File file = fileGetter("post.csv");
+        File file = fileGetter("posts.csv");
         return getStrings(file);
     }
 
@@ -39,7 +39,6 @@ public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
             CSVReaderBuilder csvReaderBuilder = new CSVReaderBuilder(fileReader);
             CSVReader reader = csvReaderBuilder.build();
             List<String[]> postData = reader.readAll();
-            // Remove the row corresponding to the header
             reader.close();
             return postData;
 

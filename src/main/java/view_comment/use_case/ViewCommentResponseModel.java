@@ -15,7 +15,7 @@ public class ViewCommentResponseModel {
      * @param outputComments Array of comments of given post
      * */
     public ViewCommentResponseModel(ArrayList<String[]> outputComments, String errorMessage) {
-        this.hasComment = outputComments.isEmpty();
+        this.hasComment = outputComments != null;
         this.outputComments = outputComments;
         this.errorMessage = errorMessage;
     }

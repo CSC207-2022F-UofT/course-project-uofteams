@@ -2,7 +2,6 @@ package view_comment.use_case;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class ViewCommentInteractor implements ViewCommentInputBoundary {
     private final ViewCommentOutputBoundary presenter;
@@ -33,18 +32,23 @@ public class ViewCommentInteractor implements ViewCommentInputBoundary {
             ViewCommentResponseModel outputData = new ViewCommentResponseModel(foundComments,"Given post" +
                     "have no replies");
             this.presenter.present(outputData);
+        } catch (ViewCommentNoPostException e){
+            ArrayList<String[]> foundComments = null;
+            ViewCommentResponseModel outputData = new ViewCommentResponseModel(foundComments,
+                    "Could not find post");
+            this.presenter.present(outputData);
         }
 
     }
 
-    private String[] findPostHelper(List<String[]> postData, int postId) {
+    private String[] findPostHelper(List<String[]> postData, int postId) throws ViewCommentNoPostException {
         for (int x = 1; x < postData.size(); x++) {
             String currentPostId = postData.get(x)[0];
             if (Integer.parseInt(currentPostId) == postId) {
                 return postData.get(x);
             }
         }
-        return null;
+        throw new ViewCommentNoPostException("Could not find post");
 
 
     }
@@ -57,8 +61,9 @@ public class ViewCommentInteractor implements ViewCommentInputBoundary {
             for (String s : temp) {
                 if (currentCommentId.equals(s)) {
                     returnList.add(commentData.get(x));
+                    break;
                 }
-                break;
+
             }
         }
         if (returnList.isEmpty()){
