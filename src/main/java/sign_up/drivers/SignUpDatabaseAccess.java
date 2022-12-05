@@ -125,7 +125,7 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
             // closing writer connection
             writer.close();
         } catch (IOException e) {
-            System.out.println("Cannot find file");;
+            System.out.println("Cannot find file");
         } catch (CsvException e) {
             System.out.println("Incorrect File Format");
         }
