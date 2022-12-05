@@ -79,7 +79,7 @@ public class PostTest extends Postable {
     @Test
     public void setTags() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         newPost.setTags(new ArrayList<>(Arrays.asList("Sports", "Club", "Tennis", "Beginners")));
         assertTrue(newPost.getTags().contains("Beginners"));
         newPost.setTags(new ArrayList<>(List.of()));
@@ -89,8 +89,8 @@ public class PostTest extends Postable {
     @Test
     public void testEquals() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
-        Post newPost2 = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 1);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost2 = new Post(poster, title, mainDesc, tags, collaborators, deadline, 1);
         assertNotEquals(newPost, newPost2);
         assertEquals(newPost, newPost);
     }
@@ -107,7 +107,7 @@ public class PostTest extends Postable {
     @Test
     public void getTags() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         newPost.setTags(new ArrayList<>(List.of("Sports")));
         assertEquals("Sports", newPost.getTags().get(0));
     }
@@ -115,7 +115,7 @@ public class PostTest extends Postable {
     @Test
     public void getDeadline() {
         LocalDate deadline = LocalDate.of(2018, 12, 31);
-        Post newPost = new Post(poster.getId(), title, mainDesc, tags, collaborators, deadline, 0);
+        Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         assertEquals(deadline, newPost.getDeadline());
     }
     @Test

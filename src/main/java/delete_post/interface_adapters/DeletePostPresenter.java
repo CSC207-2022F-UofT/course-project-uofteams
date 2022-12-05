@@ -2,9 +2,6 @@ package delete_post.interface_adapters;
 
 import delete_post.use_case.DeletePostOutputBoundary;
 import delete_post.use_case.DeletePostResponseModel;
-import delete_post.UI.DeleteView;
-
-import javax.swing.JFrame;
 
 public class DeletePostPresenter implements DeletePostOutputBoundary{
 

@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeletePostDataAccess implements DeletePostDsGateway{
@@ -50,17 +51,14 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
     public void deletePost(int postId){
 
         List<String[]> postData = readFile(postPath);
-
+        List<String[]> newData = new ArrayList<String[]>();
         for (String[] row: postData){
-            if (Integer.parseInt(row[0]) == postId){
-                for (int i=1; i<9; i++){
-                    row[i] = null;
-                }
-                break;
+            if (Integer.parseInt(row[0]) != postId) {
+                newData.add(row);
             }
         }
 
-        fileWriter(postPath, postData);
+        fileWriter(postPath, newData);
     }
 
     private List<String[]> readFile(String path) {
