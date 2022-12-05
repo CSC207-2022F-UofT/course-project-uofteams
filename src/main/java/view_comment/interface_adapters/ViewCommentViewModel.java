@@ -45,7 +45,7 @@ public class ViewCommentViewModel {
         this.bodys = bodys;
         this.commentators = commentators;
         this.creationDates = creationDates;
-        ArrayList<Object> results = new ArrayList<>();
+        ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
         results.add(this.bodys);
         results.add(this.commentators);
         results.add(this.creationDates);
