@@ -1,8 +1,8 @@
 package entities;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Post class contains all the necessary information of a post: its ID, title,
@@ -26,7 +26,7 @@ public class Post extends Postable{
      * @param tags the tags this Post is added to.
      * @param collaborators a description of the type of the collaborators the User who posted this Posts is looking for.
      * @param deadline the date on which the Post is to be deleted from the database.
-     * @param id  unique identifier for this post
+     * @param numPostsCreated  the number of posts created so far. This value is used to assign an id to this post.
      */
     public Post(int posterID, String title, String mainDesc, List<String> tags, String collaborators,
                 LocalDate deadline, int numPostsCreated){
@@ -187,6 +187,12 @@ public class Post extends Postable{
     }
 
     /**
+     * Returns the collaborators of this post
+     * @return a string with the collaborator information
+     */
+    public String getCollaborators(){return this.collaborators;}
+
+    /**
      * Checks whether two posts are equal based on whether their Post id's are equal.
      * @param o the Post to be compared to.
      * @return a boolean that reflects whether the two Posts' id's are equal.
@@ -204,8 +210,5 @@ public class Post extends Postable{
         return this.id == other.id;
     }
 
-    public String getCollaborators() {
-        return this.collaborators;
-    }
 }
 

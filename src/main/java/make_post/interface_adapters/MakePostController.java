@@ -20,23 +20,29 @@ public class MakePostController {
         this.interactor = interactor;
     }
 
-    public void passToMakePostInteractor(Map<String, Object> postBody){
+    /**
+     * passes the input made by the user to make the post to the interactor.
+     * @param postBody the attributes of the post input by the user.
+     */
+    public void executeMakePost(Map<String, Object> postBody){
+        //get the number of posts and current user id so the interactor gets all the data it needs to make a post.
         int numPostsCreated = interactor.getNumPostsCreated();
         int currentUserID = interactor.getCurrentUser();
 
         try{
-            //converting deadline to LocalDate.
+            //converting deadline to LocalDate for the interactor.
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             formatter.withLocale(Locale.getDefault());
+            //LocalDate.parse throws DateTimeParseException if date is not in the right format
             LocalDate deadline = LocalDate.parse((String) postBody.get("deadline"));
-
             postBody.put("deadline", deadline);
             postBody.put("numPostsCreated", numPostsCreated);
             postBody.put("poster", currentUserID);
             MakePostRequestModel makePostRequestModel = new MakePostRequestModel(postBody);
             interactor.makePost(makePostRequestModel);
         }
-        catch(NumberFormatException | IndexOutOfBoundsException | DateTimeParseException n){
+        catch(DateTimeParseException n){
+            //notify the user if the date is not in the right format
             MakePostResponseModel responseModel = new MakePostResponseModel(false, "Date is not in the correct format.");
             interactor.getPresenter().updateViewModel(responseModel);
         }
