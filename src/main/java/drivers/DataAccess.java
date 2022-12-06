@@ -13,10 +13,11 @@ import filter_post.use_case.FilterPostDsGateway;
 import log_in.use_case.LogInDsGateway;
 import make_comment.use_case.MakeCommentDsGateway;
 import make_post.use_case.MakePostDsGateway;
-import make_post.use_case.make_post_exceptions.MakePostException;
 import sign_up.use_case.SignUpDsGateway;
 import use_case_general.PostReaderInterface;
 import use_case_general.UserReaderInterface;
+import view_post.use_case.ViewPostDsGateway;
+import view_post.use_case.view_post_exceptions.PostDoesNotExistException;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -27,7 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
- public class DataAccess implements FilterPostDsGateway, LogInDsGateway, MakePostDsGateway, SignUpDsGateway, FavouriteDsGateway, MakeCommentDsGateway {
+ public class DataAccess implements FilterPostDsGateway, LogInDsGateway, MakePostDsGateway, SignUpDsGateway, FavouriteDsGateway, MakeCommentDsGateway, ViewPostDsGateway {
     private final String generalPath;
     private final PostReaderInterface postReader;
     private final UserReaderInterface userReader;
@@ -218,7 +219,7 @@ import java.util.Map;
             writer.close();
             csvReader.close();
         } catch (IOException | CsvException e) {
-            System.out.println("Cannot find file or incorrect file format.");;
+            System.out.println("Cannot find file or incorrect file format.");
         }
     }
 
@@ -309,7 +310,7 @@ import java.util.Map;
             writer.close();
             csvReader.close();
         } catch (IOException e) {
-            System.out.println("Cannot find file");;
+            System.out.println("Cannot find file");
         } catch (CsvException e) {
             System.out.println("Incorrect File Format");
         }
@@ -401,18 +402,7 @@ import java.util.Map;
          return null;
      }
 
-     /**
-      * Reads all the data from a csv file
-      * @param path the path of the csv file being read
-      * @return all the data from a csv file in a List of String Arrays
-      */
-     private List<String[]> readAllLines(Path path) throws IOException, CsvException{
-         try(Reader reader = Files.newBufferedReader(path)){
-             try (CSVReader csvReader = new CSVReader(reader)){
-                 return csvReader.readAll();
-             }
-         }
-     }
+
 
      /**
       * Rewrites entire csv with the updated User
@@ -477,16 +467,6 @@ import java.util.Map;
              System.out.println("Error occurred while writing file");
          }
 
-     }
-
-     /**
-      * Writes all the data into a csv file
-      * @param path the path of the csv file being written into
-      */
-     private void writeAllLines(Path path, List<String[]> data) throws IOException, CsvException{
-         try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))){
-             writer.writeAll(data);
-         }
      }
 
      // methods for comment use case
@@ -617,6 +597,72 @@ import java.util.Map;
              return null;
          }
      }
+
+
+     /**
+      * Return a list of strings representing the data of the post with matching post IDs.
+      */
+     @Override
+     public String[] getPostInfo(int postID) throws PostDoesNotExistException {
+         String[] postInfo = new String[9];
+
+         String[] rawPostData = this.getPostData(postID);
+         if(rawPostData == null){
+             throw new PostDoesNotExistException("The file does not exist.");
+         }
+         if(rawPostData[0] == null){
+             throw new PostDoesNotExistException("This post does not exist.");
+         }
+         int userID = Integer.parseInt(rawPostData[1]);
+         String userEmail = this.getUserEmail(userID);
+
+         //poster email
+         postInfo[0] = userEmail;
+         //post body
+         postInfo[1] = rawPostData[3];
+         //post tags
+         postInfo[2] = rawPostData[4];
+         //replies
+         postInfo[3] = rawPostData[9];
+         //deadline
+         postInfo[4] = rawPostData[6];
+         //creation date
+         postInfo[5] = rawPostData[7];
+         //collaborators
+         postInfo[6] = rawPostData[5];
+         // post id
+         postInfo[7] = rawPostData[0];
+         //title
+         postInfo[8] = rawPostData[2];
+
+         return postInfo;
+     }
+
+     // Helper methods
+
+     /**
+      * Writes all the data into a csv file
+      * @param path the path of the csv file being written into
+      */
+     private void writeAllLines(Path path, List<String[]> data) throws IOException, CsvException{
+         try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))){
+             writer.writeAll(data);
+         }
+     }
+
+     /**
+      * Reads all the data from a csv file
+      * @param path the path of the csv file being read
+      * @return all the data from a csv file in a List of String Arrays
+      */
+     private List<String[]> readAllLines(Path path) throws IOException, CsvException {
+         try (Reader reader = Files.newBufferedReader(path)) {
+             try (CSVReader csvReader = new CSVReader(reader)) {
+                 return csvReader.readAll();
+             }
+         }
+     }
+
      /**
       *
       * @return helper that returns a File object.
@@ -626,10 +672,34 @@ import java.util.Map;
          return new File(filePath);
      }
 
+     /**
+      * Retrieves email of a User from the database.
+      * @param userID user's ID
+      * @return the user's email
+      */
+     private String getUserEmail(int userID){
+         try {
+             // finding and retrieving the current user's data
+             List<String[]> allUsers = readAllLines(Paths.get(generalPath + "users.csv"));
+             allUsers.subList(0,1).clear();
+             String[] userData = new String[6];
+             for (String[] user : allUsers) {
+                 int id = Integer.parseInt(user[0]);
+                 if (id == userID) {
+                     userData = user;
+                 }
+             }
 
+             // returns the email of the user
+             return userData[2];
+         }catch (IOException e1){
+             System.out.println("Error occurred while accessing file");
+         }catch (CsvException e2){
+             System.out.println("Error occurred while reading file");
+         }
+         return null;
+     }
 
-
-     // Helper methods
     /**
      * This method will return a List of all the values in a csv file
      * @param indexInfo the attribute of users in interest
@@ -686,6 +756,33 @@ import java.util.Map;
              }
          }
          return toReturn;
+     }
+     /**
+      * Retrieves the data of the post being displayed
+      *
+      * @param postid the id of the post being displayed
+      * @return data of a post
+      */
+     private String[] getPostData(int postid){
+         try {
+             // finding the post in the database
+             List<String[]> allPosts = readAllLines(Paths.get(generalPath + "posts.csv"));
+             allPosts.subList(0,1).clear();
+             String[] postData = new String[10];
+             for (String[] post : allPosts) {
+                 int id = Integer.parseInt(post[0]);
+                 if (id == postid) {
+                     postData = post;
+                 }
+
+             }
+             return postData;
+         }catch (IOException e1){
+             System.out.println("Error occurred while accessing file");
+         }catch (CsvException e2){
+             System.out.println("Error occurred while reading file");
+         }
+         return null;
      }
 }
 
