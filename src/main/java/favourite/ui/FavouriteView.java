@@ -20,7 +20,7 @@ public class FavouriteView extends JPanel implements ActionListener, PropertyCha
     /**
      * Initializes FavouriteView
      *
-     * @param controller A FavouriteController
+     * @param controller A FavouriteController object
      */
     public FavouriteView(FavouriteController controller){
         this.controller = controller;
