@@ -1,6 +1,7 @@
 package delete_post.interface_adapters;
 
 import delete_post.use_case.DeletePostInputBoundary;
+import delete_post.use_case.DeletePostResponseModel;
 import delete_post.use_case.DeletePostRequestModel;
 import entities.Post;
 
