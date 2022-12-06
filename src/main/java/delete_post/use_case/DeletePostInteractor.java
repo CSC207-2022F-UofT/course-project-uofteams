@@ -30,7 +30,7 @@ public class DeletePostInteractor implements DeletePostInputBoundary{
 
             this.dataAccess.deletePost(responseModel.getId());
             this.presenter.prepareSuccessView(responseModel);
-            }
+        }
 
         this.presenter.prepareFailView("You do not have permission to delete this post.");
     }
