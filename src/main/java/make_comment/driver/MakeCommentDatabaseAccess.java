@@ -1,7 +1,7 @@
 package make_comment.driver;
 
 import com.opencsv.exceptions.CsvException;
-import make_comment.use_case.MakeCommentDSGateway;
+import make_comment.use_case.MakeCommentDsGateway;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -10,7 +10,7 @@ import com.opencsv.CSVWriter;
 import java.io.*;
 import java.util.*;
 
-public class MakeCommentDatabaseAccess implements MakeCommentDSGateway {
+public class MakeCommentDatabaseAccess implements MakeCommentDsGateway {
     private final String filepath;
 
     public MakeCommentDatabaseAccess(String filepath) {
