@@ -6,25 +6,28 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.validators.RowMustHaveSameNumberOfColumnsAsFirstRowValidator;
 import com.opencsv.validators.RowValidator;
+import entities.Post;
 import entities.User;
+import favourite.use_case.FavouriteDsGateway;
 import filter_post.use_case.FilterPostDsGateway;
 import log_in.use_case.LogInDsGateway;
+import make_comment.use_case.MakeCommentDsGateway;
 import make_post.use_case.MakePostDsGateway;
 import make_post.use_case.make_post_exceptions.MakePostException;
 import sign_up.use_case.SignUpDsGateway;
 import use_case_general.PostReaderInterface;
 import use_case_general.UserReaderInterface;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
- public class DataAccess implements FilterPostDsGateway, LogInDsGateway, MakePostDsGateway, SignUpDsGateway{
+ public class DataAccess implements FilterPostDsGateway, LogInDsGateway, MakePostDsGateway, SignUpDsGateway, FavouriteDsGateway, MakeCommentDsGateway {
     private final String generalPath;
     private final PostReaderInterface postReader;
     private final UserReaderInterface userReader;
@@ -35,8 +38,7 @@ import java.util.Map;
         this.userReader = userReader;
     }
 
-    // methods for filter use case
-
+    // methods for filter post use case
     /**
      * Return a list of posts from the repository.
      */
@@ -220,11 +222,6 @@ import java.util.Map;
         }
     }
 
-    @Override
-    public int getCurrentUser() throws MakePostException {
-        return 0;
-    }
-
     // methods for sign up use case
     @Override
     public int getNumberUsers() {
@@ -320,11 +317,319 @@ import java.util.Map;
     }
 
      @Override
-    public String getAdminPassword() {
-        return null;
-    }
+     public String getAdminPassword() {
+         File file = new File(generalPath + "admin.csv");
+         try {
+             // Create an object of fileReader
+             // class with CSV file as a parameter.
+             FileReader fileReader = new FileReader(file);
 
-    // Helper methods
+             // create csvReader object passing
+             // file reader as a parameter
+             CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
+             String toReturn = csvReader.peek()[0];
+             csvReader.close();
+             return toReturn;
+         } catch (IOException e) {
+             System.out.println("Either wrong path or file has not been formatted correctly. ");
+             return "";
+         }
+     }
+
+     // methods for favourite use case
+     // methods for favourite use case
+     /**
+      * Retrieves current user as a User object from the database
+      * @param userID the integer ID of the user being retrieved from the database
+      * @return the current user as a User object
+      */
+     @Override
+     public User getUser(int userID){
+         try {
+             // finding and retrieving the current user's data
+             List<String[]> allUsers = readAllLines(Paths.get(generalPath+"users.csv"));
+             String[] userData = new String[6];
+             for (String[] user : allUsers) {
+                 try {
+                     int id = Integer.parseInt(user[0]);
+                     if (id == userID) {
+                         userData = user;
+                     }
+                 } catch (NumberFormatException ex) {
+                     System.out.println("Reading the header of the csv");
+                 }
+             }
+
+             // turning the current user's data into a user object
+             return userReader.readUser(userData);
+         }catch (IOException e1){
+             System.out.println("Error occurred while accessing file");
+         }catch (CsvException e2){
+             System.out.println("Error occurred while reading file");
+         }
+         return null;
+     }
+
+     /**
+      * Retrieves the post being favourited/unfavourited as a Post object from the database
+      *
+      * @param postID the integer ID of the post being favourited/unfavourited
+      * @return a Post object
+      */
+     @Override
+     public Post getPost(int postID){
+         try {
+             // finding and retrieving the current user's data
+             List<String[]> allPosts = readAllLines(Paths.get(generalPath+"posts.csv"));
+             String[] postData = new String[10];
+             for (String[] post : allPosts) {
+                 try {
+                     int id = Integer.parseInt(post[0]);
+                     if (id == postID) {
+                         postData = post;
+                     }
+                 } catch (NumberFormatException ex) {
+                     System.out.println("Reading the header of the csv");
+                 }
+             }
+             return postReader.readPost(postData);
+         }catch (IOException e1){
+             System.out.println("Error occurred while accessing file");
+         }catch (CsvException e2){
+             System.out.println("Error occurred while reading file");
+         }
+         return null;
+     }
+
+     /**
+      * Reads all the data from a csv file
+      * @param path the path of the csv file being read
+      * @return all the data from a csv file in a List of String Arrays
+      */
+     private List<String[]> readAllLines(Path path) throws IOException, CsvException{
+         try(Reader reader = Files.newBufferedReader(path)){
+             try (CSVReader csvReader = new CSVReader(reader)){
+                 return csvReader.readAll();
+             }
+         }
+     }
+
+     /**
+      * Rewrites entire csv with the updated User
+      * @param updatedUser a String array of the data of the updated user
+      * @param userID the integer ID of the updated user
+      */
+     @Override
+     public void saveUserInfo(String[] updatedUser, int userID) {
+         try {
+             Path usersDB = Paths.get(generalPath+"users.csv");
+             // re-reading all user data
+             List<String[]> userData = readAllLines(usersDB);
+
+             // identifying index of the user in the old data
+             int i = 1; // indexes from 1 because the first line is a header
+             boolean lineFound = false;
+             while (i < userData.size() && lineFound == false) {
+                 int id = Integer.parseInt(userData.get(i)[0]);
+                 if (id == userID) {
+                     lineFound = true;
+                 }
+                 i += 1;
+             }
+             userData.remove(i - 1);
+             userData.add(updatedUser);
+             writeAllLines(usersDB, userData);
+         }catch (IOException e1){
+             System.out.println("Error occurred while accessing file");
+         }catch (CsvException e2){
+             System.out.println("Error occurred while reading file");
+         }
+     }
+
+     /**
+      * Rewrites entire csv with the updated Post
+      * @param updatedPost a String array of the data of the updated post
+      * @param postID the integer ID of the updated post
+      */
+     @Override
+     public void savePostInfo(String[] updatedPost, int postID){
+         try {
+             Path postsDB = Paths.get(generalPath+"posts.csv");
+             // re-reading all post data
+             List<String[]> postData = readAllLines(postsDB);
+
+             // identifying index of the user in the old data
+             int i = 1; // indexes from 1 because the first line is a header
+             boolean lineFound = false;
+             while (i < postData.size() && lineFound == false) {
+                 int id = Integer.parseInt(postData.get(i)[0]);
+                 if (id == postID) {
+                     lineFound = true;
+                 }
+                 i += 1;
+             }
+             postData.remove(i - 1);
+             postData.add(updatedPost);
+             writeAllLines(postsDB, postData);
+         }catch (IOException e1){
+             System.out.println("Error occurred while accessing file");
+         }catch (CsvException e2){
+             System.out.println("Error occurred while writing file");
+         }
+
+     }
+
+     /**
+      * Writes all the data into a csv file
+      * @param path the path of the csv file being written into
+      */
+     private void writeAllLines(Path path, List<String[]> data) throws IOException, CsvException{
+         try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))){
+             writer.writeAll(data);
+         }
+     }
+
+     // methods for comment use case
+     /**
+      * @return the number of comments created so far.
+      */
+     @Override
+     public int getNumComments(){
+         String filePath = generalPath + "numCommentsCreated.csv";
+         File file = new File(filePath);
+         try{
+             FileReader fileReader = new FileReader(file);
+             CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
+             int numCommentsCreated = Integer.parseInt(csvReader.peek()[0]);
+             csvReader.close();
+             return numCommentsCreated;
+
+
+         } catch (IOException e) {
+             System.out.println("file not found or incorrect format, comment is not saved");
+             return 0;
+         }
+     }
+
+     /**
+      * sets updated number of comments.
+      * @param newNumCommentCreated desired number of comments to store.
+      */
+     @Override
+     public void setNumComments(int newNumCommentCreated) {
+
+         File file = fileGetter("numCommentsCreated.csv");
+
+         try {
+             FileReader fileReader = new FileReader(file);
+
+             CSVReader csvReader = new CSVReader(fileReader);
+
+             List<String[]> csvBody = csvReader.readAll();
+             csvBody.get(1)[0] = String.valueOf(newNumCommentCreated);
+             FileWriter outputFile = new FileWriter(file);
+             CSVWriter writer = new CSVWriter(outputFile);
+             writer.writeAll(csvBody);
+             writer.flush();
+             writer.close();
+             csvReader.close();
+         } catch (IOException | CsvException e) {
+             System.out.println("file not found or incorrect format, comment is not saved");
+         }
+     }
+
+     /**
+      * saves new comment in to comment database.
+      * @param commentAttributes Map representation of new comment.
+      */
+     @Override
+     public void saveComment(Map<String, String> commentAttributes) {
+         File file = fileGetter("comments.csv");
+         String[] commentAtt = new String[commentAttributes.size()];
+         commentAtt[0] = commentAttributes.get("commentID");
+         commentAtt[1] = commentAttributes.get("commenterID");
+         commentAtt[2] = commentAttributes.get("body");
+         commentAtt[3] = commentAttributes.get("creationDate");
+
+         try {
+             FileReader filereader = new FileReader(file);
+             CSVReader csvReader = new CSVReader(filereader);
+
+             List<String[]> csvBody = csvReader.readAll();
+             csvBody.add(commentAtt);
+             FileWriter outputFile = new FileWriter(file);
+             CSVWriter writer = new CSVWriter(outputFile);
+             writer.writeAll(csvBody);
+             writer.flush();
+             writer.close();
+             csvReader.close();
+         } catch (IOException | CsvException e) {
+             System.out.println("file not found or incorrect format, comment is not saved");
+         }
+
+     }
+     /**
+      * updates post to contain new comment in its list of replies
+      * @param updatedPosts updated post along with all other posts
+      */
+     @Override
+     public void updatePostDatabase(List<String[]> updatedPosts) {
+         File file = fileGetter("posts.csv");
+         try {
+             FileWriter filewriter = new FileWriter(file);
+             CSVWriter writer = new CSVWriter(filewriter);
+             writer.writeAll(updatedPosts);
+             writer.flush();
+             writer.close();
+         } catch (IOException e) {
+             System.out.println("file not found or incorrect format, comment is not saved");
+         }
+
+
+     }
+
+     /**
+      *
+      * @return Retrieves list of every post
+      */
+     @Override
+     public List<String[]> getCurrentPosts() {
+
+         File file = fileGetter("posts.csv");
+
+         try {
+             FileReader fileReader = new FileReader(file);
+             CSVReaderBuilder csvReaderBuilder = new CSVReaderBuilder(fileReader);
+             CSVReader reader = csvReaderBuilder.build();
+             List<String[]> postData = reader.readAll();
+             reader.close();
+             return postData;
+
+
+         } catch (FileNotFoundException e) {
+             System.out.println("file not found or incorrect format");
+             return null;
+         } catch (IOException e) {
+             System.out.println("Error during accessing file");
+             return null;
+         } catch (CsvException e) {
+             System.out.println("Error during reading file");
+             return null;
+         }
+     }
+     /**
+      *
+      * @return helper that returns a File object.
+      */
+     private File fileGetter(String fileName){
+         String filePath = generalPath + fileName;
+         return new File(filePath);
+     }
+
+
+
+
+     // Helper methods
     /**
      * This method will return a List of all the values in a csv file
      * @param indexInfo the attribute of users in interest
