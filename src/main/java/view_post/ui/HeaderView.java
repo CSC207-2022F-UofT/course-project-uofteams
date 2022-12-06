@@ -1,5 +1,6 @@
 package view_post.ui;
 
+import log_out.ui.LogOutView;
 import make_post.ui.MakePostView;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class HeaderView implements ActionListener {
     private final JPanel headerPanel;
     private final MakePostButton makePost = new MakePostButton("New Post");
     private final MakePostView makePostView;
+    private final LogOutView logOutView;
 
     /**
      * Initializes HeaderView.
@@ -24,7 +26,8 @@ public class HeaderView implements ActionListener {
      * @param partialPath A String object that contains the path (excluding the file name) to the folder of
      *                    images used in this program
      */
-    public HeaderView(String partialPath, MakePostView makePostView){
+    public HeaderView(String partialPath, MakePostView makePostView, LogOutView logOutView){
+        this.logOutView = logOutView;
         this.makePostView = makePostView;
         // setting up this.headerPanel
         this.headerPanel = new JPanel();
@@ -41,6 +44,9 @@ public class HeaderView implements ActionListener {
 
         //adding the logo to the header
         ImageIcon logoimg = new ImageIcon(partialPath + "logo.png");
+        Image image = logoimg.getImage(); // transform it
+        Image newimg = image.getScaledInstance(14, 4,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        logoimg = new ImageIcon(newimg);  // transform it back
         JLabel logo = new JLabel();
         logo.setIcon(logoimg);
         c.gridwidth = 1;
@@ -63,12 +69,12 @@ public class HeaderView implements ActionListener {
         this.headerPanel.add(makePost, c);
 
         //add logout button, update later to integrate with logout UC
-        JButton logout = new JButton("Log Out");
-        logout.addActionListener(this);
+        // JButton logout = new JButton("Log Out");
+        // logout.addActionListener(this);
         c.gridwidth = 1;
         c.gridx = 3;
         c.gridy = 1;
-        this.headerPanel.add(logout, c);
+        this.headerPanel.add(logOutView, c);
 
         // adding buffer
         JLabel buffer3 = new JLabel();
@@ -91,10 +97,6 @@ public class HeaderView implements ActionListener {
             // double height = screenSize.getHeight();
             JOptionPane.showMessageDialog(null, makePostView, "Make Post", JOptionPane.PLAIN_MESSAGE);
         }
-        else{
-            //whatever should happen when Log Out is clicked.
-        }
-
     }
 
     public static class MakePostButton extends JButton {

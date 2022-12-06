@@ -9,7 +9,7 @@ import java.beans.PropertyChangeListener;
 
 
 public class MasterLandingView extends JPanel implements PropertyChangeListener {
-    private JLabel imageLabel = new JLabel(new ImageIcon("src/main/resources/logo1.png"));
+    private JLabel imageLabel = new JLabel(new ImageIcon("src/main/resources/logo.png"));
     private JPanel mainPanel = new JPanel();
     private JPanel signUpView;
     private JPanel logInView;
@@ -28,6 +28,9 @@ public class MasterLandingView extends JPanel implements PropertyChangeListener 
 
         this.setLayout(new BorderLayout());
 
+        Image image = ((ImageIcon) imageLabel.getIcon()).getImage(); // transform it
+        Image newimg = image.getScaledInstance(544, 160,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageLabel.setIcon(new ImageIcon(newimg));  // transform it back
         this.add(imageLabel, BorderLayout.NORTH);
         this.add(mainPanel, BorderLayout.CENTER);
 

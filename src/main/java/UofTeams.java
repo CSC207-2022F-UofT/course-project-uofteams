@@ -163,7 +163,7 @@ public class UofTeams {
 
 
         // initialize stuff for view_post
-        ViewPostView viewPostView = new ViewPostView();
+        ViewPostView viewPostView = new ViewPostView(favouriteController, makeCommentController);
 
         ViewPostViewModel viewPostViewModel = new ViewPostViewModel(viewPostView);
         ViewPostPresenter viewPostPresenter = new ViewPostPresenter(viewPostViewModel);
@@ -172,7 +172,7 @@ public class UofTeams {
         ViewPostController viewPostController = new ViewPostController(viewPostInteractor);
 
         PostListView postListView = new PostListView(viewPostController, filterPostBarView);
-        HeaderView headerView = new HeaderView(generalPath, makePostView);
+        HeaderView headerView = new HeaderView(generalPath, makePostView, logOutView);
 
 
         // initialize main view
