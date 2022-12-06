@@ -31,7 +31,7 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
 
         for (String[] postInfo : posts) {
             String postTags = postInfo[4];
-            if (filterTags.length == 0 || containsAllWords(postTags, filterTags)) {
+            if (containsAllWords(postTags, filterTags)) {
                 // Formatting the needed post info into an array: {postID, title, body}.
                 String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
                 postsWithTag.add(postData);

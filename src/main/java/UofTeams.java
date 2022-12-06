@@ -6,6 +6,11 @@ import delete_post.use_case.DeletePostDsGateway;
 import delete_post.use_case.DeletePostInputBoundary;
 import delete_post.use_case.DeletePostInteractor;
 import delete_post.use_case.DeletePostOutputBoundary;
+import favourite.drivers.FavouriteDatabaseAccess;
+import favourite.interface_adapters.FavouriteController;
+import favourite.interface_adapters.FavouritePresenter;
+import favourite.interface_adapters.FavouriteViewModel;
+import favourite.use_case.*;
 import filter_post.drivers.FilterPostDataAccess;
 import filter_post.interface_adapters.FilterPostController;
 import filter_post.interface_adapters.FilterPostPresenter;
@@ -31,6 +36,13 @@ import log_out.ui.LogOutView;
 import log_out.use_case.LogOutInputBoundary;
 import log_out.use_case.LogOutInteractor;
 import log_out.use_case.LogOutOutputBoundary;
+import make_comment.driver.MakeCommentDatabaseAccess;
+import make_comment.interface_adapter.MakeCommentController;
+import make_comment.interface_adapter.MakeCommentPresenter;
+import make_comment.interface_adapter.MakeCommentViewModel;
+import make_comment.ui.MakeCommentView;
+import make_comment.use_case.CommentFactory;
+import make_comment.use_case.MakeCommentInteractor;
 import make_post.drivers.MakePostDatabaseAccess;
 import make_post.interface_adapters.MakePostController;
 import make_post.interface_adapters.MakePostPresenter;
@@ -96,7 +108,7 @@ public class UofTeams {
         MakePostDsGateway makePostDatabaseAccess = new MakePostDatabaseAccess(generalPath);
         MakePostInputBoundary makePostInteractor = new MakePostInteractor(makePostDatabaseAccess, makePostPresenter);
         MakePostController makePostController = new MakePostController(makePostInteractor);
-        MakePostView makePostView = new MakePostView(new String[0], makePostController);
+        MakePostView makePostView = new MakePostView(new String[]{"sports", "quantum", "math"}, makePostController);
 
         // initialize stuff for sign_up
         SignUpViewModel signUpViewModel = new SignUpViewModel();
@@ -107,14 +119,14 @@ public class UofTeams {
         SignUpView signUpView = new SignUpView(signUpController);
 
         // initialize stuff for make_comment
-        /*
+        CommentFactory commentFactory = new CommentFactory();
         MakeCommentViewModel makeCommentViewModel = new MakeCommentViewModel();
         MakeCommentPresenter makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
-        MakeCommentDatabaseAccess makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(numCommentsCreatedFilePath, commentsFilePath);
-        MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, makeCommentPresenter);
+        MakeCommentDatabaseAccess makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(generalPath);
+        MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, makeCommentPresenter, commentFactory);
         MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
-        MakeCommentView makeCommentView = new MakeCommentView(makeCommentController);
-         */
+
+
 
         // initialize stuff for timer
         /*
@@ -140,14 +152,15 @@ public class UofTeams {
         LogOutView logOutView = new LogOutView(logOutController);
 
         // initialize stuff for favourite_post
-        /*
-        UserFactory userFactory = new UserFactory();
-        FavourtiteViewModel favourtiteViewModel = new FavouriteViewModel();
+
+        UserReaderInterface userFactory = new UserFactory();
+        PostReaderInterface postFactory = new PostFactory();
+        FavouriteViewModel favourtiteViewModel = new FavouriteViewModel();
         FavouritePresenter favouritePresenter = new FavouritePresenter(favourtiteViewModel);
-        DataAccess dataAccess = new DataAccess(postFactory, userFactory, generalPath);
+        FavouriteDatabaseAccess dataAccess = new FavouriteDatabaseAccess(postFactory, userFactory, generalPath);
         FavouriteInteractor favouriteInteractor = new FavouriteInteractor(dataAccess, favouritePresenter);
         FavouriteController favouriteController = new FavouriteController(favouriteInteractor);
-         */
+
 
         // initialize stuff for view_post
         ViewPostView viewPostView = new ViewPostView();
@@ -159,7 +172,7 @@ public class UofTeams {
         ViewPostController viewPostController = new ViewPostController(viewPostInteractor);
 
         PostListView postListView = new PostListView(viewPostController, filterPostBarView);
-        HeaderView headerView = new HeaderView(generalPath);
+        HeaderView headerView = new HeaderView(generalPath, makePostView);
 
 
         // initialize main view
@@ -168,7 +181,8 @@ public class UofTeams {
         MainFrame mainFrame = new MainFrame(masterLandingView, mainPostView);
 
         // Setting up observers
-        // filterPostViewModel.addObserver(postListView);
+        filterPostViewModel.addObserver(postListView);
+
         makePostViewModel.addObserver(makePostView);
 
         signUpViewModel.addObserver(signUpView);
@@ -180,6 +194,8 @@ public class UofTeams {
         logInView.addObserver(masterLandingView);
 
         logOutViewModel.addObserver(mainFrame);
+
+        viewPostViewModel.addObserver(viewPostView);
 
         // Run it :)
         mainFrame.setUp();
