@@ -18,7 +18,7 @@ public class ViewCommentController {
      * Execute this use case.
      * @param postId The id of the post we are trying to grab comments for.
      */
-    public void passToInteractor(int postId){
+    public void viewComment(int postId){
 
         //pass input info to interactor
 

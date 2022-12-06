@@ -130,7 +130,7 @@ public class ViewCommentViewTest {
         viewCommentDatabaseAccess = new ViewCommentDatabaseAccess(badPath);
         viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, this.viewCommentPresenter);
         viewCommentController = new ViewCommentController(viewCommentInteractor);
-        viewCommentController.passToInteractor(1);
+        viewCommentController.viewComment(1);
     }
 
 

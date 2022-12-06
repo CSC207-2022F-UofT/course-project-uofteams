@@ -31,7 +31,7 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        controller.passToInteractor(postId);
+        controller.viewComment(postId);
 
 
 
