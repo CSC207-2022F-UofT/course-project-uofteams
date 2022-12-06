@@ -17,6 +17,10 @@ public class MakeCommentDatabaseAccess implements MakeCommentDSGateway {
         this.filepath = filepath;
     }
 
+
+    /**
+     * @return the number of comments created so far.
+     */
     @Override
     public int getNumComments(){
         String filePath = filepath + "numCommentsCreated.csv";
@@ -30,10 +34,15 @@ public class MakeCommentDatabaseAccess implements MakeCommentDSGateway {
 
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("file not found or incorrect format, comment is not saved");
+            return 0;
         }
     }
 
+    /**
+     * sets updated number of comments.
+     * @param newNumCommentCreated desired number of comments to store.
+     */
     @Override
     public void setNumComments(int newNumCommentCreated) {
 
@@ -57,6 +66,10 @@ public class MakeCommentDatabaseAccess implements MakeCommentDSGateway {
         }
     }
 
+    /**
+     * saves new comment in to comment database.
+     * @param commentAttributes Map representation of new comment.
+     */
     @Override
     public void saveComment(Map<String, String> commentAttributes) {
         File file = fileGetter("comments.csv");
@@ -83,9 +96,12 @@ public class MakeCommentDatabaseAccess implements MakeCommentDSGateway {
         }
 
     }
-
+    /**
+     * updates post to contain new comment in its list of replies
+     * @param updatedPosts updated post along with all other posts
+     */
     @Override
-    public void updatePostDB(List<String[]> updatedPosts) {
+    public void updatePostDatabase(List<String[]> updatedPosts) {
         File file = fileGetter("posts.csv");
         try {
             FileWriter filewriter = new FileWriter(file);
@@ -100,7 +116,10 @@ public class MakeCommentDatabaseAccess implements MakeCommentDSGateway {
 
     }
 
-
+    /**
+     *
+     * @return Retrieves list of every post
+     */
     @Override
     public List<String[]> getCurrentPosts() {
 
@@ -111,7 +130,6 @@ public class MakeCommentDatabaseAccess implements MakeCommentDSGateway {
             CSVReaderBuilder csvReaderBuilder = new CSVReaderBuilder(fileReader);
             CSVReader reader = csvReaderBuilder.build();
             List<String[]> postData = reader.readAll();
-            // Remove the row corresponding to the header
             reader.close();
             return postData;
 
@@ -127,6 +145,10 @@ public class MakeCommentDatabaseAccess implements MakeCommentDSGateway {
             return null;
         }
     }
+    /**
+     *
+     * @return helper that returns a File object.
+     */
     private File fileGetter(String fileName){
         String filePath = filepath + fileName;
         return new File(filePath);

@@ -5,7 +5,7 @@ import entities.User;
 import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
-import make_comment.ui.MakeCommentViewButton;
+import make_comment.ui.MakeCommentView;
 import make_comment.use_case.MakeCommentDSGateway;
 import make_comment.use_case.MakeCommentInteractor;
 
@@ -16,6 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 public class MakeCommentViewTest {
+
+    /**
+     * Tests the make_comment use case.
+     * Test coverage by lines:
+     * ui: 100%
+     * It should be noted that the drivers, interface_adapters and use_case is specifically tested here.
+     */
     public static void main(String[] args) {
         MakeCommentDSGateway dsGateway = new MakeCommentDSGateway() {
 
@@ -35,7 +42,7 @@ public class MakeCommentViewTest {
             }
 
             @Override
-            public void updatePostDB(List<String[]> updatedPosts) {
+            public void updatePostDatabase(List<String[]> updatedPosts) {
 
             }
 
@@ -54,7 +61,7 @@ public class MakeCommentViewTest {
         MakeCommentPresenter mcPresenter = new MakeCommentPresenter(mcvm);
         MakeCommentInteractor MCI = new MakeCommentInteractor(dsGateway, mcPresenter);
         MakeCommentController MCC = new MakeCommentController(MCI);
-        MakeCommentViewButton viewButton = new MakeCommentViewButton(0,MCC);
+        MakeCommentView viewButton = new MakeCommentView(0,MCC);
         Map<String, String> commentAttributes = new HashMap<>();
         commentAttributes.put("CommentID", "0");
         commentAttributes.put("commenterID", "0");

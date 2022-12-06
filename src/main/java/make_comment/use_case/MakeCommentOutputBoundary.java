@@ -4,5 +4,9 @@ package make_comment.use_case;
  *
  * */
 public interface MakeCommentOutputBoundary {
+    /**
+     * updates the view model
+     * @param responseModel a class containing the output data.
+     */
     void present(MakeCommentResponseModel responseModel);
 }

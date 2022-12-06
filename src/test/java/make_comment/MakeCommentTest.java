@@ -21,11 +21,22 @@ import static org.junit.Assert.*;
 
 public class MakeCommentTest {
     //set up test classes
-    MakeCommentDSGateway gateway;
-    MakeCommentViewModel MCVM;
-    MakeCommentController MCC;
-    MakeCommentPresenter mcPresenter;
-    MakeCommentInteractor MCI;
+    MakeCommentDSGateway makeCommentDSGateway;
+    MakeCommentViewModel makeCommentViewModel;
+    MakeCommentController makeCommentController;
+    MakeCommentPresenter makeCommentPresenter;
+    MakeCommentInteractor makeCommentInteractor;
+    MakeCommentDatabaseAccess makeCommentDatabaseAccess;
+
+    /**
+     * Tests the make_comment use case.
+     * Test coverage by lines:
+     * drivers: 88%
+     * interface_adapters: 100%
+     * use_case: 98%
+     * It should be noted that the UI is not being tested here.
+     */
+
 
     // sets up tests.
     @Before
@@ -41,11 +52,11 @@ public class MakeCommentTest {
         String commentPath = "src/test/java/make_comment/comments.csv";
         setupTestFiles(commentPath, cpHeader);
         String filePath = "src/test/java/make_comment/";
-        this.gateway = new MakeCommentDatabaseAccess(filePath);
-        this.MCVM = new MakeCommentViewModel();
-        this.mcPresenter = new MakeCommentPresenter(MCVM);
-        this. MCI = new MakeCommentInteractor(gateway, mcPresenter);
-        this.MCC = new MakeCommentController(MCI);
+        this.makeCommentDSGateway = new MakeCommentDatabaseAccess(filePath);
+        this.makeCommentViewModel = new MakeCommentViewModel();
+        this.makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
+        this.makeCommentInteractor = new MakeCommentInteractor(makeCommentDSGateway, makeCommentPresenter);
+        this.makeCommentController = new MakeCommentController(makeCommentInteractor);
 
 
     }
@@ -66,15 +77,15 @@ public class MakeCommentTest {
         String body = "Test Comment 0 by CurrentUser (1)";
         CurrentUser.setCurrentUser(user);
 
-        this.MCVM.addObserver(observer);
-        this.MCC.passToInteractor(body, postId1);
-        assertEquals(1,gateway.getNumComments());
-        String temp = gateway.getCurrentPosts().get(1)[9];
+        this.makeCommentViewModel.addObserver(observer);
+        this.makeCommentController.passToInteractor(body, postId1);
+        assertEquals(1, makeCommentDSGateway.getNumComments());
+        String temp = makeCommentDSGateway.getCurrentPosts().get(1)[9];
         assertEquals("0",temp);
         String body1 = "Test Comment 1 by CurrentUser (1)";
-        this.MCC.passToInteractor(body1, postId1);
-        assertEquals(2,gateway.getNumComments());
-        String temp1 = gateway.getCurrentPosts().get(1)[9];
+        this.makeCommentController.passToInteractor(body1, postId1);
+        assertEquals(2, makeCommentDSGateway.getNumComments());
+        String temp1 = makeCommentDSGateway.getCurrentPosts().get(1)[9];
         assertEquals("0 1",temp1);
 
     }
@@ -91,13 +102,23 @@ public class MakeCommentTest {
         String body = "";
         CurrentUser.setCurrentUser(user);
 
-        this.MCVM.addObserver(observer);
-        this.MCC.passToInteractor(body, postId1);
-        assertEquals(0,gateway.getNumComments());
-        String temp = gateway.getCurrentPosts().get(1)[9];
+        this.makeCommentViewModel.addObserver(observer);
+        this.makeCommentController.passToInteractor(body, postId1);
+        assertEquals(0, makeCommentDSGateway.getNumComments());
+        String temp = makeCommentDSGateway.getCurrentPosts().get(1)[9];
         assertEquals("",temp);
 
+    }
 
+    @Test
+    public void testMakeCommentDsGatewayCatchIOException(){
+        User user = new User(false, 1, "regan@mail.utoronto.ca", "a");
+        CurrentUser.setCurrentUser(user);
+        String badPath = "/bad/path.csv";
+        makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(badPath);
+        makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, this.makeCommentPresenter);
+        makeCommentController = new MakeCommentController(makeCommentInteractor);
+        makeCommentController.passToInteractor("test", 1);
     }
 
     private void setupTestFiles(String filepath, String[] headers){

@@ -7,12 +7,12 @@ public class MakeCommentResponseModel {
     // The error message. empty string if creationSuccess is True.
     public String errorMessage;
 
-    /*
+    /**
      * Initializes the MakeCommentResponseModel
      *
-     * @param creationSuccess boolean representation of whether Comment was successfully created
-     * @param message String rep of the error
-     * */
+     * @param creation boolean representation of whether Comment was successfully created
+     * @param errorMessage String rep of the error
+     */
     public MakeCommentResponseModel(boolean creation, String errorMessage) {
         this.creationSuccess = creation;
         this.errorMessage = errorMessage;

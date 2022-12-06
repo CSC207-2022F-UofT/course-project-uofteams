@@ -10,13 +10,12 @@ public class MakeCommentRequestModel {
     private final int postId;
 
 
-    /*
-     * Initializes a SignUpResponseModel
+    /**
+     * Initializes a MakeCommentRequestModel
      *
-     * @param email String representation of the inputted email
-     * @param password String representation of the inputted password
-     * @param checkAdmin boolean rep of whether to check adminPassword
-     * @param adminPassword String rep of admin password to check
+     * @param body String representation comment body
+     * @param postId String representation post this comment belongs to
+
      */
     public MakeCommentRequestModel(String body, int postId) {
         this.body = body;
