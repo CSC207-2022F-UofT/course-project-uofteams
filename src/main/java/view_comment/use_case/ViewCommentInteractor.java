@@ -7,13 +7,23 @@ public class ViewCommentInteractor implements ViewCommentInputBoundary {
     private final ViewCommentOutputBoundary presenter;
     private final ViewCommentDsGateway dataAccess;
 
-
+    /**
+     * Initialize the interactor for this use case.
+     *
+     * @param dataAccess The gateway to access the data repository.
+     * @param presenter The presenter of this use case.
+     */
     public ViewCommentInteractor(ViewCommentDsGateway dataAccess, ViewCommentOutputBoundary presenter) {
         this.presenter = presenter;
         this.dataAccess = dataAccess;
 
     }
 
+    /**
+     * Retrieves comments to present given input of post ID. With the help of findPostHelper and findCommentHelper.
+     *
+     * @param requestModel Data Structure of input data .
+     */
     @Override
     public void retrieveComments(ViewCommentRequestModel requestModel) {
         try {
@@ -21,6 +31,7 @@ public class ViewCommentInteractor implements ViewCommentInputBoundary {
             List<String[]> postData = dataAccess.getAllPosts();
             List<String[]> commentData = dataAccess.getAllComments();
             String[] foundPost = findPostHelper(postData, postId);
+            assert foundPost != null;
             String[] temp = foundPost[9].split(" ");
             ArrayList<String[]> foundComments = findCommentsHelper(commentData, temp);
             ViewCommentResponseModel outputData = new ViewCommentResponseModel(foundComments, "");
@@ -28,32 +39,45 @@ public class ViewCommentInteractor implements ViewCommentInputBoundary {
 
         } catch (ViewCommentException e) {
 
-            ArrayList<String[]> foundComments = null;
-            ViewCommentResponseModel outputData = new ViewCommentResponseModel(foundComments,"Given post" +
+            ViewCommentResponseModel outputData = new ViewCommentResponseModel(null,"Given post" +
                     "have no replies");
             this.presenter.present(outputData);
-        } catch (ViewCommentNoPostException e){
-            ArrayList<String[]> foundComments = null;
-            ViewCommentResponseModel outputData = new ViewCommentResponseModel(foundComments,
+
+        } catch (NullPointerException e){
+            ViewCommentResponseModel outputData = new ViewCommentResponseModel(null,
                     "Could not find post");
             this.presenter.present(outputData);
         }
 
     }
 
-    private String[] findPostHelper(List<String[]> postData, int postId) throws ViewCommentNoPostException {
+    /**
+     * Retrieves specific post with post ID from list of all posts
+     *
+     * @param postData data of all posts.
+     * @param postId id of input post.
+     *
+     */
+
+    private String[] findPostHelper(List<String[]> postData, int postId) {
         for (int x = 1; x < postData.size(); x++) {
             String currentPostId = postData.get(x)[0];
             if (Integer.parseInt(currentPostId) == postId) {
                 return postData.get(x);
             }
+
+
         }
-        throw new ViewCommentNoPostException("Could not find post");
-
-
+        return null;
     }
 
-
+    /**
+     * Retrieves replies of a specific post with post ID.
+     *
+     * @param commentData data of all comments.
+     * @param temp List of replies of a post.
+     *
+     */
     private ArrayList<String[]> findCommentsHelper(List<String[]> commentData, String[] temp) throws ViewCommentException {
         ArrayList<String[]> returnList = new ArrayList<>();
         for (int x = 1; x < commentData.size(); x++) {

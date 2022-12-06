@@ -6,7 +6,7 @@ public class ViewCommentRequestModel {
     // id of the post we are trying for retrieve replies for
     private final int postId;
 
-    /*
+    /**
      * Initializes a ViewCommentRequestModel
      *
      * @param postId: id of the post we are trying for retrieve replies for

@@ -3,27 +3,27 @@ package view_comment.use_case;
 import java.util.ArrayList;
 
 public class ViewCommentResponseModel {
-    public final ArrayList<String[]> outputComments;
-    public String errorMessage;
     public boolean hasComment;
+    public final ArrayList<String[]> outputComments;
+    public String message;
 
-    /*
+
+    /**
      * Initializes the ViewCommentResponseModel
      *
-     * @param hasComment boolean representation of whether Current post has Replies
      * @param message String rep of the error(when give post has no comments)
      * @param outputComments Array of comments of given post
-     * */
-    public ViewCommentResponseModel(ArrayList<String[]> outputComments, String errorMessage) {
+     */
+    public ViewCommentResponseModel(ArrayList<String[]> outputComments, String message) {
         this.hasComment = outputComments != null;
         this.outputComments = outputComments;
-        this.errorMessage = errorMessage;
+        this.message = message;
     }
     public boolean isReplies(){
         return hasComment;
     }
     public String getErrorMessage(){
-        return this.errorMessage;
+        return this.message;
     }
     public ArrayList<String[]> getOutputComments(){return outputComments;}
 }

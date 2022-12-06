@@ -11,10 +11,10 @@ public class ViewCommentViewModel {
     private ArrayList<String> commentators;
     private ArrayList<String> creationDates;
     /**
-     * Initialize the view model for the filter post use case.
-     * @param bodys        A list of body for each comment
-     * @param commentators           list of user of each comment
-     * @param creationDates  A list creation date of each comment
+     * Initializes ViewCommentViewModel.
+     * @param bodys body of comments to be viewed
+     * @param commentators commentators of comments to be viewed
+     * @param creationDates creationDates of comments to be viewed
      */
     public ViewCommentViewModel(ArrayList<String> bodys, ArrayList<String> commentators, ArrayList<String> creationDates){
         this.bodys = bodys;
@@ -23,11 +23,23 @@ public class ViewCommentViewModel {
         this.observable = new PropertyChangeSupport(this);
     }
 
+    /**
+     * Add a new observer to observe changes to this class.
+     * @param observer a ViewCommentView object which implements PropertyChangeListener
+     */
     public void addObserver(PropertyChangeListener observer) {
         this.observable.addPropertyChangeListener("success", observer);
         this.observable.addPropertyChangeListener("failure", observer);
     }
 
+    /**
+     * Fires a property change to trigger the propertyChange method in ViewCommentView
+     * @param isReplies indicates if this post has replies.
+     * @param errorMessage errormessage if use_case fails for whatever reason.
+     * @param bodys body of comments to be viewed
+     * @param commentators commentators of comments to be viewed
+     * @param creationDates creationDates of comments to be viewed
+     */
     public void updateViewModel(boolean isReplies, String errorMessage,
                                 ArrayList<String> bodys, ArrayList<String> commentators, ArrayList<String> creationDates) {
         if (isReplies){

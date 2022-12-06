@@ -11,28 +11,43 @@ import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
-
+/**
+ * DatabaseAccess class for the View commnet use case
+ */
 public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
     private final String filepath;
 
+    /**
+     * Initializes a ViewCommentDatabaseAccess object
+     * @param filepath a String object with the path to all databases (does not include the file
+     *                    name of each database)
+     */
     public ViewCommentDatabaseAccess(String filepath) {
         this.filepath = filepath;
     }
 
 
+    /**
+     * @Return a list of all comments.
+     */
     @Override
     public List<String[]> getAllComments() {
         File file = fileGetter("comments.csv");
         return getStrings(file);
     }
 
+    /**
+     * @Return a list of all posts.
+     */
     @Override
     public List<String[]> getAllPosts() {
         File file = fileGetter("posts.csv");
         return getStrings(file);
     }
 
-
+    /**
+     * @Return helper method for getAllComments and getAllPosts returning list of lists of string.
+     */
     private List<String[]> getStrings(File file) {
         try {
             FileReader fileReader = new FileReader(file);
@@ -54,7 +69,9 @@ public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
             return null;
         }
     }
-
+    /**
+     * @Return helper method that removes duplicate code when accessing file.
+     */
     private File fileGetter(String fileName){
         String filePath = filepath + fileName;
         return new File(filePath);

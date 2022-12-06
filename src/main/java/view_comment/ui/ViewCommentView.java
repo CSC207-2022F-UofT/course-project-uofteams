@@ -14,6 +14,11 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
     private final ViewCommentController controller;
     private final int postId;
 
+    /**
+     * Button that is click to start the use case.
+     * @param postId ID of post we can display comments for.
+     * @param controller Controller which takes input data and feed it to interactor.
+     */
     public ViewCommentView(int postId, ViewCommentController controller) {
         this.controller = controller;
         this.postId = postId;
@@ -33,6 +38,12 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
 
     }
 
+    /**
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     * decides based on evt to make a error panel or display the comments.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (Objects.equals(evt.getPropertyName(), "failure")){

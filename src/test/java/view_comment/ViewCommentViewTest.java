@@ -1,6 +1,7 @@
 package view_comment;
 
 import com.opencsv.CSVWriter;
+import org.junit.Test;
 import view_comment.drivers.ViewCommentDatabaseAccess;
 import view_comment.interface_adapters.ViewCommentController;
 import view_comment.interface_adapters.ViewCommentPresenter;
@@ -24,6 +25,15 @@ public class ViewCommentViewTest {
     ViewCommentPresenter viewCommentPresenter;
     ViewCommentViewModel viewCommentViewModel;
 
+    /**
+     * Tests the view_comment use case.
+     * Test coverage by lines:
+     * drivers: 100%
+     * ui: 100%
+     * use_case: 94%
+     * interface_adapters: 90%
+     * note these are the result of running the ViewCommentViewTest + both successful and fail test in the main block
+     */
 
 
     @Before
@@ -85,9 +95,52 @@ public class ViewCommentViewTest {
 
     }
 
+    /**
+     * test when view_comment is running correctly with appropriate input and data.
+     */
+    @Test
+    public void testSuccess(){
+        ViewCommentView viewCommentViewSuccess = new ViewCommentView(1, viewCommentController);
+        JFrame testFrame = new JFrame("Test");
+        viewCommentViewModel.addObserver(viewCommentViewSuccess);
+        testFrame.getContentPane().add(viewCommentViewSuccess);
+        testFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        testFrame.pack();
+        testFrame.setVisible(true);
+
+    }
+
+    /**
+     * test when view_comment is running incorrectly with bad input and data.
+     */
+    @Test
+    public void testFail(){
+        ViewCommentView viewCommentViewFail = new ViewCommentView(10, viewCommentController);
+        JFrame testFrame2 = new JFrame("Test");
+        viewCommentViewModel.addObserver(viewCommentViewFail);
+        testFrame2.getContentPane().add(viewCommentViewFail);
+        testFrame2.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        testFrame2.pack();
+        testFrame2.setVisible(true);
+
+    }
+    @Test
+    public void testExceptions(){
+        String badPath = "/bad/path.csv";
+        viewCommentDatabaseAccess = new ViewCommentDatabaseAccess(badPath);
+        viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, this.viewCommentPresenter);
+        viewCommentController = new ViewCommentController(viewCommentInteractor);
+        viewCommentController.passToInteractor(1);
+    }
+
 
     @After
     public void tearDown() {}
+
+    /**
+     * main is used to visually confirm view is running without error. 1 failed view
+     * comment(commented out when running one of them) and 1 successful view comment.
+     */
     public static void main(String[] args) {
         String filePath = "src/test/java/view_comment/";
         ViewCommentDatabaseAccess viewCommentDatabaseAccess = new ViewCommentDatabaseAccess(filePath);
@@ -95,14 +148,26 @@ public class ViewCommentViewTest {
         ViewCommentPresenter viewCommentPresenter = new ViewCommentPresenter(viewCommentViewModel);
         ViewCommentInteractor viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
         ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
-        ViewCommentView viewCommentView = new ViewCommentView(10, viewCommentController);
 
-        JFrame testFrame = new JFrame("Test");
-        viewCommentViewModel.addObserver(viewCommentView);
-        testFrame.getContentPane().add(viewCommentView);
-        testFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        testFrame.pack();
-        testFrame.setVisible(true);
+
+//        ViewCommentView viewCommentViewSuccess = new ViewCommentView(1, viewCommentController);
+//        JFrame testFrame = new JFrame("Test");
+//        viewCommentViewModel.addObserver(viewCommentViewSuccess);
+//        testFrame.getContentPane().add(viewCommentViewSuccess);
+//        testFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        testFrame.pack();
+//        testFrame.setVisible(true);
+
+
+        ViewCommentView viewCommentViewFail = new ViewCommentView(10, viewCommentController);
+        JFrame testFrame2 = new JFrame("Test");
+        viewCommentViewModel.addObserver(viewCommentViewFail);
+        testFrame2.getContentPane().add(viewCommentViewFail);
+        testFrame2.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        testFrame2.pack();
+        testFrame2.setVisible(true);
+
+
     }
 }
 
