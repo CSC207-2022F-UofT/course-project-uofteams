@@ -11,6 +11,10 @@ public class CurrentUser {
         return currentUser;
     }
 
+    public static int getCurrentUserId() {
+        return currentUser.getId();
+    }
+
 
     public static boolean getIsAdmin() {
         return currentUser.isAdmin();
