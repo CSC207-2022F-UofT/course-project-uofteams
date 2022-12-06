@@ -61,7 +61,7 @@ public class MakeCommentViewTest {
         MakeCommentPresenter mcPresenter = new MakeCommentPresenter(mcvm);
         MakeCommentInteractor MCI = new MakeCommentInteractor(dsGateway, mcPresenter);
         MakeCommentController MCC = new MakeCommentController(MCI);
-        MakeCommentView viewButton = new MakeCommentView(0,MCC);
+        MakeCommentView viewButton = new MakeCommentView(MCC);
         Map<String, String> commentAttributes = new HashMap<>();
         commentAttributes.put("CommentID", "0");
         commentAttributes.put("commenterID", "0");
