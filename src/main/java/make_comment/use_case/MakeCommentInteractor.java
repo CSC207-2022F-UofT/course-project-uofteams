@@ -11,12 +11,12 @@ import java.util.*;
  * with the entities and ultimately send information back out into the UI.
  */
 public class MakeCommentInteractor implements MakeCommentInputBoundary {
-    private final MakeCommentDSGateway dataAccess;
+    private final MakeCommentDsGateway dataAccess;
     private final MakeCommentOutputBoundary presenter;
 
     private final CommentFactory commentFactory;
 
-    public MakeCommentInteractor(MakeCommentDSGateway dataAccess, MakeCommentOutputBoundary presenter) {
+    public MakeCommentInteractor(MakeCommentDsGateway dataAccess, MakeCommentOutputBoundary presenter) {
         this.dataAccess = dataAccess;
         this.presenter = presenter;
         this.commentFactory = new CommentFactory();

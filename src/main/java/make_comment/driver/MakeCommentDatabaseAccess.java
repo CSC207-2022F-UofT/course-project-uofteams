@@ -6,7 +6,6 @@ import make_comment.use_case.MakeCommentDsGateway;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
-
 import java.io.*;
 import java.util.*;
 
@@ -92,7 +91,7 @@ public class MakeCommentDatabaseAccess implements MakeCommentDsGateway {
             writer.close();
             csvReader.close();
         } catch (IOException | CsvException e) {
-          System.out.println("file not found or incorrect format, comment is not saved");
+            System.out.println("file not found or incorrect format, comment is not saved");
         }
 
     }

@@ -6,7 +6,7 @@ import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
 import make_comment.ui.MakeCommentView;
-import make_comment.use_case.MakeCommentDSGateway;
+import make_comment.use_case.MakeCommentDsGateway;
 import make_comment.use_case.MakeCommentInteractor;
 
 import javax.swing.*;
@@ -24,7 +24,7 @@ public class MakeCommentViewTest {
      * It should be noted that the drivers, interface_adapters and use_case is specifically tested here.
      */
     public static void main(String[] args) {
-        MakeCommentDSGateway dsGateway = new MakeCommentDSGateway() {
+        MakeCommentDsGateway dsGateway = new MakeCommentDsGateway() {
 
             @Override
             public int getNumComments() {

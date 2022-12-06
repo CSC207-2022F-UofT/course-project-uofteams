@@ -7,7 +7,7 @@ import make_comment.driver.MakeCommentDatabaseAccess;
 import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
-import make_comment.use_case.MakeCommentDSGateway;
+import make_comment.use_case.MakeCommentDsGateway;
 import make_comment.use_case.MakeCommentInteractor;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 public class MakeCommentTest {
     //set up test classes
-    MakeCommentDSGateway makeCommentDSGateway;
+    MakeCommentDsGateway makeCommentDsGateway;
     MakeCommentViewModel makeCommentViewModel;
     MakeCommentController makeCommentController;
     MakeCommentPresenter makeCommentPresenter;
@@ -52,10 +52,10 @@ public class MakeCommentTest {
         String commentPath = "src/test/java/make_comment/comments.csv";
         setupTestFiles(commentPath, cpHeader);
         String filePath = "src/test/java/make_comment/";
-        this.makeCommentDSGateway = new MakeCommentDatabaseAccess(filePath);
+        this.makeCommentDsGateway = new MakeCommentDatabaseAccess(filePath);
         this.makeCommentViewModel = new MakeCommentViewModel();
         this.makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
-        this.makeCommentInteractor = new MakeCommentInteractor(makeCommentDSGateway, makeCommentPresenter);
+        this.makeCommentInteractor = new MakeCommentInteractor(makeCommentDsGateway, makeCommentPresenter);
         this.makeCommentController = new MakeCommentController(makeCommentInteractor);
 
 
@@ -79,13 +79,13 @@ public class MakeCommentTest {
 
         this.makeCommentViewModel.addObserver(observer);
         this.makeCommentController.passToInteractor(body, postId1);
-        assertEquals(1, makeCommentDSGateway.getNumComments());
-        String temp = makeCommentDSGateway.getCurrentPosts().get(1)[9];
+        assertEquals(1, makeCommentDsGateway.getNumComments());
+        String temp = makeCommentDsGateway.getCurrentPosts().get(1)[9];
         assertEquals("0",temp);
         String body1 = "Test Comment 1 by CurrentUser (1)";
         this.makeCommentController.passToInteractor(body1, postId1);
-        assertEquals(2, makeCommentDSGateway.getNumComments());
-        String temp1 = makeCommentDSGateway.getCurrentPosts().get(1)[9];
+        assertEquals(2, makeCommentDsGateway.getNumComments());
+        String temp1 = makeCommentDsGateway.getCurrentPosts().get(1)[9];
         assertEquals("0 1",temp1);
 
     }
@@ -104,8 +104,8 @@ public class MakeCommentTest {
 
         this.makeCommentViewModel.addObserver(observer);
         this.makeCommentController.passToInteractor(body, postId1);
-        assertEquals(0, makeCommentDSGateway.getNumComments());
-        String temp = makeCommentDSGateway.getCurrentPosts().get(1)[9];
+        assertEquals(0, makeCommentDsGateway.getNumComments());
+        String temp = makeCommentDsGateway.getCurrentPosts().get(1)[9];
         assertEquals("",temp);
 
     }
