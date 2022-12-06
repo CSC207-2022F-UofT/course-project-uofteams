@@ -1,7 +1,8 @@
 package entities;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
 
 /**
  * The Post class contains all the necessary information of a post: its ID, title,
@@ -186,6 +187,12 @@ public class Post extends Postable{
     }
 
     /**
+     * Returns the collaborators of this post
+     * @return a string with the collaborator information
+     */
+    public String getCollaborators(){return this.collaborators;}
+
+    /**
      * Checks whether two posts are equal based on whether their Post id's are equal.
      * @param o the Post to be compared to.
      * @return a boolean that reflects whether the two Posts' id's are equal.
@@ -203,8 +210,5 @@ public class Post extends Postable{
         return this.id == other.id;
     }
 
-    public String getCollaborators() {
-        return this.collaborators;
-    }
 }
 
