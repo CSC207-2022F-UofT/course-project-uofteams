@@ -57,7 +57,6 @@ public class DeletePostTest {
 
     @Test
     public void deletePostAdminSuccess(){
-        presenter
     }
     @Test
     public void deletePostUserSuccess(){}
