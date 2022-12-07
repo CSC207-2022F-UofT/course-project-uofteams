@@ -10,6 +10,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The view that displays the search engine and the list of posts the user can choose to view.
@@ -26,6 +27,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
     //
     private JList list;
     private FilterPostBarView barView;
+    private int deletedPostID;
 
     /**
      * Initializes PostListView.
@@ -81,8 +83,10 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
      * Displays the message when there are no posts to show on the scrollable list of posts
      */
     private void defaultDisplay(){
-        JLabel noPostsText = new JLabel("No posts to show :(");
+        JLabel noPostsText = new JLabel("No posts to show :( Please search!");
+        this.postList.removeAll();
         this.postList.add(noPostsText);
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
     /**
@@ -101,7 +105,10 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
             } else {
                 this.displayList(titles, ids);
             }
-
+        }
+        //if a post is deleted, then the PostListView needs to be refreshed.
+        if ("success".equals(evt.getPropertyName())){
+            this.refresh();
         }
     }
 
@@ -117,10 +124,34 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         controller.viewPost(postId);
     }
 
-    /*
-     * Update the bar view if changes have occured
+    /**
+     * Update the PostListView when a post has been deleted.
      * */
     public void refresh(){
-        barView.defaultView();
+        //this.ids are the ids currently in the PostListView; this.titles are analogous.
+        ArrayList<Integer> tempIDs = new ArrayList<>();
+        for(int i = 0; i < ids.length; i++){
+            tempIDs.add(ids[i]);
+        }
+        ArrayList<String> tempTitles = new ArrayList<>();
+        for(int i = 0; i < titles.length; i++){
+            tempTitles.add(titles[i]);
+        }
+
+        int indexToBeDeleted = tempIDs.indexOf(this.deletedPostID);
+        tempIDs.remove(indexToBeDeleted);
+        tempTitles.remove(indexToBeDeleted);
+        this.ids = new int[tempIDs.size()];
+        for(int i = 0; i < ids.length; i++){
+            this.ids[i] = tempIDs.get(i);
+        }
+        this.titles = new String[tempTitles.size()];
+        for(int i = 0; i < titles.length; i++){
+            this.titles[i] = tempTitles.get(i);
+        }
+        this.displayList(this.titles, this.ids);
+    }
+    public void setDeletedPostID(int id){
+        this.deletedPostID = id;
     }
 }

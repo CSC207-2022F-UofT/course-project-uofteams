@@ -186,16 +186,14 @@ public class UofTeams {
         ViewCommentView viewCommentView = new ViewCommentView(viewCommentController);
 
         // initialize stuff for view_post
-        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView);
         ViewPostViewModel viewPostViewModel = new ViewPostViewModel();
         ViewPostPresenter viewPostPresenter = new ViewPostPresenter(viewPostViewModel);
         ViewPostDsGateway viewPostGateway = new ViewPostDatabaseAccess(generalPath);
         ViewPostInteractor viewPostInteractor = new ViewPostInteractor(viewPostGateway, viewPostPresenter);
         ViewPostController viewPostController = new ViewPostController(viewPostInteractor);
-
         PostListView postListView = new PostListView(viewPostController, filterPostBarView);
         HeaderView headerView = new HeaderView(generalPath, makePostView, logOutView);
-
+        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView, postListView);
 
         // initialize main view
         MasterLandingView masterLandingView = new MasterLandingView(signUpView, logInView);
@@ -226,6 +224,8 @@ public class UofTeams {
         favouriteViewModel.addObserver(favouriteView);
 
         deletePostViewModel.addObserver(deleteView);
+        deletePostViewModel.addObserver(viewPostView);
+        deletePostViewModel.addObserver(postListView);
 
         // Run it :)
         mainFrame.setUp();
