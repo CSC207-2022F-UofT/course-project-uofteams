@@ -10,7 +10,7 @@ import java.beans.PropertyChangeEvent;
 public class DeleteView extends JPanel implements ActionListener, PropertyChangeListener{
 
     private final DeletePostController controller;
-    int postId;
+    private int postId;
 
     public DeleteView(DeletePostController controller){
         this.controller = controller;
