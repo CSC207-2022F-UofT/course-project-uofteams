@@ -12,14 +12,11 @@ public class ViewCommentViewModel {
     private ArrayList<String> creationDates;
     /**
      * Initializes ViewCommentViewModel.
-     * @param bodys body of comments to be viewed
-     * @param commentators commentators of comments to be viewed
-     * @param creationDates creationDates of comments to be viewed
      */
-    public ViewCommentViewModel(ArrayList<String> bodys, ArrayList<String> commentators, ArrayList<String> creationDates){
-        this.bodys = bodys;
-        this.commentators = commentators;
-        this.creationDates = creationDates;
+    public ViewCommentViewModel(){
+        this.bodys = new ArrayList<String>();
+        this.commentators = new ArrayList<String>();
+        this.creationDates = new ArrayList<String>();
         this.observable = new PropertyChangeSupport(this);
     }
 

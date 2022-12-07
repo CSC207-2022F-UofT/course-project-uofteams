@@ -64,6 +64,15 @@ import sign_up.use_case.SignUpDsGateway;
 import sign_up.use_case.SignUpInputBoundary;
 import sign_up.use_case.SignUpInteractor;
 import sign_up.use_case.SignUpOutputBoundary;
+import view_comment.drivers.ViewCommentDatabaseAccess;
+import view_comment.interface_adapters.ViewCommentController;
+import view_comment.interface_adapters.ViewCommentPresenter;
+import view_comment.interface_adapters.ViewCommentViewModel;
+import view_comment.ui.ViewCommentView;
+import view_comment.use_case.ViewCommentDsGateway;
+import view_comment.use_case.ViewCommentInputBoundary;
+import view_comment.use_case.ViewCommentInteractor;
+import view_comment.use_case.ViewCommentOutputBoundary;
 import view_post.drivers.ViewPostDatabaseAccess;
 import view_post.interface_adapters.ViewPostController;
 import view_post.interface_adapters.ViewPostPresenter;
@@ -168,6 +177,14 @@ public class UofTeams {
         FavouriteController favouriteController = new FavouriteController(favouriteInteractor);
         FavouriteView favouriteView = new FavouriteView(favouriteController);
 
+        // initialize stuff for view_comment
+        ViewCommentViewModel viewCommentViewModel = new ViewCommentViewModel();
+        ViewCommentDsGateway viewCommentDatabaseAccess = new ViewCommentDatabaseAccess(generalPath);
+        ViewCommentOutputBoundary viewCommentPresenter = new ViewCommentPresenter(viewCommentViewModel);
+        ViewCommentInputBoundary viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
+        ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
+        ViewCommentView viewCommentView = new ViewCommentView(viewCommentController);
+
         // initialize stuff for view_post
         ViewPostViewModel viewPostViewModel = new ViewPostViewModel();
         ViewPostPresenter viewPostPresenter = new ViewPostPresenter(viewPostViewModel);
@@ -176,7 +193,7 @@ public class UofTeams {
         ViewPostController viewPostController = new ViewPostController(viewPostInteractor);
         PostListView postListView = new PostListView(viewPostController, filterPostBarView);
         HeaderView headerView = new HeaderView(generalPath, makePostView, logOutView);
-        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, postListView);
+        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView, postListView);
 
         // initialize main view
         MasterLandingView masterLandingView = new MasterLandingView(signUpView, logInView);
@@ -201,6 +218,8 @@ public class UofTeams {
         viewPostViewModel.addObserver(viewPostView);
 
         makeCommentViewModel.addObserver(makeCommentView);
+
+        viewCommentViewModel.addObserver(viewCommentView);
 
         favouriteViewModel.addObserver(favouriteView);
 

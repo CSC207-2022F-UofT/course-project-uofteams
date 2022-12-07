@@ -5,6 +5,7 @@ import delete_post.UI.DeleteView;
 import favourite.ui.FavouriteView;
 
 import make_comment.ui.MakeCommentView;
+import view_comment.ui.ViewCommentView;
 import view_post.interface_adapters.ViewPostOutputData;
 
 import javax.swing.*;
@@ -21,6 +22,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
     private final MakeCommentView makeCommentView;
     private final DeleteView deleteView;
     private final PostListView postListView;
+    private final ViewCommentView viewCommentView;
 
 
     /**
@@ -28,11 +30,12 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
      * ViewPostView displays the default message when it is first initialized and displayed to the user when they log in
      */
 
-    public ViewPostView (FavouriteView favouriteView, MakeCommentView makeCommentView, DeleteView deleteView, PostListView postListView){
+    public ViewPostView (FavouriteView favouriteView, MakeCommentView makeCommentView, DeleteView deleteView, ViewCommentView commentView, PostListView postListView){
         this.favouriteView = favouriteView;
         this.makeCommentView = makeCommentView;
         this.deleteView = deleteView;
-        this.postListView = postListView;
+        this.viewCommentView = commentView;
+        this.postListView = postListView
 
 
         this.setPreferredSize(new Dimension(600, 680));
@@ -200,14 +203,20 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         this.add(description, c);
 
         // adding comment button, update later to integrate with view/post comment UC
-
         this.makeCommentView.setPostID(outputData.getPostID());
         c.gridwidth = 1;
         c.gridheight = 1;
         c.gridx = 1;
-        c.gridy = 14;
+        c.gridy = 13;
         this.add(this.makeCommentView, c);
 
+        // adding view comments button
+        this.viewCommentView.setPostId(outputData.getPostID());
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.gridx = 1;
+        c.gridy = 15;
+        this.add(this.viewCommentView, c);
 
         // adding delete post button, update later to integrate with delete UC
         this.deleteView.setPostId(outputData.getPostID());
@@ -216,7 +225,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridwidth = 1;
         c.gridheight = 1;
         c.gridx = 1;
-        c.gridy = 15;
+        c.gridy = 14;
         this.add(this.deleteView, c);
         SwingUtilities.updateComponentTreeUI(this);
     }

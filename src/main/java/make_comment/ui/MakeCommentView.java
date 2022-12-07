@@ -43,12 +43,18 @@ public class MakeCommentView extends JPanel implements ActionListener ,PropertyC
      * @param e the event to be processed
      */
     @Override
+    @SuppressWarnings("all")
     public void actionPerformed(ActionEvent e) {
             JFrame frame = new JFrame("commentate");
             String commentBody = JOptionPane.showInputDialog(frame, "Please enter the Comment",
-                    "commentate", JOptionPane.PLAIN_MESSAGE);
+                    "commentate", JOptionPane.QUESTION_MESSAGE);
 
-            controller.passToInteractor(commentBody, this.postId);
+            if (commentBody == null){
+
+            }   else {
+                controller.passToInteractor(commentBody, this.postId);
+            }
+
 
     }
 
@@ -65,13 +71,11 @@ public class MakeCommentView extends JPanel implements ActionListener ,PropertyC
             JFrame errorFrame = new JFrame("Error");
             JOptionPane.showMessageDialog(errorFrame, "body was left blank.",
                     "Error", JOptionPane.ERROR_MESSAGE);
-            errorFrame.setVisible(true);
     }
         else {
             JFrame okFrame = new JFrame("creation success");
             JOptionPane.showMessageDialog(okFrame, "your comment has been recorded.",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
-            okFrame.setVisible(true);
 
         }
 }
