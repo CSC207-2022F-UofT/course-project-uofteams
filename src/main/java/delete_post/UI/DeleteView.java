@@ -12,12 +12,22 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
     private final DeletePostController controller;
     int postId;
 
-    public DeleteView(int postId, DeletePostController controller){
+    public DeleteView(DeletePostController controller){
         this.controller = controller;
-        this.postId = postId;
+        this.postId = -1;
         JButton deleteButton = new JButton("Delete");
         this.add(deleteButton);
         deleteButton.addActionListener(this);
+    }
+
+    /**
+     * Updates the postID instance variable so that DeleteView knows which post it is on.
+     * This method id called in the ViewPostView every time it is refreshed with a new post.
+     *
+     * @param id the integer ID of the post that it is being displayed on
+     */
+    public void setPostId(int id) {
+        this.postId = id;
     }
 
     public void actionPerformed(ActionEvent e){
@@ -32,9 +42,9 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
             JOptionPane.showMessageDialog(statusFrame,"Post Deleted");
         }
         else if (event.getNewValue().equals("null")){
-            JOptionPane.showMessageDialog(statusFrame, "Post Does not Exist LOL");
+            JOptionPane.showMessageDialog(statusFrame, "Post has already been deleted", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (event.getNewValue().equals("permission")){
-            JOptionPane.showMessageDialog(statusFrame, "You do not have permission to delete this Post");
+            JOptionPane.showMessageDialog(statusFrame, "You do not have permission to delete this Post", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
