@@ -44,4 +44,12 @@ public class MainPostView {
      */
     public JPanel getMainPostView(){return this.mainPostView;}
 
+    /*
+    * Edits the elements of view to put ViewPostView and PostListView into a default state
+    * */
+    public void refresh(){
+        viewPost.refresh();
+        postList.refresh();
+    }
+
 }
