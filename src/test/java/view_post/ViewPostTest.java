@@ -18,19 +18,22 @@ import org.junit.Before;
 import org.junit.Test;
 import view_post.drivers.ViewPostDatabaseAccess;
 import view_post.interface_adapters.ViewPostController;
+import view_post.interface_adapters.ViewPostOutputData;
+import view_post.interface_adapters.ViewPostPresenter;
 import view_post.interface_adapters.ViewPostViewModel;
-import view_post.ui.ViewPostView;
 import view_post.use_case.*;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the view_post use case.
+ * Test coverage:
+ * drivers: 77%
+ * interface_adapters: 82%
+ * use_case: 97%
+ * The UI is not being tested.
  */
 public class ViewPostTest {
 
@@ -40,11 +43,11 @@ public class ViewPostTest {
     private ViewPostInputBoundary interactor;
     private ViewPostController controller;
     private ViewPostViewModel viewPostViewModel;
-    private ViewPostView viewPostView;
 
     @Before
     public void setUp() {
         dataAccess = new ViewPostDatabaseAccess(partialPath);
+
         // setting up viewPostView by creating favouriteView and makeCommentView
         // creating favouriteView
         UserReaderInterface userFactory = new UserFactory();
@@ -67,17 +70,14 @@ public class ViewPostTest {
 
         viewPostView = new ViewPostView(favouriteView, makeCommentView);
         viewPostViewModel = new ViewPostViewModel(viewPostView);
+
     }
     @After
     public void tearDown() {
 
     }
-
-    /**
-     * test that a post is being retrieved correctly from the database.
-     */
     @Test
-    public void testRetrievePosts(){
+    public void testRetrievePostsWithObserver(){
         PropertyChangeListener observer = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -86,6 +86,17 @@ public class ViewPostTest {
             }
         };
         viewPostViewModel.addObserver(observer);
+        presenter = new ViewPostPresenter(viewPostViewModel);
+        interactor = new ViewPostInteractor(dataAccess, presenter);
+        controller = new ViewPostController(interactor);
+        controller.viewPost(1);
+    }
+
+    /**
+     * test that a post is being retrieved correctly from the database and checks if correct PropertyChange is fired.
+     */
+    @Test
+    public void testRetrievePosts(){
         presenter = new ViewPostOutputBoundary() {
             @Override
             public void updateActivePost(ViewPostResponseModel responseModel) {
@@ -139,12 +150,15 @@ public class ViewPostTest {
                 assertEquals("", postEmail);
                 assertEquals("", postBody);
                 assertEquals("", postTags);
-                ArrayList<Integer> testPostReplies = new ArrayList<>(Arrays.asList());
                 assertEquals("", deadline);
                 assertEquals("", creationDate);
                 assertEquals("", collaborators);
                 assertEquals(-1, postID);
                 assertEquals("", title);
+
+                ViewPostOutputData outputData = new ViewPostOutputData(postEmail, postBody, postTags, deadline, creationDate,
+                        collaborators, postID, title);
+                viewPostViewModel.updateView(outputData);
             }
         };
         String emptyPath = "src/test/java/view_post/";
@@ -152,44 +166,5 @@ public class ViewPostTest {
         interactor = new ViewPostInteractor(dataAccess, presenter);
         controller = new ViewPostController(interactor);
         controller.viewPost(-543);
-    }
-
-    @Test
-    public void testViewPostDatabaseAccessCatchIOException(){
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String propertyName = "show error";
-                assertEquals(propertyName, evt.getPropertyName());
-            }
-        };
-        viewPostViewModel.addObserver(observer);
-        presenter = new ViewPostOutputBoundary() {
-            @Override
-            public void updateActivePost(ViewPostResponseModel responseModel) {
-                String postEmail = responseModel.getPosterEmail();
-                String postBody = responseModel.getPostBody();
-                String postTags = responseModel.getPostTags();
-                String deadline = responseModel.getDeadline();
-                String creationDate = responseModel.getCreationDate();
-                String collaborators = responseModel.getCollaborators();
-                int postID = responseModel.getPostID();
-                String title = responseModel.getTitle();
-                assertEquals("", postEmail);
-                assertEquals("", postBody);
-                assertEquals("", postTags);
-                ArrayList<Integer> testPostReplies = new ArrayList<>(Arrays.asList());
-                assertEquals("", deadline);
-                assertEquals("", creationDate);
-                assertEquals("", collaborators);
-                assertEquals(-1, postID);
-                assertEquals("", title);
-            }
-        };
-        String badPath = "/bad/path.csv";
-        dataAccess = new ViewPostDatabaseAccess(badPath);
-        interactor = new ViewPostInteractor(dataAccess, presenter);
-        controller = new ViewPostController(interactor);
-        controller.viewPost(1);
     }
 }
