@@ -50,7 +50,6 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
             JFrame errorFrame = new JFrame("Error");
             JOptionPane.showMessageDialog(errorFrame, "This post currently have no comment.",
                     "Error", JOptionPane.ERROR_MESSAGE);
-            errorFrame.setVisible(false);
 
         } else {
             JFrame frame = new JFrame("Comments");
