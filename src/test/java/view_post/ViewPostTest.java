@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
  * Test coverage:
  * drivers: 77%
  * interface_adapters: 82%
- * use_case: 97%
+ * use_case: 100%
  * The UI is not being tested.
  */
 public class ViewPostTest {
@@ -52,8 +52,8 @@ public class ViewPostTest {
         // creating favouriteView
         UserReaderInterface userFactory = new UserFactory();
         PostReaderInterface postFactory = new PostFactory();
-        FavouriteViewModel favourtiteViewModel = new FavouriteViewModel();
-        FavouritePresenter favouritePresenter = new FavouritePresenter(favourtiteViewModel);
+        FavouriteViewModel favouriteViewModel = new FavouriteViewModel();
+        FavouritePresenter favouritePresenter = new FavouritePresenter(favouriteViewModel);
         FavouriteDatabaseAccess dataAccess = new FavouriteDatabaseAccess(postFactory, userFactory, partialPath);
         FavouriteInteractor favouriteInteractor = new FavouriteInteractor(dataAccess, favouritePresenter);
         FavouriteController favouriteController = new FavouriteController(favouriteInteractor);
@@ -68,8 +68,8 @@ public class ViewPostTest {
         MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
         MakeCommentView makeCommentView = new MakeCommentView(makeCommentController);
 
-        viewPostView = new ViewPostView(favouriteView, makeCommentView);
-        viewPostViewModel = new ViewPostViewModel(viewPostView);
+        //ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView);
+        viewPostViewModel = new ViewPostViewModel();
 
     }
     @After
