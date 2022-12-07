@@ -46,7 +46,8 @@ public class MakeCommentView extends JPanel implements ActionListener ,PropertyC
     public void actionPerformed(ActionEvent e) {
             JFrame frame = new JFrame("commentate");
             String commentBody = JOptionPane.showInputDialog(frame, "Please enter the Comment",
-                    "commentate", JOptionPane.QUESTION_MESSAGE);
+                    "commentate", JOptionPane.PLAIN_MESSAGE);
+
             controller.passToInteractor(commentBody, this.postId);
 
     }

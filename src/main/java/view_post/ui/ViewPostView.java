@@ -1,6 +1,7 @@
 package view_post.ui;
 
 
+import delete_post.UI.DeleteView;
 import favourite.ui.FavouriteView;
 
 import make_comment.ui.MakeCommentView;
@@ -18,6 +19,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
 
     private final FavouriteView favouriteView;
     private final MakeCommentView makeCommentView;
+    private final DeleteView deleteView;
 
 
     /**
@@ -25,9 +27,10 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
      * ViewPostView displays the default message when it is first initialized and displayed to the user when they log in
      */
 
-    public ViewPostView (FavouriteView favouriteView, MakeCommentView makeCommentView){
+    public ViewPostView (FavouriteView favouriteView, MakeCommentView makeCommentView, DeleteView deleteView){
         this.favouriteView = favouriteView;
         this.makeCommentView = makeCommentView;
+        this.deleteView = deleteView;
 
 
         this.setPreferredSize(new Dimension(600, 680));
@@ -105,12 +108,10 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         // adding favourite button, update later to integrate with favourite uc
 
         this.favouriteView.setPostID(outputData.getPostID());
-
         c.gridwidth = 1;
         c.gridheight = 1;
         c.gridx = 3;
         c.gridy = 0;
-
         this.add(this.favouriteView, c);
 
 
@@ -145,7 +146,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
 
         // adding collaborators
         JLabel collab;
-        if (outputData.getCollaborators() == ""){
+        if (outputData.getCollaborators().equals("")){
             collab = new JLabel("Collaborators: None");
         } else{
             collab = new JLabel("Collaborators: " + outputData.getCollaborators());
@@ -195,22 +196,20 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         // adding comment button, update later to integrate with view/post comment UC
 
         this.makeCommentView.setPostID(outputData.getPostID());
-
         c.gridwidth = 1;
         c.gridheight = 1;
         c.gridx = 1;
         c.gridy = 14;
-
         this.add(this.makeCommentView, c);
 
 
         // adding delete post button, update later to integrate with delete UC
-        JButton delete = new JButton("Delete Post");
+        this.deleteView.setPostId(outputData.getPostID());
         c.gridwidth = 1;
         c.gridheight = 1;
         c.gridx = 1;
         c.gridy = 15;
-        this.add(delete, c);
+        this.add(this.deleteView, c);
     }
 
 }
