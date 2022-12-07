@@ -1,8 +1,8 @@
 package view_post.ui;
 
-import favourite.interface_adapters.FavouriteController;
+
 import favourite.ui.FavouriteView;
-import make_comment.interface_adapter.MakeCommentController;
+
 import make_comment.ui.MakeCommentView;
 import view_post.interface_adapters.ViewPostOutputData;
 
@@ -15,15 +15,20 @@ import java.beans.PropertyChangeListener;
  * The view of that displays the post the user selected to view
  */
 public class ViewPostView extends JPanel implements PropertyChangeListener {
-    private final FavouriteController favouriteController;
-    private final MakeCommentController makeCommentController;
+
+    private final FavouriteView favouriteView;
+    private final MakeCommentView makeCommentView;
+
+
     /**
      * Initializes ViewPostView.
      * ViewPostView displays the default message when it is first initialized and displayed to the user when they log in
      */
-    public ViewPostView (FavouriteController favouriteController,  MakeCommentController commentController){
-        this.favouriteController = favouriteController;
-        this.makeCommentController = commentController;
+
+    public ViewPostView (FavouriteView favouriteView, MakeCommentView makeCommentView){
+        this.favouriteView = favouriteView;
+        this.makeCommentView = makeCommentView;
+
 
         this.setPreferredSize(new Dimension(600, 680));
 
@@ -98,12 +103,16 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         this.add(buffer1, c);
 
         // adding favourite button, update later to integrate with favourite uc
-        FavouriteView favouriteView = new FavouriteView(outputData.getPostID(), favouriteController);
+
+        this.favouriteView.setPostID(outputData.getPostID());
+
         c.gridwidth = 1;
         c.gridheight = 1;
         c.gridx = 3;
         c.gridy = 0;
-        this.add(favouriteView, c);
+
+        this.add(this.favouriteView, c);
+
 
         // adding blank buffer
         JLabel buffer2 = new JLabel();
@@ -184,12 +193,16 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         this.add(description, c);
 
         // adding comment button, update later to integrate with view/post comment UC
-        MakeCommentView makeCommentView = new MakeCommentView(outputData.getPostID(), makeCommentController);
+
+        this.makeCommentView.setPostID(outputData.getPostID());
+
         c.gridwidth = 1;
         c.gridheight = 1;
         c.gridx = 1;
         c.gridy = 14;
-        this.add(makeCommentView, c);
+
+        this.add(this.makeCommentView, c);
+
 
         // adding delete post button, update later to integrate with delete UC
         JButton delete = new JButton("Delete Post");
