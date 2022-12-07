@@ -2,7 +2,6 @@ package delete_post.interface_adapters;
 
 import delete_post.use_case.DeletePostOutputBoundary;
 import delete_post.use_case.DeletePostResponseModel;
-import entities.User;
 
 public class DeletePostPresenter implements DeletePostOutputBoundary{
 
@@ -12,10 +11,14 @@ public class DeletePostPresenter implements DeletePostOutputBoundary{
         this.viewModel = viewModel;
     }
     @Override
-    public void prepareFailView(String error){
-        //error popup, no change to posts view or database;
-    }
-    public void prepareSuccessView(DeletePostResponseModel responseModel){
-        //update view posts view
+    public void updateViewModel(DeletePostResponseModel responseModel){
+        if (responseModel.deleteSuccess()){
+            if (!responseModel.getIsTimer()){
+                viewModel.updateViewModel(true, responseModel.getMessage());
+            }
+        }
+        else if (!responseModel.deleteSuccess()){
+            viewModel.updateViewModel(false, responseModel.getMessage());
+        }
     }
 }
