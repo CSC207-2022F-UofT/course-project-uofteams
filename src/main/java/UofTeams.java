@@ -10,6 +10,7 @@ import favourite.drivers.FavouriteDatabaseAccess;
 import favourite.interface_adapters.FavouriteController;
 import favourite.interface_adapters.FavouritePresenter;
 import favourite.interface_adapters.FavouriteViewModel;
+import favourite.ui.FavouriteView;
 import favourite.use_case.*;
 import filter_post.drivers.FilterPostDataAccess;
 import filter_post.interface_adapters.FilterPostController;
@@ -82,11 +83,17 @@ public class UofTeams {
     static String numCommentsCreatedFilePath = new String("");
     static String postsFilePath = new String("src/main/java/Database/posts.csv");
     static String usersFilePath = new String("src/main/java/Database/users.csv");
-    static String commentsFilePath = new String("");
+    static String commentsFilePath = new String("src/main/java/Database/comments.csv");
     static String generalPath = new String("src/main/java/Database/");
 
     public static void main(String[] args) {
-
+        // initialize stuff for delete_post
+        DeletePostViewModel deletePostViewModel = new DeletePostViewModel();
+        DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
+        delete_post.use_case.PostReaderInterface deletePostFactory = new delete_post.use_case.PostFactory();
+        DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess(postsFilePath, usersFilePath, commentsFilePath, deletePostFactory);
+        DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
+        DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
 
         // initialize stuff for filter_post
         FilterPostViewModel filterPostViewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
@@ -120,6 +127,7 @@ public class UofTeams {
         MakeCommentDatabaseAccess makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(generalPath);
         MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, makeCommentPresenter, commentFactory);
         MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
+        MakeCommentView makeCommentView = new MakeCommentView(makeCommentController);
 
 
 
@@ -150,23 +158,16 @@ public class UofTeams {
 
         UserReaderInterface userFactory = new UserFactory();
         PostReaderInterface postFactory = new PostFactory();
-        FavouriteViewModel favourtiteViewModel = new FavouriteViewModel();
-        FavouritePresenter favouritePresenter = new FavouritePresenter(favourtiteViewModel);
+        FavouriteViewModel favouriteViewModel = new FavouriteViewModel();
+        FavouritePresenter favouritePresenter = new FavouritePresenter(favouriteViewModel);
         FavouriteDatabaseAccess dataAccess = new FavouriteDatabaseAccess(postFactory, userFactory, generalPath);
         FavouriteInteractor favouriteInteractor = new FavouriteInteractor(dataAccess, favouritePresenter);
         FavouriteController favouriteController = new FavouriteController(favouriteInteractor);
+        FavouriteView favouriteView = new FavouriteView(favouriteController);
 
-        // initialize stuff for delete_post
-        delete_post.use_case.PostReaderInterface postFactory1 = new delete_post.use_case.PostFactory();
-        DeletePostViewModel deletePostViewModel = new DeletePostViewModel();
-        DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
-        DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess(generalPath, postFactory1);
-        DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
-        DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
 
         // initialize stuff for view_post
-        ViewPostView viewPostView = new ViewPostView(favouriteController, makeCommentController);
-
+        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView);
         ViewPostViewModel viewPostViewModel = new ViewPostViewModel(viewPostView);
         ViewPostPresenter viewPostPresenter = new ViewPostPresenter(viewPostViewModel);
         ViewPostDsGateway viewPostGateway = new ViewPostDatabaseAccess(generalPath);
