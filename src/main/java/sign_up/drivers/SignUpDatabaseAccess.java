@@ -91,7 +91,7 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
         ArrayList<String> emails = new ArrayList<String>();
 
         for (String[] subUserInfo: userInfo) {
-            emails.add(subUserInfo[4]);
+            emails.add(subUserInfo[2]);
         }
 
         return emails;
@@ -100,9 +100,9 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
     @Override
     public void saveUser(User toSave) {
         File file = new File(userFilePath);
-        String[] toAdd = {convertListToString((ArrayList<Integer>) toSave.getFavourites()),
-                convertListToString((ArrayList<Integer>) toSave.getPosts()), Boolean.toString(toSave.isAdmin()),
-                String.valueOf(toSave.getId()), toSave.getPassword(), toSave.getEmail()};
+        String[] toAdd = {String.valueOf(toSave.getId()), Boolean.toString(toSave.isAdmin()),
+                toSave.getEmail(), toSave.getPassword(), convertListToString((ArrayList<Integer>) toSave.getPosts()),
+                convertListToString((ArrayList<Integer>) toSave.getFavourites())};
 
         try {
             FileReader fileReader = new FileReader(file);
