@@ -55,7 +55,11 @@ public class LogInInteractor implements LogInInputBoundary {
         String userPass = userInfo.get(1);
         String userAdminInfo = userInfo.get(2);
         boolean isAdmin = userAdminInfo.equals("True");
-        CurrentUser.setCurrentUser(new User(isAdmin, 0, userEmail, userPass));
+
+        UserFactory user = new UserFactory();
+
+        User currentUser = user.create(isAdmin, 0, userEmail, userPass);
+        CurrentUser.setCurrentUser(currentUser);
     }
 
     /**
