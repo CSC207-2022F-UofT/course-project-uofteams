@@ -71,6 +71,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
             scrollableList.setPreferredSize(new Dimension(300, 400));
             postList.add(scrollableList);
             postList.setBounds(0, 180, 300, 400);
+            SwingUtilities.updateComponentTreeUI(postList);
         }
     }
 

@@ -210,6 +210,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         c.gridx = 1;
         c.gridy = 15;
         this.add(this.deleteView, c);
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
 }
