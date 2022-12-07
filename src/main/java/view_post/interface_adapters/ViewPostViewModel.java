@@ -37,7 +37,9 @@ public class ViewPostViewModel {
         if(data.getPostID() == -1){
             observable.firePropertyChange("show error", null, "This post does not exist.");
         }
-        observable.firePropertyChange("show post", null, data);
+        else{
+            observable.firePropertyChange("show post", null, data);
+        }
     }
 
 }
