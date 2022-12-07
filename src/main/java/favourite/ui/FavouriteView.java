@@ -15,19 +15,29 @@ public class FavouriteView extends JPanel implements ActionListener, PropertyCha
     // the controllwe that gets triggered when a user interacts with the FavouriteView
     private final FavouriteController controller;
     // the id of the post being favourited/unfavourited
-    private final int postid;
+    private int postId;
 
     /**
      * Initializes FavouriteView
      *
-     * @param postid id of the post being favourited/unfavourited
+     * @param controller A FavouriteController object
      */
-    public FavouriteView(int postid, FavouriteController controller){
+    public FavouriteView(FavouriteController controller){
         this.controller = controller;
-        this.postid = postid;
+        this.postId = -1;
         JButton favbutton = new JButton("Favourite");
         this.add(favbutton);
         favbutton.addActionListener(this);
+    }
+
+    /**
+     * Updates the postID instance variable so that FavouriteView know which post it is on.
+     * This method id called in the ViewPostView every time it is refreshed with a new post.
+     *
+     * @param postId the integer ID of the post that it is being displayed on
+     */
+    public void setPostID(int postId){
+        this.postId = postId;
     }
 
     /**
@@ -37,7 +47,7 @@ public class FavouriteView extends JPanel implements ActionListener, PropertyCha
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        controller.favourite(this.postid);
+        controller.favourite(this.postId);
     }
 
     /**
