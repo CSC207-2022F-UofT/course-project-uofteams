@@ -14,11 +14,11 @@ public class DeletePostPresenter implements DeletePostOutputBoundary{
     public void updateViewModel(DeletePostResponseModel responseModel){
         if (responseModel.deleteSuccess()){
             if (!responseModel.getIsTimer()){
-                viewModel.updateViewModel(true, false);
+                viewModel.updateViewModel(true, responseModel.getMessage());
             }
         }
         else if (!responseModel.deleteSuccess()){
-            viewModel.updateViewModel(false, true);
+            viewModel.updateViewModel(false, responseModel.getMessage());
         }
     }
 }

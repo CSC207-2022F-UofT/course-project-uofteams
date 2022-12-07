@@ -31,8 +31,10 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
         if (event.getPropertyName().equals("success")){
             JOptionPane.showMessageDialog(statusFrame,"Post Deleted");
         }
-        else if (event.getPropertyName().equals("fail")){
-            JOptionPane.showMessageDialog(statusFrame, "Cannot Delete Post");
+        else if (event.getNewValue().equals("null")){
+            JOptionPane.showMessageDialog(statusFrame, "Post Does not Exist LOL");
+        } else if (event.getNewValue().equals("permission")){
+            JOptionPane.showMessageDialog(statusFrame, "You do not have permission to delete this Post");
         }
     }
 }

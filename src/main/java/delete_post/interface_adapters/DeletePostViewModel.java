@@ -15,8 +15,8 @@ public class DeletePostViewModel {
         this.observable.addPropertyChangeListener("fail", observer);
     }
 
-    public void updateViewModel(boolean success, boolean fail){
+    public void updateViewModel(boolean success, String message){
         this.observable.firePropertyChange("success", false, success);
-        this.observable.firePropertyChange("fail", false, fail);
+        this.observable.firePropertyChange("fail", "", message);
     }
 }

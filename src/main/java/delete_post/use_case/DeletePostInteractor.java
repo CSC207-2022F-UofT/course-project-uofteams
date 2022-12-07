@@ -3,6 +3,8 @@ package delete_post.use_case;
 import entities.CurrentUser;
 import entities.Post;
 
+import static java.util.Objects.isNull;
+
 public class DeletePostInteractor implements DeletePostInputBoundary{
 
     private final DeletePostOutputBoundary outputBoundary;
@@ -16,23 +18,24 @@ public class DeletePostInteractor implements DeletePostInputBoundary{
     @Override
     public void delete(DeletePostRequestModel requestModel){
         Post post = dataAccess.getPost(requestModel.getPostId());
+        DeletePostResponseModel responseModel;
 
-        if (requestModel.getIsTimer()){
-            //will fix
+        if (isNull(post)){
+            responseModel = deleteDatabase(requestModel, post, false, "null");
         }
         else if (CurrentUser.getIsAdmin() ||
                 CurrentUser.getCurrentUser().getId() == post.getUser()){
-            DeletePostResponseModel responseModel = deleteDatabase(requestModel, post, true);
-            this.outputBoundary.updateViewModel(responseModel);
+            responseModel = deleteDatabase(requestModel, post, true, "");
             }
         else {
-            DeletePostResponseModel responseModel = deleteDatabase(requestModel, post, false);
-            this.outputBoundary.updateViewModel(responseModel);
+            responseModel = deleteDatabase(requestModel, post, false, "permission");
         }
+        this.outputBoundary.updateViewModel(responseModel);
     }
-    private DeletePostResponseModel deleteDatabase(DeletePostRequestModel requestModel, Post post, boolean success){
-        DeletePostResponseModel responseModel = new DeletePostResponseModel(success, requestModel.getIsTimer());
+    private DeletePostResponseModel deleteDatabase(DeletePostRequestModel requestModel, Post post, boolean success, String message){
+        DeletePostResponseModel responseModel;
         if (success) {
+            responseModel = new DeletePostResponseModel(success, requestModel.getIsTimer(), "");
             for (int favUser : post.getFavouritedUsers()) {
                 this.dataAccess.removeFavourite(requestModel.getPostId(), favUser);
             }
@@ -41,7 +44,10 @@ public class DeletePostInteractor implements DeletePostInputBoundary{
             }
             this.dataAccess.removeUser(requestModel.getPostId(), post.getUser());
             this.dataAccess.deletePost(requestModel.getPostId());
+        } else {
+            responseModel = new DeletePostResponseModel(success, requestModel.getIsTimer(), message);
         }
+
         return responseModel;
     }
 }
