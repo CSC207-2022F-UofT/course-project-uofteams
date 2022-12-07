@@ -24,11 +24,10 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
     private final String userPath;
     private final String commentPath;
 
-    public DeletePostDataAccess(String postPath, String userPath, String commentPath,
-                                PostReaderInterface postReader){
-        this.postPath = postPath;
-        this.userPath = userPath;
-        this.commentPath = commentPath;
+    public DeletePostDataAccess(String generalPath, PostReaderInterface postReader){
+        this.postPath = generalPath + "posts.csv";
+        this.userPath = generalPath + "users.csv";
+        this.commentPath = generalPath + "comments.csv";
         this.postReader = postReader;
     }
 

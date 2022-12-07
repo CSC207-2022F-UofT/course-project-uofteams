@@ -86,12 +86,7 @@ public class UofTeams {
     static String generalPath = new String("src/main/java/Database/");
 
     public static void main(String[] args) {
-        // initialize stuff for delete_post
-        DeletePostViewModel deletePostViewModel = new DeletePostViewModel();
-        DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
-        DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess(generalPath);
-        DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
-        DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
+
 
         // initialize stuff for filter_post
         FilterPostViewModel filterPostViewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
@@ -161,6 +156,13 @@ public class UofTeams {
         FavouriteInteractor favouriteInteractor = new FavouriteInteractor(dataAccess, favouritePresenter);
         FavouriteController favouriteController = new FavouriteController(favouriteInteractor);
 
+        // initialize stuff for delete_post
+        delete_post.use_case.PostReaderInterface postFactory1 = new delete_post.use_case.PostFactory();
+        DeletePostViewModel deletePostViewModel = new DeletePostViewModel();
+        DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
+        DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess(generalPath, postFactory1);
+        DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
+        DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
 
         // initialize stuff for view_post
         ViewPostView viewPostView = new ViewPostView(favouriteController, makeCommentController);
