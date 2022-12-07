@@ -12,6 +12,8 @@ public class LogInInteractor implements LogInInputBoundary {
 
     private final LogInOutputBoundary outputBoundary;
 
+    private final UserFactory userFactory;
+
 
     /**
      * Initialize a LogInInteractor
@@ -22,6 +24,7 @@ public class LogInInteractor implements LogInInputBoundary {
     public LogInInteractor(LogInDsGateway access, LogInOutputBoundary outputBoundary){
         this.access = access;
         this.outputBoundary = outputBoundary;
+        this.userFactory = new UserFactory();
     }
 
     /**
@@ -56,9 +59,7 @@ public class LogInInteractor implements LogInInputBoundary {
         String userAdminInfo = userInfo.get(2);
         boolean isAdmin = userAdminInfo.equals("True");
 
-        UserFactory user = new UserFactory();
-
-        User currentUser = user.create(isAdmin, 0, userEmail, userPass);
+        User currentUser = this.userFactory.create(isAdmin, 0, userEmail, userPass);
         CurrentUser.setCurrentUser(currentUser);
     }
 
