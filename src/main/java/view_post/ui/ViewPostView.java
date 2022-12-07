@@ -211,6 +211,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
 
         // adding delete post button, update later to integrate with delete UC
         this.deleteView.setPostId(outputData.getPostID());
+        //setting the deletedPostID to the postID that is to be deleted in the PostListView.
         this.postListView.setDeletedPostID(outputData.getPostID());
         c.gridwidth = 1;
         c.gridheight = 1;

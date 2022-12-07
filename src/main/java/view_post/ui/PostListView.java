@@ -106,6 +106,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
                 this.displayList(titles, ids);
             }
         }
+        //if a post is deleted, then the PostListView needs to be refreshed.
         if ("success".equals(evt.getPropertyName())){
             this.refresh();
         }
@@ -123,10 +124,11 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         controller.viewPost(postId);
     }
 
-    /*
-     * Update the bar view if changes have occured
+    /**
+     * Update the PostListView when a post has been deleted.
      * */
     public void refresh(){
+        //this.ids are the ids currently in the PostListView; this.titles are analogous.
         ArrayList<Integer> tempIDs = new ArrayList<>();
         for(int i = 0; i < ids.length; i++){
             tempIDs.add(ids[i]);
