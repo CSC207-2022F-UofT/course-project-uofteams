@@ -25,6 +25,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
     private final ViewPostController controller;
     //
     private JList list;
+    private FilterPostBarView barView;
 
     /**
      * Initializes PostListView.
@@ -36,6 +37,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         this.postList = new JPanel();
         this.add(this.postList);
         // the FilterPostBarView is added directly into PostListView so that it does not get removed in displayList()
+        this.barView = filterBar;
         this.add(filterBar);
         this.titles = null;
         this.ids = null;
@@ -43,7 +45,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         this.list = null;
 
         // Default view when there are no posts to show
-        JLabel noPostsText = new JLabel("No posts to show :(");
+        JLabel noPostsText = new JLabel("Press Search");
         this.postList.add(noPostsText);
     }
 
@@ -71,6 +73,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
             scrollableList.setPreferredSize(new Dimension(300, 400));
             postList.add(scrollableList);
             postList.setBounds(0, 180, 300, 400);
+            SwingUtilities.updateComponentTreeUI(this);
         }
     }
 
@@ -112,5 +115,12 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         int index = this.list.getSelectedIndex();
         int postId = this.ids[index];
         controller.viewPost(postId);
+    }
+
+    /*
+     * Update the bar view if changes have occured
+     * */
+    public void refresh(){
+        barView.defaultView();
     }
 }

@@ -40,4 +40,12 @@ public class MainPostView extends JPanel{
         this.add(this.postList, BorderLayout.WEST);
     }
 
+    /*
+     * Edits the elements of view to put ViewPostView and PostListView into a default state
+     * */
+    public void refresh(){
+        viewPost.refresh();
+        postList.refresh();
+    }
+
 }

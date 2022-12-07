@@ -1,3 +1,4 @@
+import delete_post.UI.DeleteView;
 import delete_post.drivers.DeletePostDataAccess;
 import delete_post.interface_adapters.DeletePostController;
 import delete_post.interface_adapters.DeletePostPresenter;
@@ -63,6 +64,15 @@ import sign_up.use_case.SignUpDsGateway;
 import sign_up.use_case.SignUpInputBoundary;
 import sign_up.use_case.SignUpInteractor;
 import sign_up.use_case.SignUpOutputBoundary;
+import view_comment.drivers.ViewCommentDatabaseAccess;
+import view_comment.interface_adapters.ViewCommentController;
+import view_comment.interface_adapters.ViewCommentPresenter;
+import view_comment.interface_adapters.ViewCommentViewModel;
+import view_comment.ui.ViewCommentView;
+import view_comment.use_case.ViewCommentDsGateway;
+import view_comment.use_case.ViewCommentInputBoundary;
+import view_comment.use_case.ViewCommentInteractor;
+import view_comment.use_case.ViewCommentOutputBoundary;
 import view_post.drivers.ViewPostDatabaseAccess;
 import view_post.interface_adapters.ViewPostController;
 import view_post.interface_adapters.ViewPostPresenter;
@@ -91,9 +101,10 @@ public class UofTeams {
         DeletePostViewModel deletePostViewModel = new DeletePostViewModel();
         DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
         delete_post.use_case.PostReaderInterface deletePostFactory = new delete_post.use_case.PostFactory();
-        DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess(postsFilePath, usersFilePath, commentsFilePath, deletePostFactory);
+        DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess(generalPath, deletePostFactory);
         DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
         DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
+        DeleteView deleteView = new DeleteView(deletePostController);
 
         // initialize stuff for filter_post
         FilterPostViewModel filterPostViewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
@@ -140,10 +151,11 @@ public class UofTeams {
          */
 
         // initialize stuff for log in
+        UserFactory userFactory1 = new UserFactory();
         LogInViewModel logInViewModel = new LogInViewModel();
         LogInOutputBoundary logInPresenter = new LogInPresenter(logInViewModel);
         LogInDsGateway logInDatabaseAccess = new LogInDatabaseAccess(usersFilePath);
-        LogInInputBoundary logInInteractor = new LogInInteractor(logInDatabaseAccess, logInPresenter);
+        LogInInputBoundary logInInteractor = new LogInInteractor(logInDatabaseAccess, logInPresenter, userFactory1);
         LogInController logInController = new LogInController(logInInteractor);
         LogInView logInView = new LogInView(logInController);
 
@@ -165,10 +177,17 @@ public class UofTeams {
         FavouriteController favouriteController = new FavouriteController(favouriteInteractor);
         FavouriteView favouriteView = new FavouriteView(favouriteController);
 
+        // initialize stuff for view_comment
+        ViewCommentViewModel viewCommentViewModel = new ViewCommentViewModel();
+        ViewCommentDsGateway viewCommentDatabaseAccess = new ViewCommentDatabaseAccess(generalPath);
+        ViewCommentOutputBoundary viewCommentPresenter = new ViewCommentPresenter(viewCommentViewModel);
+        ViewCommentInputBoundary viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
+        ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
+        ViewCommentView viewCommentView = new ViewCommentView(viewCommentController);
 
         // initialize stuff for view_post
-        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView);
-        ViewPostViewModel viewPostViewModel = new ViewPostViewModel(viewPostView);
+        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView);
+        ViewPostViewModel viewPostViewModel = new ViewPostViewModel();
         ViewPostPresenter viewPostPresenter = new ViewPostPresenter(viewPostViewModel);
         ViewPostDsGateway viewPostGateway = new ViewPostDatabaseAccess(generalPath);
         ViewPostInteractor viewPostInteractor = new ViewPostInteractor(viewPostGateway, viewPostPresenter);
@@ -199,6 +218,14 @@ public class UofTeams {
         logOutViewModel.addObserver(mainFrame);
 
         viewPostViewModel.addObserver(viewPostView);
+
+        makeCommentViewModel.addObserver(makeCommentView);
+
+        viewCommentViewModel.addObserver(viewCommentView);
+
+        favouriteViewModel.addObserver(favouriteView);
+
+        deletePostViewModel.addObserver(deleteView);
 
         // Run it :)
         mainFrame.setUp();

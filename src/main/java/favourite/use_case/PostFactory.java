@@ -57,9 +57,8 @@ public class PostFactory implements PostReaderInterface{
         String[] replyids = postData[9].split(" ");
         List<Integer> repliesIDs = new ArrayList<>();
         for (String ids : replyids) {
-            try{repliesIDs.add(Integer.parseInt(ids));
-            }catch(NumberFormatException e){
-                // let it pass, let the for loop continue
+            if (!ids.isEmpty()) {
+                repliesIDs.add(Integer.parseInt(ids));
             }
         }
 
