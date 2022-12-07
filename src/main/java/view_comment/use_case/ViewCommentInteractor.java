@@ -75,14 +75,14 @@ public class ViewCommentInteractor implements ViewCommentInputBoundary {
      * Retrieves replies of a specific post with post ID.
      *
      * @param commentData data of all comments.
-     * @param temp List of replies of a post.
+     * @param Replies List of replies of a post.
      *
      */
-    private ArrayList<String[]> findCommentsHelper(List<String[]> commentData, String[] temp) throws ViewCommentException {
+    private ArrayList<String[]> findCommentsHelper(List<String[]> commentData, String[] Replies) throws ViewCommentException {
         ArrayList<String[]> returnList = new ArrayList<>();
         for (int x = 1; x < commentData.size(); x++) {
             String currentCommentId = commentData.get(x)[0];
-            for (String s : temp) {
+            for (String s : Replies) {
                 if (currentCommentId.equals(s)) {
                     returnList.add(commentData.get(x));
                     break;
