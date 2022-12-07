@@ -76,7 +76,7 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
         try {
             // finding and retrieving the current user's data
             List<String[]> allUsers = readAllLines(Paths.get(partialPath + "users.csv"));
-            allUsers.subList(0,1).clear();
+            allUsers.remove(0);
             String[] userData = new String[6];
             for (String[] user : allUsers) {
                 int id = Integer.parseInt(user[0]);

@@ -34,6 +34,7 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
     @Override
     public Post getPost(int postId){
         List<String[]> postData = readFile(postPath);
+        postData.remove(0);
         for (String[] row : postData) {
             if (Integer.parseInt(row[0]) == postId) {
                 return postReader.readPost(row);
@@ -69,8 +70,7 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
 
             CSVReader reader = csvReaderBuilder.build();
             data = reader.readAll();
-            // Remove the row corresponding to the header
-            data.remove(0);
+
         } catch (IOException e) {
             System.out.println("Error during accessing file.");
         } catch (CsvException e) {
@@ -94,7 +94,7 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         List<String[]> oldData = readFile(path);
         List<String[]> newData = new ArrayList<>();
         for (String[] row : oldData){
-            if (Integer.parseInt(row[0]) != id){
+            if (row[0].equals("postID") || Integer.parseInt(row[0]) != id){
                 newData.add(row);
             }
         }
@@ -103,13 +103,14 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
 
     private void removeFromUserList(int postId, int userId, int listCol){
         List<String[]> userData = readFile(userPath);
-
+        String[] header = userData.get(0);
+        userData.remove(0);
         for (String[] row: userData){
             if (userId == Integer.parseInt(row[0])){
                 StringBuilder newList = new StringBuilder();
                 String[] oldList = row[listCol].split(" ");
                 for (String id : oldList){
-                    if (Integer.parseInt(id) != postId) {
+                    if (!id.isEmpty() || Integer.parseInt(id) != postId) {
                         if (newList.length() != 0){
                             newList.append(" ");
                         }
@@ -120,7 +121,10 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
                 break;
             }
         }
-        fileWriter(userPath, userData);
+        ArrayList<String[]> newData = new ArrayList<>();
+        newData.add(header);
+        newData.addAll(userData);
+        fileWriter(userPath, newData);
     }
 }
 
