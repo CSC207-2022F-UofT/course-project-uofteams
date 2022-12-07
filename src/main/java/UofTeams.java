@@ -170,7 +170,7 @@ public class UofTeams {
 
         // initialize stuff for view_post
         ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView);
-        ViewPostViewModel viewPostViewModel = new ViewPostViewModel(viewPostView);
+        ViewPostViewModel viewPostViewModel = new ViewPostViewModel();
         ViewPostPresenter viewPostPresenter = new ViewPostPresenter(viewPostViewModel);
         ViewPostDsGateway viewPostGateway = new ViewPostDatabaseAccess(generalPath);
         ViewPostInteractor viewPostInteractor = new ViewPostInteractor(viewPostGateway, viewPostPresenter);

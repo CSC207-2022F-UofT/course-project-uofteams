@@ -1,7 +1,5 @@
 package view_post.interface_adapters;
 
-import view_post.ui.ViewPostView;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -10,15 +8,14 @@ import java.beans.PropertyChangeSupport;
  */
 public class ViewPostViewModel {
     private final PropertyChangeSupport observable;
-    private final ViewPostView view;
+
 
     /**
      * Initializes ViewPostViewModel.
      * @param view A ViewPostView object
      */
-    public ViewPostViewModel(ViewPostView view){
+    public ViewPostViewModel(){
         this.observable = new PropertyChangeSupport(this);
-        this.view = view;
     }
 
     /**
@@ -27,6 +24,7 @@ public class ViewPostViewModel {
      */
     public void addObserver(PropertyChangeListener observer){
         this.observable.addPropertyChangeListener("show post", observer);
+        this.observable.addPropertyChangeListener("show error", observer);
     }
 
     /**

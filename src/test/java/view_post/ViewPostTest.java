@@ -34,11 +34,9 @@ import view_post.interface_adapters.ViewPostPresenter;
 import view_post.interface_adapters.ViewPostViewModel;
 import view_post.ui.ViewPostView;
 import view_post.use_case.*;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 
 import static org.junit.Assert.assertEquals;
 
@@ -58,6 +56,7 @@ public class ViewPostTest {
     private ViewPostInputBoundary interactor;
     private ViewPostController controller;
     private ViewPostViewModel viewPostViewModel;
+    private ViewPostView viewPostView;
 
     @Before
     public void setUp() {
@@ -90,8 +89,8 @@ public class ViewPostTest {
         DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
         DeleteView deleteView = new DeleteView(deletePostController);
 
-        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView);
-        viewPostViewModel = new ViewPostViewModel(viewPostView);
+        viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView);
+        viewPostViewModel = new ViewPostViewModel();
 
     }
     @After

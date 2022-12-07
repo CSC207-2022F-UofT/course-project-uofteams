@@ -37,10 +37,10 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
 
         String[] rawPostData = this.getPostData(postID);
         if(rawPostData == null){
-            throw new PostDoesNotExistException("The file does not exist.");
+            throw new PostDoesNotExistException();
         }
         if(rawPostData[0] == null){
-            throw new PostDoesNotExistException("This post does not exist.");
+            throw new PostDoesNotExistException();
         }
         int userID = Integer.parseInt(rawPostData[1]);
         String userEmail = this.getUserEmail(userID);
