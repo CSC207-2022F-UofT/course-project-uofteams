@@ -107,6 +107,44 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
     }
 
     /**
+     * add the postID to the correct user's list of posts.
+     * @param userID id of the creator of the post.
+     * @param postID the post's id.
+     */
+    @Override
+    public void savePostToUser(int userID, int postID){
+        String filePath = filepath + "users.csv";
+        File file = new File(filePath);
+        try {
+            FileReader fileReader = new FileReader(file);
+            CSVReader csvReader = new CSVReader(fileReader);
+            List<String[]> users = csvReader.readAll();
+            //i = 1 to skip the header
+            for(int i = 1; i < users.size(); i++){
+                if(userID == Integer.parseInt(users.get(i)[0])){
+                    if(users.get(i)[4].length() > 0){
+                        users.get(i)[4] = users.get(i)[4] + " " + postID;
+                    }
+                    else{
+                        users.get(i)[4] = String.valueOf(postID);
+                    }
+                }
+            }
+            //remove extra lines that get added by the csvReader!
+            users = removeEmptyLines(users);
+            FileWriter outputFile = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(outputFile);
+            writer.writeAll(users);
+            writer.flush();
+            writer.close();
+            csvReader.close();
+        } catch (IOException | CsvException e) {
+            System.out.println("Wrong path, file or incorrect csv layout.");
+        }
+
+    }
+
+    /**
      * Removes empty lines from the table. Sometimes, the csvWriter adds empty rows.
      * @param csvBody the table to be updated.
      * @return a new table without the empty lines.

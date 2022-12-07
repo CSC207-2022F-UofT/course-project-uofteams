@@ -1,32 +1,22 @@
 package delete_post.use_case;
 
-import entities.CurrentUser;
-import entities.Post;
-import entities.User;
-
-import java.util.List;
-
 public class DeletePostResponseModel {
 
-    private Post post;
+    private final boolean deleted;
+    private final boolean isTimer;
+    private final String message;
 
-    public DeletePostResponseModel(Post post){
-        this.post = post;
+    public DeletePostResponseModel(boolean deleted, boolean isTimer, String message) {
+        this.deleted = deleted;
+        this.isTimer = isTimer;
+        this.message = message;
     }
 
-    public int getUserId(){
-        return post.getUserID();
+    public boolean deleteSuccess(){
+        return this.deleted;
     }
-
-    public int getId(){
-        return post.getID();
+    public boolean getIsTimer(){
+        return this.isTimer;
     }
-
-    public List<User> getFavourites(){
-        return post.getFavouritedUsers();
-    }
-
-    public List<String> getTags(){
-        return post.getTags();
-    }
+    public String getMessage(){return this.message;}
 }

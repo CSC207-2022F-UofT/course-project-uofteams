@@ -21,4 +21,11 @@ public interface MakePostDsGateway {
      */
     void savePost(Map<String, String> postAttributes);
 
+    /**
+     * saves the post's id to the user's list of posts.
+     * @param userID id of the creator of the post.
+     * @param postID the post's id.
+     */
+    void savePostToUser(int userID, int postID);
+
 }
