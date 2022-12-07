@@ -10,6 +10,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The view that displays the search engine and the list of posts the user can choose to view.
@@ -26,6 +27,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
     //
     private JList list;
     private FilterPostBarView barView;
+    private int deletedPostID;
 
     /**
      * Initializes PostListView.
@@ -85,7 +87,6 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         this.postList.removeAll();
         this.postList.add(noPostsText);
         SwingUtilities.updateComponentTreeUI(this);
-
     }
 
     /**
@@ -104,7 +105,9 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
             } else {
                 this.displayList(titles, ids);
             }
-
+        }
+        if ("success".equals(evt.getPropertyName())){
+            this.refresh();
         }
     }
 
@@ -124,6 +127,29 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
      * Update the bar view if changes have occured
      * */
     public void refresh(){
-        barView.defaultView();
+        ArrayList<Integer> tempIDs = new ArrayList<>();
+        for(int i = 0; i < ids.length; i++){
+            tempIDs.add(ids[i]);
+        }
+        ArrayList<String> tempTitles = new ArrayList<>();
+        for(int i = 0; i < titles.length; i++){
+            tempTitles.add(titles[i]);
+        }
+
+        int indexToBeDeleted = tempIDs.indexOf(this.deletedPostID);
+        tempIDs.remove(indexToBeDeleted);
+        tempTitles.remove(indexToBeDeleted);
+        this.ids = new int[tempIDs.size()];
+        for(int i = 0; i < ids.length; i++){
+            this.ids[i] = tempIDs.get(i);
+        }
+        this.titles = new String[tempTitles.size()];
+        for(int i = 0; i < titles.length; i++){
+            this.titles[i] = tempTitles.get(i);
+        }
+        this.displayList(this.titles, this.ids);
+    }
+    public void setDeletedPostID(int id){
+        this.deletedPostID = id;
     }
 }

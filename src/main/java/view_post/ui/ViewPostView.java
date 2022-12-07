@@ -11,15 +11,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * The view of that displays the post the user selected to view
  */
 public class ViewPostView extends JPanel implements PropertyChangeListener {
-
     private final FavouriteView favouriteView;
     private final MakeCommentView makeCommentView;
     private final DeleteView deleteView;
+    private final PostListView postListView;
 
 
     /**
@@ -27,10 +28,11 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
      * ViewPostView displays the default message when it is first initialized and displayed to the user when they log in
      */
 
-    public ViewPostView (FavouriteView favouriteView, MakeCommentView makeCommentView, DeleteView deleteView){
+    public ViewPostView (FavouriteView favouriteView, MakeCommentView makeCommentView, DeleteView deleteView, PostListView postListView){
         this.favouriteView = favouriteView;
         this.makeCommentView = makeCommentView;
         this.deleteView = deleteView;
+        this.postListView = postListView;
 
 
         this.setPreferredSize(new Dimension(600, 680));
@@ -56,6 +58,9 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         if ("show post".equals(event.getPropertyName())) {
             this.displayPost((ViewPostOutputData) event.getNewValue());
         }
+        if (event.getPropertyName().equals("success")){
+            this.refresh();
+        }
     }
 
     /**
@@ -72,6 +77,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         this.setLayout(new BorderLayout());
         JLabel defaultMessage = new JLabel("Please select a post to view!");
         this.add(defaultMessage, BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
     /**
@@ -205,6 +211,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
 
         // adding delete post button, update later to integrate with delete UC
         this.deleteView.setPostId(outputData.getPostID());
+        this.postListView.setDeletedPostID(outputData.getPostID());
         c.gridwidth = 1;
         c.gridheight = 1;
         c.gridx = 1;
