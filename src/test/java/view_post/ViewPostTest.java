@@ -1,5 +1,20 @@
 package view_post;
 
+import favourite.drivers.FavouriteDatabaseAccess;
+import favourite.interface_adapters.FavouriteController;
+import favourite.interface_adapters.FavouritePresenter;
+import favourite.interface_adapters.FavouriteViewModel;
+import favourite.ui.FavouriteView;
+import favourite.use_case.*;
+import make_comment.driver.MakeCommentDatabaseAccess;
+import make_comment.interface_adapter.MakeCommentController;
+import make_comment.interface_adapter.MakeCommentPresenter;
+import make_comment.interface_adapter.MakeCommentViewModel;
+import make_comment.ui.MakeCommentView;
+import make_comment.use_case.CommentFactory;
+import make_comment.use_case.MakeCommentDsGateway;
+import make_comment.use_case.MakeCommentInteractor;
+import make_comment.use_case.MakeCommentOutputBoundary;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +47,27 @@ public class ViewPostTest {
     @Before
     public void setUp() {
         dataAccess = new ViewPostDatabaseAccess(partialPath);
-        viewPostView = new ViewPostView();
+        // setting up viewPostView by creating favouriteView and makeCommentView
+        // creating favouriteView
+        UserReaderInterface userFactory = new UserFactory();
+        PostReaderInterface postFactory = new PostFactory();
+        FavouriteViewModel favourtiteViewModel = new FavouriteViewModel();
+        FavouritePresenter favouritePresenter = new FavouritePresenter(favourtiteViewModel);
+        FavouriteDatabaseAccess dataAccess = new FavouriteDatabaseAccess(postFactory, userFactory, partialPath);
+        FavouriteInteractor favouriteInteractor = new FavouriteInteractor(dataAccess, favouritePresenter);
+        FavouriteController favouriteController = new FavouriteController(favouriteInteractor);
+        FavouriteView favouriteView = new FavouriteView(favouriteController);
+
+        // creating makeCommentView
+        CommentFactory commentFactory = new CommentFactory();
+        MakeCommentViewModel makeCommentViewModel = new MakeCommentViewModel();
+        MakeCommentOutputBoundary makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
+        MakeCommentDsGateway makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(partialPath);
+        MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, makeCommentPresenter, commentFactory);
+        MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
+        MakeCommentView makeCommentView = new MakeCommentView(makeCommentController);
+
+        viewPostView = new ViewPostView(favouriteView, makeCommentView);
         viewPostViewModel = new ViewPostViewModel(viewPostView);
     }
     @After

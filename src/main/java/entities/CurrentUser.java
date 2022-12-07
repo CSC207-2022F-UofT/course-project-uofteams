@@ -1,7 +1,7 @@
 package entities;
 
 public class CurrentUser {
-    static User currentUser;
+    private static User currentUser;
 
     public CurrentUser() {
     }
