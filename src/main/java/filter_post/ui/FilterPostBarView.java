@@ -62,7 +62,11 @@ public class FilterPostBarView extends JPanel implements ActionListener{
             filterTags[i] = TAGS[selectedIndices[i]];
         }
 
-        activeFilters.setText(String.join(", ", filterTags));
+        if (filterTags.length != 0) {
+            activeFilters.setText(String.join(", ", filterTags));
+        } else {
+            activeFilters.setText("None");
+        }
 
         filterPostController.filter(filterTags);
     }

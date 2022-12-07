@@ -12,7 +12,9 @@ import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
 import make_comment.ui.MakeCommentView;
 import make_comment.use_case.CommentFactory;
+import make_comment.use_case.MakeCommentDsGateway;
 import make_comment.use_case.MakeCommentInteractor;
+import make_comment.use_case.MakeCommentOutputBoundary;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,9 +64,9 @@ public class ViewPostTest {
         // creating makeCommentView
         CommentFactory commentFactory = new CommentFactory();
         MakeCommentViewModel makeCommentViewModel = new MakeCommentViewModel();
-        MakeCommentPresenter makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
-        MakeCommentDatabaseAccess makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(partialPath);
-        MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, makeCommentPresenter);
+        MakeCommentOutputBoundary makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
+        MakeCommentDsGateway makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(partialPath);
+        MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, makeCommentPresenter, commentFactory);
         MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
         MakeCommentView makeCommentView = new MakeCommentView(makeCommentController);
 

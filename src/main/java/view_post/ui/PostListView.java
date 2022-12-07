@@ -95,7 +95,12 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
             ArrayList<Object> newData = (ArrayList<Object>) evt.getNewValue();
             String[] titles = (String[]) newData.get(0);
             int[] ids = (int[]) newData.get(1);
-            this.displayList(titles, ids);
+            if (ids.length == 0){
+                defaultDisplay();
+            } else {
+                this.displayList(titles, ids);
+            }
+
         }
     }
 

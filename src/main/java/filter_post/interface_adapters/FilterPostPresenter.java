@@ -31,21 +31,25 @@ public class FilterPostPresenter implements FilterPostOutputBoundary {
         List<Integer> tempIDs = new ArrayList<>();
         List<String> tempTitles = new ArrayList<>();
         List<String> tempDescriptions = new ArrayList<>();
+        try {
+            for (String[] postInfo : filteredPosts) {
 
-        for (String[] postInfo: filteredPosts) {
-            tempIDs.add(Integer.parseInt(postInfo[0]));
-            tempTitles.add(postInfo[1]);
-            tempDescriptions.add(postInfo[2]);
+                tempIDs.add(Integer.parseInt(postInfo[0]));
+                tempTitles.add(postInfo[1]);
+                tempDescriptions.add(postInfo[2]);
+            }
+            String[] newTitles = tempTitles.toArray(new String[0]);
+            int[] newIDs = new int[tempIDs.size()];
+            String[] newDescriptions = tempDescriptions.toArray(new String[0]);
+
+            for (int i = 0; i < tempIDs.size(); i++) {
+                newIDs[i] = tempIDs.get(i);
+            }
+
+            viewModel.updateViewModel(newTitles, newIDs, newDescriptions);
+
+        } catch (NumberFormatException e) {
+            viewModel.updateViewModel(new String[0], new int[0], new String[0]);
         }
-
-        String[] newTitles = tempTitles.toArray(new String[0]);
-        int[] newIDs = new int[tempIDs.size()];
-        String[] newDescriptions = tempDescriptions.toArray(new String[0]);
-
-        for (int i = 0; i < tempIDs.size(); i++) {
-            newIDs[i] = tempIDs.get(i);
-        }
-
-        viewModel.updateViewModel(newTitles, newIDs, newDescriptions);
     }
 }

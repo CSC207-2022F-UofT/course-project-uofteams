@@ -27,7 +27,7 @@ public class LogInDatabaseAccess implements LogInDsGateway {
      */
     @Override
     public boolean checkUserEmailExists(String email){
-        ArrayList<String> emails = this.getData(4);
+        ArrayList<String> emails = this.getData(2);
         for (int i = 0 ; i < emails.size(); i++ ){
             if (emails.get(i).equals(email)){
                 return true;
@@ -45,7 +45,7 @@ public class LogInDatabaseAccess implements LogInDsGateway {
      */
     @Override
     public boolean checkPasswordMatches(String email, String pass){
-        ArrayList<String> emails = this.getData(4);
+        ArrayList<String> emails = this.getData(2);
         ArrayList<String> passwords = this.getData(3);
         int emailIndex;
         int passIndex;
@@ -67,8 +67,8 @@ public class LogInDatabaseAccess implements LogInDsGateway {
     public ArrayList<String> getUser(boolean success, String email, String pass){
         ArrayList<String> userInfo = new ArrayList<>();
         if (success){
-            ArrayList<String> emails = this.getData(4);
-            ArrayList<String> admins = this.getData(2);
+            ArrayList<String> emails = this.getData(2);
+            ArrayList<String> admins = this.getData(1);
 
             int emailIndex = emails.indexOf(email);
             String adminValueString = admins.get(emailIndex);
