@@ -81,8 +81,11 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
      * Displays the message when there are no posts to show on the scrollable list of posts
      */
     private void defaultDisplay(){
-        JLabel noPostsText = new JLabel("No posts to show :(");
+        JLabel noPostsText = new JLabel("No posts to show :( Please search!");
+        this.postList.removeAll();
         this.postList.add(noPostsText);
+        SwingUtilities.updateComponentTreeUI(this);
+
     }
 
     /**
