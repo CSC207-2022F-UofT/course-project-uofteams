@@ -19,11 +19,15 @@ import java.util.Arrays;
 import java.util.List;
 
 
-/*
-* Test which will test for correctness of the signup use case
-*
-* Note to self: add testing for private methods
-* */
+/**
+ * Test the functionality of the sign up use case
+ *
+ * Included Test Coverage:
+ *  - sign_up.use_case (92% line coverage)
+ *  - sign_up.interface_adapters (93% line coverage)
+ *  - sign_up.drivers.FilterPostDataAccess (37% coverage)
+ *
+ */
 public class SignUpTest {
     SignUpDsGateway postRepository;
     SignUpOutputBoundary presenter;
@@ -74,6 +78,10 @@ public class SignUpTest {
     @After
     public void teardown(){}
 
+    /**
+     * Test that the SignUp use case correctly creates updates the output boundart when it
+     * doesn't check the admin
+     */
     @Test
     public void testSignUpNoAdminSuccess() {
         presenter = new SignUpOutputBoundary() {
@@ -96,6 +104,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the SignUp use case correctly updates the output boundary when it is given an
+     * admin with a correct password
+     */
     @Test
     public void testSignUpAdminSuccess() {
         presenter = new SignUpOutputBoundary() {
@@ -118,6 +130,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test the SignUp use case correctly updates the output boundary when it is given an admin with an
+     * incorrect password
+     */
     @Test
     public void testSignUpAdminFailure() {
         presenter = new SignUpOutputBoundary() {
@@ -140,6 +156,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the SignUp use case correctly updates the output boundary when it is given an
+     * email that already exists in the database
+     */
     @Test
     public void testSignUpEmailExistsError() {
         presenter = new SignUpOutputBoundary() {
@@ -163,6 +183,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the SignUp use case correctly updates the output boundary when it is given
+     * an email in the improper format
+     */
     @Test
     public void testSignUpIncorrectEmailError() {
         presenter = new SignUpOutputBoundary() {
@@ -184,6 +208,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the SignUp use case correctly updates the presenter when it is given an empty
+     * email or password
+     */
     @Test
     public void testSignUpEmptyFieldError() {
         presenter = new SignUpOutputBoundary() {
@@ -205,6 +233,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the SignUp use case properly updates the output boundary and the output boundary
+     * correctly updates the ViewModel, which correctly updates its observer
+     */
     @Test
     public void testSignUpWithObserver() {
         SignUpViewModel viewModel = new SignUpViewModel();
@@ -229,6 +261,9 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the database properly saves users
+     */
     @Test
     public void testSaveUser() {
         SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/main/java/Database/");

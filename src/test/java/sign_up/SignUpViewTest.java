@@ -13,6 +13,9 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Test the SignUp GUI by showing it, so it can be inspected
+ */
 public class SignUpViewTest {
     public static void main(String[] args) {
         SignUpDsGateway dsGateway = new SignUpDsGateway() {
