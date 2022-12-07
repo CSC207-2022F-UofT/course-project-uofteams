@@ -1,37 +1,53 @@
 package delete_post.use_case;
 
-import delete_post.interface_adapters.DeletePostPresenter;
-import entities.User;
+import entities.CurrentUser;
+import entities.Post;
+
+import static java.util.Objects.isNull;
 
 public class DeletePostInteractor implements DeletePostInputBoundary{
 
-    private final DeletePostPresenter presenter;
+    private final DeletePostOutputBoundary outputBoundary;
     private final DeletePostDsGateway dataAccess;
 
-    public DeletePostInteractor(DeletePostPresenter presenter, DeletePostDsGateway dataAccess){
-        this.presenter = presenter;
+    public DeletePostInteractor(DeletePostOutputBoundary outputBoundary, DeletePostDsGateway dataAccess){
+        this.outputBoundary = outputBoundary;
         this.dataAccess = dataAccess;
     }
 
     @Override
     public void delete(DeletePostRequestModel requestModel){
-        if (requestModel.getIsTimer() || requestModel.getIsAdmin() ||
-                requestModel.getUser() == (requestModel.getPostUser())){
-            // delete post
-            DeletePostResponseModel responseModel = new DeletePostResponseModel(requestModel.getPost());
+        Post post = dataAccess.getPost(requestModel.getPostId());
+        DeletePostResponseModel responseModel;
 
-            for (User favouriteId: responseModel.getFavourites()){
-                this.dataAccess.removeFavourite(responseModel.getId(), favouriteId);
+        if (isNull(post)){
+            responseModel = deleteDatabase(requestModel, post, false, "null");
+        }
+        else if (CurrentUser.getIsAdmin() ||
+                CurrentUser.getCurrentUser().getId() == post.getUser()){
+            responseModel = deleteDatabase(requestModel, post, true, "");
             }
-
-            for (String tag: responseModel.getTags()){
-                this.dataAccess.removeTag(responseModel.getId(), tag);
+        else {
+            responseModel = deleteDatabase(requestModel, post, false, "permission");
+        }
+        this.outputBoundary.updateViewModel(responseModel);
+    }
+    private DeletePostResponseModel deleteDatabase(DeletePostRequestModel requestModel, Post post, boolean success, String message){
+        DeletePostResponseModel responseModel;
+        if (success) {
+            responseModel = new DeletePostResponseModel(success, requestModel.getIsTimer(), "");
+            for (int favUser : post.getFavouritedUsers()) {
+                this.dataAccess.removeFavourite(requestModel.getPostId(), favUser);
             }
-
-            this.dataAccess.deletePost(responseModel.getId());
-            this.presenter.prepareSuccessView(responseModel);
+            for (int comment : post.getReplies()){
+                this.dataAccess.deleteComment(comment);
+            }
+            this.dataAccess.removeUser(requestModel.getPostId(), post.getUser());
+            this.dataAccess.deletePost(requestModel.getPostId());
+        } else {
+            responseModel = new DeletePostResponseModel(success, requestModel.getIsTimer(), message);
         }
 
-        this.presenter.prepareFailView("You do not have permission to delete this post.");
+        return responseModel;
     }
 }
