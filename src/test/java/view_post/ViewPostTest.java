@@ -27,6 +27,15 @@ import make_comment.use_case.MakeCommentOutputBoundary;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import view_comment.drivers.ViewCommentDatabaseAccess;
+import view_comment.interface_adapters.ViewCommentController;
+import view_comment.interface_adapters.ViewCommentPresenter;
+import view_comment.interface_adapters.ViewCommentViewModel;
+import view_comment.ui.ViewCommentView;
+import view_comment.use_case.ViewCommentDsGateway;
+import view_comment.use_case.ViewCommentInputBoundary;
+import view_comment.use_case.ViewCommentInteractor;
+import view_comment.use_case.ViewCommentOutputBoundary;
 import view_post.drivers.ViewPostDatabaseAccess;
 import view_post.interface_adapters.ViewPostController;
 import view_post.interface_adapters.ViewPostOutputData;
@@ -88,8 +97,14 @@ public class ViewPostTest {
         DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
         DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
         DeleteView deleteView = new DeleteView(deletePostController);
+        ViewCommentViewModel viewCommentViewModel = new ViewCommentViewModel();
+        ViewCommentDsGateway viewCommentDatabaseAccess = new ViewCommentDatabaseAccess("");
+        ViewCommentOutputBoundary viewCommentPresenter = new ViewCommentPresenter(viewCommentViewModel);
+        ViewCommentInputBoundary viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
+        ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
+        ViewCommentView viewCommentView = new ViewCommentView(viewCommentController);
 
-        viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView);
+        viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView);
         viewPostViewModel = new ViewPostViewModel();
 
     }
