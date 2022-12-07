@@ -1,7 +1,5 @@
 package log_in.use_case;
 
-import entities.User;
-
 import java.util.ArrayList;
 
 public interface LogInDsGateway {
@@ -15,7 +13,4 @@ public interface LogInDsGateway {
     // gets the user with the given email, password
     ArrayList<String> getUser(boolean success, String email, String pass);
 
-
-    // testing method see LogInTest for usage
-    void addUser(User user);
 }

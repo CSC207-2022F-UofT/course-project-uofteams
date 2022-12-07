@@ -13,10 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class logInViewTest {
+
+    public static final List<User> users = new ArrayList<>();
+
+    // method for testing purposes will update when csv is up
+    public static void addUser(User user){
+        users.add(user);
+    }
     public static void main(String[] args) {
         LogInDsGateway gateway = new LogInDsGateway() {
 
-            public final List<User> users = new ArrayList<User>();
             @Override
             public boolean checkUserEmailExists(String email) {
                 return false;
@@ -32,11 +38,6 @@ public class logInViewTest {
                 return null;
             }
 
-            @Override
-            public void addUser(User user) {
-                users.add(user);
-
-            }
         };
         LogInViewModel logInViewModel = new LogInViewModel();
         LogInPresenter presenter = new LogInPresenter(new LogInViewModel());
@@ -44,7 +45,7 @@ public class logInViewTest {
         LogInController controller = new LogInController(interactor);
 
         LogInView logInView = new LogInView(controller);
-        gateway.addUser(new User(false, 0, "a", "b"));
+        addUser(new User(false, 0, "a", "b"));
 
         logInViewModel.addObserver(logInView);
 
