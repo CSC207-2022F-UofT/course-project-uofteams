@@ -16,7 +16,7 @@ import java.util.List;
 public class SignUpViewTest {
     public static void main(String[] args) {
         SignUpDsGateway dsGateway = new SignUpDsGateway() {
-            ArrayList<User> userArrayList = new ArrayList<User>();
+            ArrayList<String[]> userArrayList = new ArrayList<String[]>();
             @Override
             public int getNumberUsers() {
                 return 0;
@@ -30,14 +30,14 @@ public class SignUpViewTest {
             @Override
             public List<String> getEmails() {
                 ArrayList<String> toReturn = new ArrayList<String>();
-                for (User user: userArrayList) {
-                    toReturn.add(user.getEmail());
+                for (String[] user: userArrayList) {
+                    toReturn.add(user[2]);
                 }
                 return toReturn;
             }
 
             @Override
-            public void saveUser(User toSave) {
+            public void saveUser(String[] toSave) {
                 userArrayList.add(toSave);
             }
 
@@ -52,7 +52,7 @@ public class SignUpViewTest {
         SignUpController controller = new SignUpController(interactor);
 
         SignUpView signUpView = new SignUpView(controller);
-        dsGateway.saveUser(new User(false, 0, "regan@mail.utoronto.ca", "a"));
+        dsGateway.saveUser(new String[]{"0", "false", "regan@mail.utoronto.ca", "a", "", ""});
 
         JPanel logIn = new JPanel();
         MasterLandingView masterLandingView = new MasterLandingView(signUpView, logIn);

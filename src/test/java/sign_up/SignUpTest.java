@@ -36,7 +36,7 @@ public class SignUpTest {
 
         postRepository = new SignUpDsGateway() {
             private int numPosts;
-            public final List<User> users = new ArrayList<User>();
+            public final List<String[]> users = new ArrayList<String[]>();
 
 
             @Override
@@ -52,14 +52,14 @@ public class SignUpTest {
             @Override
             public List<String> getEmails() {
                 List<String> emails = new ArrayList<String>();
-                for (User user: users) {
-                    emails.add(user.getEmail());
+                for (String[] userInfo: users) {
+                    emails.add(userInfo[2]);
                 }
                 return emails;
             }
 
             @Override
-            public void saveUser(User toSave) {
+            public void saveUser(String[] toSave) {
                 this.users.add(toSave);
             }
 
@@ -156,7 +156,7 @@ public class SignUpTest {
         interactor = new SignUpInteractor(postRepository, presenter);
         controller = new SignUpController(interactor);
 
-        postRepository.saveUser(new User(false, 0, "email@mail.utoronto.ca", "pass"));
+        postRepository.saveUser(new String[]{"0", "false", "email@mail.utoronto.ca", "pass", "", ""});
         SignUpUserInputData testModel = new SignUpUserInputData("email@mail.utoronto.ca", "pass",
                 "");
 
@@ -231,17 +231,9 @@ public class SignUpTest {
 
     @Test
     public void testSaveUser() {
-        SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/main/database/user.csv", "", "");
-        databaseAccess.saveUser(new User(true, 1, "r@mail.utoronto.ca", "q"));
-        assert true;
+        SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/main/java/Database/");
+        databaseAccess.saveUser(new String[]{"1", "true", "r@mail.utoronto.ca", "q", "", ""});
+        List<String> emails = databaseAccess.getEmails();
+        assertTrue(emails.contains("r@mail.utoronto.ca"));
     }
-
-    @Test
-    public void testGetEmails() {
-        SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/main/database/user.csv", "", "");
-        ArrayList<String> actual = databaseAccess.getEmails();
-        ArrayList<String> expected =  new ArrayList<>(Arrays.asList("e@main.utoronto.ca", "r@mail.utoronto.ca"));
-        assertEquals(expected, actual);
-    }
-
 }
