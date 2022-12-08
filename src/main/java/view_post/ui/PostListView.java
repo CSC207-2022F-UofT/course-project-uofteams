@@ -109,6 +109,9 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         if ("success".equals(evt.getPropertyName())){
             this.refresh();
         }
+        if("Log Out".equals(evt.getPropertyName())){
+            this.defaultDisplay();
+        }
     }
 
     /**

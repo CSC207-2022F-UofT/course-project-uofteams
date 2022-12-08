@@ -63,6 +63,9 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         if (event.getPropertyName().equals("success")){
             this.refresh();
         }
+        if(event.getPropertyName().equals("Log Out")){
+            this.refresh();
+        }
     }
 
     /**

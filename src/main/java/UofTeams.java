@@ -195,6 +195,9 @@ public class UofTeams {
         logInView.addObserver(masterLandingView);
 
         logOutViewModel.addObserver(mainFrame);
+        logOutViewModel.addObserver(filterPostBarView);
+        logOutViewModel.addObserver(postListView);
+        logOutViewModel.addObserver(viewPostView);
 
         viewPostViewModel.addObserver(viewPostView);
 
