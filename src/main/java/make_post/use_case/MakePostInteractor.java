@@ -12,7 +12,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class MakePostInteractor implements MakePostInputBoundary {
     private final MakePostDsGateway dataAccess;
     private final MakePostOutputBoundary presenter;
-    private final PostFactory postFactory = new PostFactory();
+    private final MakePostFactory postFactory = new MakePostFactory();
 
     /**
      * Initialises the interactor for this use case.

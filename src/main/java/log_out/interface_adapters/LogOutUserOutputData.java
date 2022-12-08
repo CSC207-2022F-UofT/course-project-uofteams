@@ -1,11 +1,11 @@
 package log_out.interface_adapters;
 
 // indicating that the logOut was successful and creating data to present
-public class LogOutPresenterData {
+public class LogOutUserOutputData {
 
     private final boolean success;
 
-    public LogOutPresenterData(boolean success){
+    public LogOutUserOutputData(boolean success){
         this.success = success;
     }
 

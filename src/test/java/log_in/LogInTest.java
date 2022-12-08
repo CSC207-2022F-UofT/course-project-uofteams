@@ -2,7 +2,6 @@ package log_in;
 
 
 import entities.User;
-import favourite.use_case.UserFactory;
 import log_in.interface_adapters.*;
 
 import static org.junit.Assert.*;
@@ -23,7 +22,7 @@ public class LogInTest {
     LogInInputBoundary interactor;
     LogInOutputBoundary presenter;
     LogInController controller;
-    UserFactory userFactory;
+    LogInUserFactory userFactory;
 
 
     // need to test private files
@@ -81,8 +80,16 @@ public class LogInTest {
                     userInfo[1] = adminValueString;
                     userInfo[2] = email;
                     userInfo[3] = pass;
-                    userInfo[4] = posts.get(emailIndex);
-                    userInfo[5] = favs.get(emailIndex);
+                    if (!posts.isEmpty()) {
+                        userInfo[4] = posts.get(emailIndex);
+                    } else {
+                        userInfo[4] = "";
+                    }
+                    if (!favs.isEmpty()) {
+                        userInfo[5] = favs.get(emailIndex);
+                    } else {
+                        userInfo[5] = "";
+                    }
                 } else {
                     return null;
                 }
@@ -160,11 +167,12 @@ public class LogInTest {
 
             }
         };
+        userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
         controller = new LogInController(interactor);
-        LogInControllerData test = new LogInControllerData("a", "b");
+        LogInUserInputData test = new LogInUserInputData("a", "b");
 
         controller.logInInitializer(test);
     }
@@ -182,12 +190,12 @@ public class LogInTest {
 
             }
         };
-        userFactory = new UserFactory();
+        userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
         controller = new LogInController(interactor);
-        LogInControllerData test = new LogInControllerData("", "b");
+        LogInUserInputData test = new LogInUserInputData("", "b");
 
         controller.logInInitializer(test);
     }
@@ -205,12 +213,12 @@ public class LogInTest {
 
             }
         };
-        userFactory = new UserFactory();
+        userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
         controller = new LogInController(interactor);
-        LogInControllerData test = new LogInControllerData("a", "");
+        LogInUserInputData test = new LogInUserInputData("a", "");
 
         controller.logInInitializer(test);
     }
@@ -228,12 +236,12 @@ public class LogInTest {
 
             }
         };
-        userFactory = new UserFactory();
+        userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
         controller = new LogInController(interactor);
-        LogInControllerData test = new LogInControllerData("b", "a");
+        LogInUserInputData test = new LogInUserInputData("b", "a");
 
         controller.logInInitializer(test);
     }
@@ -251,12 +259,12 @@ public class LogInTest {
 
             }
         };
-        userFactory = new UserFactory();
+        userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
         controller = new LogInController(interactor);
-        LogInControllerData test = new LogInControllerData("a", "c");
+        LogInUserInputData test = new LogInUserInputData("a", "c");
 
         controller.logInInitializer(test);
     }
@@ -273,14 +281,14 @@ public class LogInTest {
                 }
             }
         };
-        userFactory = new UserFactory();
+        userFactory = new LogInUserFactory();
         viewModel.addObserver(observer);
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
         controller = new LogInController(interactor);
 
-        LogInControllerData test = new LogInControllerData("a", "b");
+        LogInUserInputData test = new LogInUserInputData("a", "b");
         controller.logInInitializer(test);
     }
 }

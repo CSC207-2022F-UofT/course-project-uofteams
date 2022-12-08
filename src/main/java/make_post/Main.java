@@ -19,7 +19,7 @@ public class Main {
         User currentUser = new User(false, 1, "test@mail.utoronto.ca", "test");
         CurrentUser.setCurrentUser(currentUser);
         MakePostViewModel viewModel = new MakePostViewModel();
-        MakePostDsGateway dataAccess = new MakePostDatabaseAccess("src/main/java/Database/");
+        MakePostDsGateway dataAccess = new MakePostDatabaseAccess("src/main/java/database/");
         MakePostOutputBoundary presenter = new MakePostPresenter(viewModel);
         MakePostInputBoundary interactor = new MakePostInteractor(dataAccess, presenter);
         MakePostController makePostController = new MakePostController(interactor);

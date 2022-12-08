@@ -1,10 +1,10 @@
 package log_out.interface_adapters;
 
 // data to be processed
-public class LogOutControllerData {
+public class LogOutUserInputData {
     private final String logOutRequest;
 
-    public LogOutControllerData(String logOutRequest) {
+    public LogOutUserInputData(String logOutRequest) {
         this.logOutRequest = logOutRequest;
     }
 

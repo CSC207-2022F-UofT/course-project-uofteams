@@ -17,7 +17,7 @@ public class DeletePostInteractor implements DeletePostInputBoundary{
 
     @Override
     public void delete(DeletePostRequestModel requestModel){
-        Post post = dataAccess.getPost(requestModel.getPostId());
+        Post post = dataAccess.getPostDelete(requestModel.getPostId());
         DeletePostResponseModel responseModel;
 
         if (isNull(post)){
