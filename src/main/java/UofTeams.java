@@ -85,6 +85,8 @@ import view_post.use_case.ViewPostInteractor;
 * The main class for the file, containing the main method which runs the program
 * */
 public class UofTeams {
+    static final String[] tags = new String[]{"Sports", "Clubs", "Jobs", "Startups", "Tech", "School", "Projects"};
+    static final String[] tagsWithFavourites = new String[]{"Favourites", "Sports", "Clubs", "Jobs", "Startups", "Tech", "School", "Projects"};
     static String postsFilePath = "src/main/java/Database/posts.csv";
     static String usersFilePath = "src/main/java/Database/users.csv";
     static String generalPath = "src/main/java/Database/";
@@ -106,7 +108,7 @@ public class UofTeams {
         FilterPostInputBoundary filterPostInteractor = new FilterPostInteractor(filterPostDataAccess, filterPostPresenter);
         FilterPostController filterPostController = new FilterPostController(filterPostInteractor);
         // Requires array of preset tags
-        FilterPostBarView filterPostBarView = new FilterPostBarView(new String[]{"sports", "quantum", "math"}, filterPostController);
+        FilterPostBarView filterPostBarView = new FilterPostBarView(tagsWithFavourites, filterPostController);
 
         // initialize stuff for make_post
         MakePostViewModel makePostViewModel = new MakePostViewModel();
@@ -114,7 +116,7 @@ public class UofTeams {
         MakePostDsGateway makePostDatabaseAccess = new MakePostDatabaseAccess(generalPath);
         MakePostInputBoundary makePostInteractor = new MakePostInteractor(makePostDatabaseAccess, makePostPresenter);
         MakePostController makePostController = new MakePostController(makePostInteractor);
-        MakePostView makePostView = new MakePostView(new String[]{"sports", "quantum", "math"}, makePostController);
+        MakePostView makePostView = new MakePostView(tags, makePostController);
 
         // initialize stuff for sign_up
         SignUpViewModel signUpViewModel = new SignUpViewModel();
