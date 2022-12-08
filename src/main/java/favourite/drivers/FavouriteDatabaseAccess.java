@@ -23,13 +23,13 @@ import java.util.List;
  */
 
 public class FavouriteDatabaseAccess implements FavouriteDsGateway {
-    // postreader is used to allow class DataAccess to access PostFactory to convert data into
+    // postReader is used to allow class DataAccess to access PostFactory to convert data into
     // Post entity in getPost method
     private final PostReaderInterface postReader;
-    // userreader is used to allow class DataAccess to access UserFactory to convert data into
+    // userReader is used to allow class DataAccess to access UserFactory to convert data into
     // User entity in getUser method
     private final UserReaderInterface userReader;
-    // partialpath is a String that contains the partial directory that leads to all csv files in the program
+    // partialPath is a String that contains the partial directory that leads to all csv files in the program
     // it is isolated from the file name so that in case the file is moved, the code is still compatible
     private final String partialPath;
     /**
@@ -56,17 +56,12 @@ public class FavouriteDatabaseAccess implements FavouriteDsGateway {
             // finding and retrieving the current user's data
             List<String[]> allUsers = readAllLines(Paths.get(partialPath+"users.csv"));
             String[] userData = new String[6];
-            for (String[] user : allUsers) {
-                try {
-                    int id = Integer.parseInt(user[0]);
-                    if (id == userID) {
-                        userData = user;
+            //i = 1 to skip the header
+            for(int i = 1; i < allUsers.size(); i++){
+                if(userID == Integer.parseInt(allUsers.get(i)[0])){
+                    userData = allUsers.get(i);
                     }
-                } catch (NumberFormatException ex) {
-                    System.out.println("Reading the header of the csv");
-                }
             }
-
             // turning the current user's data into a user object
             return userReader.readUser(userData);
         }catch (IOException e1){
@@ -89,14 +84,10 @@ public class FavouriteDatabaseAccess implements FavouriteDsGateway {
             // finding and retrieving the current user's data
             List<String[]> allPosts = readAllLines(Paths.get(partialPath+"posts.csv"));
             String[] postData = new String[10];
-            for (String[] post : allPosts) {
-                try {
-                    int id = Integer.parseInt(post[0]);
-                    if (id == postID) {
-                        postData = post;
-                    }
-                } catch (NumberFormatException ex) {
-                    System.out.println("Reading the header of the csv");
+            //i = 1 to skip the header
+            for(int i = 1; i < allPosts.size(); i++){
+                if(postID == Integer.parseInt(allPosts.get(i)[0])){
+                    postData = allPosts.get(i);
                 }
             }
             return postReader.readPost(postData);
@@ -136,7 +127,7 @@ public class FavouriteDatabaseAccess implements FavouriteDsGateway {
             // identifying index of the user in the old data
             int i = 1; // indexes from 1 because the first line is a header
             boolean lineFound = false;
-            while (i < userData.size() && lineFound == false) {
+            while (i < userData.size() && !lineFound) {
                 int id = Integer.parseInt(userData.get(i)[0]);
                 if (id == userID) {
                     lineFound = true;
@@ -168,7 +159,7 @@ public class FavouriteDatabaseAccess implements FavouriteDsGateway {
             // identifying index of the user in the old data
             int i = 1; // indexes from 1 because the first line is a header
             boolean lineFound = false;
-            while (i < postData.size() && lineFound == false) {
+            while (i < postData.size() && !lineFound) {
                 int id = Integer.parseInt(postData.get(i)[0]);
                 if (id == postID) {
                     lineFound = true;

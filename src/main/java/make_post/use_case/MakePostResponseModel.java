@@ -1,8 +1,8 @@
 package make_post.use_case;
 
 public class MakePostResponseModel {
-    private boolean creationSuccess;
-    private String errorMessage;
+    private final boolean creationSuccess;
+    private final String errorMessage;
 
     /**
      * initialises the response model, which contains the output data for this use case.

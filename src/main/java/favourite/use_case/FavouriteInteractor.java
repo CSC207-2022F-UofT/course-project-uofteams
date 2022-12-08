@@ -30,7 +30,7 @@ public class FavouriteInteractor implements FavouriteInputBoundary {
      *                     favourited/unfavourited
      */
     @Override
-    public void favouritepost(FavouriteRequestModel requestModel) {
+    public void favouritePost(FavouriteRequestModel requestModel) {
         int userID = CurrentUser.getCurrentUser().getId();
         User user = dataAccess.getUser(userID);
         Post post = dataAccess.getPost(requestModel.getPostId());
@@ -122,27 +122,25 @@ public class FavouriteInteractor implements FavouriteInputBoundary {
         String email = user.getEmail();
         String password = user.getPassword();
 
-        String listPosts = "";
+        StringBuilder listPosts = new StringBuilder();
         List<Integer> posts = user.getPosts();
         for (int id : posts) {
             if (posts.indexOf(id) == 0) {
-                String idString = Integer.toString(id);
-                listPosts = idString;
+                listPosts = new StringBuilder(Integer.toString(id));
             } else {
                 String idString = Integer.toString(id);
-                listPosts = listPosts + " " + idString;
+                listPosts.append(" ").append(idString);
             }
         }
 
-        String listFavourites = "";
+        StringBuilder listFavourites = new StringBuilder();
         List<Integer> favourites = user.getFavourites();
         for (int id : favourites) {
             if (favourites.indexOf(id) == 0) {
-                String idString = Integer.toString(id);
-                listFavourites = idString;
+                listFavourites = new StringBuilder(Integer.toString(id));
             } else {
                 String idString = Integer.toString(id);
-                listFavourites = listFavourites + " " + idString;
+                listFavourites.append(" ").append(idString);
             }
         }
 
@@ -150,8 +148,8 @@ public class FavouriteInteractor implements FavouriteInputBoundary {
         userData[1] = isAdmin;
         userData[2] = email;
         userData[3] = password;
-        userData[4] = listPosts;
-        userData[5] = listFavourites;
+        userData[4] = listPosts.toString();
+        userData[5] = listFavourites.toString();
 
         return userData;
     }
@@ -169,13 +167,13 @@ public class FavouriteInteractor implements FavouriteInputBoundary {
         String title = post.getTitle();
         String mainDescription = post.getBody();
 
-        String tags = "";
-        List<String> taglist = post.getTags();
-        for (String tag : taglist) {
-            if (taglist.indexOf(tag) == 0) {
-                tags = tag;
+        StringBuilder tags = new StringBuilder();
+        List<String> tagList = post.getTags();
+        for (String tag : tagList) {
+            if (tagList.indexOf(tag) == 0) {
+                tags = new StringBuilder(tag);
             } else {
-                tags = tags + " " + tag;
+                tags.append(" ").append(tag);
             }
         }
 
@@ -185,27 +183,25 @@ public class FavouriteInteractor implements FavouriteInputBoundary {
 
         String creationDate = post.getCreationDate().toString();
 
-        String favouritedUsersIDs = "";
+        StringBuilder favouritedUsersIDs = new StringBuilder();
         List<Integer> favUsers = post.getFavouritedUsers();
         for (int id : favUsers) {
             if (favUsers.indexOf(id) == 0) { // this is to make sure the string doesn't start with a space
-                String idString = Integer.toString(id);
-                favouritedUsersIDs = idString;
+                favouritedUsersIDs = new StringBuilder(Integer.toString(id));
             } else {
                 String idString = Integer.toString(id);
-                favouritedUsersIDs = favouritedUsersIDs + " " + idString;
+                favouritedUsersIDs.append(" ").append(idString);
             }
         }
 
-        String repliesIDs = "";
+        StringBuilder repliesIDs = new StringBuilder();
         List<Integer> replies = post.getReplies();
         for (int id : replies) {
             if (replies.indexOf(id) == 0) {
-                String idString = Integer.toString(id);
-                repliesIDs = idString;
+                repliesIDs = new StringBuilder(Integer.toString(id));
             } else {
                 String idString = Integer.toString(id);
-                repliesIDs = repliesIDs + " " + idString;
+                repliesIDs.append(" ").append(idString);
             }
         }
 
@@ -213,12 +209,12 @@ public class FavouriteInteractor implements FavouriteInputBoundary {
         postData[1] = posterID;
         postData[2] = title;
         postData[3] = mainDescription;
-        postData[4] = tags;
+        postData[4] = tags.toString();
         postData[5] = collaborators;
         postData[6] = deadline;
         postData[7] = creationDate;
-        postData[8] = favouritedUsersIDs;
-        postData[9] = repliesIDs;
+        postData[8] = favouritedUsersIDs.toString();
+        postData[9] = repliesIDs.toString();
 
         return postData;
     }

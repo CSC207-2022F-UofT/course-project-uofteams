@@ -70,14 +70,13 @@ public class User {
     * @param toRemove Post to be removed
     * @return boolean representing success or failure
     * */
-    public boolean removeUserFavourite(int toRemove) {
+    public void removeUserFavourite(int toRemove) {
         for (int i = 0; i < this.favourites.size(); i++) {
             if (this.favourites.get(i).equals(toRemove)) {
                 this.favourites.remove(i);
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     /*
@@ -88,34 +87,6 @@ public class User {
     public List<Integer> getPosts() {
         /* return an ArrayList containing the elements of this.posts */
         return this.posts;
-    }
-
-    /*
-    * Add a Post to User's posts
-    *
-    * @param toAdd post to be added
-    * */
-    public void addPost(int toAdd) {
-        /* add toAdd to this.posts */
-        this.posts.add(toAdd);
-    }
-
-    /*
-    * Check if a Post is in User's posts and remove it if so
-    *
-    * @param toRemove post to be removed
-    * @returns a boolean representing success or failure
-    * */
-    public boolean removeUserPost(int toRemove) {
-        /* Search for toRemove in this.posts and if it is the remove and return true,
-         * otherwise return false */
-        for (int i = 0; i < this.posts.size(); i++) {
-            if (this.posts.get(i).equals(toRemove)) {
-                this.posts.remove(i);
-                return true;
-            }
-        }
-        return false;
     }
 
     /*

@@ -26,14 +26,18 @@ public class UserFactory implements UserReaderInterface{
         String[] postids = userData[4].split(" ");
         List<Integer> posts = new ArrayList<>();
         for (String ids: postids){
-            posts.add(Integer.parseInt(ids));
+            if (!ids.isEmpty()){
+                posts.add(Integer.parseInt(ids));
+            }
         }
 
         // creating a List of Integers of ids of the user's favourited posts from the datastring
         String[] favids = userData[5].split(" ");
         List<Integer> favourites = new ArrayList<>();
         for (String ids: favids){
-            favourites.add(Integer.parseInt(ids));
+            if (!ids.isEmpty()){
+                favourites.add(Integer.parseInt(ids));
+            }
         }
 
         // using the variables created above to reconstruct a User object

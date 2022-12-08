@@ -12,7 +12,7 @@ import java.beans.PropertyChangeListener;
  * The view of the Favourite use case.
  */
 public class FavouriteView extends JPanel implements ActionListener, PropertyChangeListener {
-    // the controllwe that gets triggered when a user interacts with the FavouriteView
+    // the controller that gets triggered when a user interacts with the FavouriteView
     private final FavouriteController controller;
     // the id of the post being favourited/unfavourited
     private int postId;
@@ -25,9 +25,9 @@ public class FavouriteView extends JPanel implements ActionListener, PropertyCha
     public FavouriteView(FavouriteController controller){
         this.controller = controller;
         this.postId = -1;
-        JButton favbutton = new JButton("Favourite");
-        this.add(favbutton);
-        favbutton.addActionListener(this);
+        JButton favButton = new JButton("Favourite");
+        this.add(favButton);
+        favButton.addActionListener(this);
     }
 
     /**
@@ -59,7 +59,7 @@ public class FavouriteView extends JPanel implements ActionListener, PropertyCha
     @Override
     public void propertyChange(PropertyChangeEvent event){
         JFrame updateFrame = new JFrame();
-        updateFrame.setVisible(true);
+        // updateFrame.setVisible(true);
         updateFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         if (event.getPropertyName().equals("favourited")){
             JOptionPane.showMessageDialog(updateFrame, "This post has been successfully added to " +

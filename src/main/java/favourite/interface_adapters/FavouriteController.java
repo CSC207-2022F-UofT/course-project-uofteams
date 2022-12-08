@@ -11,7 +11,7 @@ public class FavouriteController{
 
     /**
      * Initializes FavouriteController
-     * @param interactor a FavouriteInteractor obejct passing as an instance of FavouriteInputBoundary
+     * @param interactor a FavouriteInteractor object passing as an instance of FavouriteInputBoundary
      */
     public FavouriteController (FavouriteInputBoundary interactor){
         this.interactor = interactor;
@@ -23,7 +23,7 @@ public class FavouriteController{
      */
     public void favourite(int postID){
         FavouriteRequestModel requestModel = new FavouriteRequestModel(postID);
-        interactor.favouritepost(requestModel);
+        interactor.favouritePost(requestModel);
     }
 
 

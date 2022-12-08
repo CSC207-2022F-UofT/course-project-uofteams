@@ -2,11 +2,12 @@ package log_in.use_case;
 
 import entities.CurrentUser;
 import entities.User;
+import favourite.use_case.UserFactory;
 import log_in.use_case.exceptions.UserException;
 
 public class LogInInteractor implements LogInInputBoundary {
     private final LogInDsGateway access;
-
+    private final UserFactory userFactory;
 
     private final LogInOutputBoundary outputBoundary;
 
@@ -17,9 +18,10 @@ public class LogInInteractor implements LogInInputBoundary {
      * @param access to retrieve stuff from the database
      * @param outputBoundary contains the result of this use case
      */
-    public LogInInteractor(LogInDsGateway access, LogInOutputBoundary outputBoundary){
+    public LogInInteractor(LogInDsGateway access, LogInOutputBoundary outputBoundary, UserFactory userFactory){
         this.access = access;
         this.outputBoundary = outputBoundary;
+        this.userFactory = userFactory;
     }
 
     /**
@@ -42,13 +44,13 @@ public class LogInInteractor implements LogInInputBoundary {
     }
 
     /**
-     * @param email email of user that logged in
-     */
-    private void setCurrentUser(String email){
-        // create a factory to create the user for clean architecture
-        User user = access.getUser(true, email);
 
-        CurrentUser.setCurrentUser(user);
+     * @param toSet email of user that logged in
+     */
+    private void setCurrentUser(User toSet){
+        // create a factory to create the user for clean architecture
+        CurrentUser.setCurrentUser(toSet);
+
     }
 
     /**
@@ -69,8 +71,9 @@ public class LogInInteractor implements LogInInputBoundary {
             throw new UserException("Incorrect Password");
         }
         if (this.checkPassword(requestModel.getEmail(), requestModel.getPassword())){
+            User loggedIn = userFactory.readUser(access.getUser(true, requestModel.getEmail(), requestModel.getPassword()));
+            setCurrentUser(loggedIn);
 
-            setCurrentUser(requestModel.getEmail());
         }
         return new LogInResponseModel(true, "");
     }
