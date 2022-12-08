@@ -273,7 +273,7 @@ public class FavouriteTest {
         propertyChangeListener = new PropertyChangeListener(){
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                assertTrue(evt.getPropertyName()=="unfavourited");
+                assertSame("unfavourited", evt.getPropertyName());
             }
         };
         controller = new FavouriteController(interactor);
@@ -302,7 +302,7 @@ public class FavouriteTest {
         propertyChangeListener = new PropertyChangeListener(){
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                assertTrue(evt.getPropertyName()=="favourited");
+                assertSame("favourited", evt.getPropertyName());
             }
         };
         controller = new FavouriteController(interactor);

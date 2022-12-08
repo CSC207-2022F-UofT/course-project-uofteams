@@ -1,9 +1,9 @@
 package sign_up;
 
-import org.junit.Before;
-import static org.junit.Assert.*;
-import org.junit.Test;
+
 import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import sign_up.drivers.SignUpDatabaseAccess;
 import sign_up.interface_adapters.SignUpController;
 import sign_up.interface_adapters.SignUpPresenter;
@@ -15,6 +15,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -39,7 +41,7 @@ public class SignUpTest {
 
         postRepository = new SignUpDsGateway() {
             private int numPosts;
-            public final List<String[]> users = new ArrayList<String[]>();
+            public final List<String[]> users = new ArrayList<>();
 
 
             @Override
@@ -54,7 +56,7 @@ public class SignUpTest {
 
             @Override
             public List<String> getEmails() {
-                List<String> emails = new ArrayList<String>();
+                List<String> emails = new ArrayList<>();
                 for (String[] userInfo: users) {
                     emails.add(userInfo[2]);
                 }
@@ -265,7 +267,7 @@ public class SignUpTest {
      */
     @Test
     public void testSaveUser() {
-        SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/main/java/Database/");
+        SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/main/java/database/");
         databaseAccess.saveUser(new String[]{"1", "true", "r@mail.utoronto.ca", "q", "", ""});
         List<String> emails = databaseAccess.getEmails();
         assertTrue(emails.contains("r@mail.utoronto.ca"));
