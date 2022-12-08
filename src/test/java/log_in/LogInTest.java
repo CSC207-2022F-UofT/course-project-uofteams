@@ -27,16 +27,16 @@ public class LogInTest {
     UserFactory userFactory;
 
 
-    public final List<User> users = new ArrayList<>();
-
-    public void addUser(User user){
-        users.add(user);
-    }
-
-
+    // need to test private files
     @Before
     public void logIn(){
         repository = new LogInDsGateway() {
+            public final List<User> users = new ArrayList<>();
+
+            // method for testing purposes will update when csv is up
+            public void addUser(User user){
+                users.add(user);
+            }
 
             @Override
             public boolean checkUserEmailExists(String email) {
@@ -172,9 +172,9 @@ public class LogInTest {
         userFactory = new UserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
-        this.addUser(user);
+        repository.addUser(user);
         controller = new LogInController(interactor);
-        LogInUserInputData test = new LogInUserInputData("a", "b");
+        LogInControllerData test = new LogInControllerData("a", "b");
 
         controller.logInInitializer(test);
     }
@@ -195,9 +195,9 @@ public class LogInTest {
         userFactory = new UserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
-        this.addUser(user);
+        repository.addUser(user);
         controller = new LogInController(interactor);
-        LogInUserInputData test = new LogInUserInputData("", "b");
+        LogInControllerData test = new LogInControllerData("", "b");
 
         controller.logInInitializer(test);
     }
@@ -218,9 +218,9 @@ public class LogInTest {
         userFactory = new UserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
-        this.addUser(user);
+        repository.addUser(user);
         controller = new LogInController(interactor);
-        LogInUserInputData test = new LogInUserInputData("a", "");
+        LogInControllerData test = new LogInControllerData("a", "");
 
         controller.logInInitializer(test);
     }
@@ -241,9 +241,9 @@ public class LogInTest {
         userFactory = new UserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
-        this.addUser(user);
+        repository.addUser(user);
         controller = new LogInController(interactor);
-        LogInUserInputData test = new LogInUserInputData("b", "a");
+        LogInControllerData test = new LogInControllerData("b", "a");
 
         controller.logInInitializer(test);
     }
@@ -264,9 +264,9 @@ public class LogInTest {
         userFactory = new UserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
-        this.addUser(user);
+        repository.addUser(user);
         controller = new LogInController(interactor);
-        LogInUserInputData test = new LogInUserInputData("a", "c");
+        LogInControllerData test = new LogInControllerData("a", "c");
 
         controller.logInInitializer(test);
     }
@@ -287,10 +287,10 @@ public class LogInTest {
         viewModel.addObserver(observer);
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
-        this.addUser(user);
+        repository.addUser(user);
         controller = new LogInController(interactor);
 
-        LogInUserInputData test = new LogInUserInputData("a", "b");
+        LogInControllerData test = new LogInControllerData("a", "b");
         controller.logInInitializer(test);
     }
 }
