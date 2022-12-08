@@ -5,9 +5,10 @@ public class LogOutRequestModel {
 
     /**
      * Initialize a log_out Request
-     * @param logOutRequest A string to indicate a logout request has been made
+     *  A string to indicate a logout request has been made
      */
-    public LogOutRequestModel(String logOutRequest){
+
+    public LogOutRequestModel(){
     }
 
 }
