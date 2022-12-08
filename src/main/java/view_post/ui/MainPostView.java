@@ -8,9 +8,8 @@ import java.awt.*;
  */
 public class MainPostView extends JPanel{
     // A JPanel that holds the header, main post, and list of posts
-    private ViewPostView viewPost;
-    private PostListView postList;
-    private HeaderView header;
+    private final ViewPostView viewPost;
+    private final PostListView postList;
 
     /**
      * Initializes MainPostView
@@ -22,8 +21,7 @@ public class MainPostView extends JPanel{
         // adding header view
         this.setLayout(new BorderLayout());
 
-        this.header = header;
-        this.header.getHeader().setBounds(0, 0, 900, 120);
+        header.getHeader().setBounds(0, 0, 900, 120);
 
         // adding view post view
         this.viewPost = viewPost;
@@ -38,14 +36,6 @@ public class MainPostView extends JPanel{
         this.add(header.getHeader(), BorderLayout.NORTH);
         this.add(this.viewPost, BorderLayout.EAST);
         this.add(this.postList, BorderLayout.WEST);
-    }
-
-    /*
-     * Edits the elements of view to put ViewPostView and PostListView into a default state
-     * */
-    public void refresh(){
-        viewPost.refresh();
-        postList.refresh();
     }
 
 }

@@ -32,10 +32,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
         LocalDate deadline = requestModel.getDeadline();
         LocalDate creationDate = LocalDate.now();
         int daysBetween = (int)DAYS.between(creationDate, deadline);
-        if((deadline != null) && ((daysBetween <= 182.5) && (daysBetween >= 0))){
-            return true;
-        }
-        return false;
+        return (deadline != null) && ((daysBetween <= 182.5) && (daysBetween >= 0));
     }
 
     /**
@@ -89,7 +86,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
      * post creation is a success.
      * @param requestModel the post with its information.
      * @return a response model containing the output data.
-     * @throws MakePostException
+     * @throws MakePostException error when making posts
      */
     private MakePostResponseModel makePostHelper(MakePostRequestModel requestModel) throws MakePostException {
         if (!checkDeadline(requestModel)) {
@@ -118,7 +115,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
         String creationDateString = creationDate.toString();
         StringBuilder tagsString = new StringBuilder();
         for (String tag : tags) {
-            tagsString.append(tag + " ");
+            tagsString.append(tag).append(" ");
         }
         tagsString.deleteCharAt(tagsString.length()-1);
         postAttributes.put("postID", String.valueOf(postID));

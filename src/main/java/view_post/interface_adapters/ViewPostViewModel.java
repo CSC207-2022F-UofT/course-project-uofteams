@@ -12,7 +12,6 @@ public class ViewPostViewModel {
 
     /**
      * Initializes ViewPostViewModel.
-     * @param view A ViewPostView object
      */
     public ViewPostViewModel(){
         this.observable = new PropertyChangeSupport(this);

@@ -1,17 +1,16 @@
 package sign_up.drivers;
 
+import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import entities.User;
 import sign_up.use_case.SignUpDsGateway;
-import com.opencsv.CSVReader;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
             FileReader fileReader = new FileReader(file);
             // create FileWriter object with file as parameter
             CSVReader csvReader = new CSVReader(fileReader);
-            // create CSVWriter object filewriter object as parameter
+            // create CSVWriter object file writer object as parameter
             List<String[]> csvBody = csvReader.readAll();
             csvBody.get(1)[0] = String.valueOf(numberUsers);
             for(int i = 0; i < csvBody.size(); i++){
@@ -88,7 +87,7 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
             userInfo = new ArrayList<>();
         }
 
-        ArrayList<String> emails = new ArrayList<String>();
+        ArrayList<String> emails = new ArrayList<>();
 
         for (String[] subUserInfo: userInfo) {
             emails.add(subUserInfo[2]);
@@ -108,7 +107,7 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
             FileReader fileReader = new FileReader(file);
             // create FileWriter object with file as parameter
             CSVReader csvReader = new CSVReader(fileReader);
-            // create CSVWriter object filewriter object as parameter
+            // create CSVWriter object file writer object as parameter
             List<String[]> csvBody = csvReader.readAll();
             csvBody.add(toAdd);
             //this is to get rid of extra line that gets added by the csvReader!
@@ -173,17 +172,6 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
                 toReturn = integer.toString().concat(" ").concat(toReturn);
             }
         }
-        return toReturn;
-    }
-
-    private String convertDateToString(LocalDate toConvert) {
-        String toReturn = "";
-        toReturn = toReturn.concat(String.valueOf(toConvert.getYear()));
-        toReturn = toReturn.concat(" ");
-        toReturn = toReturn.concat(String.valueOf(toConvert.getMonth()));
-        toReturn = toReturn.concat(" ");
-        toReturn = toReturn.concat(String.valueOf(toConvert.getDayOfMonth()));
-
         return toReturn;
     }
 

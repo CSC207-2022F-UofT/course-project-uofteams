@@ -5,9 +5,9 @@ package favourite.use_case;
  */
 public interface FavouriteInputBoundary {
     /**
-     * Favourites a post if the user has not already, unfavourites a post if the user has favourited it already.
+     * Favourites a post if the user has not already, unfavourite a post if the user has favourited it already.
      * @param requestModel a FavouriteRequestModel object that carries information about the post being
      *                     favourited/unfavourited
      */
-    void favouritepost(FavouriteRequestModel requestModel);
+    void favouritePost(FavouriteRequestModel requestModel);
 }

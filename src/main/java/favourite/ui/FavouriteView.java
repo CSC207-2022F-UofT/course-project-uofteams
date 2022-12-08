@@ -12,7 +12,7 @@ import java.beans.PropertyChangeListener;
  * The view of the Favourite use case.
  */
 public class FavouriteView extends JPanel implements ActionListener, PropertyChangeListener {
-    // the controllwe that gets triggered when a user interacts with the FavouriteView
+    // the controller that gets triggered when a user interacts with the FavouriteView
     private final FavouriteController controller;
     // the id of the post being favourited/unfavourited
     private int postId;
@@ -25,9 +25,9 @@ public class FavouriteView extends JPanel implements ActionListener, PropertyCha
     public FavouriteView(FavouriteController controller){
         this.controller = controller;
         this.postId = -1;
-        JButton favbutton = new JButton("Favourite");
-        this.add(favbutton);
-        favbutton.addActionListener(this);
+        JButton favButton = new JButton("Favourite");
+        this.add(favButton);
+        favButton.addActionListener(this);
     }
 
     /**

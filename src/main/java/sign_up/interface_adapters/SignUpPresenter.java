@@ -7,7 +7,7 @@ import sign_up.use_case.SignUpResponseModel;
 * The presenter which is called by the use case and stores the view model
 * */
 public class SignUpPresenter implements SignUpOutputBoundary {
-    private SignUpViewModel viewModel;
+    private final SignUpViewModel viewModel;
 
     /*
     * Initialize an instance of SignUpPresenter

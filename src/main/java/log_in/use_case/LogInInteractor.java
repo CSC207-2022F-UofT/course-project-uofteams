@@ -5,8 +5,6 @@ import entities.User;
 import favourite.use_case.UserFactory;
 import log_in.use_case.exceptions.UserException;
 
-import java.util.ArrayList;
-
 public class LogInInteractor implements LogInInputBoundary {
     private final LogInDsGateway access;
     private final UserFactory userFactory;

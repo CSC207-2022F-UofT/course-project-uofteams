@@ -96,7 +96,7 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
         }
     }
 
-    private class BackButton extends JPanel implements ActionListener{
+    private static class BackButton extends JPanel implements ActionListener{
         private final PropertyChangeSupport observable;
 
         public BackButton(){

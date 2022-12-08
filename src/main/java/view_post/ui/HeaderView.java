@@ -8,8 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-
 /**
  * The header of the main UI of UofTeams.
  */
@@ -18,7 +16,6 @@ public class HeaderView implements ActionListener {
     private final JPanel headerPanel;
     private final MakePostButton makePost = new MakePostButton("New Post");
     private final MakePostView makePostView;
-    private final LogOutView logOutView;
 
     /**
      * Initializes HeaderView.
@@ -27,7 +24,6 @@ public class HeaderView implements ActionListener {
      *                    images used in this program
      */
     public HeaderView(String partialPath, MakePostView makePostView, LogOutView logOutView){
-        this.logOutView = logOutView;
         this.makePostView = makePostView;
         // setting up this.headerPanel
         this.headerPanel = new JPanel();
@@ -43,12 +39,12 @@ public class HeaderView implements ActionListener {
         this.headerPanel.add(buffer1, c);
 
         //adding the logo to the header
-        ImageIcon logoimg = new ImageIcon(partialPath + "logo.png");
-        Image image = logoimg.getImage(); // transform it
-        Image newimg = image.getScaledInstance(14, 4,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        logoimg = new ImageIcon(newimg);  // transform it back
+        ImageIcon logoImg = new ImageIcon(partialPath + "logo.png");
+        Image image = logoImg.getImage(); // transform it
+        Image newImg = image.getScaledInstance(14, 4,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        logoImg = new ImageIcon(newImg);  // transform it back
         JLabel logo = new JLabel();
-        logo.setIcon(logoimg);
+        logo.setIcon(logoImg);
         c.gridwidth = 1;
         c.gridx = 0;
         c.gridy = 1;
@@ -69,8 +65,6 @@ public class HeaderView implements ActionListener {
         this.headerPanel.add(makePost, c);
 
         //add logout button, update later to integrate with logout UC
-        // JButton logout = new JButton("Log Out");
-        // logout.addActionListener(this);
         c.gridwidth = 1;
         c.gridx = 3;
         c.gridy = 1;

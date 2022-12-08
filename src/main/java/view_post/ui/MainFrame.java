@@ -19,7 +19,7 @@ public class MainFrame extends JFrame implements PropertyChangeListener {
 
     /*
     * Initialize the card view
-    * @ param the landingview and the postview
+    * @ param the landingView and the postView
     * */
     public MainFrame(MasterLandingView landingView, MainPostView postView){
         super("UofTeams");

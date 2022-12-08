@@ -11,7 +11,7 @@ public class SignUpInteractor implements SignUpInputBoundary{
     private final SignUpDsGateway dataAccess;
 
     // An object that accesses the UI
-    private SignUpOutputBoundary outputBoundary;
+    private final SignUpOutputBoundary outputBoundary;
 
     // An object whose job is to create User elements
     private final UserFactory userFactory;

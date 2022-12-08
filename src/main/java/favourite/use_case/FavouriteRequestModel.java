@@ -4,7 +4,7 @@ package favourite.use_case;
  * The request model data structure class for the Favourite use case
  */
 public class FavouriteRequestModel {
-    private int postID;
+    private final int postID;
 
     /**
      * Initializes a FavouriteRequestModel

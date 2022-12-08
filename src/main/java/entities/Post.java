@@ -9,14 +9,14 @@ import java.util.List;
  * description,tags,collaborators, deadline, and users who favourited it.
  */
 public class Post extends Postable{
-    private String title;
+    private final String title;
     private List<String> tags;
-    private String collaborators;
-    private LocalDate deadline;
+    private final String collaborators;
+    private final LocalDate deadline;
     /**This is a list of the users who favourited this post.*/
-    private List<Integer> favouritedUsersIDs;
+    private final List<Integer> favouritedUsersIDs;
     // a list of Postable objects created as a reply to this Postable
-    private List<Integer> repliesIDs;
+    private final List<Integer> repliesIDs;
 
     /**
      * This constructor makes a new post that does not yet exist in the database.
