@@ -35,7 +35,6 @@ public class PostFactory implements PostReaderInterface{
                 tags.add(tag);
             }
         }
-        Collections.addAll(tags, tagArray);
         //collaborators
         String collaborators = postData[5];
 
