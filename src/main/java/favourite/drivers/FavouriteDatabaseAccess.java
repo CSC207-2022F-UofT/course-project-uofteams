@@ -23,13 +23,13 @@ import java.util.List;
  */
 
 public class FavouriteDatabaseAccess implements FavouriteDsGateway {
-    // postreader is used to allow class DataAccess to access PostFactory to convert data into
+    // postReader is used to allow class DataAccess to access PostFactory to convert data into
     // Post entity in getPost method
     private final PostReaderInterface postReader;
-    // userreader is used to allow class DataAccess to access UserFactory to convert data into
+    // userReader is used to allow class DataAccess to access UserFactory to convert data into
     // User entity in getUser method
     private final UserReaderInterface userReader;
-    // partialpath is a String that contains the partial directory that leads to all csv files in the program
+    // partialPath is a String that contains the partial directory that leads to all csv files in the program
     // it is isolated from the file name so that in case the file is moved, the code is still compatible
     private final String partialPath;
     /**
@@ -127,7 +127,7 @@ public class FavouriteDatabaseAccess implements FavouriteDsGateway {
             // identifying index of the user in the old data
             int i = 1; // indexes from 1 because the first line is a header
             boolean lineFound = false;
-            while (i < userData.size() && lineFound == false) {
+            while (i < userData.size() && !lineFound) {
                 int id = Integer.parseInt(userData.get(i)[0]);
                 if (id == userID) {
                     lineFound = true;
@@ -159,7 +159,7 @@ public class FavouriteDatabaseAccess implements FavouriteDsGateway {
             // identifying index of the user in the old data
             int i = 1; // indexes from 1 because the first line is a header
             boolean lineFound = false;
-            while (i < postData.size() && lineFound == false) {
+            while (i < postData.size() && !lineFound) {
                 int id = Integer.parseInt(postData.get(i)[0]);
                 if (id == postID) {
                     lineFound = true;

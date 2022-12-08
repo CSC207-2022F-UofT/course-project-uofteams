@@ -4,7 +4,6 @@ import log_out.interface_adapters.LogOutController;
 import log_out.interface_adapters.LogOutControllerData;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -14,18 +13,18 @@ public class LogOutView extends JPanel implements PropertyChangeListener, Action
 
     private final LogOutController controller;
 
-    public JButton logOutButton = new JButton("logOutButton");
+    public JButton logOutButton = new JButton("Log Out");
 
     public LogOutView(LogOutController controller){
         this.controller = controller;
 
         logOutButton.addActionListener(this);
+        this.add(logOutButton);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("Log Out")){
-            String logOut = "log out";
 
             //CardLayout cardLayout = (CardLayout) this.masterView.getLayout;
             //cardLayout.show(this, "Main View");

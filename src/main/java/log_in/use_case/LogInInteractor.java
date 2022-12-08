@@ -2,13 +2,12 @@ package log_in.use_case;
 
 import entities.CurrentUser;
 import entities.User;
+import favourite.use_case.UserFactory;
 import log_in.use_case.exceptions.UserException;
-
-import java.util.ArrayList;
 
 public class LogInInteractor implements LogInInputBoundary {
     private final LogInDsGateway access;
-
+    private final UserFactory userFactory;
 
     private final LogInOutputBoundary outputBoundary;
 
@@ -19,9 +18,10 @@ public class LogInInteractor implements LogInInputBoundary {
      * @param access to retrieve stuff from the database
      * @param outputBoundary contains the result of this use case
      */
-    public LogInInteractor(LogInDsGateway access, LogInOutputBoundary outputBoundary){
+    public LogInInteractor(LogInDsGateway access, LogInOutputBoundary outputBoundary, UserFactory userFactory){
         this.access = access;
         this.outputBoundary = outputBoundary;
+        this.userFactory = userFactory;
     }
 
     /**
@@ -44,18 +44,11 @@ public class LogInInteractor implements LogInInputBoundary {
     }
 
     /**
-     * @param email email of user that logged in
-     * @param pass password of user that logged in
+     * @param toSet email of user that logged in
      */
-    private void setCurrentUser(String email, String pass){
+    private void setCurrentUser(User toSet){
         // create a factory to create the user for clean architecture
-        ArrayList<String> userInfo;
-        userInfo = access.getUser(true, email, pass);
-        String userEmail = userInfo.get(0);
-        String userPass = userInfo.get(1);
-        String userAdminInfo = userInfo.get(2);
-        boolean isAdmin = userAdminInfo.equals("True");
-        CurrentUser.setCurrentUser(new User(isAdmin, 0, userEmail, userPass));
+        CurrentUser.setCurrentUser(toSet);
     }
 
     /**
@@ -76,7 +69,8 @@ public class LogInInteractor implements LogInInputBoundary {
             throw new UserException("Incorrect Password");
         }
         if (this.checkPassword(requestModel.getEmail(), requestModel.getPassword())){
-            setCurrentUser(requestModel.getEmail(), requestModel.getPassword());
+            User loggedIn = userFactory.readUser(access.getUser(true, requestModel.getEmail(), requestModel.getPassword()));
+            setCurrentUser(loggedIn);
         }
         return new LogInResponseModel(true, "");
     }

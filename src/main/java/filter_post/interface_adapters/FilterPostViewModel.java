@@ -33,36 +33,12 @@ public class FilterPostViewModel {
     }
 
     /**
-     * Return a list of titles for the filtered posts.
-     */
-    public String[] getTitles() {
-        return titles;
-    }
-
-    /**
-     * Return a list of ids for the filtered posts.
-     */
-    public int[] getIds() {
-        return ids;
-    }
-
-    /**
-     * Return a list of descriptions for the filtered posts.
-     */
-    public String[] getDescriptions() {
-        return descriptions;
-    }
-
-    /**
      * Update the fields of this view model.
      * @param titles        The new list of titles.
      * @param ids           The new list of post IDs.
      * @param descriptions  The new list of descriptions.
      */
     public void updateViewModel(String[] titles, int[] ids, String[] descriptions) {
-        String[] oldTitles = this.titles;
-        int[] oldIDs = this.ids;
-        String[] oldDescriptions = this.descriptions;
 
         this.titles = titles;
         this.ids = ids;
@@ -71,7 +47,8 @@ public class FilterPostViewModel {
         ArrayList<Object> results = new ArrayList<>();
         results.add(titles);
         results.add(ids);
-
+        System.out.println("Arrived");
+        System.out.println(results);
         observable.firePropertyChange("Search", null, results);
     }
 }

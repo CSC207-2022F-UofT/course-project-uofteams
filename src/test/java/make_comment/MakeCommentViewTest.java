@@ -6,6 +6,7 @@ import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
 import make_comment.ui.MakeCommentView;
+import make_comment.use_case.CommentFactory;
 import make_comment.use_case.MakeCommentDsGateway;
 import make_comment.use_case.MakeCommentInteractor;
 
@@ -56,12 +57,12 @@ public class MakeCommentViewTest {
         };
         User user = new User(false, 1, "regan@mail.utoronto.ca", "a");
         CurrentUser.setCurrentUser(user);
-
+        CommentFactory commentFactory = new CommentFactory();
         MakeCommentViewModel mcvm = new MakeCommentViewModel();
         MakeCommentPresenter mcPresenter = new MakeCommentPresenter(mcvm);
-        MakeCommentInteractor MCI = new MakeCommentInteractor(dsGateway, mcPresenter);
+        MakeCommentInteractor MCI = new MakeCommentInteractor(dsGateway, mcPresenter, commentFactory);
         MakeCommentController MCC = new MakeCommentController(MCI);
-        MakeCommentView viewButton = new MakeCommentView(0,MCC);
+        MakeCommentView viewButton = new MakeCommentView(MCC);
         Map<String, String> commentAttributes = new HashMap<>();
         commentAttributes.put("CommentID", "0");
         commentAttributes.put("commenterID", "0");

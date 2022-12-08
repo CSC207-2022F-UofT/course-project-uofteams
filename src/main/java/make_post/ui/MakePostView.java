@@ -29,7 +29,7 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
      * @param makePostController The controller for the Make Post use case.
      */
     public MakePostView(String[] presetTags, MakePostController makePostController){
-        this.TAGS = presetTags;
+        TAGS = presetTags;
         this.makePostController = makePostController;
         this.tagsList = new JList<>(TAGS);
         this.enterTitle = new JTextField(1);
@@ -106,14 +106,23 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
             JFrame errorFrame = new JFrame("Error");
             switch ((String) evt.getNewValue()) {
                 case ("Deadline more than 6 months away or in the past"):
-                    JOptionPane.showMessageDialog(errorFrame, "Deadline more than 6 months away or in the past",
+                    JOptionPane.showMessageDialog(errorFrame, "Deadline more than 6 months away or in the past.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 case ("Date is not in the correct format."):
                     JOptionPane.showMessageDialog(errorFrame, "Date is not in the correct format.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     break;
+                case ("Please enter a title"):
+                    JOptionPane.showMessageDialog(errorFrame, "Please enter a title.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    break;
             }
+        }
+        if (evt.getPropertyName().equals("creation success")) {
+            JFrame successFrame = new JFrame("Success");
+            JOptionPane.showMessageDialog(successFrame, "Your post has been created :) Please close the window" +
+                    " in which you made your post.", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

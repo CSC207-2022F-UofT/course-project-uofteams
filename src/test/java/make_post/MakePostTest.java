@@ -1,6 +1,7 @@
 package make_post;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import entities.CurrentUser;
@@ -27,11 +28,11 @@ import java.util.*;
 /**
  * Tests the make_post use case.
  * Test coverage by lines:
- * drivers: 100%
+ * drivers: 98%
  * interface_adapters: 100%
  * use_case: 100%
  *
- * It should be noted that the UI is not being tested here.
+ * The UI is not being tested here.
  */
 
 public class MakePostTest {
@@ -45,9 +46,11 @@ public class MakePostTest {
     private String generalPath = "src/test/java/make_post/";
     private String postsPath = "src/test/java/make_post/posts.csv";
     private String numPostsCreatedPath = "src/test/java/make_post/numPostsCreated.csv";
+    private String usersPath = "src/test/java/make_post/users.csv";
     private String[] postHeaders = new String[]{"postID", "posterID", "title", "mainDescription", "tags", "collaborators",
             "deadline", "creationDate", "favouritedUsersIDs", "repliesIDs"};
     private String[] numPostsCreatedHeader = new String[]{"numPostsCreated"};
+    private String[] userHeaders = new String[]{"userID", "isAdmin", "email", "password", "listPosts", "listFavourites"};
     private String testCreationDate = LocalDate.now().toString();
 
 
@@ -55,6 +58,7 @@ public class MakePostTest {
     public void setUp() {
         this.setUpDefaultTestFiles(postsPath, postHeaders);
         this.setUpDefaultTestFiles(numPostsCreatedPath, numPostsCreatedHeader);
+        this.setUpDefaultTestFiles(usersPath, userHeaders);
         this.user = new User(false, 1, "test@mail.utoronto.ca", "test");
         CurrentUser.setCurrentUser(user);
         postRepository = new MakePostDatabaseAccess(generalPath);
@@ -116,6 +120,20 @@ public class MakePostTest {
             assertEquals(creationDate, testCreationDate);
             assertEquals("", favouritedUsersIDs);
             assertEquals("", repliesIDs);
+            postsCsvReader.close();
+
+            File users = new File(usersPath);
+            FileReader usersReader = new FileReader(users);
+            CSVReader usersCsvReader = new CSVReaderBuilder(usersReader).withSkipLines(1).build();
+            List<String[]> usersCsvBody = usersCsvReader.readAll();
+            assertEquals(1, usersCsvBody.size());
+            assertEquals("1", usersCsvBody.get(0)[0]);
+            assertEquals("false", usersCsvBody.get(0)[1]);
+            assertEquals("test@mail.utoronto.ca", usersCsvBody.get(0)[2]);
+            assertEquals("test", usersCsvBody.get(0)[3]);
+            assertEquals("1", usersCsvBody.get(0)[4]);
+            assertEquals("", usersCsvBody.get(0)[5]);
+            usersReader.close();
         } catch (IOException | CsvException e) {
             System.out.println("File was not found.");
         }
@@ -133,7 +151,6 @@ public class MakePostTest {
         };
         viewModel.addObserver(observer);
         ArrayList<String> emptyTags = new ArrayList<>();
-        emptyTags.add("");
         postBody.put("tags", emptyTags);
         controller.executeMakePost(this.postBody);
         assertEquals(1, postRepository.getNumberOfPosts());
@@ -228,6 +245,33 @@ public class MakePostTest {
         }
     }
 
+    @Test
+    public void testMakePostNoTitle(){
+        PropertyChangeListener observer = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                String propertyName = "creation failure";
+
+                assertEquals(propertyName, evt.getPropertyName());
+            }
+        };
+        viewModel.addObserver(observer);
+        interactor = new MakePostInteractor(postRepository, presenter);
+        controller = new MakePostController(interactor);
+        postBody.put("title", "");
+        controller.executeMakePost(this.postBody);
+        assertEquals(0, postRepository.getNumberOfPosts());
+        try{
+            File posts = new File(postsPath);
+            FileReader postsReader = new FileReader(posts);
+            CSVReader postsCsvReader = new CSVReader(postsReader);
+            List<String[]> postsCsvBody = postsCsvReader.readAll();
+            assertEquals(1, postsCsvBody.size());
+        } catch (IOException | CsvException e) {
+            System.out.println("File was not found.");
+        }
+    }
+
     /**
      * tests if the correct error messages are being thrown.
      */
@@ -248,6 +292,10 @@ public class MakePostTest {
             if(filepath.equals("src/test/java/make_post/numPostsCreated.csv")){
                 String[] numPostsCreated = new String[]{"0"};
                 defaultCsvBody.add(numPostsCreated);
+            }
+            if(filepath.equals("src/test/java/make_post/users.csv")){
+                String[] user = new String[]{"1", "false", "test@mail.utoronto.ca", "test", "", ""};
+                defaultCsvBody.add(user);
             }
             FileWriter outputFile = new FileWriter(file);
             CSVWriter writer = new CSVWriter(outputFile);

@@ -32,10 +32,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
         LocalDate deadline = requestModel.getDeadline();
         LocalDate creationDate = LocalDate.now();
         int daysBetween = (int)DAYS.between(creationDate, deadline);
-        if((deadline != null) && ((daysBetween <= 182.5) && (daysBetween >= 0))){
-            return true;
-        }
-        return false;
+        return (deadline != null) && ((daysBetween <= 182.5) && (daysBetween >= 0));
     }
 
     /**
@@ -52,6 +49,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
         try{
             MakePostResponseModel responseModel = this.makePostHelper(requestModel);
             this.dataAccess.savePost(postAttributes);
+            this.dataAccess.savePostToUser(newPost.getUser(), newPost.getID());
             //increase number of posts by 1
             this.dataAccess.setNumberOfPosts(this.dataAccess.getNumberOfPosts() + 1);
             this.presenter.updateViewModel(responseModel);
@@ -88,11 +86,14 @@ public class MakePostInteractor implements MakePostInputBoundary {
      * post creation is a success.
      * @param requestModel the post with its information.
      * @return a response model containing the output data.
-     * @throws MakePostException
+     * @throws MakePostException error when making posts
      */
     private MakePostResponseModel makePostHelper(MakePostRequestModel requestModel) throws MakePostException {
         if (!checkDeadline(requestModel)) {
             throw new MakePostException("Deadline more than 6 months away or in the past");
+        }
+        if(requestModel.getTitle().equals("")){
+            throw new MakePostException("Please enter a title");
         }
         else {
         return new MakePostResponseModel(true, "");}
@@ -117,7 +118,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
         String creationDateString = creationDate.toString();
         StringBuilder tagsString = new StringBuilder();
         for (String tag : tags) {
-            tagsString.append(tag + " ");
+            tagsString.append(tag).append(" ");
         }
         tagsString.deleteCharAt(tagsString.length()-1);
         postAttributes.put("postID", String.valueOf(postID));

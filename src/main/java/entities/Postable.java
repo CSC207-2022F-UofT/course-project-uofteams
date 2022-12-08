@@ -23,7 +23,7 @@ public abstract class Postable{
     /**
      * Returns the id of this post.
      */
-    public int getid(){return this.id;}
+    public int getId(){return this.id;}
 
     /**
      * Returns the string representation of the date when which this Postable was created.
