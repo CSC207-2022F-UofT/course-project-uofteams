@@ -14,9 +14,9 @@ public class MakeCommentInteractor implements MakeCommentInputBoundary {
     private final MakeCommentDsGateway dataAccess;
     private final MakeCommentOutputBoundary presenter;
 
-    private final CommentFactory commentFactory;
+    private final MakeCommentFactory commentFactory;
 
-    public MakeCommentInteractor(MakeCommentDsGateway dataAccess, MakeCommentOutputBoundary presenter, CommentFactory commentFactory) {
+    public MakeCommentInteractor(MakeCommentDsGateway dataAccess, MakeCommentOutputBoundary presenter, MakeCommentFactory commentFactory) {
         this.dataAccess = dataAccess;
         this.presenter = presenter;
         this.commentFactory = commentFactory;

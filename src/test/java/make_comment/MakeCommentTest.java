@@ -7,7 +7,7 @@ import make_comment.driver.MakeCommentDatabaseAccess;
 import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
-import make_comment.use_case.CommentFactory;
+import make_comment.use_case.MakeCommentFactory;
 import make_comment.use_case.MakeCommentDsGateway;
 import make_comment.use_case.MakeCommentInteractor;
 import java.beans.PropertyChangeListener;
@@ -28,7 +28,7 @@ public class MakeCommentTest {
     MakeCommentPresenter makeCommentPresenter;
     MakeCommentInteractor makeCommentInteractor;
     MakeCommentDatabaseAccess makeCommentDatabaseAccess;
-    CommentFactory commentFactory;
+    MakeCommentFactory commentFactory;
 
     /**
      * Tests the make_comment use case.
@@ -54,7 +54,7 @@ public class MakeCommentTest {
         String commentPath = "src/test/java/make_comment/comments.csv";
         setupTestFiles(commentPath, cpHeader);
         String filePath = "src/test/java/make_comment/";
-        this.commentFactory = new CommentFactory();
+        this.commentFactory = new MakeCommentFactory();
         this.makeCommentDsGateway = new MakeCommentDatabaseAccess(filePath);
         this.makeCommentViewModel = new MakeCommentViewModel();
         this.makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);

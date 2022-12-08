@@ -1,4 +1,4 @@
-package favourite.use_case;
+package delete_post.use_case;
 
 import entities.Post;
 
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * A class that creates new Post objects using data stored in String arrays
  */
-public class PostFactory implements PostReaderInterface{
+public class DeletePostFactory implements DeletePostReaderInterface {
 
     /**
      * Creates a new Post object based on the data stored in the database
@@ -30,7 +30,11 @@ public class PostFactory implements PostReaderInterface{
         // tags
         String[] tagArray = postData[4].split(" ");
         List<String> tags = new ArrayList<>();
-        Collections.addAll(tags, tagArray);
+        for (String tag : tagArray) {
+            if(!(tag.equals(""))){
+                tags.add(tag);
+            }
+        }
         //collaborators
         String collaborators = postData[5];
 
@@ -47,16 +51,15 @@ public class PostFactory implements PostReaderInterface{
         String[] favIds = postData[8].split(" ");
         List<Integer> favouritedUsersIDs = new ArrayList<>();
         for (String ids : favIds) {
-            try{favouritedUsersIDs.add(Integer.parseInt(ids));
-            }catch(NumberFormatException e){
-                // let it pass, let the for loop continue
+            if(!(ids.equals(""))){
+                favouritedUsersIDs.add(Integer.parseInt(ids));
             }
         }
         // creating a List of Integers of ids of the replies (Comments) made on that post
         String[] replyIds = postData[9].split(" ");
         List<Integer> repliesIDs = new ArrayList<>();
         for (String ids : replyIds) {
-            if (!ids.isEmpty()) {
+            if(!(ids.equals(""))){
                 repliesIDs.add(Integer.parseInt(ids));
             }
         }

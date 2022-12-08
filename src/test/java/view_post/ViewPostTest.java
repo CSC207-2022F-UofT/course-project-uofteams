@@ -5,16 +5,14 @@ import delete_post.drivers.DeletePostDataAccess;
 import delete_post.interface_adapters.DeletePostController;
 import delete_post.interface_adapters.DeletePostPresenter;
 import delete_post.interface_adapters.DeletePostViewModel;
-import delete_post.use_case.DeletePostDsGateway;
-import delete_post.use_case.DeletePostInputBoundary;
-import delete_post.use_case.DeletePostInteractor;
-import delete_post.use_case.DeletePostOutputBoundary;
+import delete_post.use_case.*;
 import favourite.drivers.FavouriteDatabaseAccess;
 import favourite.interface_adapters.FavouriteController;
 import favourite.interface_adapters.FavouritePresenter;
 import favourite.interface_adapters.FavouriteViewModel;
 import favourite.ui.FavouriteView;
 import favourite.use_case.*;
+import favourite.use_case.FavouritePostReaderInterface;
 import filter_post.drivers.FilterPostDataAccess;
 import filter_post.interface_adapters.FilterPostController;
 import filter_post.interface_adapters.FilterPostPresenter;
@@ -29,7 +27,7 @@ import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
 import make_comment.ui.MakeCommentView;
-import make_comment.use_case.CommentFactory;
+import make_comment.use_case.MakeCommentFactory;
 import make_comment.use_case.MakeCommentDsGateway;
 import make_comment.use_case.MakeCommentInteractor;
 import make_comment.use_case.MakeCommentOutputBoundary;
@@ -83,8 +81,8 @@ public class ViewPostTest {
 
         // setting up viewPostView by creating favouriteView and makeCommentView
         // creating favouriteView
-        UserReaderInterface userFactory = new UserFactory();
-        PostReaderInterface postFactory = new PostFactory();
+        FavouriteUserReaderInterface userFactory = new FavouriteUserFactory();
+        FavouritePostReaderInterface postFactory = new FavouritePostFactory();
         FavouriteViewModel favouriteViewModel = new FavouriteViewModel();
         FavouritePresenter favouritePresenter = new FavouritePresenter(favouriteViewModel);
         FavouriteDatabaseAccess dataAccess = new FavouriteDatabaseAccess(postFactory, userFactory, partialPath);
@@ -93,26 +91,29 @@ public class ViewPostTest {
         FavouriteView favouriteView = new FavouriteView(favouriteController);
 
         // creating makeCommentView
-        CommentFactory commentFactory = new CommentFactory();
+        MakeCommentFactory commentFactory = new MakeCommentFactory();
         MakeCommentViewModel makeCommentViewModel = new MakeCommentViewModel();
         MakeCommentOutputBoundary makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
         MakeCommentDsGateway makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(partialPath);
         MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, makeCommentPresenter, commentFactory);
         MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
         MakeCommentView makeCommentView = new MakeCommentView(makeCommentController);
-        delete_post.use_case.PostReaderInterface postFactory1 = new delete_post.use_case.PostFactory();
+
+        DeletePostReaderInterface deletePostFactory = new DeletePostFactory();
         DeletePostViewModel deletePostViewModel = new DeletePostViewModel();
         DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
-        DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess("", postFactory1);
+        DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess("", deletePostFactory);
         DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
         DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
         DeleteView deleteView = new DeleteView(deletePostController);
+
         ViewCommentViewModel viewCommentViewModel = new ViewCommentViewModel();
         ViewCommentDsGateway viewCommentDatabaseAccess = new ViewCommentDatabaseAccess("");
         ViewCommentOutputBoundary viewCommentPresenter = new ViewCommentPresenter(viewCommentViewModel);
         ViewCommentInputBoundary viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
         ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
         ViewCommentView viewCommentView = new ViewCommentView(viewCommentController);
+
         FilterPostViewModel filterPostViewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
         FilterPostOutputBoundary filterPostPresenter = new FilterPostPresenter(filterPostViewModel);
         FilterPostDsGateway filterPostDataAccess = new FilterPostDataAccess(partialPath);
