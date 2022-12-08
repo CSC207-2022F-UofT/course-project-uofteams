@@ -26,7 +26,7 @@ public class DeletePostTest {
     DeletePostController controller;
     DeletePostInputBoundary interactor;
     DeletePostOutputBoundary presenter;
-    PostReaderInterface postReaderInterface;
+    DeletePostReaderInterface postReaderInterface;
     DeletePostDsGateway dataAccess;
     User user;
 
@@ -77,7 +77,7 @@ public class DeletePostTest {
 
         deletePostViewModel = new DeletePostViewModel();
         presenter = new DeletePostPresenter(deletePostViewModel);
-        postReaderInterface = new PostFactory();
+        postReaderInterface = new DeletePostFactory();
         dataAccess = new DeletePostDataAccess(generalPath, postReaderInterface);
         interactor = new DeletePostInteractor(presenter, dataAccess);
         controller = new DeletePostController(interactor);
