@@ -93,7 +93,6 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
                             "ERROR", JOptionPane.ERROR_MESSAGE);
                     break;
             }
-            errorFrame.setVisible(true);
         }
     }
 

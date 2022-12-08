@@ -76,7 +76,6 @@ public class MakeCommentView extends JPanel implements ActionListener ,PropertyC
             JFrame okFrame = new JFrame("creation success");
             JOptionPane.showMessageDialog(okFrame, "your comment has been recorded.",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
-
         }
 }
 }
