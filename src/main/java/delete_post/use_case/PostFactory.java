@@ -30,6 +30,12 @@ public class PostFactory implements PostReaderInterface{
         // tags
         String[] tagArray = postData[4].split(" ");
         List<String> tags = new ArrayList<>();
+        for (String tag : tagArray) {
+            if(!(tag.equals(""))){
+                tags.add(tag);
+            }
+        }
+
         Collections.addAll(tags, tagArray);
         //collaborators
         String collaborators = postData[5];
