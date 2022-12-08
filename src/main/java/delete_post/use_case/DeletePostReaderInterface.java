@@ -1,11 +1,11 @@
-package favourite.use_case;
+package delete_post.use_case;
 
 import entities.Post;
 
 /**
  * An interface for the PostFactory
  */
-public interface PostReaderInterface {
+public interface DeletePostReaderInterface {
     /**
      * Creates a new Post object based on the data stored in the database
      * @param postData an array of Strings, data stored in the database for a post

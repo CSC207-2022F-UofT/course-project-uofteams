@@ -5,7 +5,7 @@ import entities.User;
 /**
  * An interface for UserFactory
  */
-public interface UserReaderInterface {
+public interface FavouriteUserReaderInterface {
     /**
      * Creates a new User object based on the data stored in the database
      * @param userData ArrayList of String data stored in the database for a user

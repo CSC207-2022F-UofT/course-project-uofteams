@@ -44,8 +44,8 @@ public class FavouriteTest {
 
     @Before
     public void setUp(){
-        PostReaderInterface postFactory = new PostFactory();
-        UserReaderInterface userFactory = new UserFactory();
+        FavouritePostReaderInterface postFactory = new FavouritePostFactory();
+        FavouriteUserReaderInterface userFactory = new FavouriteUserFactory();
         String partialPath = "src/test/java/favourite/";
         dataAccess = new FavouriteDatabaseAccess(postFactory, userFactory, partialPath);
 
@@ -63,7 +63,7 @@ public class FavouriteTest {
      */
     @Test
     public void testDataToPost(){
-        Post actualPost = dataAccess.getPost(3);
+        Post actualPost = dataAccess.getPostFavourite(3);
         assertEquals("Join my dance club!", actualPost.getTitle());
         assertEquals("This is the description of my project. Who wants to join me?", actualPost.getBody());
         assertEquals(3, actualPost.getUser());
@@ -103,7 +103,7 @@ public class FavouriteTest {
             }
 
             @Override
-            public Post getPost(int postid) {
+            public Post getPostFavourite(int postid) {
                 ArrayList<String> tags = new ArrayList<>();
                 LocalDate deadline = LocalDate.parse("2022-12-25");
                 LocalDate creationDate = LocalDate.parse("2022-11-30");
@@ -164,7 +164,7 @@ public class FavouriteTest {
             }
 
             @Override
-            public Post getPost(int postid) {
+            public Post getPostFavourite(int postid) {
                 ArrayList<String> tags = new ArrayList<>();
                 tags.add("tag1");
                 tags.add("tag2");
@@ -214,7 +214,7 @@ public class FavouriteTest {
                 "Who wants to join me?", "tag1 tag3", "", "2022-12-25", "2022-11-11", "4 9", "5 10"};
 
         dataAccess.savePostInfo(updatedPost1, 4);
-        Post postFromDB1 = dataAccess.getPost(4);
+        Post postFromDB1 = dataAccess.getPostFavourite(4);
         List<Integer> favUsers1 = postFromDB1.getFavouritedUsers();
         assertTrue(favUsers1.contains(9));
 
@@ -224,7 +224,7 @@ public class FavouriteTest {
                 "Who wants to join me?", "tag1 tag3", "", "2022-12-25", "2022-11-11", "4", "5 10"};
 
         dataAccess.savePostInfo(updatedPost2, 4);
-        Post postFromDB2 = dataAccess.getPost(4);
+        Post postFromDB2 = dataAccess.getPostFavourite(4);
         List<Integer> favUsers2 = postFromDB2.getFavouritedUsers();
         assertFalse(favUsers2.contains(9));
     }
@@ -319,8 +319,8 @@ public class FavouriteTest {
     @Test
     public void testIOExceptionCatching(){
         // creating new database access that is given the wrong path to trigger an IOException
-        PostReaderInterface postFactory = new PostFactory();
-        UserReaderInterface userFactory = new UserFactory();
+        FavouritePostReaderInterface postFactory = new FavouritePostFactory();
+        FavouriteUserReaderInterface userFactory = new FavouriteUserFactory();
         String partialPath = "src/test/java/";
         FavouriteDatabaseAccess newDataAccess = new FavouriteDatabaseAccess(postFactory, userFactory, partialPath);
 
@@ -328,7 +328,7 @@ public class FavouriteTest {
                 "Who wants to join me?", "tag1 tag3", "", "2022-12-25", "2022-11-11", "4", "5 10"};
         String[] user = {"3", "true", "email3@mail.utoronto.ca", "iloveapples", "3", ""};
 
-        newDataAccess.getPost(2);
+        newDataAccess.getPostFavourite(2);
         newDataAccess.getUser(2);
         newDataAccess.savePostInfo(post, 4);
         newDataAccess.saveUserInfo(user, 3);
