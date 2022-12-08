@@ -12,10 +12,19 @@ import java.util.*;
 
 public class MakePostDatabaseAccess implements MakePostDsGateway {
     private final String filepath;
+
+    /**
+     * Initialise a MakePostDatabaseAccess object. It is responsible for retrieving and rewriting data in the db.
+     * @param filepath  the file path from the repository root up until the file name.
+     */
     public MakePostDatabaseAccess(String filepath){
         this.filepath = filepath;
-
     }
+
+    /**
+     * Gets the number of posts made from the db.
+     * @return number of posts.
+     */
     @Override
     public int getNumberOfPosts(){
         String filePath = filepath + "numPostsCreated.csv";
@@ -27,16 +36,19 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
             csvReader.close();
             return numPostsCreated;
         } catch (IOException e) {
-            System.out.println("Either wrong path or file has not been formatted correctly. ");
+            System.out.println("Wrong path or file type.");
             return 0;
         }
     }
 
+    /**
+     * Updates the number of posts created so far when a new post is made.
+     * @param newNumPostsCreated the new number of posts.
+     */
     @Override
     public void setNumberOfPosts(int newNumPostsCreated) {
         String filePath = filepath + "numPostsCreated.csv";
         File file = new File(filePath);
-
         try {
             FileReader fileReader = new FileReader(file);
             CSVReader csvReader = new CSVReader(fileReader);
@@ -51,10 +63,14 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
             writer.close();
             csvReader.close();
         } catch (IOException | CsvException e) {
-            System.out.println("Wrong path");
+            System.out.println("Wrong path, file or incorrect csv layout.");
         }
     }
 
+    /**
+     * Saves a new post to the database.
+     * @param postAttributes The attributes of the new post.
+     */
     @Override
     public void savePost(Map<String, String> postAttributes) {
         String filePath = filepath + "posts.csv";
@@ -85,28 +101,54 @@ public class MakePostDatabaseAccess implements MakePostDsGateway {
             writer.close();
             csvReader.close();
         } catch (IOException | CsvException e) {
-            System.out.println("Cannot find file or incorrect file format.");;
+            System.out.println("Wrong path, file or incorrect csv layout.");
         }
 
     }
 
+    /**
+     * add the postID to the correct user's list of posts.
+     * @param userID id of the creator of the post.
+     * @param postID the post's id.
+     */
     @Override
-    public int getCurrentUser() {
-        String filePath = filepath + "currentUser.csv";
+    public void savePostToUser(int userID, int postID){
+        String filePath = filepath + "users.csv";
         File file = new File(filePath);
         try {
             FileReader fileReader = new FileReader(file);
-            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
-            String[] currentUserArray = csvReader.peek();
-            int currentUser = Integer.parseInt(currentUserArray[0]);
+            CSVReader csvReader = new CSVReader(fileReader);
+            List<String[]> users = csvReader.readAll();
+            //i = 1 to skip the header
+            for(int i = 1; i < users.size(); i++){
+                if(userID == Integer.parseInt(users.get(i)[0])){
+                    if(users.get(i)[4].length() > 0){
+                        users.get(i)[4] = users.get(i)[4] + " " + postID;
+                    }
+                    else{
+                        users.get(i)[4] = String.valueOf(postID);
+                    }
+                }
+            }
+            //remove extra lines that get added by the csvReader!
+            users = removeEmptyLines(users);
+            FileWriter outputFile = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(outputFile);
+            writer.writeAll(users);
+            writer.flush();
+            writer.close();
             csvReader.close();
-            return currentUser;
-        } catch (IOException e) {
-            System.out.println("Wrong file.");
-            return 0;
+        } catch (IOException | CsvException e) {
+            System.out.println("Wrong path, file or incorrect csv layout.");
         }
+
     }
 
+    /**
+     * Removes empty lines from the table. Sometimes, the csvWriter adds empty rows.
+     * @param csvBody the table to be updated.
+     * @return a new table without the empty lines.
+     */
     private List<String[]> removeEmptyLines(List<String[]> csvBody){
         List<String[]> newCsvBody = new LinkedList<>();
         for(String[] entry : csvBody){

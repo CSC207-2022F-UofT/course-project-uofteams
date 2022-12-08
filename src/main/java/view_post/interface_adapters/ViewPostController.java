@@ -3,11 +3,14 @@ package view_post.interface_adapters;
 import view_post.use_case.ViewPostInputBoundary;
 import view_post.use_case.ViewPostRequestModel;
 
+/**
+ * The controller class of the View Post use case.
+ */
 public class ViewPostController {
     private final ViewPostInputBoundary interactor;
 
     /**
-     * Initialize a ViewPostController object.
+     * Initializes a ViewPostController object.
      * @param interactor    A ViewPostInputBoundary object that executes the use case.
      */
     public ViewPostController(ViewPostInputBoundary interactor) {

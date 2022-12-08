@@ -110,9 +110,6 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
                             JOptionPane.ERROR_MESSAGE);
                     break;
             }
-
-            errorFrame.setVisible(true);
-
         }
     }
 
