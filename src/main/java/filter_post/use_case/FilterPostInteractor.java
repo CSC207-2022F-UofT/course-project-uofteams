@@ -1,6 +1,7 @@
 package filter_post.use_case;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FilterPostInteractor implements FilterPostInputBoundary {
@@ -25,16 +26,63 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
      */
     @Override
     public void filterPosts(FilterPostRequestModel filters) {
-        String[] filterTags = filters.getFilterTags();
-        List<String[]> posts = postsGateway.getPosts();
-        List<String[]> postsWithTag = new ArrayList<>();
 
-        for (String[] postInfo : posts) {
-            String postTags = postInfo[4];
-            if (containsAllWords(postTags, filterTags)) {
-                // Formatting the needed post info into an array: {postID, title, body}.
-                String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
-                postsWithTag.add(postData);
+        String[] filterTags = filters.getFilterTags();
+        List<String[]> postsWithTag = new ArrayList<>();
+        List<String[]> posts = postsGateway.getPosts();
+
+        if (filterTags==null){
+            for (String[] postInfo : posts) {
+                String postTags = postInfo[4];
+                if (containsAllWords(postTags, filterTags)) {
+                    // Formatting the needed post info into an array: {postID, title, body}.
+                    String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
+                    // Making sure this post has not been added to the return list
+                    boolean postInArray = false;
+                    for (String[] post : postsWithTag){
+                        if (postData[0] == post[0]){
+                            postInArray = true;
+                        }
+                    }
+                    if (postInArray == false){
+                        postsWithTag.add(postData);
+                    }
+                }
+            }
+        }else{
+            if (Arrays.asList(filterTags).contains("Favourites")){
+                postsWithTag = this.filterMyFavourites(postsWithTag, posts);
+                // removing "Favourites" from filterTags
+                List<String> list = new ArrayList<String>(Arrays.asList(filterTags));
+                list.remove("Favourites");
+                filterTags = list.toArray(new String[list.size()]);
+            }
+            if (Arrays.asList(filterTags).contains("MyPosts")){
+                postsWithTag = this.filterMyPosts(postsWithTag, posts);
+                // removing "MyPosts" from filterTags
+                List<String> list = new ArrayList<String>(Arrays.asList(filterTags));
+                list.remove("MyPosts");
+                filterTags = list.toArray(new String[list.size()]);
+            }
+            ArrayList<String> countable = new ArrayList( Arrays.asList(filterTags) );
+            if (!countable.isEmpty()){
+                for (String[] postInfo : posts) {
+                    String postTags = postInfo[4];
+                    if (containsAllWords(postTags, filterTags)) {
+                        // Formatting the needed post info into an array: {postID, title, body}.
+                        String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
+                        // Making sure this post has not been added to the return list
+                        boolean postInArray = false;
+                        for (String[] post : postsWithTag){
+                            if (postData[0] == post[0]){
+                                postInArray = true;
+                            }
+                        }
+                        if (postInArray == false){
+                            postsWithTag.add(postData);
+                        }
+                    }
+                }
             }
         }
 
@@ -61,5 +109,63 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
             }
         }
         return true;
+    }
+
+    /**
+     * Pulls all the relevant data for the posts in the current user's favourites list.
+     */
+    private List<String[]> filterMyFavourites(List<String[]> postsWithTag,
+                                              List<String[]> posts){
+        // getting list of IDs of the posts the current user has favourited
+        List<Integer> myFavourites = postsGateway.getFavourites();
+
+        // adding the post info to postsWithTag
+        for (String[] postInfo : posts) {
+            int postId = Integer.parseInt(postInfo[0]);
+            if (myFavourites.contains(postId)) {
+                // Formatting the needed post info into an array: {postID, title, body}.
+                String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
+                // Making sure this post has not been added to the return list
+                boolean postInArray = false;
+                for (String[] post : postsWithTag){
+                    if (postData[0] == post[0]){
+                        postInArray = true;
+                    }
+                }
+                if (postInArray == false){
+                    postsWithTag.add(postData);
+                }
+            }
+        }
+        return postsWithTag;
+    }
+
+    /**
+     * Pulls all the relevant data for the posts in the current user's favourites list.
+     */
+    private List<String[]> filterMyPosts(List<String[]> postsWithTag,
+                                         List<String[]> posts){
+        // getting list of IDs of the posts the current user has made
+        List<Integer> myPosts = postsGateway.getMyPosts();
+
+        // adding the post info to postsWithTag
+        for (String[] postInfo : posts) {
+            int postId = Integer.parseInt(postInfo[0]);
+            if (myPosts.contains(postId)) {
+                // Formatting the needed post info into an array: {postID, title, body}.
+                String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
+                // Making sure this post has not been added to the return list
+                boolean postInArray = false;
+                for (String[] post : postsWithTag){
+                    if (postData[0] == post[0]){
+                        postInArray = true;
+                    }
+                }
+                if (postInArray == false){
+                    postsWithTag.add(postData);
+                }
+            }
+        }
+        return postsWithTag;
     }
 }
