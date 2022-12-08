@@ -90,12 +90,7 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
         postBody.put("mainDescription", mainDescription);
         postBody.put("deadline", deadline);
         postBody.put("tags", tags);
-        enterTitle.setText("");
-        enterCollaborators.setText("");
-        enterMainDescription.setText("");
-        enterDeadline.setText("");
         makePostController.executeMakePost(postBody);
-        tagsList.clearSelection();
     }
 
     /**
@@ -125,6 +120,11 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
             }
         }
         if (evt.getPropertyName().equals("creation success")) {
+            enterTitle.setText("");
+            enterCollaborators.setText("");
+            enterMainDescription.setText("");
+            enterDeadline.setText("");
+            tagsList.clearSelection();
             JFrame successFrame = new JFrame("Success");
             JOptionPane.showMessageDialog(successFrame, "Your post has been created :) Please close the window" +
                     " in which you made your post.", "Success", JOptionPane.INFORMATION_MESSAGE);
