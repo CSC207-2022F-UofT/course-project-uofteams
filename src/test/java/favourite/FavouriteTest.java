@@ -261,7 +261,7 @@ public class FavouriteTest {
     public void testUnfavouritedFirePropertyChange(){
         interactor = new FavouriteInputBoundary() {
             @Override
-            public void favouritepost(FavouriteRequestModel requestModel) {
+            public void favouritePost(FavouriteRequestModel requestModel) {
                 FavouriteResponseModel responseModel = new FavouriteResponseModel(false, true);
                 presenter.present(responseModel);
             }
@@ -272,7 +272,7 @@ public class FavouriteTest {
         propertyChangeListener = new PropertyChangeListener(){
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                assertTrue(evt.getPropertyName()=="unfavourited");
+                assertSame("unfavourited", evt.getPropertyName());
             }
         };
         controller = new FavouriteController(interactor);
@@ -290,7 +290,7 @@ public class FavouriteTest {
     public void testFavouritedFirePropertyChange(){
         interactor = new FavouriteInputBoundary() {
             @Override
-            public void favouritepost(FavouriteRequestModel requestModel) {
+            public void favouritePost(FavouriteRequestModel requestModel) {
                 FavouriteResponseModel responseModel = new FavouriteResponseModel(true, false);
                 presenter.present(responseModel);
             }
@@ -301,7 +301,7 @@ public class FavouriteTest {
         propertyChangeListener = new PropertyChangeListener(){
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                assertTrue(evt.getPropertyName()=="favourited");
+                assertSame("favourited", evt.getPropertyName());
             }
         };
         controller = new FavouriteController(interactor);
