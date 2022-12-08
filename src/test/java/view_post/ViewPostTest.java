@@ -100,6 +100,7 @@ public class ViewPostTest {
         MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, makeCommentPresenter, commentFactory);
         MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
         MakeCommentView makeCommentView = new MakeCommentView(makeCommentController);
+
         delete_post.use_case.PostReaderInterface postFactory1 = new delete_post.use_case.PostFactory();
         DeletePostViewModel deletePostViewModel = new DeletePostViewModel();
         DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
@@ -107,12 +108,14 @@ public class ViewPostTest {
         DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
         DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
         DeleteView deleteView = new DeleteView(deletePostController);
+
         ViewCommentViewModel viewCommentViewModel = new ViewCommentViewModel();
         ViewCommentDsGateway viewCommentDatabaseAccess = new ViewCommentDatabaseAccess("");
         ViewCommentOutputBoundary viewCommentPresenter = new ViewCommentPresenter(viewCommentViewModel);
         ViewCommentInputBoundary viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
         ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
         ViewCommentView viewCommentView = new ViewCommentView(viewCommentController);
+
         FilterPostViewModel filterPostViewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
         FilterPostOutputBoundary filterPostPresenter = new FilterPostPresenter(filterPostViewModel);
         FilterPostDsGateway filterPostDataAccess = new FilterPostDataAccess(partialPath);
