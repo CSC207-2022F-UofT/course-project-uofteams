@@ -10,21 +10,31 @@ import java.util.Objects;
 
 public class MakeCommentView extends JPanel implements ActionListener ,PropertyChangeListener{
     private final MakeCommentController controller;
-    private final int postId;
+    private int postId;
 
     /**
      * This provides the view for making a comment. It has TextFields for entering all the information necessary for making
      * a comment.
-     * @param postId The postId passed from viewing a post to making a comment.
+     * @param controller a MakeCommentController object
      */
 
 
-    public MakeCommentView(int postId, MakeCommentController controller){
+    public MakeCommentView(MakeCommentController controller){
         this.controller = controller;
-        this.postId = postId;
+        this.postId = -1;
         JButton addComment = new JButton("Add Comment");
         addComment.addActionListener(this);
         this.add(addComment);
+    }
+
+    /**
+     * Updates the postID instance variable so that MakeCommentView know which post it is on.
+     * This method id called in the ViewPostView every time it is refreshed with a new post.
+     *
+     * @param postId the integer ID of the post that it is being displayed on
+     */
+    public void setPostID(int postId){
+        this.postId = postId;
     }
 
     /**
@@ -54,14 +64,11 @@ public class MakeCommentView extends JPanel implements ActionListener ,PropertyC
             JFrame errorFrame = new JFrame("Error");
             JOptionPane.showMessageDialog(errorFrame, "body was left blank.",
                     "Error", JOptionPane.ERROR_MESSAGE);
-            errorFrame.setVisible(true);
     }
         else {
             JFrame okFrame = new JFrame("Success");
             JOptionPane.showMessageDialog(okFrame, "your comment has been recorded.",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
-            okFrame.setVisible(true);
-
         }
 }
 }

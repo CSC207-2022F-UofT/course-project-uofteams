@@ -52,6 +52,7 @@ public class MakePostInteractor implements MakePostInputBoundary {
         try{
             MakePostResponseModel responseModel = this.makePostHelper(requestModel);
             this.dataAccess.savePost(postAttributes);
+            this.dataAccess.savePostToUser(newPost.getUser(), newPost.getID());
             //increase number of posts by 1
             this.dataAccess.setNumberOfPosts(this.dataAccess.getNumberOfPosts() + 1);
             this.presenter.updateViewModel(responseModel);
@@ -93,6 +94,9 @@ public class MakePostInteractor implements MakePostInputBoundary {
     private MakePostResponseModel makePostHelper(MakePostRequestModel requestModel) throws MakePostException {
         if (!checkDeadline(requestModel)) {
             throw new MakePostException("Deadline more than 6 months away or in the past");
+        }
+        if(requestModel.getTitle().equals("")){
+            throw new MakePostException("Please enter a title");
         }
         else {
         return new MakePostResponseModel(true, "");}

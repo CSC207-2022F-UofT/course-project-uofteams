@@ -106,12 +106,16 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
             JFrame errorFrame = new JFrame("Error");
             switch ((String) evt.getNewValue()) {
                 case ("Deadline more than 6 months away or in the past"):
-                    JOptionPane.showMessageDialog(errorFrame, "Deadline more than 6 months away or in the past",
+                    JOptionPane.showMessageDialog(errorFrame, "Deadline more than 6 months away or in the past.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 case ("Date is not in the correct format."):
                     JOptionPane.showMessageDialog(errorFrame, "Date is not in the correct format.",
                             "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case ("Please enter a title"):
+                    JOptionPane.showMessageDialog(errorFrame, "Please enter a title.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                     break;
             }
         }

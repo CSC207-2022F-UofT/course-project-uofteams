@@ -5,6 +5,7 @@ import org.junit.Before;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.After;
+import sign_up.drivers.SignUpDatabaseAccess;
 import sign_up.interface_adapters.SignUpController;
 import sign_up.interface_adapters.SignUpPresenter;
 import sign_up.interface_adapters.SignUpUserInputData;
@@ -15,14 +16,19 @@ import use_case_general.UserFactory;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
-/*
-* Test which will test for correctness of the sign up use case
-*
-* Note to self: add testing for private methods
-* */
+/**
+ * Test the functionality of the sign up use case
+ *
+ * Included Test Coverage:
+ *  - sign_up.use_case (92% line coverage)
+ *  - sign_up.interface_adapters (93% line coverage)
+ *  - sign_up.drivers.FilterPostDataAccess (37% coverage)
+ *
+ */
 public class SignUpTest {
     SignUpDsGateway postRepository;
     SignUpOutputBoundary presenter;
@@ -35,7 +41,7 @@ public class SignUpTest {
 
         postRepository = new SignUpDsGateway() {
             private int numPosts;
-            public final List<User> users = new ArrayList<User>();
+            public final List<String[]> users = new ArrayList<String[]>();
 
 
             @Override
@@ -51,14 +57,14 @@ public class SignUpTest {
             @Override
             public List<String> getEmails() {
                 List<String> emails = new ArrayList<String>();
-                for (User user: users) {
-                    emails.add(user.getEmail());
+                for (String[] userInfo: users) {
+                    emails.add(userInfo[2]);
                 }
                 return emails;
             }
 
             @Override
-            public void saveUser(User toSave) {
+            public void saveUser(String[] toSave) {
                 this.users.add(toSave);
             }
 
@@ -66,12 +72,17 @@ public class SignUpTest {
             public String getAdminPassword() {
                 return "123";
             }
+
         };
     }
 
     @After
     public void teardown(){}
 
+    /**
+     * Test that the SignUp use case correctly creates updates the output boundart when it
+     * doesn't check the admin
+     */
     @Test
     public void testSignUpNoAdminSuccess() {
         presenter = new SignUpOutputBoundary() {
@@ -94,6 +105,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the SignUp use case correctly updates the output boundary when it is given an
+     * admin with a correct password
+     */
     @Test
     public void testSignUpAdminSuccess() {
         presenter = new SignUpOutputBoundary() {
@@ -116,6 +131,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test the SignUp use case correctly updates the output boundary when it is given an admin with an
+     * incorrect password
+     */
     @Test
     public void testSignUpAdminFailure() {
         presenter = new SignUpOutputBoundary() {
@@ -138,6 +157,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the SignUp use case correctly updates the output boundary when it is given an
+     * email that already exists in the database
+     */
     @Test
     public void testSignUpEmailExistsError() {
         presenter = new SignUpOutputBoundary() {
@@ -154,13 +177,17 @@ public class SignUpTest {
         interactor = new SignUpInteractor(postRepository, presenter, userFactory);
         controller = new SignUpController(interactor);
 
-        postRepository.saveUser(new User(false, 0, "email@mail.utoronto.ca", "pass"));
+        postRepository.saveUser(new String[]{"0", "false", "email@mail.utoronto.ca", "pass", "", ""});
         SignUpUserInputData testModel = new SignUpUserInputData("email@mail.utoronto.ca", "pass",
                 "");
 
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the SignUp use case correctly updates the output boundary when it is given
+     * an email in the improper format
+     */
     @Test
     public void testSignUpIncorrectEmailError() {
         presenter = new SignUpOutputBoundary() {
@@ -182,6 +209,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the SignUp use case correctly updates the presenter when it is given an empty
+     * email or password
+     */
     @Test
     public void testSignUpEmptyFieldError() {
         presenter = new SignUpOutputBoundary() {
@@ -203,6 +234,10 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the SignUp use case properly updates the output boundary and the output boundary
+     * correctly updates the ViewModel, which correctly updates its observer
+     */
     @Test
     public void testSignUpWithObserver() {
         SignUpViewModel viewModel = new SignUpViewModel();
@@ -227,4 +262,14 @@ public class SignUpTest {
         controller.signUp(testModel);
     }
 
+    /**
+     * Test that the database properly saves users
+     */
+    @Test
+    public void testSaveUser() {
+        SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/main/java/Database/");
+        databaseAccess.saveUser(new String[]{"1", "true", "r@mail.utoronto.ca", "q", "", ""});
+        List<String> emails = databaseAccess.getEmails();
+        assertTrue(emails.contains("r@mail.utoronto.ca"));
+    }
 }

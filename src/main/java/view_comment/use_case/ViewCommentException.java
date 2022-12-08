@@ -1,12 +1,12 @@
-package delete_post.use_case;
+package view_comment.use_case;
 
-public class DeletePostException extends Exception{
+public class ViewCommentException extends Exception{
     private final String message;
 
-    public DeletePostException(String message) {
+    public ViewCommentException(String message) {
         this.message = message;
-    }
 
+    }
     @Override
     public String getMessage() {
         return message;
