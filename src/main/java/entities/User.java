@@ -74,7 +74,7 @@ public class User {
         for (int i = 0; i < this.favourites.size(); i++) {
             if (this.favourites.get(i).equals(toRemove)) {
                 this.favourites.remove(i);
-                return;
+                break;
             }
         }
     }
