@@ -133,7 +133,7 @@ public class Post extends Postable{
         for(int i = 0; i < repliesIDs.size(); i++){
             if(reply == repliesIDs.get(i)){
                 repliesIDs.remove(i);
-                return;
+                break;
             }
         }
     }
@@ -167,7 +167,7 @@ public class Post extends Postable{
         for(int i = 0; i < favouritedUsersIDs.size(); i++){
             if(userToRemove == favouritedUsersIDs.get(i)){
                 favouritedUsersIDs.remove(i);
-                return;
+                break;
             }
         }
     }
