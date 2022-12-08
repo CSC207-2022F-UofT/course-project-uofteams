@@ -2,8 +2,6 @@ package log_in.use_case;
 
 import entities.User;
 
-import java.util.ArrayList;
-
 public interface LogInDsGateway {
 
     // checks if the email exists in the database
@@ -13,7 +11,7 @@ public interface LogInDsGateway {
     boolean checkPasswordMatches(String email, String pass);
 
     // gets the user with the given email, password
-    ArrayList<String> getUser(boolean success, String email, String pass);
+    String[] getUser(boolean success, String email, String pass);
 
 
     // testing method see LogInTest for usage

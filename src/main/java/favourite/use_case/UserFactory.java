@@ -22,22 +22,28 @@ public class UserFactory implements UserReaderInterface{
         String email = userData[2];
         String password = userData[3];
 
-        // creating a List of Integers of ids of the user's posts from the datastring
-        String[] postids = userData[4].split(" ");
+        // creating a List of Integers of ids of the user's posts from the data string
+        String[] postIds = userData[4].split(" ");
         List<Integer> posts = new ArrayList<>();
-        for (String ids: postids){
-            posts.add(Integer.parseInt(ids));
+        for (String ids: postIds){
+            if (!ids.isEmpty()){
+                posts.add(Integer.parseInt(ids));
+            }
+
         }
 
-        // creating a List of Integers of ids of the user's favourited posts from the datastring
-        String[] favids = userData[5].split(" ");
+        // creating a List of Integers of ids of the user's favourited posts from the data string
+        String[] favIds = userData[5].split(" ");
         List<Integer> favourites = new ArrayList<>();
-        for (String ids: favids){
-            favourites.add(Integer.parseInt(ids));
+        for (String ids: favIds){
+            if (!ids.isEmpty()){
+                favourites.add(Integer.parseInt(ids));
+            }
+
+
         }
 
         // using the variables created above to reconstruct a User object
-        User user = new User(admin, id, email, password, posts, favourites);
-        return user;
+        return new User(admin, id, email, password, posts, favourites);
     }
 }

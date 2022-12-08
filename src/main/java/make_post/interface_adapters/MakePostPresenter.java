@@ -4,7 +4,7 @@ import make_post.use_case.MakePostOutputBoundary;
 import make_post.use_case.MakePostResponseModel;
 
 public class MakePostPresenter implements MakePostOutputBoundary {
-    private MakePostViewModel viewModel;
+    private final MakePostViewModel viewModel;
 
     /**
      * Initialises the presenter for this use case.

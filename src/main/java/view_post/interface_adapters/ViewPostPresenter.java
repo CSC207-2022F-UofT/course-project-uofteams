@@ -8,7 +8,7 @@ import view_post.use_case.ViewPostResponseModel;
  */
 public class ViewPostPresenter implements ViewPostOutputBoundary {
     // the view model of this use case
-    private ViewPostViewModel viewModel;
+    private final ViewPostViewModel viewModel;
 
     /**
      * Initializes ViewPostPresenter

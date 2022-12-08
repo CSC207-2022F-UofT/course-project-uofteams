@@ -4,6 +4,7 @@ import entities.Post;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,9 +30,7 @@ public class PostFactory implements PostReaderInterface{
         // tags
         String[] tagArray = postData[4].split(" ");
         List<String> tags = new ArrayList<>();
-        for (String tag : tagArray) {
-            tags.add(tag);
-        }
+        Collections.addAll(tags, tagArray);
         //collaborators
         String collaborators = postData[5];
 
@@ -54,18 +53,16 @@ public class PostFactory implements PostReaderInterface{
             }
         }
         // creating a List of Integers of ids of the replies (Comments) made on that post
-        String[] replyids = postData[9].split(" ");
+        String[] replyIds = postData[9].split(" ");
         List<Integer> repliesIDs = new ArrayList<>();
-        for (String ids : replyids) {
-            try{repliesIDs.add(Integer.parseInt(ids));
-            }catch(NumberFormatException e){
-                // let it pass, let the for loop continue
+        for (String ids : replyIds) {
+            if (!ids.isEmpty()) {
+                repliesIDs.add(Integer.parseInt(ids));
             }
         }
 
         // using the variables created above to reconstruct a Post object
-        Post post = new Post(posterID, title, mainDesc, tags, collaborators, deadline, creationDate, id, favouritedUsersIDs,
+        return new Post(posterID, title, mainDesc, tags, collaborators, deadline, creationDate, id, favouritedUsersIDs,
                 repliesIDs);
-        return post;
     }
 }
