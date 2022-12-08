@@ -14,6 +14,7 @@ public interface LogInDsGateway {
     String[] getUser(boolean success, String email, String pass);
 
 
+
     // testing method see LogInTest for usage
     void addUser(User user);
 }

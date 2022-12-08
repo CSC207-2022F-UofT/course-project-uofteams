@@ -18,15 +18,16 @@ public class SignUpInteractor implements SignUpInputBoundary{
     private final SignUpOutputBoundary outputBoundary;
 
     // An object whose job is to create User elements
-    private final UserFactory userFactory;
+    private final use_case_general.UserFactory userFactory;
 
     /**
     * Initialize a new instance of Sign Up Interactor
-    * @param dataAccess A class implementing SignUpDSGateway with database access
-    */
-    public SignUpInteractor(SignUpDsGateway dataAccess, SignUpOutputBoundary outputBoundary){
+    *
+    * @ param dataAccess A class implementing SignUpDSGateway with database access
+    * */
+    public SignUpInteractor(SignUpDsGateway dataAccess, SignUpOutputBoundary outputBoundary, use_case_general.UserFactory userFactory){
         this.dataAccess = dataAccess;
-        this.userFactory = new UserFactory();
+        this.userFactory = userFactory;
         this.outputBoundary = outputBoundary;
     }
 

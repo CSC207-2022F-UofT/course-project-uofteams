@@ -44,11 +44,13 @@ public class LogInInteractor implements LogInInputBoundary {
     }
 
     /**
+
      * @param toSet email of user that logged in
      */
     private void setCurrentUser(User toSet){
         // create a factory to create the user for clean architecture
         CurrentUser.setCurrentUser(toSet);
+
     }
 
     /**
@@ -71,6 +73,7 @@ public class LogInInteractor implements LogInInputBoundary {
         if (this.checkPassword(requestModel.getEmail(), requestModel.getPassword())){
             User loggedIn = userFactory.readUser(access.getUser(true, requestModel.getEmail(), requestModel.getPassword()));
             setCurrentUser(loggedIn);
+
         }
         return new LogInResponseModel(true, "");
     }
