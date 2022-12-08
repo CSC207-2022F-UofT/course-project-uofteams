@@ -2,6 +2,9 @@ package make_comment.interface_adapter;
 
 import make_comment.use_case.MakeCommentInputBoundary;
 import make_comment.use_case.MakeCommentRequestModel;
+import make_comment.use_case.MakeCommentResponseModel;
+
+import static java.util.Objects.isNull;
 
 public class MakeCommentController {
     private final MakeCommentInputBoundary interactor;
@@ -24,9 +27,14 @@ public class MakeCommentController {
     public void passToInteractor(String body, int postId){
 
         //pass input info from View to interactor
+        if (isNull(body)) {
+            MakeCommentRequestModel makeCommentRequestModel = new MakeCommentRequestModel("", postId);
+            interactor.constructAndSaveCommentAndUpdatePost(makeCommentRequestModel);
+        } else {
+            MakeCommentRequestModel makeCommentRequestModel = new
+                    MakeCommentRequestModel(body, postId);
+            interactor.constructAndSaveCommentAndUpdatePost(makeCommentRequestModel);
+        }
 
-        MakeCommentRequestModel makeCommRequestModel = new
-                MakeCommentRequestModel(body, postId);
-        interactor.constructAndSaveCommentAndUpdatePost(makeCommRequestModel);
     }
 }

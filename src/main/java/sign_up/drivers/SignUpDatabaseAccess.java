@@ -109,7 +109,8 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
 
         ArrayList<String> emails = new ArrayList<String>();
 
-        for (String[] subUserInfo: userInfo.subList(1, userInfo.size())) {
+        for (String[] subUserInfo: userInfo) {
+
             emails.add(subUserInfo[2]);
         }
 
@@ -123,8 +124,6 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
     @Override
     public void saveUser(String[] toSave) {
         File file = new File(userFilePath);
-
-
         try {
             FileReader fileReader = new FileReader(file);
             // create FileWriter object with file as parameter

@@ -7,6 +7,7 @@ import make_comment.driver.MakeCommentDatabaseAccess;
 import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
+import make_comment.use_case.CommentFactory;
 import make_comment.use_case.MakeCommentDsGateway;
 import make_comment.use_case.MakeCommentInteractor;
 import java.beans.PropertyChangeListener;
@@ -27,6 +28,7 @@ public class MakeCommentTest {
     MakeCommentPresenter makeCommentPresenter;
     MakeCommentInteractor makeCommentInteractor;
     MakeCommentDatabaseAccess makeCommentDatabaseAccess;
+    CommentFactory commentFactory;
 
     /**
      * Tests the make_comment use case.
@@ -52,10 +54,11 @@ public class MakeCommentTest {
         String commentPath = "src/test/java/make_comment/comments.csv";
         setupTestFiles(commentPath, cpHeader);
         String filePath = "src/test/java/make_comment/";
+        this.commentFactory = new CommentFactory();
         this.makeCommentDsGateway = new MakeCommentDatabaseAccess(filePath);
         this.makeCommentViewModel = new MakeCommentViewModel();
         this.makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
-        this.makeCommentInteractor = new MakeCommentInteractor(makeCommentDsGateway, makeCommentPresenter);
+        this.makeCommentInteractor = new MakeCommentInteractor(makeCommentDsGateway, makeCommentPresenter, commentFactory);
         this.makeCommentController = new MakeCommentController(makeCommentInteractor);
 
 
@@ -116,7 +119,7 @@ public class MakeCommentTest {
         CurrentUser.setCurrentUser(user);
         String badPath = "/bad/path.csv";
         makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(badPath);
-        makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, this.makeCommentPresenter);
+        makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, this.makeCommentPresenter, commentFactory);
         makeCommentController = new MakeCommentController(makeCommentInteractor);
         makeCommentController.passToInteractor("test", 1);
     }

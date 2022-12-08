@@ -12,16 +12,15 @@ import java.util.Objects;
 
 public class ViewCommentView extends JPanel implements ActionListener ,PropertyChangeListener{
     private final ViewCommentController controller;
-    private final int postId;
+    private int postId;
 
     /**
      * Button that is click to start the use case.
-     * @param postId ID of post we can display comments for.
      * @param controller Controller which takes input data and feed it to interactor.
      */
-    public ViewCommentView(int postId, ViewCommentController controller) {
+    public ViewCommentView(ViewCommentController controller) {
         this.controller = controller;
-        this.postId = postId;
+        this.postId = -1;
         JButton viewComment = new JButton("View comments");
         viewComment.addActionListener(this);
         this.add(viewComment);
@@ -32,10 +31,10 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
     @Override
     public void actionPerformed(ActionEvent e) {
         controller.viewComment(postId);
+    }
 
-
-
-
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     /**
@@ -94,11 +93,8 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
             }
             JScrollPane scroller = new JScrollPane(rootPanel);
             frame.add(scroller);
+            frame.pack();
             frame.setVisible(true);
-
-
-
-
         }
 
     }

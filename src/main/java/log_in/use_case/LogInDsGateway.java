@@ -13,7 +13,7 @@ public interface LogInDsGateway {
     boolean checkPasswordMatches(String email, String pass);
 
     // gets the user with the given email, password
-    ArrayList<String> getUser(boolean success, String email, String pass);
+    String[] getUser(boolean success, String email, String pass);
 
 
     // testing method see LogInTest for usage

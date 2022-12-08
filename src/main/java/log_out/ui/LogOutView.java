@@ -14,12 +14,13 @@ public class LogOutView extends JPanel implements PropertyChangeListener, Action
 
     private final LogOutController controller;
 
-    public JButton logOutButton = new JButton("logOutButton");
+    public JButton logOutButton = new JButton("Log Out");
 
     public LogOutView(LogOutController controller){
         this.controller = controller;
 
         logOutButton.addActionListener(this);
+        this.add(logOutButton);
     }
 
     @Override

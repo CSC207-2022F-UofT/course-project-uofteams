@@ -71,10 +71,10 @@ public class SignUpInteractor implements SignUpInputBoundary{
         }
 
         int numUsers = this.dataAccess.getNumberUsers();
-        User newUser = this.createUser(requestModel.isCheckAdmin(), numUsers, requestModel.getEmail(), requestModel.getPassword());
+        User newUser = this.createUser(requestModel.isCheckAdmin(), numUsers + 1, requestModel.getEmail(), requestModel.getPassword());
         this.saveUser(newUser);
         this.updateCurrentUser(newUser);
-        this.setNumberUsers(numUsers);
+        this.setNumberUsers(numUsers + 1);
 
         return new SignUpResponseModel(true, "");
     }

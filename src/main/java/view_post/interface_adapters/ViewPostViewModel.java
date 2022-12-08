@@ -9,6 +9,7 @@ import java.beans.PropertyChangeSupport;
 public class ViewPostViewModel {
     private final PropertyChangeSupport observable;
 
+
     /**
      * Initializes ViewPostViewModel.
      * @param view A ViewPostView object
@@ -35,9 +36,8 @@ public class ViewPostViewModel {
             observable.firePropertyChange("show error", null, "This post does not exist.");
         }
         else{
-        observable.firePropertyChange("show post", null, data);
+            observable.firePropertyChange("show post", null, data);
         }
-
     }
 
 }
