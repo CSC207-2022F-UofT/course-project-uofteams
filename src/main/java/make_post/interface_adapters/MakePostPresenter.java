@@ -20,13 +20,6 @@ public class MakePostPresenter implements MakePostOutputBoundary {
      */
     @Override
     public void updateViewModel(MakePostResponseModel responseModel) {
-        if (responseModel.isCreationSuccess()) {
-            viewModel.updateViewModel(responseModel.isCreationSuccess(),
-                    responseModel.getErrorMessage());
-        } else {
-            viewModel.updateViewModel(responseModel.isCreationSuccess(),
-                    responseModel.getErrorMessage());
-        }
-
+        viewModel.updateViewModel(responseModel.isCreationSuccess(), responseModel.getErrorMessage());
     }
 }

@@ -7,16 +7,19 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-
+/**
+ * The view for the landing, which the user sees when they open the program. It contains buttons
+ * to take the user to log in and sign up screens, and buttons to navigate between these
+ */
 public class MasterLandingView extends JPanel implements PropertyChangeListener {
     private final JPanel mainPanel = new JPanel();
     final static String MAIN = "Main View";
     final static String SIGNUP = "Sign Up View";
     final static String LOGIN = "Log In View";
 
-    /*
+    /**
     * Initializes an instance of MasterLandingView and sets up its panels
-    * */
+    */
     public MasterLandingView(SignUpView signUpView, JPanel logInView) {
 
 
@@ -38,6 +41,11 @@ public class MasterLandingView extends JPanel implements PropertyChangeListener 
 
     }
 
+    /**
+     * React to a FirePropertyChange call by something this class is observing
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("back button")) {
@@ -46,12 +54,19 @@ public class MasterLandingView extends JPanel implements PropertyChangeListener 
         }
     }
 
+    /**
+     * A class to handle tbe log in and sign up buttons on the main screen
+     */
     public class ButtonView extends JPanel implements ActionListener {
         private final SignUpButton signUpButton = new SignUpButton("Sign Up");
 
         /*
         * Initializes a new instance of ButtonView and sets up its buttons and action listener
         * */
+
+        /**
+         * Initialize a new ButtonView
+         */
         public ButtonView() {
             signUpButton.addActionListener(this);
             LogInButton logInButton = new LogInButton("Log In");
@@ -64,6 +79,10 @@ public class MasterLandingView extends JPanel implements PropertyChangeListener 
             this.add(signUpButton);
         }
 
+        /**
+         * Respond to the Sign Up or Log In buttons being clicked
+         * @param e the event to be processed
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
@@ -73,7 +92,12 @@ public class MasterLandingView extends JPanel implements PropertyChangeListener 
                 cardLayout.show(mainPanel, "Log In View");
             }
         }
+
     }
+
+    /**
+     * A class which acts as the SignUpButton, responsible for starting the use case
+     */
 
     public static class SignUpButton extends JButton {
         /*
@@ -86,6 +110,9 @@ public class MasterLandingView extends JPanel implements PropertyChangeListener 
         }
     }
 
+    /**
+     * A class which acts as the log in button, responsible for starting the use case
+     */
     public static class LogInButton extends JButton {
         /*
          * Initialize a LogInButton instance by calling super
