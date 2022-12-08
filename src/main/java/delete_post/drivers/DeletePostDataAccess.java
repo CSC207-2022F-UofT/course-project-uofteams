@@ -45,11 +45,10 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
     }
 
     public void removeFavourite(int postId, int userId){
-        removeFromUserList(postId, userId, 1);
+        removeFromUserList(postId, userId, 5);
     }
-
     public void removeUser(int postId, int userId){
-        removeFromUserList(postId, userId, 2);
+        removeFromUserList(postId, userId, 4);
     }
 
     public void deletePost(int postId){
@@ -110,7 +109,7 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
                 StringBuilder newList = new StringBuilder();
                 String[] oldList = row[listCol].split(" ");
                 for (String id : oldList){
-                    if (!id.isEmpty() || Integer.parseInt(id) != postId) {
+                    if (!id.isEmpty() && Integer.parseInt(id) != postId) {
                         if (newList.length() != 0){
                             newList.append(" ");
                         }
