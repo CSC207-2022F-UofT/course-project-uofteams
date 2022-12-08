@@ -12,6 +12,10 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
     private final DeletePostController controller;
     private int postId;
 
+    /**
+     * Initialize DeleteView object
+     * @param controller Controller object
+     */
     public DeleteView(DeletePostController controller){
         this.controller = controller;
         this.postId = -1;
@@ -30,10 +34,19 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
         this.postId = id;
     }
 
+    /**
+     * Triggers deletion when delete button clicked
+     * @param e the event to be processed
+     */
     public void actionPerformed(ActionEvent e){
         controller.delete(this.postId, false);
     }
 
+    /**
+     * When there is a property change, display error or success message
+     * @param event A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     public void propertyChange(PropertyChangeEvent event){
         JFrame statusFrame = new JFrame();
         statusFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
