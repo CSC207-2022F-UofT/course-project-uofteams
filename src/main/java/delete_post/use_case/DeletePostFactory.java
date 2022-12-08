@@ -1,15 +1,16 @@
-package favourite.use_case;
+package delete_post.use_case;
 
 import entities.Post;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * A class that creates new Post objects using data stored in String arrays
  */
-public class PostFactory implements PostReaderInterface{
+public class DeletePostFactory implements DeletePostReaderInterface {
 
     /**
      * Creates a new Post object based on the data stored in the database
@@ -29,11 +30,7 @@ public class PostFactory implements PostReaderInterface{
         // tags
         String[] tagArray = postData[4].split(" ");
         List<String> tags = new ArrayList<>();
-        for (String tag : tagArray) {
-            if (!(tag.equals(""))){
-                tags.add(tag);
-            }
-        }
+        Collections.addAll(tags, tagArray);
         //collaborators
         String collaborators = postData[5];
 
@@ -50,22 +47,23 @@ public class PostFactory implements PostReaderInterface{
         String[] favIds = postData[8].split(" ");
         List<Integer> favouritedUsersIDs = new ArrayList<>();
         for (String ids : favIds) {
-            if (!ids.isEmpty()){
-                favouritedUsersIDs.add(Integer.parseInt(ids));
+            try{favouritedUsersIDs.add(Integer.parseInt(ids));
+            }catch(NumberFormatException e){
+                // let it pass, let the for loop continue
             }
         }
         // creating a List of Integers of ids of the replies (Comments) made on that post
-        String[] replyids = postData[9].split(" ");
+        String[] replyIds = postData[9].split(" ");
         List<Integer> repliesIDs = new ArrayList<>();
-        for (String ids : replyids) {
-            if (!ids.isEmpty()){
-                repliesIDs.add(Integer.parseInt(ids));
+        for (String ids : replyIds) {
+            try{repliesIDs.add(Integer.parseInt(ids));
+            }catch(NumberFormatException e){
+                // let it pass, let the for loop continue
             }
         }
 
         // using the variables created above to reconstruct a Post object
-        Post post = new Post(posterID, title, mainDesc, tags, collaborators, deadline, creationDate, id, favouritedUsersIDs,
+        return new Post(posterID, title, mainDesc, tags, collaborators, deadline, creationDate, id, favouritedUsersIDs,
                 repliesIDs);
-        return post;
     }
 }

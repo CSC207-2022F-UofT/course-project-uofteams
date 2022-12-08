@@ -32,6 +32,7 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
     /**
      * Return a list of strings representing the data of the post with matching post IDs.
      */
+    @Override
     public String[] getPostInfo(int postID) throws PostDoesNotExistException {
         String[] postInfo = new String[9];
 

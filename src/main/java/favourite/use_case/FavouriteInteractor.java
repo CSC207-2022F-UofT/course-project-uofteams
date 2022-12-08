@@ -33,7 +33,7 @@ public class FavouriteInteractor implements FavouriteInputBoundary {
     public void favouritePost(FavouriteRequestModel requestModel) {
         int userID = CurrentUser.getCurrentUser().getId();
         User user = dataAccess.getUser(userID);
-        Post post = dataAccess.getPost(requestModel.getPostId());
+        Post post = dataAccess.getPostFavourite(requestModel.getPostId());
 
         // Checking if the user has already favourited this post
         boolean favourited = this.checkIfFavourited(post, user);

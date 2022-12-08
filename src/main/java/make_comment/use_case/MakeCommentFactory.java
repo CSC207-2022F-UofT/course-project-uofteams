@@ -2,7 +2,7 @@ package make_comment.use_case;
 
 import entities.Comment;
 
-public class CommentFactory {
+public class MakeCommentFactory {
 
     /**
      * Creates and returns a comment.
