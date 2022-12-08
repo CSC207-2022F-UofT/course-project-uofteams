@@ -1,6 +1,8 @@
 package view_comment;
 
 import com.opencsv.CSVWriter;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import view_comment.drivers.ViewCommentDatabaseAccess;
 import view_comment.interface_adapters.ViewCommentController;
@@ -13,10 +15,8 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-
-import org.junit.After;
-import org.junit.Before;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ViewCommentViewTest {
     ViewCommentInteractor viewCommentInteractor;
@@ -95,37 +95,6 @@ public class ViewCommentViewTest {
 
     }
 
-    /**
-     * test when view_comment is running correctly with appropriate input and data.
-     */
-    @Test
-    public void testSuccess(){
-        ViewCommentView viewCommentViewSuccess = new ViewCommentView(viewCommentController);
-        viewCommentViewSuccess.setPostId(1);
-        JFrame testFrame = new JFrame("Test");
-        viewCommentViewModel.addObserver(viewCommentViewSuccess);
-        testFrame.getContentPane().add(viewCommentViewSuccess);
-        testFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        testFrame.pack();
-        testFrame.setVisible(true);
-
-    }
-
-    /**
-     * test when view_comment is running incorrectly with bad input and data.
-     */
-    @Test
-    public void testFail(){
-        ViewCommentView viewCommentViewFail = new ViewCommentView(viewCommentController);
-        viewCommentViewFail.setPostId(10);
-        JFrame testFrame2 = new JFrame("Test");
-        viewCommentViewModel.addObserver(viewCommentViewFail);
-        testFrame2.getContentPane().add(viewCommentViewFail);
-        testFrame2.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        testFrame2.pack();
-        testFrame2.setVisible(true);
-
-    }
     @Test
     public void testExceptions(){
         String badPath = "/bad/path.csv";
