@@ -96,7 +96,7 @@ public class UofTeams {
         DeleteView deleteView = new DeleteView(deletePostController);
 
         // initialize stuff for filter_post
-        FilterPostViewModel filterPostViewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
+        FilterPostViewModel filterPostViewModel = new FilterPostViewModel();
         FilterPostOutputBoundary filterPostPresenter = new FilterPostPresenter(filterPostViewModel);
         FilterPostDsGateway filterPostDataAccess = new FilterPostDataAccess(postsFilePath);
         FilterPostInputBoundary filterPostInteractor = new FilterPostInteractor(filterPostDataAccess, filterPostPresenter);

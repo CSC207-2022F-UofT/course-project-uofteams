@@ -9,22 +9,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
 /**
  * Test the functionality of the "filter post" use case.
- *
  * Included Test Coverage:
  *  - filter_pose.use_case (100% line coverage)
  *  - filter_post.interface_adapters (92% line coverage)
  *  - filter_post.drivers.FilterPostDataAccess (100% coverage)
- *
  * Notes:
  *  - The test coverage did not include the rest of the components because they were UI-related and I don't
  *    know how to test them. Future work would include implementing tests for these components.
@@ -124,14 +118,11 @@ public class FilterPostTest {
         String path = "src/test/java/filter_post/empty.csv";
         postRepository = new FilterPostDataAccess(path);
         // Create an anonymous class to act as the presenter.
-        presenter = new FilterPostOutputBoundary() {
-            @Override
-            public void updateViewablePosts(FilterPostResponseModel filteredPosts) {
-                String[][] viewablePosts;
-                viewablePosts = filteredPosts.getFilteredPosts();
+        presenter = filteredPosts -> {
+            String[][] viewablePosts;
+            viewablePosts = filteredPosts.getFilteredPosts();
 
-                assertEquals(0, viewablePosts.length);
-            }
+            assertEquals(0, viewablePosts.length);
         };
 
         interactor = new FilterPostInteractor(postRepository, presenter);
@@ -147,17 +138,14 @@ public class FilterPostTest {
      */
     @Test
     public void testFilterWithObserver() {
-        FilterPostViewModel viewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
+        FilterPostViewModel viewModel = new FilterPostViewModel();
         FilterPostOutputBoundary presenter = new FilterPostPresenter(viewModel);
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
+        PropertyChangeListener observer = evt -> {
 
-                String property = "Search";
+            String property = "Search";
 
-                assertEquals(property, evt.getPropertyName());
+            assertEquals(property, evt.getPropertyName());
 
-            }
         };
 
         viewModel.addObserver(observer);
@@ -172,7 +160,6 @@ public class FilterPostTest {
     /**
      * Test that the DS gateway correctly handles an IOException when it is thrown. Prints an error message
      * to the console.
-     *
      * Successful termination of this test indicates the exception was handled correctly.
      */
     @Test
@@ -187,7 +174,6 @@ public class FilterPostTest {
     /**
      * Test that the DS gateway correctly handles a CsvException when it is thrown. Prints an error message
      * to the console.
-     *
      * Successful termination of this test indicates the exception was handled correctly.
      */
     @Test

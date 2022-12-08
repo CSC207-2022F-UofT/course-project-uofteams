@@ -114,31 +114,28 @@ public class Post extends Postable{
 
     /**
      * adds a reply to the list of replies to this Post.
+     *
      * @param reply a reply to this Post.
-     * @return true if reply has been added; false otherwise.
      */
-    public boolean addReply(int reply){
+    public void addReply(int reply){
         if(!(this.repliesIDs.contains(reply))){
             this.repliesIDs.add(reply);
-            return true;
         }
-        return false;
     }
 
     /**
      * Searches for reply in the list of replies to the Post, removes that reply if
      * that it is there.
+     *
      * @param reply the reply to be removed.
-     * @return true if the reply has been removed; false otherwise.
      */
-    public boolean removeReply(int reply){
+    public void removeReply(int reply){
         for(int i = 0; i < repliesIDs.size(); i++){
             if(reply == repliesIDs.get(i)){
                 repliesIDs.remove(i);
-                return true;
+                break;
             }
         }
-        return false;
     }
 
     /**
@@ -151,31 +148,28 @@ public class Post extends Postable{
 
     /**
      * adds a User to the list of Users who favourited the Post if it is not in favouritedUsers yet.
+     *
      * @param favouritedUser the User who favourited the Post.
-     * @return true if user has been added; false otherwise.
      */
-    public boolean addFavouritedUser(int favouritedUser){
+    public void addFavouritedUser(int favouritedUser){
         if(!(favouritedUsersIDs.contains(favouritedUser))){
             this.favouritedUsersIDs.add(favouritedUser);
-            return true;
         }
-        return false;
     }
 
     /**
      * Searches for userToRemove in the list of Users who favourited the Post, removes userToRemove if
      * that user is there.
+     *
      * @param userToRemove the User to be removed.
-     * @return true if the user has been removed; false otherwise.
      */
-    public boolean removeFavouritedUser(int userToRemove){
+    public void removeFavouritedUser(int userToRemove){
         for(int i = 0; i < favouritedUsersIDs.size(); i++){
             if(userToRemove == favouritedUsersIDs.get(i)){
                 favouritedUsersIDs.remove(i);
-                return true;
+                break;
             }
         }
-        return false;
     }
 
     /**

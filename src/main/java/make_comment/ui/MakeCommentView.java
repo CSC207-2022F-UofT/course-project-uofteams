@@ -49,13 +49,9 @@ public class MakeCommentView extends JPanel implements ActionListener ,PropertyC
             String commentBody = JOptionPane.showInputDialog(frame, "Please enter the Comment",
                     "commentate", JOptionPane.QUESTION_MESSAGE);
 
-            if (commentBody == null){
-
-            }   else {
+            if (commentBody != null){
                 controller.passToInteractor(commentBody, this.postId);
             }
-
-
     }
 
     /**

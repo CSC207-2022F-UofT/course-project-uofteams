@@ -6,21 +6,12 @@ import java.util.ArrayList;
 
 public class FilterPostViewModel {
     // Using parallel arrays to store the post data.
-    private String[] titles;
-    private int[] ids;
-    private String[] descriptions;
     private final PropertyChangeSupport observable;
 
     /**
      * Initialize the view model for the filter post use case.
-     * @param titles        A list of titles of all the posts.
-     * @param ids           A list of ids of all the posts.
-     * @param descriptions  A list of descriptions of all the posts.
      */
-    public FilterPostViewModel(String[] titles, int[] ids, String[] descriptions) {
-        this.titles = titles;
-        this.ids = ids;
-        this.descriptions = descriptions;
+    public FilterPostViewModel() {
         this.observable = new PropertyChangeSupport(this);
     }
 
@@ -36,13 +27,8 @@ public class FilterPostViewModel {
      * Update the fields of this view model.
      * @param titles        The new list of titles.
      * @param ids           The new list of post IDs.
-     * @param descriptions  The new list of descriptions.
      */
-    public void updateViewModel(String[] titles, int[] ids, String[] descriptions) {
-
-        this.titles = titles;
-        this.ids = ids;
-        this.descriptions = descriptions;
+    public void updateViewModel(String[] titles, int[] ids) {
 
         ArrayList<Object> results = new ArrayList<>();
         results.add(titles);

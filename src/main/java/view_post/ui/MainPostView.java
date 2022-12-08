@@ -7,9 +7,6 @@ import java.awt.*;
  * The main view of UofTeams.
  */
 public class MainPostView extends JPanel{
-    // A JPanel that holds the header, main post, and list of posts
-    private final ViewPostView viewPost;
-    private final PostListView postList;
 
     /**
      * Initializes MainPostView
@@ -24,18 +21,17 @@ public class MainPostView extends JPanel{
         header.getHeader().setBounds(0, 0, 900, 120);
 
         // adding view post view
-        this.viewPost = viewPost;
-        this.viewPost.setBounds(300,120,600,680);
+        // A JPanel that holds the header, main post, and list of posts
+        viewPost.setBounds(300,120,600,680);
 
         // adding post list view
-        this.postList = postList;
-        this.postList.setBounds(0,120,300,680);
+        postList.setBounds(0,120,300,680);
 
 
         this.setSize(900, 800);
         this.add(header.getHeader(), BorderLayout.NORTH);
-        this.add(this.viewPost, BorderLayout.EAST);
-        this.add(this.postList, BorderLayout.WEST);
+        this.add(viewPost, BorderLayout.EAST);
+        this.add(postList, BorderLayout.WEST);
     }
 
 }

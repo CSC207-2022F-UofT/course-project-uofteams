@@ -88,7 +88,7 @@ public class ViewPostViewTest {
         ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
         ViewCommentView viewCommentView = new ViewCommentView(viewCommentController);
 
-        FilterPostViewModel filterPostViewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
+        FilterPostViewModel filterPostViewModel = new FilterPostViewModel();
         FilterPostOutputBoundary filterPostPresenter = new FilterPostPresenter(filterPostViewModel);
         FilterPostDsGateway filterPostDataAccess = new FilterPostDataAccess(partialPath);
         FilterPostInputBoundary filterPostInteractor = new FilterPostInteractor(filterPostDataAccess, filterPostPresenter);
