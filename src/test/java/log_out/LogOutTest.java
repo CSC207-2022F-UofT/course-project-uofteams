@@ -2,15 +2,12 @@ package log_out;
 
 import entities.CurrentUser;
 import entities.User;
-import log_in.use_case.LogInOutputBoundary;
-import log_in.use_case.LogInResponseModel;
 import log_out.interface_adapters.LogOutController;
 import log_out.interface_adapters.LogOutControllerData;
 import log_out.use_case.LogOutInputBoundary;
 import log_out.use_case.LogOutInteractor;
 import log_out.use_case.LogOutOutputBoundary;
 import log_out.use_case.LogOutResponseModel;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -34,7 +31,7 @@ public class LogOutTest {
         users.add(user);
     }
 
-
+    //tests the logout use cases
     @Test
     public void logOutSuccess() {
         presenter = new LogOutOutputBoundary() {

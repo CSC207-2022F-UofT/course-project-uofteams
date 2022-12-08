@@ -32,7 +32,6 @@ public class LogInTest {
         users.add(user);
     }
 
-    // need to test private files
     @Before
     public void logIn(){
         repository = new LogInDsGateway() {
