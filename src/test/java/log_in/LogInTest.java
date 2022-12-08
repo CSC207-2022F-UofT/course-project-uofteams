@@ -165,7 +165,7 @@ public class LogInTest {
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);
-        LogInControllerData test = new LogInControllerData("a", "b");
+        LogInUserInputData test = new LogInUserInputData("a", "b");
 
         controller.logInInitializer(test);
     }
@@ -188,7 +188,7 @@ public class LogInTest {
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);
-        LogInControllerData test = new LogInControllerData("", "b");
+        LogInUserInputData test = new LogInUserInputData("", "b");
 
         controller.logInInitializer(test);
     }
@@ -211,7 +211,7 @@ public class LogInTest {
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);
-        LogInControllerData test = new LogInControllerData("a", "");
+        LogInUserInputData test = new LogInUserInputData("a", "");
 
         controller.logInInitializer(test);
     }
@@ -234,7 +234,7 @@ public class LogInTest {
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);
-        LogInControllerData test = new LogInControllerData("b", "a");
+        LogInUserInputData test = new LogInUserInputData("b", "a");
 
         controller.logInInitializer(test);
     }
@@ -257,7 +257,7 @@ public class LogInTest {
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);
-        LogInControllerData test = new LogInControllerData("a", "c");
+        LogInUserInputData test = new LogInUserInputData("a", "c");
 
         controller.logInInitializer(test);
     }
@@ -281,7 +281,7 @@ public class LogInTest {
         this.addUser(user);
         controller = new LogInController(interactor);
 
-        LogInControllerData test = new LogInControllerData("a", "b");
+        LogInUserInputData test = new LogInUserInputData("a", "b");
         controller.logInInitializer(test);
     }
 }

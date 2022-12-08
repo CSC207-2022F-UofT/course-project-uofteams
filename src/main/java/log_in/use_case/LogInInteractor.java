@@ -14,7 +14,6 @@ public class LogInInteractor implements LogInInputBoundary {
 
     private final LogInOutputBoundary outputBoundary;
 
-    private final UserFactory userFactory;
 
 
     /**
