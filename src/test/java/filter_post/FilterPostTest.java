@@ -1,5 +1,7 @@
 package filter_post;
 
+import entities.CurrentUser;
+import entities.User;
 import filter_post.drivers.FilterPostDataAccess;
 import filter_post.interface_adapters.FilterPostController;
 import filter_post.interface_adapters.FilterPostPresenter;
@@ -16,9 +18,9 @@ import static org.junit.Assert.*;
 /**
  * Test the functionality of the "filter post" use case.
  * Included Test Coverage:
- *  - filter_pose.use_case (100% line coverage)
+ *  - filter_pose.use_case (92% line coverage)
  *  - filter_post.interface_adapters (92% line coverage)
- *  - filter_post.drivers.FilterPostDataAccess (100% coverage)
+ *  - filter_post.drivers.FilterPostDataAccess (82% coverage)
  * Notes:
  *  - The test coverage did not include the rest of the components because they were UI-related and I don't
  *    know how to test them. Future work would include implementing tests for these components.
@@ -69,6 +71,72 @@ public class FilterPostTest {
         controller = new FilterPostController(interactor);
 
         String[] inputData = {"3"};
+
+        controller.filter(inputData);
+    }
+
+    /**
+     * Test that the FilterPost use case correctly updates the viewable posts when the
+     * user wants to view the posts they've favourited.
+     */
+    @Test
+    public void testFilterFavourites() {
+        presenter = new FilterPostOutputBoundary() {
+            String[][] viewablePosts;
+            @Override
+            public void updateViewablePosts(FilterPostResponseModel filteredPosts) {
+                viewablePosts = filteredPosts.getFilteredPosts();
+                String[] post = viewablePosts[0];
+
+                int postID = Integer.parseInt(post[0]);
+                String postTitle = post[1];
+                String postDescription = post[2];
+
+                assertEquals(1, viewablePosts.length);
+                assertEquals(1, postID);
+                assertEquals("Test 1", postTitle);
+                assertEquals("Testing 1", postDescription);
+            }
+        };
+
+        CurrentUser.setCurrentUser(new User(false, 1, "test@mail.utoronto.ca", "Test123"));
+        interactor = new FilterPostInteractor(postRepository, presenter);
+        controller = new FilterPostController(interactor);
+
+        String[] inputData = {"Favourites"};
+
+        controller.filter(inputData);
+    }
+
+    /**
+     * Test that the FilterPost use case correctly updates the viewable posts when the
+     * user wants to view the posts they've posted.
+     */
+    @Test
+    public void testFilterMyPosts() {
+        presenter = new FilterPostOutputBoundary() {
+            String[][] viewablePosts;
+            @Override
+            public void updateViewablePosts(FilterPostResponseModel filteredPosts) {
+                viewablePosts = filteredPosts.getFilteredPosts();
+                String[] post = viewablePosts[0];
+
+                int postID = Integer.parseInt(post[0]);
+                String postTitle = post[1];
+                String postDescription = post[2];
+
+                assertEquals(1, viewablePosts.length);
+                assertEquals(1, postID);
+                assertEquals("Test 1", postTitle);
+                assertEquals("Testing 1", postDescription);
+            }
+        };
+
+        CurrentUser.setCurrentUser(new User(false, 1, "test@mail.utoronto.ca", "Test123"));
+        interactor = new FilterPostInteractor(postRepository, presenter);
+        controller = new FilterPostController(interactor);
+
+        String[] inputData = {"MyPosts"};
 
         controller.filter(inputData);
     }

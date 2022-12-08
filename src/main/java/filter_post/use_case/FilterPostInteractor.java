@@ -31,59 +31,27 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
         List<String[]> postsWithTag = new ArrayList<>();
         List<String[]> posts = postsGateway.getPosts();
 
-        ArrayList<String> countable1 = new ArrayList( Arrays.asList(filterTags) );
+        ArrayList<String> countable1 = new ArrayList<>( Arrays.asList(filterTags) );
         if (countable1.isEmpty()){
-            for (String[] postInfo : posts) {
-                String postTags = postInfo[4];
-                if (containsAllWords(postTags, filterTags)) {
-                    // Formatting the needed post info into an array: {postID, title, body}.
-                    String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
-                    // Making sure this post has not been added to the return list
-                    boolean postInArray = false;
-                    for (String[] post : postsWithTag){
-                        if (postData[0] == post[0]){
-                            postInArray = true;
-                        }
-                    }
-                    if (postInArray == false){
-                        postsWithTag.add(postData);
-                    }
-                }
-            }
-        }else{
+            addPostsWithTag(filterTags, postsWithTag, posts);
+        } else {
             if (Arrays.asList(filterTags).contains("Favourites")){
                 postsWithTag = this.filterMyFavourites(postsWithTag, posts);
                 // removing "Favourites" from filterTags
-                List<String> list = new ArrayList<String>(Arrays.asList(filterTags));
+                List<String> list = new ArrayList<>(Arrays.asList(filterTags));
                 list.remove("Favourites");
                 filterTags = list.toArray(new String[list.size()]);
             }
             if (Arrays.asList(filterTags).contains("MyPosts")){
                 postsWithTag = this.filterMyPosts(postsWithTag, posts);
                 // removing "MyPosts" from filterTags
-                List<String> list = new ArrayList<String>(Arrays.asList(filterTags));
+                List<String> list = new ArrayList<>(Arrays.asList(filterTags));
                 list.remove("MyPosts");
                 filterTags = list.toArray(new String[list.size()]);
             }
-            ArrayList<String> countable2 = new ArrayList( Arrays.asList(filterTags) );
+            ArrayList<String> countable2 = new ArrayList<>( Arrays.asList(filterTags) );
             if (!countable2.isEmpty()){
-                for (String[] postInfo : posts) {
-                    String postTags = postInfo[4];
-                    if (containsAllWords(postTags, filterTags)) {
-                        // Formatting the needed post info into an array: {postID, title, body}.
-                        String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
-                        // Making sure this post has not been added to the return list
-                        boolean postInArray = false;
-                        for (String[] post : postsWithTag){
-                            if (postData[0] == post[0]){
-                                postInArray = true;
-                            }
-                        }
-                        if (postInArray == false){
-                            postsWithTag.add(postData);
-                        }
-                    }
-                }
+                addPostsWithTag(filterTags, postsWithTag, posts);
             }
         }
 
@@ -96,6 +64,27 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
         FilterPostResponseModel outputData = new FilterPostResponseModel(output);
 
         filterPostPresenter.updateViewablePosts(outputData);
+    }
+
+    private void addPostsWithTag(String[] filterTags, List<String[]> postsWithTag, List<String[]> posts) {
+        for (String[] postInfo : posts) {
+            String postTags = postInfo[4];
+            if (containsAllWords(postTags, filterTags)) {
+                // Formatting the needed post info into an array: {postID, title, body}.
+                String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
+                // Making sure this post has not been added to the return list
+                boolean postInArray = false;
+                for (String[] post : postsWithTag){
+                    if (postData[0] == post[0]) {
+                        postInArray = true;
+                        break;
+                    }
+                }
+                if (postInArray == false){
+                    postsWithTag.add(postData);
+                }
+            }
+        }
     }
 
     /**
@@ -121,19 +110,25 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
         List<Integer> myFavourites = postsGateway.getFavourites();
 
         // adding the post info to postsWithTag
-        for (String[] postInfo : posts) {
+        return personalTargetFilter(postsWithTag, posts, myFavourites);
+    }
+
+    private List<String[]> personalTargetFilter(List<String[]> postsWithTag, List<String[]> posts,
+                                                List<Integer> targetIds) {
+        for (String[] postInfo: posts) {
             int postId = Integer.parseInt(postInfo[0]);
-            if (myFavourites.contains(postId)) {
+            if (targetIds.contains(postId)) {
                 // Formatting the needed post info into an array: {postID, title, body}.
                 String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
                 // Making sure this post has not been added to the return list
                 boolean postInArray = false;
                 for (String[] post : postsWithTag){
-                    if (postData[0] == post[0]){
+                    if (postData[0] == post[0]) {
                         postInArray = true;
+                        break;
                     }
                 }
-                if (postInArray == false){
+                if (!postInArray){
                     postsWithTag.add(postData);
                 }
             }
@@ -150,23 +145,6 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
         List<Integer> myPosts = postsGateway.getMyPosts();
 
         // adding the post info to postsWithTag
-        for (String[] postInfo : posts) {
-            int postId = Integer.parseInt(postInfo[0]);
-            if (myPosts.contains(postId)) {
-                // Formatting the needed post info into an array: {postID, title, body}.
-                String[] postData = {postInfo[0], postInfo[2], postInfo[3]};
-                // Making sure this post has not been added to the return list
-                boolean postInArray = false;
-                for (String[] post : postsWithTag){
-                    if (postData[0] == post[0]){
-                        postInArray = true;
-                    }
-                }
-                if (postInArray == false){
-                    postsWithTag.add(postData);
-                }
-            }
-        }
-        return postsWithTag;
+        return personalTargetFilter(postsWithTag, posts, myPosts);
     }
 }
