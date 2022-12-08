@@ -21,6 +21,7 @@ import view_post.interface_adapters.ViewPostController;
 import view_post.interface_adapters.ViewPostOutputData;
 import view_post.interface_adapters.ViewPostPresenter;
 import view_post.interface_adapters.ViewPostViewModel;
+import view_post.ui.ViewPostView;
 import view_post.use_case.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -68,8 +69,8 @@ public class ViewPostTest {
         MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
         MakeCommentView makeCommentView = new MakeCommentView(makeCommentController);
 
-        viewPostView = new ViewPostView(favouriteView, makeCommentView);
-        viewPostViewModel = new ViewPostViewModel(viewPostView);
+        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView);
+        viewPostViewModel = new ViewPostViewModel();
 
     }
     @After

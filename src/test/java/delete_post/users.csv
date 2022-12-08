@@ -1,0 +1,4 @@
+"userID","isAdmin","email","password","listPosts","listFavourites"
+"0","false","emai01@mail.utoronto.ca","pass0","0",""
+"1","true","email1@mail.utoronto.ca","pass1","1 2","0 2"
+"2","false","email2@mail.utoronto.ca","pass2","","0 2"

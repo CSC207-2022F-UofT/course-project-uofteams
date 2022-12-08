@@ -45,11 +45,11 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
     }
 
     public void removeFavourite(int postId, int userId){
-        removeFromUserList(postId, userId, 1);
+        removeFromUserList(postId, userId, 5);
     }
 
     public void removeUser(int postId, int userId){
-        removeFromUserList(postId, userId, 2);
+        removeFromUserList(postId, userId, 4);
     }
 
     public void deletePost(int postId){
