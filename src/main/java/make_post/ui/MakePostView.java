@@ -95,6 +95,7 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
         enterMainDescription.setText("");
         enterDeadline.setText("");
         makePostController.executeMakePost(postBody);
+        tagsList.clearSelection();
     }
 
     /**
