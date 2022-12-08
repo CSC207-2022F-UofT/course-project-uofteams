@@ -26,6 +26,8 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
     @Override
     public void filterPosts(FilterPostRequestModel filters) {
         String[] filterTags = filters.getFilterTags();
+        // check if my posts is selected
+        // check if my favourites is selected
         List<String[]> posts = postsGateway.getPosts();
         List<String[]> postsWithTag = new ArrayList<>();
 
@@ -62,4 +64,15 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
         }
         return true;
     }
+
+    /**
+     * hello
+     */
+    private void filterMyFavourites(){}
+
+
+    /**
+     * hello
+     */
+    private void filterMyPosts(){}
 }
