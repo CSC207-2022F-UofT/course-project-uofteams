@@ -2,7 +2,6 @@ package log_in.ui;
 
 import log_in.interface_adapters.LogInController;
 import log_in.interface_adapters.LogInControllerData;
-import view_post.ui.HeaderView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +17,7 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
     private final JTextField enterPassword = new JTextField("");
     private final BackButton backButton = new BackButton();
 
-    private JPanel HeaderView;
+
 
     /**
      * the log in view that takes users input data and passes it to the controller
@@ -101,12 +100,6 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
             }
 
             errorFrame.setVisible(true);
-        }
-
-        if (evt.getPropertyName().equals("Login Success")){
-            CardLayout cardLayout = new CardLayout();
-            cardLayout.show(HeaderView, "");
-
         }
     }
 
