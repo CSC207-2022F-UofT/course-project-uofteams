@@ -25,7 +25,7 @@ public class LogInInteractor implements LogInInputBoundary {
     public LogInInteractor(LogInDsGateway access, LogInOutputBoundary outputBoundary, UserFactory factory){
         this.access = access;
         this.outputBoundary = outputBoundary;
-        this.userFactory = new UserFactory();
+        this.userFactory = factory;
     }
 
     /**
