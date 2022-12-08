@@ -150,6 +150,42 @@ public class DeletePostTest {
                 assertFalse(responseModel.deleteSuccess());
             }
         };
+        dsgateway = new DeletePostDsGateway() {
+            @Override
+            public Post getPost(int postId) {
+                ArrayList<String> tags = new ArrayList<>();
+                LocalDate deadline = LocalDate.parse("2022-12-25");
+                LocalDate creationDate = LocalDate.parse("2022-11-30");
+                ArrayList<Integer> favourites = new ArrayList<>();
+                favourites.add(1);
+                favourites.add(2);
+                ArrayList<Integer> replies = new ArrayList<>();
+                Post post = new Post(1, "title0", "desc0", tags, "collab0",
+                        deadline, creationDate, 2, favourites, replies);
+                assertFalse(currentUser.getIsAdmin());
+                return post;
+            }
+
+            @Override
+            public void removeFavourite(int postId, int userId) {
+
+            }
+
+            @Override
+            public void removeUser(int postId, int userId) {
+
+            }
+
+            @Override
+            public void deletePost(int postId) {
+
+            }
+
+            @Override
+            public void deleteComment(int commentId) {
+
+            }
+        };
         interactor = new DeletePostInteractor(presenter, dsgateway);
         controller = new DeletePostController(interactor);
         controller.delete(2, false);
