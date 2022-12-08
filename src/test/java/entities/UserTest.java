@@ -6,7 +6,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class UserUnitTest{
+public class UserTest {
     @Test
     public void testIsAdmin() {
         User user =  new User(true, 0, "test-email", "test-password");

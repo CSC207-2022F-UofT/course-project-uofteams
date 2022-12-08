@@ -267,7 +267,7 @@ public class SignUpTest {
      */
     @Test
     public void testSaveUser() {
-        SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/main/java/database/");
+        SignUpDatabaseAccess databaseAccess = new SignUpDatabaseAccess("src/test/java/sign_up/");
         databaseAccess.saveUser(new String[]{"1", "true", "r@mail.utoronto.ca", "q", "", ""});
         List<String> emails = databaseAccess.getEmails();
         assertTrue(emails.contains("r@mail.utoronto.ca"));
