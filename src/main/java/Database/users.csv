@@ -1,8 +1,1 @@
 "userID","isAdmin","email","password","listPost","listFavourites"
-"1","false","testing@mail.utoronto.ca","pass","",""
-"2","false","delete.demo@mail.utoronto.ca","password","",""
-"3","true","delete.admin.demo@mail.utoronto.ca","adminpass","",""
-"4","false","delete.demo.fail@mail.utoronto.ca","failpass","",""
-"5","false","utkarsh@mail.utoronto.ca","hi","",""
-"6","false","eee@mail.utoronto.ca","eeee","",""
-"7","false","test@mail.utoronto.ca","pass","5",""

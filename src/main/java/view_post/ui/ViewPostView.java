@@ -197,7 +197,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         body.setEditable(false);
         body.setLineWrap(true);
         JScrollPane description = new JScrollPane(body);
-        description.setPreferredSize(new Dimension(300,200));
+        description.setPreferredSize(new Dimension(300,400));
         c.gridwidth = 3;
         c.gridheight = 4;
         c.gridx = 0;
