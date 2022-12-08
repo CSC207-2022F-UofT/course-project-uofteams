@@ -24,6 +24,11 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
     private final String userPath;
     private final String commentPath;
 
+    /**
+     * Initialize DeletePostDataAccess object
+     * @param generalPath path to location of post, user, comment csv files
+     * @param postReader DeletePostReaderInterface instance
+     */
     public DeletePostDataAccess(String generalPath, DeletePostReaderInterface postReader){
         this.postPath = generalPath + "posts.csv";
         this.userPath = generalPath + "users.csv";
@@ -31,6 +36,11 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         this.postReader = postReader;
     }
 
+    /**
+     * Retrieve post data from database and create Post object
+     * @param postId ID of post to created
+     * @return Post object
+     */
     @Override
     public Post getPostDelete(int postId){
         List<String[]> postData = readFile(postPath);
@@ -44,21 +54,45 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         return null;
     }
 
+    /**
+     * Delete post from a user's favourite list in database
+     * @param postId ID of post to be deleted
+     * @param userId ID of user to delete from
+     */
     public void removeFavourite(int postId, int userId){
         removeFromUserList(postId, userId, 5);
     }
+
+    /**
+     * Delete post from its user's post list in database
+     * @param postId ID of post to be deleted
+     * @param userId ID of user to delete from
+     */
     public void removeUser(int postId, int userId){
         removeFromUserList(postId, userId, 4);
     }
 
+    /**
+     * Delete post from post csv file
+     * @param postId ID of post to be deleted
+     */
     public void deletePost(int postId){
         deleteRow(postPath, postId);
     }
 
+    /**
+     * Delete comment from comment csv file
+     * @param commentId ID of comment to be deleted
+     */
     public void deleteComment(int commentId){
         deleteRow(commentPath, commentId);
     }
 
+    /**
+     * Helper method to read data from csv file
+     * @param path path to file
+     * @return Data contained in file as a List<String[]>
+     */
     private List<String[]> readFile(String path) {
         File file = new File(path);
         List<String[]> data = null;
@@ -78,6 +112,11 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         return data;
     }
 
+    /**
+     * Helper method to write data to csv file
+     * @param path path to file
+     * @param data data to write in file
+     */
     private void fileWriter(String path, List<String[]> data) {
         try {
             FileWriter newFile = new FileWriter(path);
@@ -89,6 +128,11 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         }
     }
 
+    /**
+     * Helper method  to delete a row from csv file
+     * @param path path to file
+     * @param id ID of comment or post of which to delete row
+     */
     private void deleteRow(String path, int id){
         List<String[]> oldData = readFile(path);
         List<String[]> newData = new ArrayList<>();
@@ -100,6 +144,13 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         fileWriter(path, newData);
     }
 
+
+    /**
+     * Helper method to delete a post from a User's list of favourites or posts in database
+     * @param postId ID of post to be deleted
+     * @param userId ID of user to delete from
+     * @param listCol Column number of list to delete from in database
+     */
     private void removeFromUserList(int postId, int userId, int listCol){
         List<String[]> userData = readFile(userPath);
         String[] header = userData.get(0);
