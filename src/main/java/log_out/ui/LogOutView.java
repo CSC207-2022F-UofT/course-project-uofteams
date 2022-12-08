@@ -1,9 +1,7 @@
 package log_out.ui;
 
 import log_out.interface_adapters.LogOutController;
-import log_out.interface_adapters.LogOutUserInputData;
-import log_out.use_case.LogOutRequestModel;
-
+import log_out.interface_adapters.LogOutControllerData;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,10 +15,6 @@ public class LogOutView extends JPanel implements PropertyChangeListener, Action
 
     public JButton logOutButton = new JButton("Log Out");
 
-    private JPanel MasterLandingView;
-
-
-
     public LogOutView(LogOutController controller){
         this.controller = controller;
 
@@ -30,14 +24,23 @@ public class LogOutView extends JPanel implements PropertyChangeListener, Action
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        
+        if (evt.getPropertyName().equals("Log Out")){
+
+            //CardLayout cardLayout = (CardLayout) this.masterView.getLayout;
+            //cardLayout.show(this, "Main View");
+
+            // will need the implementation of the main view which contains the 'Log Out' button
+            // and then switch that view with the Main LogIn/SignUp view
+            // also will need to add a param in my constructor that takes a masterView, so I can call the
+            // get layout function in order to show it.
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(logOutButton)) {
             String logOut = "Log Out";
-            LogOutUserInputData data = new LogOutUserInputData(new LogOutRequestModel());
+            LogOutControllerData data = new LogOutControllerData(logOut);
             controller.logOutInitializer(data);
         }
     }

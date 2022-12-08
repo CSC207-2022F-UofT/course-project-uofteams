@@ -31,7 +31,7 @@ public class LogInViewModel  {
      * Update the observers in observable with the log in success and possible error messages
      * @param presenterData the Presenter which contains the success or failure of logging in
      */
-    public void updateViewModel(LogInUserOutputData presenterData){
+    public void updateViewModel(LogInPresenterData presenterData){
         observable.firePropertyChange("Login Success", false, presenterData.isSuccess());
         observable.firePropertyChange("Login Failure", "", presenterData.getErrorMessage());
     }
