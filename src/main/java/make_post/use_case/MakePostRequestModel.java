@@ -19,6 +19,9 @@ public class MakePostRequestModel {
         this.title = (String) postAttributes.get("title");
         this.mainDesc = (String) postAttributes.get("mainDescription");
         this.tags = (List<String>) postAttributes.get("tags");
+        if(tags.size() == 0){
+            tags.add("");
+        }
         this.collaborators = (String) postAttributes.get("collaborators");
         this.deadline = (LocalDate) postAttributes.get("deadline");
 
