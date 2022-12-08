@@ -97,6 +97,14 @@ public class MasterLandingView extends JPanel implements PropertyChangeListener 
 
 
     /**
+     * Returns the ButtonView for the landing view
+     * @return the ButtonView attribute
+     */
+    public ButtonView getButtonView() {
+        return this.buttonView;
+    }
+
+    /**
      * A class which acts as the SignUpButton, responsible for starting the use case
      */
 

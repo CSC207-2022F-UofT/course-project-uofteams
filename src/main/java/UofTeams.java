@@ -85,6 +85,8 @@ import view_post.use_case.ViewPostInteractor;
 * The main class for the file, containing the main method which runs the program
 * */
 public class UofTeams {
+    static String adminPath = "src/main/java/Database/admin.csv";
+    static String numUsersCreatedFilePath = "src/main/java/Database/numUsersCreated.csv";
     static String postsFilePath = "src/main/java/Database/posts.csv";
     static String usersFilePath = "src/main/java/Database/users.csv";
     static String generalPath = "src/main/java/Database/";
@@ -119,7 +121,7 @@ public class UofTeams {
         // initialize stuff for sign_up
         SignUpViewModel signUpViewModel = new SignUpViewModel();
         SignUpOutputBoundary signUpPresenter = new SignUpPresenter(signUpViewModel);
-        SignUpDsGateway signUpDatabaseAccess = new SignUpDatabaseAccess(generalPath);
+        SignUpDsGateway signUpDatabaseAccess = new SignUpDatabaseAccess(usersFilePath, adminPath, numUsersCreatedFilePath);
         SignUpInputBoundary signUpInteractor = new SignUpInteractor(signUpDatabaseAccess, signUpPresenter);
         SignUpController signUpController = new SignUpController(signUpInteractor);
         SignUpView signUpView = new SignUpView(signUpController);
