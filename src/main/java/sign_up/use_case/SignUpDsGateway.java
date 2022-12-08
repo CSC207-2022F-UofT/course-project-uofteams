@@ -1,11 +1,10 @@
 package sign_up.use_case;
 
-import entities.User;
 
 import java.util.List;
 
 /**
- * The public interface for database access for the sign up use case
+ * The public interface for database access for the sign-up use case
  */
 public interface SignUpDsGateway {
     /**

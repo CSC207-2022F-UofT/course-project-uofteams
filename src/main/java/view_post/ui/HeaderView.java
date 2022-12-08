@@ -85,10 +85,6 @@ public class HeaderView implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(makePost)) {
-            // Removed these for now as trying a different approach
-            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            // double width = screenSize.getWidth();
-            // double height = screenSize.getHeight();
             JOptionPane.showMessageDialog(null, makePostView, "Make Post", JOptionPane.PLAIN_MESSAGE);
         }
     }

@@ -3,6 +3,7 @@ package filter_post.use_case;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class FilterPostInteractor implements FilterPostInputBoundary {
     private final FilterPostDsGateway postsGateway;
@@ -40,14 +41,14 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
                 // removing "Favourites" from filterTags
                 List<String> list = new ArrayList<>(Arrays.asList(filterTags));
                 list.remove("Favourites");
-                filterTags = list.toArray(new String[list.size()]);
+                filterTags = list.toArray(new String[0]);
             }
             if (Arrays.asList(filterTags).contains("MyPosts")){
                 postsWithTag = this.filterMyPosts(postsWithTag, posts);
                 // removing "MyPosts" from filterTags
                 List<String> list = new ArrayList<>(Arrays.asList(filterTags));
                 list.remove("MyPosts");
-                filterTags = list.toArray(new String[list.size()]);
+                filterTags = list.toArray(new String[0]);
             }
             ArrayList<String> countable2 = new ArrayList<>( Arrays.asList(filterTags) );
             if (!countable2.isEmpty()){
@@ -75,12 +76,12 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
                 // Making sure this post has not been added to the return list
                 boolean postInArray = false;
                 for (String[] post : postsWithTag){
-                    if (postData[0] == post[0]) {
+                    if (Objects.equals(postData[0], post[0])) {
                         postInArray = true;
                         break;
                     }
                 }
-                if (postInArray == false){
+                if (!postInArray){
                     postsWithTag.add(postData);
                 }
             }
@@ -123,7 +124,7 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
                 // Making sure this post has not been added to the return list
                 boolean postInArray = false;
                 for (String[] post : postsWithTag){
-                    if (postData[0] == post[0]) {
+                    if (Objects.equals(postData[0], post[0])) {
                         postInArray = true;
                         break;
                     }

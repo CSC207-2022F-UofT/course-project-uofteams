@@ -68,7 +68,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
 
 
     /**
-    * React to a button click and start the Sign Up use case
+    * React to a button click and start the Sign-Up use case
     *  @param e The event to be processed
     */
     @Override

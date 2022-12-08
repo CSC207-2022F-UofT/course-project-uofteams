@@ -1,4 +1,4 @@
-package delete_post.UI;
+package delete_post.ui;
 
 import delete_post.interface_adapters.DeletePostController;
 

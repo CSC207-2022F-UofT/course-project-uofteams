@@ -2,10 +2,10 @@ package make_comment.use_case;
 
 public class MakeCommentResponseModel {
     // describes whether the attempt was success(successful if body is not empty)
-    public boolean creationSuccess;
+    final public boolean creationSuccess;
 
     // The error message. empty string if creationSuccess is True.
-    public String errorMessage;
+    final public String errorMessage;
 
     /**
      * Initializes the MakeCommentResponseModel

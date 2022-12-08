@@ -1,4 +1,4 @@
-import delete_post.UI.DeleteView;
+import delete_post.ui.DeleteView;
 import delete_post.drivers.DeletePostDataAccess;
 import delete_post.interface_adapters.DeletePostController;
 import delete_post.interface_adapters.DeletePostPresenter;

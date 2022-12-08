@@ -61,7 +61,7 @@ public class FilterPostDataAccess implements FilterPostDsGateway {
         // getting the ID of the current user
         int userID = CurrentUser.getCurrentUser().getId();
 
-        // adjusting the path so that we dont have to pass another one in the constructor
+        // adjusting the path so that we don't have to pass another one in the constructor
         String usersPath = path.replace("posts.csv", "users.csv");
         File file = new File(usersPath);
 
@@ -109,7 +109,7 @@ public class FilterPostDataAccess implements FilterPostDsGateway {
         // getting the ID of the current user
         int userID = CurrentUser.getCurrentUser().getId();
 
-        // adjusting the path so that we dont have to pass another one in the constructor
+        // adjusting the path so that we don't have to pass another one in the constructor
         String usersPath = path.replace("posts.csv", "users.csv");
         File file = new File(usersPath);
 

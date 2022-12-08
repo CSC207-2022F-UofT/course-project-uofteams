@@ -120,16 +120,6 @@ public class ViewCommentViewTest {
         ViewCommentInteractor viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
         ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
 
-
-//        ViewCommentView viewCommentViewSuccess = new ViewCommentView(1, viewCommentController);
-//        JFrame testFrame = new JFrame("Test");
-//        viewCommentViewModel.addObserver(viewCommentViewSuccess);
-//        testFrame.getContentPane().add(viewCommentViewSuccess);
-//        testFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        testFrame.pack();
-//        testFrame.setVisible(true);
-
-
         ViewCommentView viewCommentViewFail = new ViewCommentView(viewCommentController);
         viewCommentViewFail.setPostId(10);
         JFrame testFrame2 = new JFrame("Test");

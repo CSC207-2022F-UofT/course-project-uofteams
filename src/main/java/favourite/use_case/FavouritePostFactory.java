@@ -55,17 +55,16 @@ public class FavouritePostFactory implements FavouritePostReaderInterface {
             }
         }
         // creating a List of Integers of ids of the replies (Comments) made on that post
-        String[] replyids = postData[9].split(" ");
+        String[] replyIds = postData[9].split(" ");
         List<Integer> repliesIDs = new ArrayList<>();
-        for (String ids : replyids) {
+        for (String ids : replyIds) {
             if (!ids.isEmpty()){
                 repliesIDs.add(Integer.parseInt(ids));
             }
         }
 
         // using the variables created above to reconstruct a Post object
-        Post post = new Post(posterID, title, mainDesc, tags, collaborators, deadline, creationDate, id, favouritedUsersIDs,
+        return new Post(posterID, title, mainDesc, tags, collaborators, deadline, creationDate, id, favouritedUsersIDs,
                 repliesIDs);
-        return post;
     }
 }

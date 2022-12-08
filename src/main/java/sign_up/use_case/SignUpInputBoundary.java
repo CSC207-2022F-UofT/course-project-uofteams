@@ -1,7 +1,7 @@
 package sign_up.use_case;
 
 /**
- * Public Interface for the input the sign up use case interactor
+ * Public Interface for the input the sign-up use case interactor
  */
 public interface SignUpInputBoundary {
     /**

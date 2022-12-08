@@ -18,7 +18,7 @@ In this course project, you are expected to use Github to manage your code. This
 
 ![](images/link_project.png)
 
-5. The project will show up in the the list below.
+5. The project will show up in the list below.
 
 ## Define Your Features for the Implementation Plan
 As a part of the project planning, you are required to record all features formulated from your user stories, as **issues** in your Github repository.
@@ -30,7 +30,7 @@ As a part of the project planning, you are required to record all features formu
 1. Fill in the title as the name of the feature and provide a brief description of the feature.
 **Please use a consistent naming convention for your issues.** For example, you can use the following format: `[Feature x] <feature name>` 
 
-2. On the side bar, select the **Assignee**, **Labels** (Enhancement for your Features), and **Projects**(the one you just created) for the issue. Then click **Submit new issue**.
+2. On the sidebar, select the **Assignee**, **Labels** (Enhancement for your Features), and **Projects**(the one you just created) for the issue. Then click **Submit new issue**.
 
 ![](images/set_tags.png)
 
