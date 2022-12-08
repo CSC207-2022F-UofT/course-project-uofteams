@@ -15,6 +15,15 @@ import favourite.interface_adapters.FavouritePresenter;
 import favourite.interface_adapters.FavouriteViewModel;
 import favourite.ui.FavouriteView;
 import favourite.use_case.*;
+import filter_post.drivers.FilterPostDataAccess;
+import filter_post.interface_adapters.FilterPostController;
+import filter_post.interface_adapters.FilterPostPresenter;
+import filter_post.interface_adapters.FilterPostViewModel;
+import filter_post.ui.FilterPostBarView;
+import filter_post.use_case.FilterPostDsGateway;
+import filter_post.use_case.FilterPostInputBoundary;
+import filter_post.use_case.FilterPostInteractor;
+import filter_post.use_case.FilterPostOutputBoundary;
 import make_comment.driver.MakeCommentDatabaseAccess;
 import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
@@ -41,6 +50,7 @@ import view_post.interface_adapters.ViewPostController;
 import view_post.interface_adapters.ViewPostOutputData;
 import view_post.interface_adapters.ViewPostPresenter;
 import view_post.interface_adapters.ViewPostViewModel;
+import view_post.ui.PostListView;
 import view_post.ui.ViewPostView;
 import view_post.use_case.*;
 import java.beans.PropertyChangeEvent;
@@ -103,8 +113,21 @@ public class ViewPostTest {
         ViewCommentInputBoundary viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
         ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
         ViewCommentView viewCommentView = new ViewCommentView(viewCommentController);
+        FilterPostViewModel filterPostViewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
+        FilterPostOutputBoundary filterPostPresenter = new FilterPostPresenter(filterPostViewModel);
+        FilterPostDsGateway filterPostDataAccess = new FilterPostDataAccess(partialPath);
+        FilterPostInputBoundary filterPostInteractor = new FilterPostInteractor(filterPostDataAccess, filterPostPresenter);
+        FilterPostController filterPostController = new FilterPostController(filterPostInteractor);
+        ViewPostViewModel viewPostViewModel = new ViewPostViewModel();
+        ViewPostPresenter viewPostPresenter = new ViewPostPresenter(viewPostViewModel);
+        ViewPostDsGateway viewPostGateway = new ViewPostDatabaseAccess(partialPath);
+        ViewPostInteractor viewPostInteractor = new ViewPostInteractor(viewPostGateway, viewPostPresenter);
+        ViewPostController viewPostController = new ViewPostController(viewPostInteractor);
+        // Requires array of preset tags
+        FilterPostBarView filterPostBarView = new FilterPostBarView(new String[]{"sports", "quantum", "math"}, filterPostController);
+        PostListView postListView = new PostListView(viewPostController, filterPostBarView);
 
-        viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView);
+        viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView, postListView);
         viewPostViewModel = new ViewPostViewModel();
 
     }

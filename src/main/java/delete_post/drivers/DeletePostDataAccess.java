@@ -94,7 +94,7 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
         List<String[]> oldData = readFile(path);
         List<String[]> newData = new ArrayList<>();
         for (String[] row : oldData){
-            if (row[0].equals("postID") || Integer.parseInt(row[0]) != id){
+            if (row[0].contains("ID") || Integer.parseInt(row[0]) != id){
                 newData.add(row);
             }
         }

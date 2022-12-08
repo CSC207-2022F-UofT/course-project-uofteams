@@ -34,7 +34,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
      * @param controller A ViewPostController object that will be called when a post is selected to view
      */
     public PostListView(ViewPostController controller, FilterPostBarView filterBar){
-        this.setPreferredSize(new Dimension(300, 680));
+        this.setPreferredSize(new Dimension(400, 680));
         // initializing instance variables
         this.postList = new JPanel();
         this.add(this.postList);
@@ -72,9 +72,9 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
             titleList.setLayoutOrientation(JList.VERTICAL);
             titleList.setVisibleRowCount(-1);
             JScrollPane scrollableList = new JScrollPane(this.list);
-            scrollableList.setPreferredSize(new Dimension(300, 400));
+            scrollableList.setPreferredSize(new Dimension(400, 400));
             postList.add(scrollableList);
-            postList.setBounds(0, 180, 300, 400);
+            postList.setBounds(0, 180, 400, 400);
             SwingUtilities.updateComponentTreeUI(this);
         }
     }

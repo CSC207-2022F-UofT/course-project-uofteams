@@ -35,7 +35,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
         this.makeCommentView = makeCommentView;
         this.deleteView = deleteView;
         this.viewCommentView = commentView;
-        this.postListView = postListView
+        this.postListView = postListView;
 
 
         this.setPreferredSize(new Dimension(600, 680));
