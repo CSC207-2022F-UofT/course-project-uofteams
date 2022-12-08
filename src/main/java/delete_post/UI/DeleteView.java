@@ -36,7 +36,6 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
 
     public void propertyChange(PropertyChangeEvent event){
         JFrame statusFrame = new JFrame();
-        // statusFrame.setVisible(true);
         statusFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         if (event.getPropertyName().equals("success")){
             JOptionPane.showMessageDialog(statusFrame,"Post Deleted");
