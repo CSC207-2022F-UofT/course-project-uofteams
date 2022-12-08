@@ -5,7 +5,7 @@ import entities.Post;
 import java.time.LocalDate;
 import java.util.List;
 
-public class PostFactory {
+public class MakePostFactory {
     /**
      * creates a post entity.
      * @param poster id of the user who posted this post.

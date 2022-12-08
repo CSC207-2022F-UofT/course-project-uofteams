@@ -59,7 +59,6 @@ public class FavouriteView extends JPanel implements ActionListener, PropertyCha
     @Override
     public void propertyChange(PropertyChangeEvent event){
         JFrame updateFrame = new JFrame();
-        // updateFrame.setVisible(true);
         updateFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         if (event.getPropertyName().equals("favourited")){
             JOptionPane.showMessageDialog(updateFrame, "This post has been successfully added to " +

@@ -33,8 +33,6 @@ public class FilterPostViewModel {
         ArrayList<Object> results = new ArrayList<>();
         results.add(titles);
         results.add(ids);
-        System.out.println("Arrived");
-        System.out.println(results);
         observable.firePropertyChange("Search", null, results);
     }
 }

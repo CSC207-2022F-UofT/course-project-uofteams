@@ -17,7 +17,7 @@ public class LogInController {
     }
 
     //Initializes the LogIn use case
-    public void logInInitializer(LogInControllerData data) {
+    public void logInInitializer(LogInUserInputData data) {
         LogInRequestModel requestModel = new LogInRequestModel(data.getEmail(), data.getPass());
         interactor.logIn(requestModel);
     }
