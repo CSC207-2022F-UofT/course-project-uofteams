@@ -4,10 +4,7 @@ import entities.CurrentUser;
 import entities.User;
 import log_out.interface_adapters.LogOutController;
 import log_out.interface_adapters.LogOutUserInputData;
-import log_out.use_case.LogOutInputBoundary;
-import log_out.use_case.LogOutInteractor;
-import log_out.use_case.LogOutOutputBoundary;
-import log_out.use_case.LogOutResponseModel;
+import log_out.use_case.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -50,7 +47,7 @@ public class LogOutTest {
         this.addUser(user);
 
         controller = new LogOutController(interactor);
-        LogOutUserInputData test = new LogOutUserInputData("Log Out");
+        LogOutUserInputData test = new LogOutUserInputData(new LogOutRequestModel());
 
         controller.logOutInitializer(test);
     }

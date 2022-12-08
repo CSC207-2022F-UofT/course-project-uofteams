@@ -2,6 +2,7 @@ package log_out.ui;
 
 import log_out.interface_adapters.LogOutController;
 import log_out.interface_adapters.LogOutUserInputData;
+import log_out.use_case.LogOutRequestModel;
 
 
 import javax.swing.*;
@@ -36,7 +37,7 @@ public class LogOutView extends JPanel implements PropertyChangeListener, Action
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(logOutButton)) {
             String logOut = "Log Out";
-            LogOutUserInputData data = new LogOutUserInputData(logOut);
+            LogOutUserInputData data = new LogOutUserInputData(new LogOutRequestModel());
             controller.logOutInitializer(data);
         }
     }

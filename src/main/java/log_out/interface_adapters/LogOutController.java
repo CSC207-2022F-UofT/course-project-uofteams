@@ -20,7 +20,7 @@ public class LogOutController {
 
     //Initializes the logOut Use case
     public void logOutInitializer(LogOutUserInputData dataFromController){
-        LogOutRequestModel requestModel = new LogOutRequestModel();
+        LogOutRequestModel requestModel = dataFromController.getLogOutRequest();
         interactor.logOut(requestModel);
     }
 }
