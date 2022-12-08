@@ -32,7 +32,7 @@ import java.util.*;
  * interface_adapters: 100%
  * use_case: 100%
  *
- * It should be noted that the UI is not being tested here.
+ * The UI is not being tested here.
  */
 
 public class MakePostTest {
@@ -151,7 +151,6 @@ public class MakePostTest {
         };
         viewModel.addObserver(observer);
         ArrayList<String> emptyTags = new ArrayList<>();
-        emptyTags.add("");
         postBody.put("tags", emptyTags);
         controller.executeMakePost(this.postBody);
         assertEquals(1, postRepository.getNumberOfPosts());
@@ -233,6 +232,33 @@ public class MakePostTest {
         };
         viewModel.addObserver(observer);
         postBody.put("deadline", "2200-11-29");
+        controller.executeMakePost(this.postBody);
+        assertEquals(0, postRepository.getNumberOfPosts());
+        try{
+            File posts = new File(postsPath);
+            FileReader postsReader = new FileReader(posts);
+            CSVReader postsCsvReader = new CSVReader(postsReader);
+            List<String[]> postsCsvBody = postsCsvReader.readAll();
+            assertEquals(1, postsCsvBody.size());
+        } catch (IOException | CsvException e) {
+            System.out.println("File was not found.");
+        }
+    }
+
+    @Test
+    public void testMakePostNoTitle(){
+        PropertyChangeListener observer = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                String propertyName = "creation failure";
+
+                assertEquals(propertyName, evt.getPropertyName());
+            }
+        };
+        viewModel.addObserver(observer);
+        interactor = new MakePostInteractor(postRepository, presenter);
+        controller = new MakePostController(interactor);
+        postBody.put("title", "");
         controller.executeMakePost(this.postBody);
         assertEquals(0, postRepository.getNumberOfPosts());
         try{

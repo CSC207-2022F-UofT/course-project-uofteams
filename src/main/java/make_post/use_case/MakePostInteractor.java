@@ -92,6 +92,9 @@ public class MakePostInteractor implements MakePostInputBoundary {
         if (!checkDeadline(requestModel)) {
             throw new MakePostException("Deadline more than 6 months away or in the past");
         }
+        if(requestModel.getTitle().equals("")){
+            throw new MakePostException("Please enter a title");
+        }
         else {
         return new MakePostResponseModel(true, "");}
     }
