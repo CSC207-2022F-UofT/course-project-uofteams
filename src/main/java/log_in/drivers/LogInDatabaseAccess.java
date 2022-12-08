@@ -48,19 +48,17 @@ public class LogInDatabaseAccess implements LogInDsGateway {
         ArrayList<String> emails = this.getData(2);
         ArrayList<String> passwords = this.getData(3);
         int emailIndex;
-        int passIndex;
         if (emails.contains(email)){
             emailIndex = emails.indexOf(email);
         } else {
             return false;
         }
-        if (passwords.contains(pass)){
-            passIndex = passwords.indexOf(pass);
-        }  else {
+        if(passwords.get(emailIndex).equals(pass)){
+            return true;
+        }
+       else {
             return false;
         }
-
-        return emailIndex == passIndex;
     }
 
     @Override
