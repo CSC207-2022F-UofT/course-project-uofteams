@@ -2,7 +2,6 @@ package log_in.use_case;
 
 import entities.CurrentUser;
 import entities.User;
-import favourite.use_case.UserFactory;
 import log_in.use_case.exceptions.UserException;
 
 import java.util.ArrayList;
@@ -10,10 +9,11 @@ import java.util.List;
 
 public class LogInInteractor implements LogInInputBoundary {
     private final LogInDsGateway access;
-    private final UserFactory userFactory;
+
 
     private final LogInOutputBoundary outputBoundary;
 
+    private final UserFactory userFactory;
 
 
     /**
@@ -22,10 +22,10 @@ public class LogInInteractor implements LogInInputBoundary {
      * @param access to retrieve stuff from the database
      * @param outputBoundary contains the result of this use case
      */
-    public LogInInteractor(LogInDsGateway access, LogInOutputBoundary outputBoundary, UserFactory userFactory){
+    public LogInInteractor(LogInDsGateway access, LogInOutputBoundary outputBoundary, UserFactory factory){
         this.access = access;
         this.outputBoundary = outputBoundary;
-        this.userFactory = userFactory;
+        this.userFactory = new UserFactory();
     }
 
     /**
@@ -48,13 +48,23 @@ public class LogInInteractor implements LogInInputBoundary {
     }
 
     /**
-     * @param toSet email of user that logged in
+     * @param email email of user that logged in
+     * @param pass password of user that logged in
      */
-    private void setCurrentUser(User toSet){
+    private void setCurrentUser(boolean success, String email, String pass){
         // create a factory to create the user for clean architecture
+        String[] userInfo;
+        userInfo = access.getUser(success, email, pass);
 
-        CurrentUser.setCurrentUser(toSet);
+        boolean isAdmin = userInfo[1].equals("True");
 
+        List<Integer> userPosts = this.userFactory.convertPost(userInfo[4]);
+
+        List<Integer> userFavs = this.userFactory.convertPost(userInfo[5]);
+
+        User currentUser = this.userFactory.create(isAdmin, 0, userInfo[2],
+                userInfo[3], userPosts, userFavs);
+        CurrentUser.setCurrentUser(currentUser);
     }
 
     /**
@@ -75,8 +85,7 @@ public class LogInInteractor implements LogInInputBoundary {
             throw new UserException("Incorrect Password");
         }
         if (this.checkPassword(requestModel.getEmail(), requestModel.getPassword())){
-            User loggedIn = userFactory.readUser(access.getUser(true, requestModel.getEmail(), requestModel.getPassword()));
-            setCurrentUser(loggedIn);
+            setCurrentUser(true, requestModel.getEmail(), requestModel.getPassword());
         }
         return new LogInResponseModel(true, "");
     }
