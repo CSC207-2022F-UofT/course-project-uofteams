@@ -45,7 +45,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         this.list = null;
 
         // Default view when there are no posts to show
-        JLabel noPostsText = new JLabel("Press Search");
+        JLabel noPostsText = new JLabel("Press Search :)");
         this.postList.add(noPostsText);
     }
 

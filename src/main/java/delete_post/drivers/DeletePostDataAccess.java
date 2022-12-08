@@ -2,7 +2,7 @@
 package delete_post.drivers;
 
 import delete_post.use_case.DeletePostDsGateway;
-import delete_post.use_case.PostReaderInterface;
+import delete_post.use_case.DeletePostReaderInterface;
 import entities.Post;
 
 import com.opencsv.CSVReader;
@@ -19,12 +19,12 @@ import java.util.List;
 
 public class DeletePostDataAccess implements DeletePostDsGateway{
 
-    private final PostReaderInterface postReader;
+    private final DeletePostReaderInterface postReader;
     private final String postPath;
     private final String userPath;
     private final String commentPath;
 
-    public DeletePostDataAccess(String generalPath, PostReaderInterface postReader){
+    public DeletePostDataAccess(String generalPath, DeletePostReaderInterface postReader){
         this.postPath = generalPath + "posts.csv";
         this.userPath = generalPath + "users.csv";
         this.commentPath = generalPath + "comments.csv";
@@ -32,7 +32,7 @@ public class DeletePostDataAccess implements DeletePostDsGateway{
     }
 
     @Override
-    public Post getPost(int postId){
+    public Post getPostDelete(int postId){
         List<String[]> postData = readFile(postPath);
         postData.remove(0);
         for (String[] row : postData) {

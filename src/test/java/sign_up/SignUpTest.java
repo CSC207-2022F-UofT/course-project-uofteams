@@ -1,5 +1,6 @@
 package sign_up;
 
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +33,7 @@ public class SignUpTest {
     SignUpOutputBoundary presenter;
     SignUpInputBoundary interactor;
     SignUpController controller;
+    SignUpUserFactory userFactory;
 
     @Before
     public void setup() {
@@ -93,8 +95,8 @@ public class SignUpTest {
                 assertEquals("", actual);
             }
         };
-
-        interactor = new SignUpInteractor(postRepository, presenter);
+        userFactory = new SignUpUserFactory();
+        interactor = new SignUpInteractor(postRepository, presenter, userFactory);
         controller = new SignUpController(interactor);
 
         SignUpUserInputData testModel = new SignUpUserInputData("email@mail.utoronto.ca", "pass",
@@ -119,8 +121,8 @@ public class SignUpTest {
                 assertEquals("", actual);
             }
         };
-
-        interactor = new SignUpInteractor(postRepository, presenter);
+        userFactory = new SignUpUserFactory();
+        interactor = new SignUpInteractor(postRepository, presenter, userFactory);
         controller = new SignUpController(interactor);
 
         SignUpUserInputData testModel = new SignUpUserInputData("email@mail.utoronto.ca", "pass",
@@ -145,8 +147,8 @@ public class SignUpTest {
                 assertEquals("admin password", actual);
             }
         };
-
-        interactor = new SignUpInteractor(postRepository, presenter);
+        userFactory = new SignUpUserFactory();
+        interactor = new SignUpInteractor(postRepository, presenter, userFactory);
         controller = new SignUpController(interactor);
 
         SignUpUserInputData testModel = new SignUpUserInputData("email@mail.utoronto.ca",
@@ -171,8 +173,8 @@ public class SignUpTest {
                 assertEquals("email exists", actual);
             }
         };
-
-        interactor = new SignUpInteractor(postRepository, presenter);
+        userFactory = new SignUpUserFactory();
+        interactor = new SignUpInteractor(postRepository, presenter, userFactory);
         controller = new SignUpController(interactor);
 
         postRepository.saveUser(new String[]{"0", "false", "email@mail.utoronto.ca", "pass", "", ""});
@@ -198,8 +200,8 @@ public class SignUpTest {
                 assertEquals("incorrect email", actual);
             }
         };
-
-        interactor = new SignUpInteractor(postRepository, presenter);
+        userFactory = new SignUpUserFactory();
+        interactor = new SignUpInteractor(postRepository, presenter, userFactory);
         controller = new SignUpController(interactor);
 
         SignUpUserInputData testModel = new SignUpUserInputData("email", "pass", "");
@@ -223,8 +225,8 @@ public class SignUpTest {
                 assertEquals("empty field", actual);
             }
         };
-
-        interactor = new SignUpInteractor(postRepository, presenter);
+        userFactory = new SignUpUserFactory();
+        interactor = new SignUpInteractor(postRepository, presenter, userFactory);
         controller = new SignUpController(interactor);
 
         SignUpUserInputData testModel = new SignUpUserInputData("", "pass", "");
@@ -249,10 +251,10 @@ public class SignUpTest {
 
             }
         };
-
-         viewModel.addObserver(observer);
-         interactor = new SignUpInteractor(postRepository, presenter);
-         controller = new SignUpController(interactor);
+        userFactory = new SignUpUserFactory();
+        viewModel.addObserver(observer);
+        interactor = new SignUpInteractor(postRepository, presenter, userFactory);
+        controller = new SignUpController(interactor);
 
         SignUpUserInputData testModel = new SignUpUserInputData("email@mail.utoronto.ca", "pass",
                 "");

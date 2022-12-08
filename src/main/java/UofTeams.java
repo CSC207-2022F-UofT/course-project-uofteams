@@ -3,16 +3,14 @@ import delete_post.drivers.DeletePostDataAccess;
 import delete_post.interface_adapters.DeletePostController;
 import delete_post.interface_adapters.DeletePostPresenter;
 import delete_post.interface_adapters.DeletePostViewModel;
-import delete_post.use_case.DeletePostDsGateway;
-import delete_post.use_case.DeletePostInputBoundary;
-import delete_post.use_case.DeletePostInteractor;
-import delete_post.use_case.DeletePostOutputBoundary;
+import delete_post.use_case.*;
 import favourite.drivers.FavouriteDatabaseAccess;
 import favourite.interface_adapters.FavouriteController;
 import favourite.interface_adapters.FavouritePresenter;
 import favourite.interface_adapters.FavouriteViewModel;
 import favourite.ui.FavouriteView;
 import favourite.use_case.*;
+import favourite.use_case.FavouritePostReaderInterface;
 import filter_post.drivers.FilterPostDataAccess;
 import filter_post.interface_adapters.FilterPostController;
 import filter_post.interface_adapters.FilterPostPresenter;
@@ -27,10 +25,7 @@ import log_in.interface_adapters.LogInController;
 import log_in.interface_adapters.LogInPresenter;
 import log_in.interface_adapters.LogInViewModel;
 import log_in.ui.LogInView;
-import log_in.use_case.LogInDsGateway;
-import log_in.use_case.LogInInputBoundary;
-import log_in.use_case.LogInInteractor;
-import log_in.use_case.LogInOutputBoundary;
+import log_in.use_case.*;
 import log_out.interface_adapters.LogOutController;
 import log_out.interface_adapters.LogOutPresenter;
 import log_out.interface_adapters.LogOutViewModel;
@@ -43,7 +38,8 @@ import make_comment.interface_adapter.MakeCommentController;
 import make_comment.interface_adapter.MakeCommentPresenter;
 import make_comment.interface_adapter.MakeCommentViewModel;
 import make_comment.ui.MakeCommentView;
-import make_comment.use_case.CommentFactory;
+import make_comment.use_case.MakeCommentFactory;
+import make_comment.use_case.MakeCommentDsGateway;
 import make_comment.use_case.MakeCommentInteractor;
 import make_post.drivers.MakePostDatabaseAccess;
 import make_post.interface_adapters.MakePostController;
@@ -60,10 +56,7 @@ import sign_up.interface_adapters.SignUpPresenter;
 import sign_up.interface_adapters.SignUpViewModel;
 import sign_up.ui.MasterLandingView;
 import sign_up.ui.SignUpView;
-import sign_up.use_case.SignUpDsGateway;
-import sign_up.use_case.SignUpInputBoundary;
-import sign_up.use_case.SignUpInteractor;
-import sign_up.use_case.SignUpOutputBoundary;
+import sign_up.use_case.*;
 import view_comment.drivers.ViewCommentDatabaseAccess;
 import view_comment.interface_adapters.ViewCommentController;
 import view_comment.interface_adapters.ViewCommentPresenter;
@@ -92,10 +85,11 @@ public class UofTeams {
     static String generalPath = "src/main/java/database/";
 
     public static void main(String[] args) {
+
         // initialize stuff for delete_post
         DeletePostViewModel deletePostViewModel = new DeletePostViewModel();
         DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
-        delete_post.use_case.PostReaderInterface deletePostFactory = new delete_post.use_case.PostFactory();
+        DeletePostReaderInterface deletePostFactory = new DeletePostFactory();
         DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess(generalPath, deletePostFactory);
         DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor(deletePostPresenter, deletePostDataAccess);
         DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
@@ -119,29 +113,30 @@ public class UofTeams {
         MakePostView makePostView = new MakePostView(tags, makePostController);
 
         // initialize stuff for sign_up
+        SignUpUserFactory signUpUserFactory = new SignUpUserFactory();
         SignUpViewModel signUpViewModel = new SignUpViewModel();
         SignUpOutputBoundary signUpPresenter = new SignUpPresenter(signUpViewModel);
         SignUpDsGateway signUpDatabaseAccess = new SignUpDatabaseAccess(generalPath);
-        SignUpInputBoundary signUpInteractor = new SignUpInteractor(signUpDatabaseAccess, signUpPresenter);
+        SignUpInputBoundary signUpInteractor = new SignUpInteractor(signUpDatabaseAccess, signUpPresenter, signUpUserFactory);
         SignUpController signUpController = new SignUpController(signUpInteractor);
         SignUpView signUpView = new SignUpView(signUpController);
 
         // initialize stuff for make_comment
-        CommentFactory commentFactory = new CommentFactory();
+        MakeCommentFactory commentFactory = new MakeCommentFactory();
         MakeCommentViewModel makeCommentViewModel = new MakeCommentViewModel();
         MakeCommentPresenter makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
-        MakeCommentDatabaseAccess makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(generalPath);
+        MakeCommentDsGateway makeCommentDatabaseAccess = new MakeCommentDatabaseAccess(generalPath);
         MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(makeCommentDatabaseAccess, makeCommentPresenter, commentFactory);
         MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
         MakeCommentView makeCommentView = new MakeCommentView(makeCommentController);
 
 
         // initialize stuff for log in
-        UserFactory userFactory1 = new UserFactory();
+        LogInUserFactory logInUserFactory = new LogInUserFactory();
         LogInViewModel logInViewModel = new LogInViewModel();
         LogInOutputBoundary logInPresenter = new LogInPresenter(logInViewModel);
         LogInDsGateway logInDatabaseAccess = new LogInDatabaseAccess(usersFilePath);
-        LogInInputBoundary logInInteractor = new LogInInteractor(logInDatabaseAccess, logInPresenter, userFactory1);
+        LogInInputBoundary logInInteractor = new LogInInteractor(logInDatabaseAccess, logInPresenter, logInUserFactory);
         LogInController logInController = new LogInController(logInInteractor);
         LogInView logInView = new LogInView(logInController);
 
@@ -154,12 +149,12 @@ public class UofTeams {
 
         // initialize stuff for favourite_post
 
-        UserReaderInterface userFactory = new UserFactory();
-        PostReaderInterface postFactory = new PostFactory();
+        FavouriteUserReaderInterface userFactory = new FavouriteUserFactory();
+        FavouritePostReaderInterface postFactory = new FavouritePostFactory();
         FavouriteViewModel favouriteViewModel = new FavouriteViewModel();
         FavouritePresenter favouritePresenter = new FavouritePresenter(favouriteViewModel);
-        FavouriteDatabaseAccess dataAccess = new FavouriteDatabaseAccess(postFactory, userFactory, generalPath);
-        FavouriteInteractor favouriteInteractor = new FavouriteInteractor(dataAccess, favouritePresenter);
+        FavouriteDatabaseAccess favouriteDatabaseAccess = new FavouriteDatabaseAccess(postFactory, userFactory, generalPath);
+        FavouriteInteractor favouriteInteractor = new FavouriteInteractor(favouriteDatabaseAccess, favouritePresenter);
         FavouriteController favouriteController = new FavouriteController(favouriteInteractor);
         FavouriteView favouriteView = new FavouriteView(favouriteController);
 

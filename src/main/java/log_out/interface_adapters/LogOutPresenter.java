@@ -14,6 +14,6 @@ public class LogOutPresenter implements LogOutOutputBoundary {
 
     @Override
     public void present(LogOutResponseModel responseModel) {
-        viewModel.updateViewModel(new LogOutPresenterData(responseModel.isSuccess()));
+        viewModel.updateViewModel(new LogOutUserOutputData(responseModel.isSuccess()));
     }
 }

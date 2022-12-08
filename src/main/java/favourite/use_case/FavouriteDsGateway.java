@@ -20,7 +20,7 @@ public interface FavouriteDsGateway {
      * @param postID the integer ID of the post being favourited/unfavourited
      * @return a Post object
      */
-    Post getPost(int postID);
+    Post getPostFavourite(int postID);
 
     /**
      * Rewrites entire csv with the updated User
