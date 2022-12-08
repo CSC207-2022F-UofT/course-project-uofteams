@@ -5,6 +5,7 @@ import entities.User;
 import favourite.use_case.UserFactory;
 import log_in.interface_adapters.*;
 
+import static jdk.dynalink.linker.support.Guards.isNotNull;
 import static org.junit.Assert.*;
 
 import log_in.use_case.*;
@@ -81,8 +82,16 @@ public class LogInTest {
                     userInfo[1] = adminValueString;
                     userInfo[2] = email;
                     userInfo[3] = pass;
-                    userInfo[4] = posts.get(emailIndex);
-                    userInfo[5] = favs.get(emailIndex);
+                    if (!posts.isEmpty()) {
+                        userInfo[4] = posts.get(emailIndex);
+                    } else {
+                        userInfo[4] = "";
+                    }
+                    if (!favs.isEmpty()) {
+                        userInfo[5] = favs.get(emailIndex);
+                    } else {
+                        userInfo[5] = "";
+                    }
                 } else {
                     return null;
                 }
@@ -160,6 +169,7 @@ public class LogInTest {
 
             }
         };
+        userFactory = new UserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
