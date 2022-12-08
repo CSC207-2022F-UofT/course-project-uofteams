@@ -52,10 +52,12 @@ import view_post.interface_adapters.ViewPostPresenter;
 import view_post.interface_adapters.ViewPostViewModel;
 import view_post.ui.PostListView;
 import view_post.ui.ViewPostView;
-import view_post.use_case.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import view_post.use_case.ViewPostDsGateway;
+import view_post.use_case.ViewPostInputBoundary;
+import view_post.use_case.ViewPostInteractor;
+import view_post.use_case.ViewPostOutputBoundary;
 
+import java.beans.PropertyChangeListener;
 
 import static org.junit.Assert.assertEquals;
 
@@ -67,18 +69,22 @@ import static org.junit.Assert.assertEquals;
  * use_case: 97%
  * The UI is not being tested.
  */
+@SuppressWarnings("all")
 public class ViewPostTest {
 
-    private String partialPath = "src/test/java/view_post/";
     private ViewPostOutputBoundary presenter;
     private ViewPostDsGateway dataAccess;
     private ViewPostInputBoundary interactor;
     private ViewPostController controller;
-    private ViewPostViewModel viewPostViewModel;
-    private ViewPostView viewPostView;
+    private final ViewPostViewModel viewPostViewModel;
+
+    public ViewPostTest(ViewPostViewModel viewPostViewModel) {
+        this.viewPostViewModel = viewPostViewModel;
+    }
 
     @Before
     public void setUp() {
+        String partialPath = "src/test/java/view_post/";
         dataAccess = new ViewPostDatabaseAccess(partialPath);
 
         // setting up viewPostView by creating favouriteView and makeCommentView
@@ -104,7 +110,7 @@ public class ViewPostTest {
         DeletePostViewModel deletePostViewModel = new DeletePostViewModel();
         DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
         DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess("", postFactory1);
-        DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
+        DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor(deletePostPresenter, deletePostDataAccess);
         DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
         DeleteView deleteView = new DeleteView(deletePostController);
         ViewCommentViewModel viewCommentViewModel = new ViewCommentViewModel();
@@ -113,7 +119,7 @@ public class ViewPostTest {
         ViewCommentInputBoundary viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
         ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
         ViewCommentView viewCommentView = new ViewCommentView(viewCommentController);
-        FilterPostViewModel filterPostViewModel = new FilterPostViewModel(new String[0], new int[0], new String[0]);
+        FilterPostViewModel filterPostViewModel = new FilterPostViewModel();
         FilterPostOutputBoundary filterPostPresenter = new FilterPostPresenter(filterPostViewModel);
         FilterPostDsGateway filterPostDataAccess = new FilterPostDataAccess(partialPath);
         FilterPostInputBoundary filterPostInteractor = new FilterPostInteractor(filterPostDataAccess, filterPostPresenter);
@@ -127,7 +133,7 @@ public class ViewPostTest {
         FilterPostBarView filterPostBarView = new FilterPostBarView(new String[]{"sports", "quantum", "math"}, filterPostController);
         PostListView postListView = new PostListView(viewPostController, filterPostBarView);
 
-        viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView, postListView);
+        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView, postListView);
         viewPostViewModel = new ViewPostViewModel();
 
     }
@@ -137,12 +143,9 @@ public class ViewPostTest {
     }
     @Test
     public void testRetrievePostsWithObserver(){
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String propertyName = "show post";
-                assertEquals(propertyName, evt.getPropertyName());
-            }
+        PropertyChangeListener observer = evt -> {
+            String propertyName = "show post";
+            assertEquals(propertyName, evt.getPropertyName());
         };
         viewPostViewModel.addObserver(observer);
         presenter = new ViewPostPresenter(viewPostViewModel);
@@ -156,26 +159,23 @@ public class ViewPostTest {
      */
     @Test
     public void testRetrievePosts(){
-        presenter = new ViewPostOutputBoundary() {
-            @Override
-            public void updateActivePost(ViewPostResponseModel responseModel) {
-                String postEmail = responseModel.getPosterEmail();
-                String postBody = responseModel.getPostBody();
-                String postTags = responseModel.getPostTags();
-                String deadline = responseModel.getDeadline();
-                String creationDate = responseModel.getCreationDate();
-                String collaborators = responseModel.getCollaborators();
-                int postID = responseModel.getPostID();
-                String title = responseModel.getTitle();
-                assertEquals("test@mail.utoronto.ca", postEmail);
-                assertEquals("test", postBody);
-                assertEquals("test1, test2", postTags);
-                assertEquals("2023-01-31", deadline);
-                assertEquals("2022-12-31", creationDate);
-                assertEquals("test", collaborators);
-                assertEquals(1, postID);
-                assertEquals("test", title);
-            }
+        presenter = responseModel -> {
+            String postEmail = responseModel.getPosterEmail();
+            String postBody = responseModel.getPostBody();
+            String postTags = responseModel.getPostTags();
+            String deadline = responseModel.getDeadline();
+            String creationDate = responseModel.getCreationDate();
+            String collaborators = responseModel.getCollaborators();
+            int postID = responseModel.getPostID();
+            String title = responseModel.getTitle();
+            assertEquals("test@mail.utoronto.ca", postEmail);
+            assertEquals("test", postBody);
+            assertEquals("test1, test2", postTags);
+            assertEquals("2023-01-31", deadline);
+            assertEquals("2022-12-31", creationDate);
+            assertEquals("test", collaborators);
+            assertEquals(1, postID);
+            assertEquals("test", title);
         };
         interactor = new ViewPostInteractor(dataAccess, presenter);
         controller = new ViewPostController(interactor);
@@ -187,38 +187,32 @@ public class ViewPostTest {
      */
     @Test
     public void testRetrieveEmptyPosts(){
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String propertyName = "show error";
-                assertEquals(propertyName, evt.getPropertyName());
-            }
+        PropertyChangeListener observer = evt -> {
+            String propertyName = "show error";
+            assertEquals(propertyName, evt.getPropertyName());
         };
         viewPostViewModel.addObserver(observer);
-        presenter = new ViewPostOutputBoundary() {
-            @Override
-            public void updateActivePost(ViewPostResponseModel responseModel) {
-                String postEmail = responseModel.getPosterEmail();
-                String postBody = responseModel.getPostBody();
-                String postTags = responseModel.getPostTags();
-                String deadline = responseModel.getDeadline();
-                String creationDate = responseModel.getCreationDate();
-                String collaborators = responseModel.getCollaborators();
-                int postID = responseModel.getPostID();
-                String title = responseModel.getTitle();
-                assertEquals("", postEmail);
-                assertEquals("", postBody);
-                assertEquals("", postTags);
-                assertEquals("", deadline);
-                assertEquals("", creationDate);
-                assertEquals("", collaborators);
-                assertEquals(-1, postID);
-                assertEquals("", title);
+        presenter = responseModel -> {
+            String postEmail = responseModel.getPosterEmail();
+            String postBody = responseModel.getPostBody();
+            String postTags = responseModel.getPostTags();
+            String deadline = responseModel.getDeadline();
+            String creationDate = responseModel.getCreationDate();
+            String collaborators = responseModel.getCollaborators();
+            int postID = responseModel.getPostID();
+            String title = responseModel.getTitle();
+            assertEquals("", postEmail);
+            assertEquals("", postBody);
+            assertEquals("", postTags);
+            assertEquals("", deadline);
+            assertEquals("", creationDate);
+            assertEquals("", collaborators);
+            assertEquals(-1, postID);
+            assertEquals("", title);
 
-                ViewPostOutputData outputData = new ViewPostOutputData(postEmail, postBody, postTags, deadline, creationDate,
-                        collaborators, postID, title);
-                viewPostViewModel.updateView(outputData);
-            }
+            ViewPostOutputData outputData = new ViewPostOutputData(postEmail, postBody, postTags, deadline, creationDate,
+                    collaborators, postID, title);
+            viewPostViewModel.updateView(outputData);
         };
         String emptyPath = "src/test/java/view_post/";
         dataAccess = new ViewPostDatabaseAccess(emptyPath);
