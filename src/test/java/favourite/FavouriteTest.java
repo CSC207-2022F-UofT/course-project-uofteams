@@ -261,7 +261,7 @@ public class FavouriteTest {
     public void testUnfavouritedFirePropertyChange(){
         interactor = new FavouriteInputBoundary() {
             @Override
-            public void favouritepost(FavouriteRequestModel requestModel) {
+            public void favouritePost(FavouriteRequestModel requestModel) {
                 FavouriteResponseModel responseModel = new FavouriteResponseModel(false, true);
                 presenter.present(responseModel);
             }
@@ -290,7 +290,7 @@ public class FavouriteTest {
     public void testFavouritedFirePropertyChange(){
         interactor = new FavouriteInputBoundary() {
             @Override
-            public void favouritepost(FavouriteRequestModel requestModel) {
+            public void favouritePost(FavouriteRequestModel requestModel) {
                 FavouriteResponseModel responseModel = new FavouriteResponseModel(true, false);
                 presenter.present(responseModel);
             }
