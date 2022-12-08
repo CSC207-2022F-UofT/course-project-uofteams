@@ -56,17 +56,12 @@ public class FavouriteDatabaseAccess implements FavouriteDsGateway {
             // finding and retrieving the current user's data
             List<String[]> allUsers = readAllLines(Paths.get(partialPath+"users.csv"));
             String[] userData = new String[6];
-            for (String[] user : allUsers) {
-                try {
-                    int id = Integer.parseInt(user[0]);
-                    if (id == userID) {
-                        userData = user;
+            //i = 1 to skip the header
+            for(int i = 1; i < allUsers.size(); i++){
+                if(userID == Integer.parseInt(allUsers.get(i)[0])){
+                    userData = allUsers.get(i);
                     }
-                } catch (NumberFormatException ex) {
-                    System.out.println("Reading the header of the csv");
-                }
             }
-
             // turning the current user's data into a user object
             return userReader.readUser(userData);
         }catch (IOException e1){
@@ -89,14 +84,10 @@ public class FavouriteDatabaseAccess implements FavouriteDsGateway {
             // finding and retrieving the current user's data
             List<String[]> allPosts = readAllLines(Paths.get(partialPath+"posts.csv"));
             String[] postData = new String[10];
-            for (String[] post : allPosts) {
-                try {
-                    int id = Integer.parseInt(post[0]);
-                    if (id == postID) {
-                        postData = post;
-                    }
-                } catch (NumberFormatException ex) {
-                    System.out.println("Reading the header of the csv");
+            //i = 1 to skip the header
+            for(int i = 1; i < allPosts.size(); i++){
+                if(postID == Integer.parseInt(allPosts.get(i)[0])){
+                    postData = allPosts.get(i);
                 }
             }
             return postReader.readPost(postData);
