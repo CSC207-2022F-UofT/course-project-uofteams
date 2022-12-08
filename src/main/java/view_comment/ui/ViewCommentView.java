@@ -41,7 +41,7 @@ public class ViewCommentView extends JPanel implements ActionListener ,PropertyC
      *
      * @param evt A PropertyChangeEvent object describing the event source
      *          and the property that has changed.
-     * decides based on evt to make a error panel or display the comments.
+     * decides based on evt to make an error panel or display the comments.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

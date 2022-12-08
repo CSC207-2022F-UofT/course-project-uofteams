@@ -49,14 +49,6 @@ public class FilterPostBarView extends JPanel implements ActionListener{
         this.add(filterButton);
     }
 
-    /*
-     * Start the use case for filtering posts, but input a keyword which retrieves all posts
-     * */
-    public void defaultView() {
-        String[] filterTags = new String[0];
-        filterPostController.filter(filterTags);
-    }
-
     /**
      * React to a button click and start the use case for filtering posts.
      * @param e the event to be processed

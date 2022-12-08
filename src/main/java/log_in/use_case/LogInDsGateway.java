@@ -2,8 +2,6 @@ package log_in.use_case;
 
 import entities.User;
 
-import java.util.ArrayList;
-
 public interface LogInDsGateway {
 
     // checks if the email exists in the database

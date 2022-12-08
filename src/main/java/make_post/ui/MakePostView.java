@@ -29,7 +29,7 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
      * @param makePostController The controller for the Make Post use case.
      */
     public MakePostView(String[] presetTags, MakePostController makePostController){
-        this.TAGS = presetTags;
+        TAGS = presetTags;
         this.makePostController = makePostController;
         this.tagsList = new JList<>(TAGS);
         this.enterTitle = new JTextField(1);

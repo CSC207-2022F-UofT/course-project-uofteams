@@ -12,7 +12,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
 /**
- * DatabaseAccess class for the View commnet use case
+ * DatabaseAccess class for the View comment use case
  */
 public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
     private final String filepath;

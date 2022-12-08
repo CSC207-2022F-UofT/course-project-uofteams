@@ -3,7 +3,6 @@ package view_post.ui;
 
 import delete_post.UI.DeleteView;
 import favourite.ui.FavouriteView;
-
 import make_comment.ui.MakeCommentView;
 import view_comment.ui.ViewCommentView;
 import view_post.interface_adapters.ViewPostOutputData;
@@ -12,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
 /**
  * The view of that displays the post the user selected to view
@@ -134,7 +133,7 @@ public class ViewPostView extends JPanel implements PropertyChangeListener {
 
         // adding tags
         JLabel tags;
-        if (outputData.getPostTags() == ""){
+        if (Objects.equals(outputData.getPostTags(), "")){
             tags = new JLabel("Tags: None");
         } else{
             tags = new JLabel("Tags: " + outputData.getPostTags());

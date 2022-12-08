@@ -10,7 +10,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * The view that displays the search engine and the list of posts the user can choose to view.
@@ -25,8 +25,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
     // controller of this use case
     private final ViewPostController controller;
     //
-    private JList list;
-    private FilterPostBarView barView;
+    private JList<String> list;
     private int deletedPostID;
 
     /**
@@ -39,7 +38,6 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         this.postList = new JPanel();
         this.add(this.postList);
         // the FilterPostBarView is added directly into PostListView so that it does not get removed in displayList()
-        this.barView = filterBar;
         this.add(filterBar);
         this.titles = null;
         this.ids = null;
@@ -65,7 +63,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
         if (titles.length == 0){
             this.defaultDisplay(); // if there are no posts display the defaultDisplay
         }else{
-            JList titleList = new JList<>(this.titles);
+            JList<String> titleList = new JList<>(this.titles);
             this.list = titleList;
             this.list.addListSelectionListener(this);
             titleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -95,6 +93,7 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
      *          and the property that has changed.
      */
     @Override
+    @SuppressWarnings("all")
     public void propertyChange(PropertyChangeEvent evt) {
         if ("Search".equals(evt.getPropertyName())){
             ArrayList<Object> newData = (ArrayList<Object>) evt.getNewValue();
@@ -130,13 +129,11 @@ public class PostListView extends JPanel implements PropertyChangeListener, List
     public void refresh(){
         //this.ids are the ids currently in the PostListView; this.titles are analogous.
         ArrayList<Integer> tempIDs = new ArrayList<>();
-        for(int i = 0; i < ids.length; i++){
-            tempIDs.add(ids[i]);
+        for (int id : ids) {
+            tempIDs.add(id);
         }
         ArrayList<String> tempTitles = new ArrayList<>();
-        for(int i = 0; i < titles.length; i++){
-            tempTitles.add(titles[i]);
-        }
+        Collections.addAll(tempTitles, titles);
 
         int indexToBeDeleted = tempIDs.indexOf(this.deletedPostID);
         tempIDs.remove(indexToBeDeleted);

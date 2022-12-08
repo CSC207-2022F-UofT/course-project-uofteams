@@ -28,8 +28,8 @@ public class LogInDatabaseAccess implements LogInDsGateway {
     @Override
     public boolean checkUserEmailExists(String email){
         ArrayList<String> emails = this.getData(2);
-        for (int i = 0 ; i < emails.size(); i++ ){
-            if (emails.get(i).equals(email)){
+        for (String s : emails) {
+            if (s.equals(email)) {
                 return true;
             }
         }
@@ -113,7 +113,7 @@ public class LogInDatabaseAccess implements LogInDsGateway {
             userInfo = new ArrayList<>();
         }
 
-        ArrayList<String> data = new ArrayList<String>();
+        ArrayList<String> data = new ArrayList<>();
 
         for (String[] usersInfo: userInfo){
             data.add(usersInfo[indexInfo]);

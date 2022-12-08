@@ -14,9 +14,9 @@ public class ViewCommentViewModel {
      * Initializes ViewCommentViewModel.
      */
     public ViewCommentViewModel(){
-        this.bodys = new ArrayList<String>();
-        this.commentators = new ArrayList<String>();
-        this.creationDates = new ArrayList<String>();
+        this.bodys = new ArrayList<>();
+        this.commentators = new ArrayList<>();
+        this.creationDates = new ArrayList<>();
         this.observable = new PropertyChangeSupport(this);
     }
 
@@ -32,7 +32,7 @@ public class ViewCommentViewModel {
     /**
      * Fires a property change to trigger the propertyChange method in ViewCommentView
      * @param isReplies indicates if this post has replies.
-     * @param errorMessage errormessage if use_case fails for whatever reason.
+     * @param errorMessage errormessage is used if this use_case fails for whatever reason.
      * @param bodys body of comments to be viewed
      * @param commentators commentators of comments to be viewed
      * @param creationDates creationDates of comments to be viewed

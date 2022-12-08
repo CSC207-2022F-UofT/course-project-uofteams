@@ -16,7 +16,7 @@ import java.util.List;
  * DatabaseAccess class for the View Post use case
  */
 public class ViewPostDatabaseAccess implements ViewPostDsGateway {
-    // partialpath is a String that contains the partial directory that leads to all csv files in the program
+    // partialPath is a String that contains the partial directory that leads to all csv files in the program
     // it is isolated from the file name so that in case the file is moved, the code is still compatible
     private final String partialPath;
 
@@ -98,10 +98,10 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
     /**
      * Retrieves the data of the post being displayed
      *
-     * @param postid the id of the post being displayed
+     * @param postId the id of the post being displayed
      * @return data of a post
      */
-    private String[] getPostData(int postid){
+    private String[] getPostData(int postId){
         try {
             // finding the post in the database
             List<String[]> allPosts = readAllLines(Paths.get(partialPath + "posts.csv"));
@@ -109,7 +109,7 @@ public class ViewPostDatabaseAccess implements ViewPostDsGateway {
             String[] postData = new String[10];
             for (String[] post : allPosts) {
                 int id = Integer.parseInt(post[0]);
-                if (id == postid) {
+                if (id == postId) {
                     postData = post;
                 }
 

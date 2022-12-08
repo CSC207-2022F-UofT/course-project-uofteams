@@ -81,20 +81,15 @@ import view_post.ui.*;
 import view_post.use_case.ViewPostDsGateway;
 import view_post.use_case.ViewPostInteractor;
 
-import java.util.Arrays;
-
 /*
 * The main class for the file, containing the main method which runs the program
 * */
 public class UofTeams {
-    static String adminPath = new String("src/main/java/Database/admin.csv");
-    static String numPostsCreatedFilePath = new String("src/main/java/Database/numPostsCreated.csv");
-    static String numUsersCreatedFilePath = new String("src/main/java/Database/numUsersCreated.csv");
-    static String numCommentsCreatedFilePath = new String("");
-    static String postsFilePath = new String("src/main/java/Database/posts.csv");
-    static String usersFilePath = new String("src/main/java/Database/users.csv");
-    static String commentsFilePath = new String("src/main/java/Database/comments.csv");
-    static String generalPath = new String("src/main/java/Database/");
+    static String adminPath = "src/main/java/Database/admin.csv";
+    static String numUsersCreatedFilePath = "src/main/java/Database/numUsersCreated.csv";
+    static String postsFilePath = "src/main/java/Database/posts.csv";
+    static String usersFilePath = "src/main/java/Database/users.csv";
+    static String generalPath = "src/main/java/Database/";
 
     public static void main(String[] args) {
         // initialize stuff for delete_post
@@ -102,7 +97,7 @@ public class UofTeams {
         DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
         delete_post.use_case.PostReaderInterface deletePostFactory = new delete_post.use_case.PostFactory();
         DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess(generalPath, deletePostFactory);
-        DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
+        DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor(deletePostPresenter, deletePostDataAccess);
         DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
         DeleteView deleteView = new DeleteView(deletePostController);
 
@@ -140,15 +135,6 @@ public class UofTeams {
         MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
         MakeCommentView makeCommentView = new MakeCommentView(makeCommentController);
 
-
-
-        // initialize stuff for timer
-        /*
-        PostFactory postFactory = new PostFactory();
-        TimerDataAccess timerDataAccess = new TimerDataAccess(postsFilePath, postFactory);
-        TimerInteractor timerInteractor = new TimerInteractor(timerDataAccess, deletePostInteractor);
-        TimerController timerController = new TimerController(timerInteractor);
-         */
 
         // initialize stuff for log in
         UserFactory userFactory1 = new UserFactory();

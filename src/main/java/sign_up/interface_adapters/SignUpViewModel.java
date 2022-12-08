@@ -1,7 +1,5 @@
 package sign_up.interface_adapters;
 
-import sign_up.use_case.*;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
