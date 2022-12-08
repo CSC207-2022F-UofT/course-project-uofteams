@@ -30,7 +30,11 @@ public class DeletePostFactory implements DeletePostReaderInterface {
         // tags
         String[] tagArray = postData[4].split(" ");
         List<String> tags = new ArrayList<>();
-        Collections.addAll(tags, tagArray);
+        for (String tag : tagArray) {
+            if(!(tag.equals(""))){
+                tags.add(tag);
+            }
+        }
         //collaborators
         String collaborators = postData[5];
 
@@ -47,18 +51,16 @@ public class DeletePostFactory implements DeletePostReaderInterface {
         String[] favIds = postData[8].split(" ");
         List<Integer> favouritedUsersIDs = new ArrayList<>();
         for (String ids : favIds) {
-            try{favouritedUsersIDs.add(Integer.parseInt(ids));
-            }catch(NumberFormatException e){
-                // let it pass, let the for loop continue
+            if(!(ids.equals(""))){
+                favouritedUsersIDs.add(Integer.parseInt(ids));
             }
         }
         // creating a List of Integers of ids of the replies (Comments) made on that post
         String[] replyIds = postData[9].split(" ");
         List<Integer> repliesIDs = new ArrayList<>();
         for (String ids : replyIds) {
-            try{repliesIDs.add(Integer.parseInt(ids));
-            }catch(NumberFormatException e){
-                // let it pass, let the for loop continue
+            if(!(ids.equals(""))){
+                repliesIDs.add(Integer.parseInt(ids));
             }
         }
 
