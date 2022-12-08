@@ -6,8 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class FilterPostBarView extends JPanel implements ActionListener{
+public class FilterPostBarView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String[] TAGS;
     private final FilterPostController filterPostController;
     private final JList<String> list;
@@ -69,5 +71,13 @@ public class FilterPostBarView extends JPanel implements ActionListener{
         }
 
         filterPostController.filter(filterTags);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName().equals("Log Out")){
+            list.clearSelection();
+            activeFilters.setText("None");
+        }
     }
 }
