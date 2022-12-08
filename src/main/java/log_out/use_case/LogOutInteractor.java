@@ -16,10 +16,9 @@ public class LogOutInteractor implements LogOutInputBoundary {
 
     /**
      * sets the current user to null to indicate a user logging out
-     * @param requestModel this requestModel indicates that a log_out request was made
      * @return A response model is returned for the output boundary to present
      */
-    private LogOutResponseModel logOutUser(LogOutRequestModel requestModel){
+    private LogOutResponseModel logOutUser(){
         CurrentUser.setCurrentUser(null);
         return new LogOutResponseModel(true);
     }
@@ -30,7 +29,7 @@ public class LogOutInteractor implements LogOutInputBoundary {
      */
     @Override
     public void logOut(LogOutRequestModel requestModel) {
-        LogOutResponseModel responseModel = this.logOutUser(requestModel);
+        LogOutResponseModel responseModel = this.logOutUser();
         this.outputBoundary.present(responseModel);
     }
 }

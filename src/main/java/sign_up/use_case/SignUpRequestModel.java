@@ -5,16 +5,16 @@ package sign_up.use_case;
  */
 public class SignUpRequestModel {
     // The inputted email for the account
-    private String email;
+    private final String email;
 
     // The inputted password for the account
-    private String password;
+    private final String password;
 
     // boolean on whether to check admin password
-    private boolean checkAdmin;
+    private final boolean checkAdmin;
 
     // The input attempt for admin password
-    private String adminPassword;
+    private final String adminPassword;
 
     /**
     * Initializes a SignUpResponseModel

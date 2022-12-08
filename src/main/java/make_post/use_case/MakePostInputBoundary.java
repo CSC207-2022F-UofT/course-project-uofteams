@@ -8,7 +8,7 @@ public interface MakePostInputBoundary {
     void makePost(MakePostRequestModel requestModel);
 
     /**
-     * @return the number of posrs created so far.
+     * @return the number of posts created so far.
      */
     int getNumPostsCreated();
 

@@ -66,6 +66,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         this.add(inputButton);
     }
 
+
     /**
     * React to a button click and start the Sign Up use case
     *  @param e The event to be processed
@@ -118,11 +119,13 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         }
     }
 
+
     /**
      * A nested class of SignUpView which displays a button for switching between sections
      * on the landing
      */
     private class BackButton extends JPanel implements ActionListener{
+
         private final PropertyChangeSupport observable;
 
         /**

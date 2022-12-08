@@ -29,7 +29,7 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
      * @param makePostController The controller for the Make Post use case.
      */
     public MakePostView(String[] presetTags, MakePostController makePostController){
-        this.TAGS = presetTags;
+        TAGS = presetTags;
         this.makePostController = makePostController;
         this.tagsList = new JList<>(TAGS);
         this.enterTitle = new JTextField(1);
@@ -118,6 +118,11 @@ public class MakePostView extends JPanel implements ActionListener, PropertyChan
                             JOptionPane.ERROR_MESSAGE);
                     break;
             }
+        }
+        if (evt.getPropertyName().equals("creation success")) {
+            JFrame successFrame = new JFrame("Success");
+            JOptionPane.showMessageDialog(successFrame, "Your post has been created :) Please close the window" +
+                    " in which you made your post.", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

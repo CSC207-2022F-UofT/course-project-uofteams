@@ -17,19 +17,16 @@ public class FilterPostMain {
         JFrame frame = new JFrame();
 
         FilterPostDsGateway dsGateway = new FilterPostDataAccess("src/test/java/filter_post/posts.csv");
-        FilterPostOutputBoundary presenter = new FilterPostOutputBoundary() {
-            @Override
-            public void updateViewablePosts(FilterPostResponseModel filteredPosts) {
-                StringBuilder output = new StringBuilder();
-                String[][] posts = filteredPosts.getFilteredPosts();
+        FilterPostOutputBoundary presenter = filteredPosts -> {
+            StringBuilder output = new StringBuilder();
+            String[][] posts = filteredPosts.getFilteredPosts();
 
-                for (String[] post: posts) {
-                    output.append(String.join(" ", post));
-                    output.append("\n");
-                }
-
-                JOptionPane.showMessageDialog(frame, output);
+            for (String[] post: posts) {
+                output.append(String.join(" ", post));
+                output.append("\n");
             }
+
+            JOptionPane.showMessageDialog(frame, output);
         };
         FilterPostInputBoundary interactor = new FilterPostInteractor(dsGateway, presenter);
         FilterPostController controller = new FilterPostController(interactor);
