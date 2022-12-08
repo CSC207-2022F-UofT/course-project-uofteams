@@ -1,6 +1,1 @@
 postID,posterID,title,mainDescription,tags,collaborators,deadline,creationDate, favouritedUsersIDs,repliesIDs
-1,2,My new and shiny project,This is the description of my project. Who wants to join me?,tag1 tag2,,2022-12-25,2022-11-11,1 4,
-2,4,I want to start a Quant company,This is the description of my project. Who wants to join me?,"",,2022-12-25,2022-11-11,1,
-3,3,Join my dance club!,This is the description of my project. Who wants to join me?,tag3,,2022-12-25,2022-11-11,2,
-4,2,UofT Merch Company,This is the description of my project. Who wants to join me?,tag1 tag3,,2022-12-25,2022-11-11,4,
-5,1,UofT Grey's Anatomy fan community,This is the description of my project. Who wants to join me?,tag1,,2022-12-25,2022-11-11,,
