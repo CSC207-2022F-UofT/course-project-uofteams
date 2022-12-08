@@ -1,6 +1,5 @@
 package delete_post;
 
-import com.opencsv.CSVWriter;
 import delete_post.drivers.DeletePostDataAccess;
 import entities.CurrentUser;
 import entities.Post;
@@ -12,15 +11,8 @@ import org.junit.After;
 import delete_post.interface_adapters.*;
 import delete_post.use_case.*;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public class DeletePostTest {
     DeletePostController controller;
