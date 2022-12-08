@@ -31,7 +31,8 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
         List<String[]> postsWithTag = new ArrayList<>();
         List<String[]> posts = postsGateway.getPosts();
 
-        if (filterTags==null){
+        ArrayList<String> countable1 = new ArrayList( Arrays.asList(filterTags) );
+        if (countable1.isEmpty()){
             for (String[] postInfo : posts) {
                 String postTags = postInfo[4];
                 if (containsAllWords(postTags, filterTags)) {
@@ -64,8 +65,8 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
                 list.remove("MyPosts");
                 filterTags = list.toArray(new String[list.size()]);
             }
-            ArrayList<String> countable = new ArrayList( Arrays.asList(filterTags) );
-            if (!countable.isEmpty()){
+            ArrayList<String> countable2 = new ArrayList( Arrays.asList(filterTags) );
+            if (!countable2.isEmpty()){
                 for (String[] postInfo : posts) {
                     String postTags = postInfo[4];
                     if (containsAllWords(postTags, filterTags)) {
