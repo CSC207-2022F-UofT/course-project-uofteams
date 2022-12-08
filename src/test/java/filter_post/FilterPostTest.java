@@ -152,9 +152,10 @@ public class FilterPostTest {
         PropertyChangeListener observer = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                List<String> properties = new ArrayList<>(Arrays.asList("titles", "ids", "descriptions"));
+                String property = "Search";
 
-                assertTrue(properties.contains(evt.getPropertyName()));
+                assertEquals(property, evt.getPropertyName());
+
             }
         };
 

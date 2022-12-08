@@ -1,7 +1,7 @@
 package view_post.use_case;
 
 /**
- * A data class for storing the input data.
+ * A data structure class for storing the input data.
  */
 public class ViewPostRequestModel {
     private final int postID;

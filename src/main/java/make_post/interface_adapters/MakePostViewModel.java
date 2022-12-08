@@ -22,6 +22,11 @@ public class MakePostViewModel {
         this.observable.addPropertyChangeListener("creation failure", observer);
     }
 
+    /**
+     * Fires property changes, which the view detects and responds to.
+     * @param creationSuccess boolean indicating whether creation of post was a success.
+     * @param errorMessage corresponding error message.
+     */
     public void updateViewModel(boolean creationSuccess, String errorMessage) {
         observable.firePropertyChange("creation success", false, creationSuccess);
         observable.firePropertyChange("creation failure", "", errorMessage);
