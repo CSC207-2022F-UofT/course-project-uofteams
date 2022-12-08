@@ -1,6 +1,7 @@
 package filter_post.use_case;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FilterPostInteractor implements FilterPostInputBoundary {
@@ -26,6 +27,7 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
     @Override
     public void filterPosts(FilterPostRequestModel filters) {
         String[] filterTags = filters.getFilterTags();
+        List<String[]> postsWithTag = new ArrayList<>();
         // check if my posts is selected
         // check if my favourites is selected
         List<String[]> posts = postsGateway.getPosts();
@@ -66,13 +68,19 @@ public class FilterPostInteractor implements FilterPostInputBoundary {
     }
 
     /**
-     * hello
+     * Pulls all the relevant data for the posts in the current user's favourites list.
      */
-    private void filterMyFavourites(){}
+    private List<String[]> filterMyFavourites(String[] filterTags, List<String[]> postsWithTag){
+        if (Arrays.asList(filterTags).contains("Favourites")){
 
+        }
+        return postsWithTag;
+    }
 
     /**
-     * hello
+     * Pulls all the relevant data for the posts in the current user's favourites list.
      */
-    private void filterMyPosts(){}
+    private List<String[]> filterMyPosts(String[] filterTags, List<String[]> postsWithTag){
+        return postsWithTag;
+    }
 }

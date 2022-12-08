@@ -86,7 +86,8 @@ import view_post.use_case.ViewPostInteractor;
 * */
 public class UofTeams {
     static final String[] tags = new String[]{"Sports", "Clubs", "Jobs", "Startups", "Tech", "School", "Projects"};
-    static final String[] tagsWithFavourites = new String[]{"Favourites", "Sports", "Clubs", "Jobs", "Startups", "Tech", "School", "Projects"};
+    static final String[] tagsWithFavourites = new String[]{"MyPosts", "Favourites", "Sports", "Clubs", "Jobs",
+            "Startups", "Tech", "School", "Projects"};
     static String postsFilePath = "src/main/java/Database/posts.csv";
     static String usersFilePath = "src/main/java/Database/users.csv";
     static String generalPath = "src/main/java/Database/";

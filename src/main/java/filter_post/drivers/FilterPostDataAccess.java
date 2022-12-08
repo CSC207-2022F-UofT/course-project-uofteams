@@ -5,6 +5,7 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.validators.RowMustHaveSameNumberOfColumnsAsFirstRowValidator;
 import com.opencsv.validators.RowValidator;
+import entities.CurrentUser;
 import filter_post.use_case.FilterPostDsGateway;
 
 import java.io.File;
@@ -49,5 +50,23 @@ public class FilterPostDataAccess implements FilterPostDsGateway {
             System.out.println("Error during reading file");
         }
         return new ArrayList<>();
+    }
+
+    /**
+     * Return a list of IDs of the posts the Current User has favourited
+     */
+    @Override
+    public ArrayList<Integer> getFavourites() {
+        int userID = CurrentUser.getCurrentUser().getId();
+
+        return null;
+    }
+
+    /**
+     * Return a list of IDs of the posts the Current User has made
+     */
+    @Override
+    public ArrayList<Integer> getMyPosts() {
+        return null;
     }
 }
