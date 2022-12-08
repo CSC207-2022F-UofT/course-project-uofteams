@@ -118,7 +118,7 @@ public class ViewPostTest {
         FilterPostDsGateway filterPostDataAccess = new FilterPostDataAccess(partialPath);
         FilterPostInputBoundary filterPostInteractor = new FilterPostInteractor(filterPostDataAccess, filterPostPresenter);
         FilterPostController filterPostController = new FilterPostController(filterPostInteractor);
-        ViewPostViewModel viewPostViewModel = new ViewPostViewModel();
+        viewPostViewModel = new ViewPostViewModel();
         ViewPostPresenter viewPostPresenter = new ViewPostPresenter(viewPostViewModel);
         ViewPostDsGateway viewPostGateway = new ViewPostDatabaseAccess(partialPath);
         ViewPostInteractor viewPostInteractor = new ViewPostInteractor(viewPostGateway, viewPostPresenter);
@@ -128,7 +128,6 @@ public class ViewPostTest {
         PostListView postListView = new PostListView(viewPostController, filterPostBarView);
 
         viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView, postListView);
-        viewPostViewModel = new ViewPostViewModel();
 
     }
     @After
