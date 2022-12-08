@@ -5,6 +5,7 @@ import entities.User;
 import log_in.use_case.exceptions.UserException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LogInInteractor implements LogInInputBoundary {
     private final LogInDsGateway access;
@@ -52,14 +53,17 @@ public class LogInInteractor implements LogInInputBoundary {
      */
     private void setCurrentUser(String email, String pass){
         // create a factory to create the user for clean architecture
-        ArrayList<String> userInfo;
-        userInfo = access.getUser(true, email, pass);
-        String userEmail = userInfo.get(0);
-        String userPass = userInfo.get(1);
-        String userAdminInfo = userInfo.get(2);
-        boolean isAdmin = userAdminInfo.equals("True");
+        String[] userInfo;
+        userInfo = access.getUser(email, pass);
 
-        User currentUser = this.userFactory.create(isAdmin, 0, userEmail, userPass);
+        boolean isAdmin = userInfo[1].equals("True");
+
+        List<Integer> userPosts = this.userFactory.convertPost(userInfo[4]);
+
+        List<Integer> userFavs = this.userFactory.convertPost(userInfo[5]);
+
+        User currentUser = this.userFactory.create(isAdmin, 0, userInfo[2],
+                userInfo[3], userPosts, userFavs);
         CurrentUser.setCurrentUser(currentUser);
     }
 
