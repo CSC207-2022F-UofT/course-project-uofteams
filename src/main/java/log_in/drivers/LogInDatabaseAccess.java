@@ -3,6 +3,7 @@ package log_in.drivers;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.CSVReader;
 import log_in.use_case.LogInDsGateway;
+import use_case_general.UserReaderInterface;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -12,9 +13,11 @@ import java.util.ArrayList;
 
 public class LogInDatabaseAccess implements LogInDsGateway {
     private final String userPath;
+    private final UserReaderInterface userReader;
 
-    public LogInDatabaseAccess(String userPath){
+    public LogInDatabaseAccess(String userPath, UserReaderInterface userReader){
         this.userPath = userPath;
+        this.userReader = userReader;
     }
 
 
@@ -81,11 +84,10 @@ public class LogInDatabaseAccess implements LogInDsGateway {
             userInfo[3] = pass;
             userInfo[4] = posts.get(emailIndex);
             userInfo[5] = favs.get(emailIndex);
+
         } else {
             return null;
         }
-
-        return userInfo;
     }
 
     /**

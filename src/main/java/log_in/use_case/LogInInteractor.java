@@ -48,12 +48,15 @@ public class LogInInteractor implements LogInInputBoundary {
     }
 
     /**
+
      * @param email email of user that logged in
      * @param pass password of user that logged in
      * @param success if the LogInCheck was successful or not
+
      */
     private void setCurrentUser(boolean success, String email, String pass){
         // create a factory to create the user for clean architecture
+
         String[] userInfo;
         userInfo = access.getUser(success, email, pass);
 
@@ -66,6 +69,7 @@ public class LogInInteractor implements LogInInputBoundary {
         User currentUser = this.userFactory.create(isAdmin, 0, userInfo[2],
                 userInfo[3], userPosts, userFavs);
         CurrentUser.setCurrentUser(currentUser);
+
     }
 
     /**
@@ -86,7 +90,9 @@ public class LogInInteractor implements LogInInputBoundary {
             throw new UserException("Incorrect Password");
         }
         if (this.checkPassword(requestModel.getEmail(), requestModel.getPassword())){
+
             this.setCurrentUser(true, requestModel.getEmail(), requestModel.getPassword());
+
         }
         return new LogInResponseModel(true, "");
     }

@@ -2,6 +2,7 @@
 
 UofTeams allows UofT students to create accounts with the purpose of creating time-sensitive posts to advertise extracurricular opportunities. The user may search for other posts by filtering by user or specific tags. A user also has the option of commenting on or favouriting a post if they’re interested in an opportunity. Users should have the option to edit and delete their own posts, respond to posts and comments, and view users who have “favourited” their own posts. Certain users are designated as “administrator accounts” which help moderate the forums.
 
+
 ## Dependencies
 - JUnit (4.13.1)
 - OpenCSV (5.7.1)
@@ -22,3 +23,4 @@ We chose to use the Observer pattern instead of another design pattern when impl
 
 ### Explanation of Code Structure
 We have our individual use case folders in the same level as our entities folder because we want all our use cases to be able to manipulate the entities without having to redefine multiple of the same entity across all use cases.
+

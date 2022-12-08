@@ -8,6 +8,7 @@ import sign_up.ui.MasterLandingView;
 import sign_up.ui.SignUpView;
 import sign_up.use_case.SignUpDsGateway;
 import sign_up.use_case.SignUpInteractor;
+import use_case_general.UserFactory;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -49,9 +50,10 @@ public class SignUpViewTest {
                 return "123";
             }
         };
+        UserFactory userFactory = new UserFactory();
         SignUpViewModel signUpViewModel = new SignUpViewModel();
         SignUpPresenter presenter = new SignUpPresenter(signUpViewModel);
-        SignUpInteractor interactor = new SignUpInteractor(dsGateway, presenter);
+        SignUpInteractor interactor = new SignUpInteractor(dsGateway, presenter, userFactory);
         SignUpController controller = new SignUpController(interactor);
 
         SignUpView signUpView = new SignUpView(controller);

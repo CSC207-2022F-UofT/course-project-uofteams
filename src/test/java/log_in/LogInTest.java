@@ -65,9 +65,12 @@ public class LogInTest {
 
             }
 
+
             @Override
+
             public String[] getUser(boolean success, String email, String pass) {
                 String[] userInfo = new String[6];
+
                 if (success){
                     ArrayList<String> ids = this.getData(0);
                     ArrayList<String> emails = this.getData(2);
@@ -92,11 +95,12 @@ public class LogInTest {
                     } else {
                         userInfo[5] = "";
                     }
+
                 } else {
                     return null;
                 }
 
-                return userInfo;
+                return new User(Boolean.getBoolean(userInfo.get(1)), 0, userInfo.get(0), "");
             }
 
             public ArrayList<String> getData(int index){
