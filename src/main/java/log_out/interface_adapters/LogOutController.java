@@ -10,14 +10,17 @@ public class LogOutController {
 
     private final LogOutInputBoundary interactor;
 
-
+    /**
+     * initialize a LogOutController Instance
+     * @param inputBoundary input boundary for the use case
+     */
     public LogOutController(LogOutInputBoundary inputBoundary){
         this.interactor = inputBoundary;
     }
 
     //Initializes the logOut Use case
-    public void logOutInitializer(LogOutControllerData dataFromController){
-        LogOutRequestModel requestModel = new LogOutRequestModel(dataFromController.getLogOutRequest());
+    public void logOutInitializer(LogOutUserInputData dataFromController){
+        LogOutRequestModel requestModel = dataFromController.getLogOutRequest();
         interactor.logOut(requestModel);
     }
 }

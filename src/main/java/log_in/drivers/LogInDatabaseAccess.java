@@ -1,7 +1,6 @@
 package log_in.drivers;
 
 import com.opencsv.exceptions.CsvException;
-import entities.User;
 import com.opencsv.CSVReader;
 import log_in.use_case.LogInDsGateway;
 
@@ -88,13 +87,6 @@ public class LogInDatabaseAccess implements LogInDsGateway {
 
         return userInfo;
     }
-
-    //testing method see LogInTest for usage
-    @Override
-    public void addUser(User user){
-
-    }
-
 
     /**
      * This method will return a List of all the values in a csv file

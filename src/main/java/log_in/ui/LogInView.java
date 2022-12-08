@@ -1,7 +1,8 @@
 package log_in.ui;
 
 import log_in.interface_adapters.LogInController;
-import log_in.interface_adapters.LogInControllerData;
+import log_in.interface_adapters.LogInUserInputData;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,8 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
     private final JTextField enterPassword = new JTextField("");
     private final BackButton backButton = new BackButton();
 
+
+
     /**
      * the log in view that takes users input data and passes it to the controller
      * @param controller the controller that will start the use case
@@ -31,13 +34,14 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
 
         JLabel emptyLabel = new JLabel();
         this.add(emptyLabel);
+
+        this.add(emptyLabel);
+
         this.add(backButton);
 
         this.add(emptyLabel);
 
         JLabel topLabel = new JLabel("Log In to your Account");
-        //topLabel.setFont();
-        // color and size;
         this.add(topLabel);
 
         this.add(emptyLabel);
@@ -46,14 +50,18 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
         this.add(emailLabel);
 
         this.add(emptyLabel);
+
         this.add(enterEmail);
 
         JLabel passLabel = new JLabel("Enter your Password");
         this.add(passLabel);
 
         this.add(emptyLabel);
+
         this.add(enterPassword);
+
         this.add(emptyLabel);
+
         this.add(logInButton);
     }
 
@@ -69,15 +77,15 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
         enterEmail.setText("");
         enterPassword.setText("");
 
-        LogInControllerData input = new LogInControllerData(emailInput, passInput);
+        LogInUserInputData input = new LogInUserInputData(emailInput, passInput);
 
         logInController.logInInitializer(input);
-
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("Login Failure")){
+
             JFrame errorFrame = new JFrame("ERROR");
             switch ((String) evt.getNewValue()){
                 case ("Empty Email or Password"):
