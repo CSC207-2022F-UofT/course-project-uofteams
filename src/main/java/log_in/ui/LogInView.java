@@ -1,7 +1,8 @@
 package log_in.ui;
 
 import log_in.interface_adapters.LogInController;
-import log_in.interface_adapters.LogInControllerData;
+import log_in.interface_adapters.LogInUserInputData;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,7 +77,7 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
         enterEmail.setText("");
         enterPassword.setText("");
 
-        LogInControllerData input = new LogInControllerData(emailInput, passInput);
+        LogInUserInputData input = new LogInUserInputData(emailInput, passInput);
 
         logInController.logInInitializer(input);
     }

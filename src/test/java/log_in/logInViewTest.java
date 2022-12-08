@@ -52,18 +52,17 @@ public class logInViewTest {
             }
 
             @Override
-
-            public ArrayList<String> getUser(boolean success, String email, String pass) {
-                ArrayList<String> userInfo = new ArrayList<>();
+            public String[] getUser(boolean success, String email, String pass) {
+                String[] userInfo = new String[3];
                 if (success){
                     ArrayList<String> emails = this.getData(4);
                     ArrayList<String> admins = this.getData(2);
 
                     int emailIndex = emails.indexOf(email);
                     String adminValueString = admins.get(emailIndex);
-                    userInfo.add(email);
-                    userInfo.add(pass);
-                    userInfo.add(adminValueString);
+                    userInfo[0] = email;
+                    userInfo[1] = pass;
+                    userInfo[2] = adminValueString;
                 } else {
                     return null;
                 }

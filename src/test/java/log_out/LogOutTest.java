@@ -3,7 +3,7 @@ package log_out;
 import entities.CurrentUser;
 import entities.User;
 import log_out.interface_adapters.LogOutController;
-import log_out.interface_adapters.LogOutControllerData;
+import log_out.interface_adapters.LogOutUserInputData;
 import log_out.use_case.LogOutInputBoundary;
 import log_out.use_case.LogOutInteractor;
 import log_out.use_case.LogOutOutputBoundary;
@@ -50,7 +50,7 @@ public class LogOutTest {
         this.addUser(user);
 
         controller = new LogOutController(interactor);
-        LogOutControllerData test = new LogOutControllerData("Log Out");
+        LogOutUserInputData test = new LogOutUserInputData("Log Out");
 
         controller.logOutInitializer(test);
     }
