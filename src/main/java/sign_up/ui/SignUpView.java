@@ -19,9 +19,9 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
     private final JTextField editTextAdmin = new JTextField("");
     private final BackButton backButton = new BackButton();
 
-    /*
-     * A part of the landing view which is responsible for taking user data to sign up and passing it on
-     * @param controller The controller which will start the use case
+    /**
+     * Create a Graphical User Interface (GUI) which takes input data from the user
+     * @param controller The SignUpController for the use case
      */
     public SignUpView(SignUpController controller) {
         this.signUpController = controller;
@@ -66,11 +66,10 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         this.add(inputButton);
     }
 
-    /*
+    /**
     * React to a button click and start the Sign Up use case
-    *
     *  @param e The event to be processed
-    * */
+    */
     @Override
     public void actionPerformed(ActionEvent e) {
         String emailInput = editTextEmail.getText();
@@ -86,6 +85,12 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         signUpController.signUp(inputData);
     }
 
+    /**
+     * Update the GUI, showing an error message or changing to the main view, if signing up is
+     * successful, respectively
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("creation failure")) {
@@ -113,9 +118,16 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         }
     }
 
+    /**
+     * A nested class of SignUpView which displays a button for switching between sections
+     * on the landing
+     */
     private class BackButton extends JPanel implements ActionListener{
         private final PropertyChangeSupport observable;
 
+        /**
+         * Initialize a new BackButton, creating the GUI
+         */
         public BackButton() {
             this.observable = new PropertyChangeSupport(this);
 
@@ -125,16 +137,28 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
             this.add(backButton);
         }
 
+        /**
+         * Add a PropertyChangeListener to observe the BackButton
+         * @param observer the observer which will observe the BackButton
+         */
         public void addObserver(PropertyChangeListener observer) {
             this.observable.addPropertyChangeListener("back button", observer);
         }
 
+        /**
+         * Respond to the BackButton being clicked by updating its observers
+         * @param e the event to be processed
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             observable.firePropertyChange("back button", false, true);
         }
     }
 
+    /**
+     * Add a PropertyChangeListener to observe the BackButton
+     * @param observer the observer which will observe the BackButton
+     */
     public void addObserver(PropertyChangeListener observer) {
         this.backButton.addObserver(observer);
     }
