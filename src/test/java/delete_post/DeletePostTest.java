@@ -132,20 +132,67 @@ public class DeletePostTest {
             List<String[]> commentsCsvBody = commentsCsvReader.readAll();
             assertEquals(commentsCsvBody.get(0)[0], "commentID");
             assertEquals(commentsCsvBody.size(), 1);
+            commentsCsvReader.close();
         } catch (IOException | CsvException e) {
             System.out.println("File could not be found.");
         }
     }
     @Test
-    public void deletePostUserSuccess(){}
-    @Test
-    public void deletePostUserFailure(){}
-    @Test
-    public void deletePostCheckPostDeleted(){}
-    @Test
-    public void deletePostCheckFavListDeleted(){}
-    @Test
-    public void deletePostCheckUserListDeleted(){}
+    public void deletePostUserFailure(){
+        User user = new User(false, 500, "test@mail.utoronto.ca", "test");
+        CurrentUser.setCurrentUser(user);
+        controller.delete(1, false);
+        try{
+        File posts = new File(postPath);
+        FileReader postsReader = new FileReader(posts);
+        CSVReader postsCsvReader = new CSVReader(postsReader);
+        List<String[]> postsCsvBody = postsCsvReader.readAll();
+        String[] postAttributes = postsCsvBody.get(1);
+        String postID = postAttributes[0];
+        String posterID = postAttributes[1];
+        String title = postAttributes[2];
+        String mainDesc = postAttributes[3];
+        String tags = postAttributes[4];
+        String collaborators = postAttributes[5];
+        String deadline = postAttributes[6];
+        String creationDate = postAttributes[7];
+        String favouritedUsersIDs = postAttributes[8];
+        String repliesIDs = postAttributes[9];
+
+        assertEquals(postID, String.valueOf(1));
+        assertEquals(posterID, String.valueOf(1));
+        assertEquals(title, postBody.get(0)[2]);
+        assertEquals(mainDesc, postBody.get(0)[3]);
+        assertEquals(tags, postBody.get(0)[4]);
+        assertEquals(collaborators, postBody.get(0)[5]);
+        assertEquals(deadline, postBody.get(0)[6]);
+        assertEquals(creationDate, postBody.get(0)[7]);
+        assertEquals(favouritedUsersIDs, postBody.get(0)[8]);
+        assertEquals(repliesIDs, postBody.get(0)[9]);
+        postsCsvReader.close();
+
+        File users = new File(userPath);
+        FileReader usersReader = new FileReader(users);
+        CSVReader usersCsvReader = new CSVReader(usersReader);
+        List<String[]> usersCsvBody = usersCsvReader.readAll();
+        assertEquals(usersCsvBody.get(1)[0], "1");
+        assertEquals(usersCsvBody.get(1)[1], "true");
+        assertEquals(usersCsvBody.get(1)[2], "test@mail.utoronto.ca");
+        assertEquals(usersCsvBody.get(1)[3], "pass0");
+        assertEquals(usersCsvBody.get(1)[4], "1 2");
+        assertEquals(usersCsvBody.get(1)[5], "1 2");
+        usersCsvReader.close();
+        File comments = new File(commentPath);
+        FileReader commentsReader = new FileReader(comments);
+        CSVReader commentsCsvReader = new CSVReader(commentsReader);
+        List<String[]> commentsCsvBody = commentsCsvReader.readAll();
+        assertEquals(commentsCsvBody.size(), 2);
+        commentsCsvReader.close();
+        }
+        catch (CsvException | IOException e) {
+            System.out.println("File could not be found.");
+        }
+    }
 
     @After
     public void teardown(){
