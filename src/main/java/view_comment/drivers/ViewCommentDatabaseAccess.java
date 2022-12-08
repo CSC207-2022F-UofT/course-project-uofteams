@@ -12,7 +12,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
 /**
- * DatabaseAccess class for the View commnet use case
+ * DatabaseAccess class for the View comment use case
  */
 public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
     private final String filepath;
@@ -28,7 +28,7 @@ public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
 
 
     /**
-     * @Return a list of all comments.
+     * @return a list of all comments.
      */
     @Override
     public List<String[]> getAllComments() {
@@ -37,7 +37,7 @@ public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
     }
 
     /**
-     * @Return a list of all posts.
+     * @return a list of all posts.
      */
     @Override
     public List<String[]> getAllPosts() {
@@ -46,7 +46,7 @@ public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
     }
 
     /**
-     * @Return helper method for getAllComments and getAllPosts returning list of lists of string.
+     * @return helper method for getAllComments and getAllPosts returning list of lists of string.
      */
     private List<String[]> getStrings(File file) {
         try {
@@ -70,7 +70,7 @@ public class ViewCommentDatabaseAccess implements ViewCommentDsGateway {
         }
     }
     /**
-     * @Return helper method that removes duplicate code when accessing file.
+     * @return helper method that removes duplicate code when accessing file.
      */
     private File fileGetter(String fileName){
         String filePath = filepath + fileName;

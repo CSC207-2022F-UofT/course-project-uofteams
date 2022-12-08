@@ -47,7 +47,7 @@ public class ViewCommentViewTest {
         setupTestFiles(commentPath, cpHeader);
         String filePath = "src/test/java/view_comment/";
         this.viewCommentDatabaseAccess = new ViewCommentDatabaseAccess(filePath);
-        this.viewCommentViewModel = new ViewCommentViewModel(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        this.viewCommentViewModel = new ViewCommentViewModel();
         this.viewCommentPresenter = new ViewCommentPresenter(viewCommentViewModel);
         this.viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
         this.viewCommentController = new ViewCommentController(viewCommentInteractor);
@@ -100,7 +100,8 @@ public class ViewCommentViewTest {
      */
     @Test
     public void testSuccess(){
-        ViewCommentView viewCommentViewSuccess = new ViewCommentView(1, viewCommentController);
+        ViewCommentView viewCommentViewSuccess = new ViewCommentView(viewCommentController);
+        viewCommentViewSuccess.setPostId(1);
         JFrame testFrame = new JFrame("Test");
         viewCommentViewModel.addObserver(viewCommentViewSuccess);
         testFrame.getContentPane().add(viewCommentViewSuccess);
@@ -115,7 +116,8 @@ public class ViewCommentViewTest {
      */
     @Test
     public void testFail(){
-        ViewCommentView viewCommentViewFail = new ViewCommentView(10, viewCommentController);
+        ViewCommentView viewCommentViewFail = new ViewCommentView(viewCommentController);
+        viewCommentViewFail.setPostId(10);
         JFrame testFrame2 = new JFrame("Test");
         viewCommentViewModel.addObserver(viewCommentViewFail);
         testFrame2.getContentPane().add(viewCommentViewFail);
@@ -144,7 +146,7 @@ public class ViewCommentViewTest {
     public static void main(String[] args) {
         String filePath = "src/test/java/view_comment/";
         ViewCommentDatabaseAccess viewCommentDatabaseAccess = new ViewCommentDatabaseAccess(filePath);
-        ViewCommentViewModel viewCommentViewModel = new ViewCommentViewModel(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        ViewCommentViewModel viewCommentViewModel = new ViewCommentViewModel();
         ViewCommentPresenter viewCommentPresenter = new ViewCommentPresenter(viewCommentViewModel);
         ViewCommentInteractor viewCommentInteractor = new ViewCommentInteractor(viewCommentDatabaseAccess, viewCommentPresenter);
         ViewCommentController viewCommentController = new ViewCommentController(viewCommentInteractor);
@@ -159,7 +161,8 @@ public class ViewCommentViewTest {
 //        testFrame.setVisible(true);
 
 
-        ViewCommentView viewCommentViewFail = new ViewCommentView(10, viewCommentController);
+        ViewCommentView viewCommentViewFail = new ViewCommentView(viewCommentController);
+        viewCommentViewFail.setPostId(10);
         JFrame testFrame2 = new JFrame("Test");
         viewCommentViewModel.addObserver(viewCommentViewFail);
         testFrame2.getContentPane().add(viewCommentViewFail);
@@ -170,4 +173,3 @@ public class ViewCommentViewTest {
 
     }
 }
-

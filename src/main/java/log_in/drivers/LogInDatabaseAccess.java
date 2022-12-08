@@ -26,9 +26,9 @@ public class LogInDatabaseAccess implements LogInDsGateway {
      */
     @Override
     public boolean checkUserEmailExists(String email){
-        ArrayList<String> emails = this.getData(4);
-        for (int i = 0 ; i < emails.size(); i++ ){
-            if (emails.get(i).equals(email)){
+        ArrayList<String> emails = this.getData(2);
+        for (String s : emails) {
+            if (s.equals(email)) {
                 return true;
             }
         }
@@ -44,7 +44,7 @@ public class LogInDatabaseAccess implements LogInDsGateway {
      */
     @Override
     public boolean checkPasswordMatches(String email, String pass){
-        ArrayList<String> emails = this.getData(4);
+        ArrayList<String> emails = this.getData(2);
         ArrayList<String> passwords = this.getData(3);
         int emailIndex;
         int passIndex;
@@ -63,17 +63,24 @@ public class LogInDatabaseAccess implements LogInDsGateway {
     }
 
     @Override
-    public ArrayList<String> getUser(boolean success, String email, String pass){
-        ArrayList<String> userInfo = new ArrayList<>();
+    public String[] getUser(boolean success, String email, String pass){
+        String[] userInfo = new String[6];
         if (success){
-            ArrayList<String> emails = this.getData(4);
-            ArrayList<String> admins = this.getData(2);
+            ArrayList<String> emails = this.getData(2);
+            ArrayList<String> admins = this.getData(1);
+            ArrayList<String> posts = this.getData(4);
+            ArrayList<String> favs = this.getData(5);
+            ArrayList<String> ids = this.getData(0);
 
             int emailIndex = emails.indexOf(email);
             String adminValueString = admins.get(emailIndex);
-            userInfo.add(email);
-            userInfo.add(pass);
-            userInfo.add(adminValueString);
+
+            userInfo[0] = ids.get(emailIndex);
+            userInfo[1] = adminValueString;
+            userInfo[2] = email;
+            userInfo[3] = pass;
+            userInfo[4] = posts.get(emailIndex);
+            userInfo[5] = favs.get(emailIndex);
         } else {
             return null;
         }
@@ -98,7 +105,7 @@ public class LogInDatabaseAccess implements LogInDsGateway {
             userInfo = new ArrayList<>();
         }
 
-        ArrayList<String> data = new ArrayList<String>();
+        ArrayList<String> data = new ArrayList<>();
 
         for (String[] usersInfo: userInfo){
             data.add(usersInfo[indexInfo]);

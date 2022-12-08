@@ -1,6 +1,8 @@
 package log_in.use_case;
 
+
 import java.util.ArrayList;
+
 
 public interface LogInDsGateway {
 
@@ -11,6 +13,6 @@ public interface LogInDsGateway {
     boolean checkPasswordMatches(String email, String pass);
 
     // gets the user with the given email, password
-    ArrayList<String> getUser(boolean success, String email, String pass);
+    String[] getUser(boolean success, String email, String pass);
 
 }

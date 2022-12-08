@@ -2,6 +2,7 @@ package log_in;
 
 
 import entities.User;
+import favourite.use_case.UserFactory;
 import log_in.interface_adapters.*;
 
 import static org.junit.Assert.*;
@@ -22,6 +23,7 @@ public class LogInTest {
     LogInInputBoundary interactor;
     LogInOutputBoundary presenter;
     LogInController controller;
+    UserFactory userFactory;
 
 
 
@@ -64,17 +66,24 @@ public class LogInTest {
             }
 
             @Override
-            public ArrayList<String> getUser(boolean success, String email, String pass) {
-                ArrayList<String> userInfo = new ArrayList<>();
+            public String[] getUser(boolean success, String email, String pass) {
+                String[] userInfo = new String[6];
                 if (success){
-                    ArrayList<String> emails = this.getData(4);
-                    ArrayList<String> admins = this.getData(2);
+                    ArrayList<String> ids = this.getData(0);
+                    ArrayList<String> emails = this.getData(2);
+                    ArrayList<String> admins = this.getData(1);
+                    ArrayList<String> posts = this.getData(4);
+                    ArrayList<String> favs = this.getData(5);
 
                     int emailIndex = emails.indexOf(email);
                     String adminValueString = admins.get(emailIndex);
-                    userInfo.add(email);
-                    userInfo.add(pass);
-                    userInfo.add(adminValueString);
+
+                    userInfo[0] = ids.get(emailIndex);
+                    userInfo[1] = adminValueString;
+                    userInfo[2] = email;
+                    userInfo[3] = pass;
+                    userInfo[4] = posts.get(emailIndex);
+                    userInfo[5] = favs.get(emailIndex);
                 } else {
                     return null;
                 }
@@ -85,17 +94,50 @@ public class LogInTest {
             public ArrayList<String> getData(int index){
                 ArrayList<String> userInfo = new ArrayList<>();
                 for (User i: users){
-                    if (index == 2){
-                        boolean isAdmin = i.isAdmin();
-                        String isAdminString;
-                        if (isAdmin){
-                            isAdminString = "True";
-                        } else {
-                            isAdminString = "False";
-                        }
-                        userInfo.add(isAdminString);
-                    } if (index == 4) {
-                        userInfo.add(i.getEmail());
+                    switch (index) {
+                        case 0:
+                            userInfo.add(String.valueOf(i.getId()));
+                            break;
+                        case 1:
+                            String isAdminString;
+                            if (i.isAdmin()){
+                                isAdminString = "True";
+                            } else {
+                                isAdminString = "False";
+                            }
+                            userInfo.add(isAdminString);
+                            break;
+                        case 2:
+                            userInfo.add(i.getEmail());
+                            break;
+                        case 3:
+                            userInfo.add(i.getPassword());
+                            break;
+                        case 4:
+                            StringBuilder postIds = new StringBuilder();
+                            List<Integer> replies = i.getPosts();
+                            for (int id : replies) {
+                                if (replies.indexOf(id) == 0) {
+                                    postIds = new StringBuilder(Integer.toString(id));
+                                } else {
+                                    String idString = Integer.toString(id);
+                                    postIds.append(" ").append(idString);
+                                }
+                            }
+                            userInfo.add(postIds.toString());
+                            break;
+                        case 5:
+                            StringBuilder favIds = new StringBuilder();
+                            List<Integer> replies1 = i.getPosts();
+                            for (int id : replies1) {
+                                if (replies1.indexOf(id) == 0) {
+                                    favIds = new StringBuilder(Integer.toString(id));
+                                } else {
+                                    String idString = Integer.toString(id);
+                                    favIds.append(" ").append(idString);
+                                }
+                            }
+                            break;
                     }
                 }
                 return userInfo;
@@ -119,8 +161,7 @@ public class LogInTest {
 
             }
         };
-
-        interactor = new LogInInteractor(repository, presenter);
+        interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);
@@ -142,7 +183,8 @@ public class LogInTest {
 
             }
         };
-        interactor = new LogInInteractor(repository, presenter);
+        userFactory = new UserFactory();
+        interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);
@@ -164,7 +206,8 @@ public class LogInTest {
 
             }
         };
-        interactor = new LogInInteractor(repository, presenter);
+        userFactory = new UserFactory();
+        interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);
@@ -186,7 +229,8 @@ public class LogInTest {
 
             }
         };
-        interactor = new LogInInteractor(repository, presenter);
+        userFactory = new UserFactory();
+        interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);
@@ -208,7 +252,8 @@ public class LogInTest {
 
             }
         };
-        interactor = new LogInInteractor(repository, presenter);
+        userFactory = new UserFactory();
+        interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);
@@ -229,9 +274,9 @@ public class LogInTest {
                 }
             }
         };
-
+        userFactory = new UserFactory();
         viewModel.addObserver(observer);
-        interactor = new LogInInteractor(repository, presenter);
+        interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         this.addUser(user);
         controller = new LogInController(interactor);

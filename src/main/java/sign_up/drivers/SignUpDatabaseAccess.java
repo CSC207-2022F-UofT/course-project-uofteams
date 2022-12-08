@@ -1,31 +1,41 @@
 package sign_up.drivers;
 
+import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import entities.User;
 import sign_up.use_case.SignUpDsGateway;
-import com.opencsv.CSVReader;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Database access for the Sign Up use case
+ */
 public class SignUpDatabaseAccess implements SignUpDsGateway {
     private final String userFilePath;
     private final String adminFilePath;
     private final String numUsersCreatedFilePath;
 
-    public SignUpDatabaseAccess(String userFilePath, String adminFilePath, String numUsersCreatedFilePath) {
-        this.userFilePath = userFilePath;
-        this.adminFilePath = adminFilePath;
-        this.numUsersCreatedFilePath = numUsersCreatedFilePath;
+    /**
+     * Intialize a new SignUpDatabaseAccess
+     * @param generalPath the path in the computer which leads to the database
+     */
+    public SignUpDatabaseAccess(String generalPath) {
+        this.userFilePath = generalPath + "users.csv";
+        this.adminFilePath = generalPath + "admin.csv";
+        this.numUsersCreatedFilePath = generalPath + "numUsersCreated.csv";
     }
 
+    /**
+     * Return the number of users created in the system
+     * @return An int that represents how many users have been created
+     */
     @Override
     public int getNumberUsers() {
         File file = new File(numUsersCreatedFilePath);
@@ -46,6 +56,10 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
         }
     }
 
+    /**
+     * Update the database with the new number of users
+     * @param numberUsers The current number of users created
+     */
     @Override
     public void setNumberUsers(int numberUsers) {
         File file = new File(numUsersCreatedFilePath);
@@ -53,7 +67,7 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
             FileReader fileReader = new FileReader(file);
             // create FileWriter object with file as parameter
             CSVReader csvReader = new CSVReader(fileReader);
-            // create CSVWriter object filewriter object as parameter
+            // create CSVWriter object file writer object as parameter
             List<String[]> csvBody = csvReader.readAll();
             csvBody.get(1)[0] = String.valueOf(numberUsers);
             for(int i = 0; i < csvBody.size(); i++){
@@ -75,6 +89,10 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
         }
     }
 
+    /**
+     * Return all emails in the system
+     * @return An ArrayList containing all emails
+     */
     @Override
     public ArrayList<String> getEmails() {
         ArrayList<String[]> userInfo;
@@ -88,29 +106,30 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
             userInfo = new ArrayList<>();
         }
 
-        ArrayList<String> emails = new ArrayList<String>();
+        ArrayList<String> emails = new ArrayList<>();
 
         for (String[] subUserInfo: userInfo) {
-            emails.add(subUserInfo[4]);
+
+            emails.add(subUserInfo[2]);
         }
 
         return emails;
     }
 
+    /**
+     * Save the given User to the database
+     * @param toSave the User that is going to be saved
+     */
     @Override
-    public void saveUser(User toSave) {
+    public void saveUser(String[] toSave) {
         File file = new File(userFilePath);
-        String[] toAdd = {convertListToString((ArrayList<Integer>) toSave.getFavourites()),
-                convertListToString((ArrayList<Integer>) toSave.getPosts()), Boolean.toString(toSave.isAdmin()),
-                String.valueOf(toSave.getId()), toSave.getPassword(), toSave.getEmail()};
-
         try {
             FileReader fileReader = new FileReader(file);
             // create FileWriter object with file as parameter
             CSVReader csvReader = new CSVReader(fileReader);
-            // create CSVWriter object filewriter object as parameter
+            // create CSVWriter object file writer object as parameter
             List<String[]> csvBody = csvReader.readAll();
-            csvBody.add(toAdd);
+            csvBody.add(toSave);
             //this is to get rid of extra line that gets added by the csvReader!
             for(int i = 0; i < csvBody.size(); i++){
                 if(csvBody.get(i).length == 0 && csvBody.get(i)[0].equals("")){
@@ -132,6 +151,10 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
 
     }
 
+    /**
+     * Return the password for the administrator account
+     * @return A String representation of the admin password
+     */
     @Override
     public String getAdminPassword() {
         File file = new File(adminFilePath);
@@ -152,6 +175,14 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
         }
     }
 
+    /**
+     * Returns each line of the database in a List
+     * @param filePath The path to whatever file is being read
+     * @return A List containing every line in the database, where every element is an array
+     * containing the elements of that row
+     * @throws IOException If the filepath is wrong
+     * @throws CsvValidationException If the CSV reader cannot read the given file
+     */
     private ArrayList<String[]> readLineByLine(String filePath) throws IOException, CsvValidationException {
         ArrayList<String[]> list = new ArrayList<>();
         Reader reader = Files.newBufferedReader(Path.of(filePath));
@@ -161,30 +192,6 @@ public class SignUpDatabaseAccess implements SignUpDsGateway {
             list.add(line);
         }
         return list;
-    }
-
-    private String convertListToString(ArrayList<Integer> list) {
-        String toReturn = "";
-
-        for (Integer integer: list) {
-            if (list.indexOf(integer) == 0) {
-                toReturn = integer.toString().concat(toReturn);
-            } else {
-                toReturn = integer.toString().concat(" ").concat(toReturn);
-            }
-        }
-        return toReturn;
-    }
-
-    private String convertDateToString(LocalDate toConvert) {
-        String toReturn = "";
-        toReturn = toReturn.concat(String.valueOf(toConvert.getYear()));
-        toReturn = toReturn.concat(" ");
-        toReturn = toReturn.concat(String.valueOf(toConvert.getMonth()));
-        toReturn = toReturn.concat(" ");
-        toReturn = toReturn.concat(String.valueOf(toConvert.getDayOfMonth()));
-
-        return toReturn;
     }
 
 }

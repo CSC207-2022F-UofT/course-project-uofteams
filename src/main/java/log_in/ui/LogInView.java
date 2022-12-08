@@ -33,7 +33,9 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
 
         JLabel emptyLabel = new JLabel();
         this.add(emptyLabel);
+
         this.add(emptyLabel);
+
         this.add(backButton);
 
         this.add(emptyLabel);
@@ -98,8 +100,6 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
                             "ERROR", JOptionPane.ERROR_MESSAGE);
                     break;
             }
-
-            errorFrame.setVisible(true);
         }
     }
 

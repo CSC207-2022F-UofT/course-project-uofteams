@@ -1,6 +1,7 @@
 package log_in;
 
 import entities.User;
+import favourite.use_case.UserFactory;
 import log_in.interface_adapters.LogInController;
 import log_in.interface_adapters.LogInPresenter;
 import log_in.interface_adapters.LogInViewModel;
@@ -51,6 +52,7 @@ public class logInViewTest {
             }
 
             @Override
+
             public ArrayList<String> getUser(boolean success, String email, String pass) {
                 ArrayList<String> userInfo = new ArrayList<>();
                 if (success){
@@ -67,6 +69,7 @@ public class logInViewTest {
                 }
 
                 return userInfo;
+
             }
 
             public ArrayList<String> getData(int index){
@@ -90,9 +93,11 @@ public class logInViewTest {
 
         };
 
+        UserFactory userFactory = new UserFactory();
+
         LogInViewModel logInViewModel = new LogInViewModel();
         LogInPresenter presenter = new LogInPresenter(new LogInViewModel());
-        LogInInteractor interactor = new LogInInteractor(gateway, presenter);
+        LogInInteractor interactor = new LogInInteractor(gateway, presenter, userFactory);
         LogInController controller = new LogInController(interactor);
 
         LogInView logInView = new LogInView(controller);
