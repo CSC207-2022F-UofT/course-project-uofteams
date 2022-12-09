@@ -12,8 +12,11 @@ UofTeams allows UofT students to create accounts with the purpose of creating ti
 3. Ensure the `build.gradle` includes the previously listed dependencies.
 4. Open `src/main/java/UofTeams.java` to use the app! Compile and run.
 
+### Setting Up an Admin Account
+- Use the `admin.csv` file to specify the admin password (replace "123" with the desired password) and enter that password in the "Leave this blank" field in the sign up page to make an account with admin privileges.
+
 ## Addressing Milestone 4 Feedback
-### Changes Since Milestone 4
+### General Changes Since Milestone 4
 - More use of GitHub features (e.g. issues and linking them to pull requests).
 - More testing & documentation.
 
