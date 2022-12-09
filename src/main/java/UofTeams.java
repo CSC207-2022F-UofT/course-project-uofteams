@@ -132,11 +132,11 @@ public class UofTeams {
 
 
         // initialize stuff for log in
-        FavouriteUserFactory favouriteUserFactory = new FavouriteUserFactory();
+        LogInUserFactory logInUserFactory = new LogInUserFactory();
         LogInViewModel logInViewModel = new LogInViewModel();
         LogInOutputBoundary logInPresenter = new LogInPresenter(logInViewModel);
         LogInDsGateway logInDatabaseAccess = new LogInDatabaseAccess(usersFilePath);
-        LogInInputBoundary logInInteractor = new LogInInteractor(logInDatabaseAccess, logInPresenter, favouriteUserFactory);
+        LogInInputBoundary logInInteractor = new LogInInteractor(logInDatabaseAccess, logInPresenter, logInUserFactory);
         LogInController logInController = new LogInController(logInInteractor);
         LogInView logInView = new LogInView(logInController);
 

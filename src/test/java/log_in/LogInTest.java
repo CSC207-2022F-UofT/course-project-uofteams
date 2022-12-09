@@ -2,7 +2,6 @@ package log_in;
 
 
 import entities.User;
-import favourite.use_case.FavouriteUserFactory;
 import log_in.interface_adapters.*;
 
 import static org.junit.Assert.*;
@@ -13,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class LogInTest {
     LogInInputBoundary interactor;
     LogInOutputBoundary presenter;
     LogInController controller;
-    FavouriteUserFactory userFactory;
+    LogInUserFactory userFactory;
 
 
     // need to test private files
@@ -164,7 +164,7 @@ public class LogInTest {
             assertEquals("", actual);
 
         };
-        userFactory = new FavouriteUserFactory();
+        userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
@@ -184,7 +184,7 @@ public class LogInTest {
             assertEquals("Empty Email or Password", actual);
 
         };
-        userFactory = new FavouriteUserFactory();
+        userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
@@ -204,7 +204,7 @@ public class LogInTest {
             assertEquals("Empty Email or Password", actual);
 
         };
-        userFactory = new FavouriteUserFactory();
+        userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
@@ -224,7 +224,7 @@ public class LogInTest {
             assertEquals("Incorrect Email", actual);
 
         };
-        userFactory = new FavouriteUserFactory();
+        userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
@@ -244,7 +244,7 @@ public class LogInTest {
             assertEquals("Incorrect Password", actual);
 
         };
-        userFactory = new FavouriteUserFactory();
+        userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
@@ -263,7 +263,7 @@ public class LogInTest {
                 assertTrue((boolean) evt.getNewValue());
             }
         };
-        userFactory = new FavouriteUserFactory();
+        userFactory = new LogInUserFactory();
         viewModel.addObserver(observer);
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
