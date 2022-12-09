@@ -3,9 +3,9 @@ package view_comment.use_case;
 import java.util.ArrayList;
 
 public class ViewCommentResponseModel {
-    public boolean hasComment;
+    public final boolean hasComment;
     public final ArrayList<String[]> outputComments;
-    public String message;
+    public final String message;
 
 
     /**

@@ -15,7 +15,7 @@ import java.beans.PropertyChangeListener;
 public class MainFrame extends JFrame implements PropertyChangeListener {
     final static String MAIN = "Main View";
     final static String LANDING = "Landing View";
-    public Container contentPane;
+    final public Container contentPane;
 
     /*
     * Initialize the card view

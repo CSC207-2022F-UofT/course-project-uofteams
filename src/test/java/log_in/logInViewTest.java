@@ -1,13 +1,13 @@
 package log_in;
 
 import entities.User;
+import favourite.use_case.FavouriteUserFactory;
 import log_in.interface_adapters.LogInController;
 import log_in.interface_adapters.LogInPresenter;
 import log_in.interface_adapters.LogInViewModel;
 import log_in.ui.LogInView;
 import log_in.use_case.LogInDsGateway;
 import log_in.use_case.LogInInteractor;
-import log_in.use_case.LogInUserFactory;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class logInViewTest {
     public static void main(String[] args) {
         LogInDsGateway gateway = new LogInDsGateway() {
 
-            public final List<User> users = new ArrayList<User>();
+            public final List<User> users = new ArrayList<>();
             @Override
             public boolean checkUserEmailExists(String email) {
                 return false;
@@ -39,7 +39,7 @@ public class logInViewTest {
 
             }
         };
-        LogInUserFactory userFactory = new LogInUserFactory();
+        FavouriteUserFactory userFactory = new FavouriteUserFactory();
         LogInViewModel logInViewModel = new LogInViewModel();
         LogInPresenter presenter = new LogInPresenter(new LogInViewModel());
         LogInInteractor interactor = new LogInInteractor(gateway, presenter, userFactory);

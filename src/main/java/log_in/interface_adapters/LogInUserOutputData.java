@@ -9,7 +9,7 @@ public class LogInUserOutputData {
 
 
     /**
-     * Initalize a new LogInOutputData with data from the interactor
+     * Initialize a new LogInOutputData with data from the interactor
      * @param success if the logIn was successful or not
      * @param errorMessage the error message if the logIn was not successful
      */

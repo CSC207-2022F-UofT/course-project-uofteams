@@ -27,7 +27,7 @@ public class FavouriteUserFactory implements FavouriteUserReaderInterface {
         String email = userData[2];
         String password = userData[3];
 
-        // creating a List of Integers of ids of the user's posts from the datastring
+        // creating a List of Integers of ids of the user's posts from the data string
         String[] postIds = userData[4].split(" ");
         List<Integer> posts = new ArrayList<>();
         for (String ids: postIds){
@@ -36,7 +36,7 @@ public class FavouriteUserFactory implements FavouriteUserReaderInterface {
             }
         }
 
-        // creating a List of Integers of ids of the user's favourited posts from the datastring
+        // creating a List of Integers of ids of the user's favourited posts from the data string
         String[] favIds = userData[5].split(" ");
         List<Integer> favourites = new ArrayList<>();
         for (String ids: favIds){

@@ -80,9 +80,9 @@ import view_post.use_case.ViewPostInteractor;
 public class UofTeams {
     static final String[] tags = new String[]{"Sports", "Clubs", "Jobs", "Startups", "Tech", "School", "Projects"};
     static final String[] tagsWithFavourites = new String[]{"MyPosts", "Favourites", "Sports", "Clubs", "Jobs", "Startups", "Tech", "School", "Projects"};
-    static String postsFilePath = "src/main/java/database/posts.csv";
-    static String usersFilePath = "src/main/java/database/users.csv";
-    static String generalPath = "src/main/java/database/";
+    static final String postsFilePath = "src/main/java/database/posts.csv";
+    static final String usersFilePath = "src/main/java/database/users.csv";
+    static final String generalPath = "src/main/java/database/";
 
     public static void main(String[] args) {
 
@@ -132,11 +132,11 @@ public class UofTeams {
 
 
         // initialize stuff for log in
-        LogInUserFactory logInUserFactory = new LogInUserFactory();
+        FavouriteUserFactory favouriteUserFactory = new FavouriteUserFactory();
         LogInViewModel logInViewModel = new LogInViewModel();
         LogInOutputBoundary logInPresenter = new LogInPresenter(logInViewModel);
         LogInDsGateway logInDatabaseAccess = new LogInDatabaseAccess(usersFilePath);
-        LogInInputBoundary logInInteractor = new LogInInteractor(logInDatabaseAccess, logInPresenter, logInUserFactory);
+        LogInInputBoundary logInInteractor = new LogInInteractor(logInDatabaseAccess, logInPresenter, favouriteUserFactory);
         LogInController logInController = new LogInController(logInInteractor);
         LogInView logInView = new LogInView(logInController);
 

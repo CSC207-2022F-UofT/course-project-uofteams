@@ -15,10 +15,10 @@ public class DeletePostPresenter implements DeletePostOutputBoundary{
         this.viewModel = viewModel;
     }
 
-    @Override
     /**
-     * Update viewModel to reflect deletion or failure
+     * Updates viewModel to reflect deletion or failure
      */
+    @Override
     public void updateViewModel(DeletePostResponseModel responseModel){
         if (responseModel.deleteSuccess()){
             if (!responseModel.getIsTimer()){

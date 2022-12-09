@@ -6,14 +6,12 @@ import log_out.interface_adapters.LogOutUserInputData;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class LogOutView extends JPanel implements ActionListener {
 
     private final LogOutController controller;
 
-    public JButton logOutButton = new JButton("Log Out");
+    public final JButton logOutButton = new JButton("Log Out");
 
     public LogOutView(LogOutController controller){
         this.controller = controller;

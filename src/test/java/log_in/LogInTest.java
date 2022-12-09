@@ -2,6 +2,7 @@ package log_in;
 
 
 import entities.User;
+import favourite.use_case.FavouriteUserFactory;
 import log_in.interface_adapters.*;
 
 import static org.junit.Assert.*;
@@ -12,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class LogInTest {
     LogInInputBoundary interactor;
     LogInOutputBoundary presenter;
     LogInController controller;
-    LogInUserFactory userFactory;
+    FavouriteUserFactory userFactory;
 
 
     // need to test private files
@@ -156,18 +156,15 @@ public class LogInTest {
 
     @Test
     public void logInSuccess(){
-        presenter = new LogInOutputBoundary() {
-            @Override
-            public void present(LogInResponseModel responseModel) {
-                boolean creation = responseModel.getLogInSuccess();
-                String actual = responseModel.getErrorMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.getLogInSuccess();
+            String actual = responseModel.getErrorMessage();
 
-                assertTrue(creation);
-                assertEquals("", actual);
+            assertTrue(creation);
+            assertEquals("", actual);
 
-            }
         };
-        userFactory = new LogInUserFactory();
+        userFactory = new FavouriteUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
@@ -179,18 +176,15 @@ public class LogInTest {
 
     @Test
     public void logInFailEmptyEmail(){
-        presenter = new LogInOutputBoundary() {
-            @Override
-            public void present(LogInResponseModel responseModel) {
-                boolean creation = responseModel.getLogInSuccess();
-                String actual = responseModel.getErrorMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.getLogInSuccess();
+            String actual = responseModel.getErrorMessage();
 
-                assertFalse(creation);
-                assertEquals("Empty Email or Password", actual);
+            assertFalse(creation);
+            assertEquals("Empty Email or Password", actual);
 
-            }
         };
-        userFactory = new LogInUserFactory();
+        userFactory = new FavouriteUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
@@ -202,18 +196,15 @@ public class LogInTest {
 
     @Test
     public void logInFailEmptyPass(){
-        presenter = new LogInOutputBoundary() {
-            @Override
-            public void present(LogInResponseModel responseModel) {
-                boolean creation = responseModel.getLogInSuccess();
-                String actual = responseModel.getErrorMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.getLogInSuccess();
+            String actual = responseModel.getErrorMessage();
 
-                assertFalse(creation);
-                assertEquals("Empty Email or Password", actual);
+            assertFalse(creation);
+            assertEquals("Empty Email or Password", actual);
 
-            }
         };
-        userFactory = new LogInUserFactory();
+        userFactory = new FavouriteUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
@@ -225,18 +216,15 @@ public class LogInTest {
 
     @Test
     public void logInIncorrectEmail(){
-        presenter = new LogInOutputBoundary() {
-            @Override
-            public void present(LogInResponseModel responseModel) {
-                boolean creation = responseModel.getLogInSuccess();
-                String actual = responseModel.getErrorMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.getLogInSuccess();
+            String actual = responseModel.getErrorMessage();
 
-                assertFalse(creation);
-                assertEquals("Incorrect Email", actual);
+            assertFalse(creation);
+            assertEquals("Incorrect Email", actual);
 
-            }
         };
-        userFactory = new LogInUserFactory();
+        userFactory = new FavouriteUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
@@ -248,18 +236,15 @@ public class LogInTest {
 
     @Test
     public void logInIncorrectPass(){
-        presenter = new LogInOutputBoundary() {
-            @Override
-            public void present(LogInResponseModel responseModel) {
-                boolean creation = responseModel.getLogInSuccess();
-                String actual = responseModel.getErrorMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.getLogInSuccess();
+            String actual = responseModel.getErrorMessage();
 
-                assertFalse(creation);
-                assertEquals("Incorrect Password", actual);
+            assertFalse(creation);
+            assertEquals("Incorrect Password", actual);
 
-            }
         };
-        userFactory = new LogInUserFactory();
+        userFactory = new FavouriteUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");
         repository.addUser(user);
@@ -273,15 +258,12 @@ public class LogInTest {
     public void logInObserver(){
         LogInViewModel viewModel = new LogInViewModel();
         presenter = new LogInPresenter(viewModel);
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("Login Success")){
-                    assertTrue((boolean) evt.getNewValue());
-                }
+        PropertyChangeListener observer = evt -> {
+            if (evt.getPropertyName().equals("Login Success")){
+                assertTrue((boolean) evt.getNewValue());
             }
         };
-        userFactory = new LogInUserFactory();
+        userFactory = new FavouriteUserFactory();
         viewModel.addObserver(observer);
         interactor = new LogInInteractor(repository, presenter, userFactory);
         User user = new User(false, 0, "a", "b");

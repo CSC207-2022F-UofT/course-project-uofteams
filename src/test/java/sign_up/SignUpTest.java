@@ -78,7 +78,7 @@ public class SignUpTest {
     public void teardown(){}
 
     /**
-     * Test that the SignUp use case correctly creates updates the output boundart when it
+     * Test that the SignUp use case correctly creates updates the output boundary when it
      * doesn't check the admin
      */
     @Test

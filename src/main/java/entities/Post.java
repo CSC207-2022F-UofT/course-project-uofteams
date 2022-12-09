@@ -187,9 +187,9 @@ public class Post extends Postable{
     public String getCollaborators(){return this.collaborators;}
 
     /**
-     * Checks whether two posts are equal based on whether their Post id's are equal.
+     * Checks whether two posts are equal based on whether their Post Id's are equal.
      * @param o the Post to be compared to.
-     * @return a boolean that reflects whether the two Posts' id's are equal.
+     * @return a boolean that reflects whether the two Posts' Id's are equal.
      */
     @Override
     public boolean equals(Object o){
