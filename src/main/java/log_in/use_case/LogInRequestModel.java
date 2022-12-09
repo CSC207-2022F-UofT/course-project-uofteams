@@ -1,5 +1,8 @@
 package log_in.use_case;
 
+/**
+ * Data structure for inputted data to be passed into the LogInInteractor
+ */
 public class LogInRequestModel {
 
     // inputted email for log in
@@ -18,10 +21,18 @@ public class LogInRequestModel {
         this.password = password;
     }
 
+    /**
+     * Return inputted email
+     * @return email to be returned
+     */
     public String getEmail(){
         return this.email;
     }
 
+    /**
+     * return inputted password
+     * @return password to be returned
+     */
     public String getPassword(){
         return this.password;
     }

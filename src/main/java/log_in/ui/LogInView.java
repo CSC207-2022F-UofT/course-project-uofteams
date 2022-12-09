@@ -75,6 +75,11 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
 
     }
 
+    /**
+     * Update the UI with an error message or changing the view to the ViewPost view if a successful LogIn has occurred
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("Login Failure")){
@@ -96,9 +101,15 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
         }
     }
 
+    /**
+     * Nested class of LogInView that displays a button to return to the MasterView
+     */
     private static class BackButton extends JPanel implements ActionListener{
         private final PropertyChangeSupport observable;
 
+        /**
+         * Initialize a back button
+         */
         public BackButton(){
             this.observable = new PropertyChangeSupport(this);
 
@@ -108,16 +119,28 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
             this.add(backButton);
         }
 
+        /**
+         * Add a PropertyChangeListener to the back button to observe it
+         * @param observer the observer which will observe the back button
+         */
         public void addObserver(PropertyChangeListener observer){
             this.observable.addPropertyChangeListener("back button", observer);
         }
 
+        /**
+         * Respond to a back button being clicked by updating observers
+         * @param e the event to be processed
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             observable.firePropertyChange("back button", false, true);
         }
     }
 
+    /**
+     * This will add a PropertyChangeListener to observe the back button
+     * @param observer the observer that will observe the back button
+     */
     public void addObserver(PropertyChangeListener observer){
         this.backButton.addObserver(observer);
     }

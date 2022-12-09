@@ -1,5 +1,8 @@
 package log_out.use_case;
 
+/**
+ * Data that will be formatted to be entered into the Log Out Interactor
+ */
 @SuppressWarnings("all")
 public class LogOutRequestModel {
 
