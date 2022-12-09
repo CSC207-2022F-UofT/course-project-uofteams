@@ -2,6 +2,9 @@ package log_out.use_case;
 
 import entities.CurrentUser;
 
+/**
+ * LogOutInteractor for the LogOut use case.
+ */
 public class LogOutInteractor implements LogOutInputBoundary {
 
     private final LogOutOutputBoundary outputBoundary;

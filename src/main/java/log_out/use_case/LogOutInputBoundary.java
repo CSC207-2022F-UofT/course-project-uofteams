@@ -1,5 +1,8 @@
 package log_out.use_case;
 
+/**
+ * public interface carrying data indicating a LogOut request has been made
+ */
 public interface LogOutInputBoundary {
 
     /**

@@ -11,6 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+
+/**
+ * Database access for LogIn use case
+ */
 public class LogInDatabaseAccess implements LogInDsGateway {
     private final String userPath;
 
@@ -61,6 +65,13 @@ public class LogInDatabaseAccess implements LogInDsGateway {
         }
     }
 
+    /**
+     * this method will return a list of strings with the users info
+     * @param success whether the logIn request was a success or not
+     * @param email the users email
+     * @param pass the users password
+     * @return a list of string with a specific users info
+     */
     @Override
     public String[] getUser(boolean success, String email, String pass){
         String[] userInfo = new String[6];
@@ -120,6 +131,13 @@ public class LogInDatabaseAccess implements LogInDsGateway {
         return data;
     }
 
+    /**
+     * Returns each line of the database as a List
+     * @param path the path to what file will be read
+     * @return A list with each line in the database, every element is an array of elements in a specific row
+     * @throws IOException if file path is incorrect
+     * @throws CsvException if the CSV reader is unable to read file
+     */
     private ArrayList<String[]> readLines(String path) throws IOException, CsvException {
         ArrayList<String[]> list = new ArrayList<>();
         Reader reader = Files.newBufferedReader(Path.of(path));

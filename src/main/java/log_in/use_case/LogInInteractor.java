@@ -4,6 +4,9 @@ import entities.CurrentUser;
 import entities.User;
 import log_in.use_case.exceptions.UserException;
 
+/**
+ * LogInInteractor for the Log In use case. Will check and alter necessary fields
+ */
 public class LogInInteractor implements LogInInputBoundary {
     private final LogInDsGateway access;
     private final LogInUserFactory userFactory;

@@ -1,5 +1,8 @@
 package log_out.use_case;
 
+/**
+ * Data that will be formatted to exit the interactor
+ */
 public class LogOutResponseModel {
 
 
@@ -13,6 +16,10 @@ public class LogOutResponseModel {
         this.success = success;
     }
 
+    /**
+     * whether the LogOut was successful
+     * @return boolean representation of whether the LogOut was successful
+     */
     public boolean isSuccess(){
         return this.success;
     }

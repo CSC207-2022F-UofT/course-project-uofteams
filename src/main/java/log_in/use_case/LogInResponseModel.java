@@ -1,5 +1,8 @@
 package log_in.use_case;
 
+/**
+ * Data for exiting the Log In use case interactor
+ */
 public class LogInResponseModel {
 
     // if log in was successful
@@ -18,10 +21,18 @@ public class LogInResponseModel {
         this.errorMessage = errorMessage;
     }
 
+    /**
+     * Return whether the LogIn was a success or not
+     * @return boolean representation of LogIn attempt
+     */
     public boolean getLogInSuccess(){
         return this.LogInSuccess;
     }
 
+    /**
+     * If unsuccessful LogIn, return what error caused it
+     * @return the error message to be returned
+     */
     public String getErrorMessage(){
         return this.errorMessage;
     }
