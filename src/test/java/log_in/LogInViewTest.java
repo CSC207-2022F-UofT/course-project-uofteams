@@ -13,7 +13,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class logInViewTest {
+public class LogInViewTest {
     public static void main(String[] args) {
         LogInDsGateway gateway = new LogInDsGateway() {
 
