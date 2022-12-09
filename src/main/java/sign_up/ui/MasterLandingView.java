@@ -80,7 +80,7 @@ public class MasterLandingView extends JPanel implements PropertyChangeListener 
         }
 
         /**
-         * Respond to the Sign Up or Log In buttons being clicked
+         * Respond to the Sign-Up or Log In buttons being clicked
          * @param e the event to be processed
          */
         @Override
@@ -111,7 +111,7 @@ public class MasterLandingView extends JPanel implements PropertyChangeListener 
     }
 
     /**
-     * A class which acts as the log in button, responsible for starting the use case
+     * A class which acts as the login button, responsible for starting the use case
      */
     public static class LogInButton extends JButton {
         /*

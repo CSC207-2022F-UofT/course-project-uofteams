@@ -49,7 +49,7 @@ public class MakeCommentViewTest {
 
             @Override
             public List<String[]> getCurrentPosts() {
-                String[] p1 = new String[]{"1", "1", "post1", "descriptionp1", "cs", "collab", "2022-12-15", "2022-12-1", "1","2"};
+                String[] p1 = new String[]{"1", "1", "post1", "description1", "cs", "collab", "2022-12-15", "2022-12-1", "1","2"};
                 ArrayList<String[]> testList = new ArrayList<>();
                 testList.add(p1);
                 return testList;
@@ -58,11 +58,11 @@ public class MakeCommentViewTest {
         User user = new User(false, 1, "regan@mail.utoronto.ca", "a");
         CurrentUser.setCurrentUser(user);
         MakeCommentFactory commentFactory = new MakeCommentFactory();
-        MakeCommentViewModel mcvm = new MakeCommentViewModel();
-        MakeCommentPresenter mcPresenter = new MakeCommentPresenter(mcvm);
-        MakeCommentInteractor MCI = new MakeCommentInteractor(dsGateway, mcPresenter, commentFactory);
-        MakeCommentController MCC = new MakeCommentController(MCI);
-        MakeCommentView viewButton = new MakeCommentView(MCC);
+        MakeCommentViewModel makeCommentViewModel = new MakeCommentViewModel();
+        MakeCommentPresenter makeCommentPresenter = new MakeCommentPresenter(makeCommentViewModel);
+        MakeCommentInteractor makeCommentInteractor = new MakeCommentInteractor(dsGateway, makeCommentPresenter, commentFactory);
+        MakeCommentController makeCommentController = new MakeCommentController(makeCommentInteractor);
+        MakeCommentView viewButton = new MakeCommentView(makeCommentController);
         Map<String, String> commentAttributes = new HashMap<>();
         commentAttributes.put("CommentID", "0");
         commentAttributes.put("commenterID", "0");
@@ -71,7 +71,7 @@ public class MakeCommentViewTest {
         dsGateway.saveComment(commentAttributes);
 
         JFrame jFrame = new JFrame("Test");
-        mcvm.addObserver(viewButton);
+        makeCommentViewModel.addObserver(viewButton);
         jFrame.getContentPane().add(viewButton);
 
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

@@ -1,7 +1,7 @@
 package sign_up.use_case;
 
 /**
- * The data structure for data exiting the sign up use case interactor
+ * The data structure for data exiting the sign-up use case interactor
  */
 public class SignUpResponseModel {
     // Whether the attempt to create user was successful

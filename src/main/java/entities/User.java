@@ -24,7 +24,7 @@ public class User {
     /*
     * Initializes an instance of User
     *
-    * @param admin whether the user will have admin priviledges
+    * @param admin whether the user will have admin privileges
     * */
     public User(boolean admin, int id, String email, String password) {
         this.favourites = new ArrayList<>();

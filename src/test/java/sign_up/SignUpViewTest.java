@@ -19,7 +19,7 @@ import java.util.List;
 public class SignUpViewTest {
     public static void main(String[] args) {
         SignUpDsGateway dsGateway = new SignUpDsGateway() {
-            ArrayList<String[]> userArrayList = new ArrayList<String[]>();
+            final ArrayList<String[]> userArrayList = new ArrayList<>();
             @Override
             public int getNumberUsers() {
                 return 0;
@@ -32,7 +32,7 @@ public class SignUpViewTest {
 
             @Override
             public List<String> getEmails() {
-                ArrayList<String> toReturn = new ArrayList<String>();
+                ArrayList<String> toReturn = new ArrayList<>();
                 for (String[] user: userArrayList) {
                     toReturn.add(user[2]);
                 }

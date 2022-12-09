@@ -19,7 +19,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.time.LocalDate;
@@ -31,36 +30,34 @@ import java.util.*;
  * drivers: 98%
  * interface_adapters: 100%
  * use_case: 100%
- *
  * The UI is not being tested here.
  */
 
 public class MakePostTest {
-    private User user;
     private MakePostDsGateway postRepository;
     private MakePostController controller;
     private MakePostInputBoundary interactor;
     private MakePostOutputBoundary presenter;
     private MakePostViewModel viewModel;
-    private Map<String, Object> postBody = new HashMap<>();
-    private String generalPath = "src/test/java/make_post/";
-    private String postsPath = "src/test/java/make_post/posts.csv";
-    private String numPostsCreatedPath = "src/test/java/make_post/numPostsCreated.csv";
-    private String usersPath = "src/test/java/make_post/users.csv";
-    private String[] postHeaders = new String[]{"postID", "posterID", "title", "mainDescription", "tags", "collaborators",
+    private final Map<String, Object> postBody = new HashMap<>();
+    private final String postsPath = "src/test/java/make_post/posts.csv";
+    private final String usersPath = "src/test/java/make_post/users.csv";
+    private final String[] postHeaders = new String[]{"postID", "posterID", "title", "mainDescription", "tags", "collaborators",
             "deadline", "creationDate", "favouritedUsersIDs", "repliesIDs"};
-    private String[] numPostsCreatedHeader = new String[]{"numPostsCreated"};
-    private String[] userHeaders = new String[]{"userID", "isAdmin", "email", "password", "listPosts", "listFavourites"};
-    private String testCreationDate = LocalDate.now().toString();
+    private final String[] numPostsCreatedHeader = new String[]{"numPostsCreated"};
+    private final String[] userHeaders = new String[]{"userID", "isAdmin", "email", "password", "listPosts", "listFavourites"};
+    private final String testCreationDate = LocalDate.now().toString();
 
 
     @Before
     public void setUp() {
         this.setUpDefaultTestFiles(postsPath, postHeaders);
+        String numPostsCreatedPath = "src/test/java/make_post/numPostsCreated.csv";
         this.setUpDefaultTestFiles(numPostsCreatedPath, numPostsCreatedHeader);
         this.setUpDefaultTestFiles(usersPath, userHeaders);
-        this.user = new User(false, 1, "test@mail.utoronto.ca", "test");
+        User user = new User(false, 1, "test@mail.utoronto.ca", "test");
         CurrentUser.setCurrentUser(user);
+        String generalPath = "src/test/java/make_post/";
         postRepository = new MakePostDatabaseAccess(generalPath);
         viewModel = new MakePostViewModel();
         presenter = new MakePostPresenter(viewModel);
@@ -82,13 +79,10 @@ public class MakePostTest {
      */
     @Test
     public void testMakePostSuccessfully(){
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String propertyName = "creation success";
+        PropertyChangeListener observer = evt -> {
+            String propertyName = "creation success";
 
-                assertEquals(propertyName, evt.getPropertyName());
-            }
+            assertEquals(propertyName, evt.getPropertyName());
         };
         viewModel.addObserver(observer);
         controller.executeMakePost(this.postBody);
@@ -141,13 +135,10 @@ public class MakePostTest {
 
     @Test
     public void testMakePostSuccessfullyEmptyTags(){
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String propertyName = "creation success";
+        PropertyChangeListener observer = evt -> {
+            String propertyName = "creation success";
 
-                assertEquals(propertyName, evt.getPropertyName());
-            }
+            assertEquals(propertyName, evt.getPropertyName());
         };
         viewModel.addObserver(observer);
         ArrayList<String> emptyTags = new ArrayList<>();
@@ -192,13 +183,10 @@ public class MakePostTest {
      */
     @Test
     public void testMakePostWrongDateFormat(){
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String propertyName = "creation failure";
+        PropertyChangeListener observer = evt -> {
+            String propertyName = "creation failure";
 
-                assertEquals(propertyName, evt.getPropertyName());
-            }
+            assertEquals(propertyName, evt.getPropertyName());
         };
         viewModel.addObserver(observer);
         interactor = new MakePostInteractor(postRepository, presenter);
@@ -222,13 +210,10 @@ public class MakePostTest {
      */
     @Test
     public void testMakePostDeadlineTooFarInFuture(){
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String propertyName = "creation failure";
+        PropertyChangeListener observer = evt -> {
+            String propertyName = "creation failure";
 
-                assertEquals(propertyName, evt.getPropertyName());
-            }
+            assertEquals(propertyName, evt.getPropertyName());
         };
         viewModel.addObserver(observer);
         postBody.put("deadline", "2200-11-29");
@@ -247,13 +232,10 @@ public class MakePostTest {
 
     @Test
     public void testMakePostNoTitle(){
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String propertyName = "creation failure";
+        PropertyChangeListener observer = evt -> {
+            String propertyName = "creation failure";
 
-                assertEquals(propertyName, evt.getPropertyName());
-            }
+            assertEquals(propertyName, evt.getPropertyName());
         };
         viewModel.addObserver(observer);
         interactor = new MakePostInteractor(postRepository, presenter);

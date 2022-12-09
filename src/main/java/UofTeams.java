@@ -1,4 +1,4 @@
-import delete_post.UI.DeleteView;
+import delete_post.ui.DeleteView;
 import delete_post.drivers.DeletePostDataAccess;
 import delete_post.interface_adapters.DeletePostController;
 import delete_post.interface_adapters.DeletePostPresenter;
@@ -80,9 +80,9 @@ import view_post.use_case.ViewPostInteractor;
 public class UofTeams {
     static final String[] tags = new String[]{"Sports", "Clubs", "Jobs", "Startups", "Tech", "School", "Projects"};
     static final String[] tagsWithFavourites = new String[]{"MyPosts", "Favourites", "Sports", "Clubs", "Jobs", "Startups", "Tech", "School", "Projects"};
-    static String postsFilePath = "src/main/java/database/posts.csv";
-    static String usersFilePath = "src/main/java/database/users.csv";
-    static String generalPath = "src/main/java/database/";
+    static final String postsFilePath = "src/main/java/database/posts.csv";
+    static final String usersFilePath = "src/main/java/database/users.csv";
+    static final String generalPath = "src/main/java/database/";
 
     public static void main(String[] args) {
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The SignUpInteractor for the sign up use case. Responsible for applying use case logic to the entities
+ * The SignUpInteractor for the sign-up use case. Responsible for applying use case logic to the entities
  */
 public class SignUpInteractor implements SignUpInputBoundary{
     // An object that accesses the database

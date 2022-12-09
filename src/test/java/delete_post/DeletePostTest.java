@@ -5,7 +5,6 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import delete_post.drivers.DeletePostDataAccess;
 import entities.CurrentUser;
-import entities.Post;
 import entities.User;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -13,9 +12,6 @@ import org.junit.Test;
 import org.junit.After;
 import delete_post.interface_adapters.*;
 import delete_post.use_case.*;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -30,10 +26,10 @@ public class DeletePostTest {
     DeletePostDsGateway dataAccess;
     User user;
 
-    String postPath = "src/test/java/delete_post/posts.csv";
-    String userPath = "src/test/java/delete_post/users.csv";
-    String commentPath = "src/test/java/delete_post/comments.csv";
-    String generalPath = "src/test/java/delete_post/";
+    final String postPath = "src/test/java/delete_post/posts.csv";
+    final String userPath = "src/test/java/delete_post/users.csv";
+    final String commentPath = "src/test/java/delete_post/comments.csv";
+    final String generalPath = "src/test/java/delete_post/";
     List<String[]> postBody;
     List<String[]> userBody;
 
@@ -51,7 +47,7 @@ public class DeletePostTest {
                 "2022-12-31", "", ""};
         String[] post4 = new String[]{"4", "3", "title2", "desc2", "tag1", "collab2", "2022-12-31",
                 "2022-12-31", "", ""};
-        postBody = new ArrayList<String[]>();
+        postBody = new ArrayList<>();
         postBody.add(post1);
         postBody.add(post2);
         postBody.add(post3);
@@ -61,7 +57,7 @@ public class DeletePostTest {
         String[] user1 = new String[]{"1", "true", "test@mail.utoronto.ca", "pass0", "1 2", "1 2"};
         String[] user2 = new String[]{"2", "false", "test2@mail.utoronto.ca", "pass0", "3", "1 2"};
         String[] user3 = new String[]{"3", "false", "test3@mail.utoronto.ca", "pass0", "4", "1"};
-        userBody = new ArrayList<String[]>();
+        userBody = new ArrayList<>();
         userBody.add(user1);
         userBody.add(user2);
         userBody.add(user3);
@@ -207,11 +203,9 @@ public class DeletePostTest {
     private void createTestFile(String path, String[] header, List<String[]> body){
         File file = new File(path);
         try {
-            LinkedList<String[]> content = new LinkedList<String[]>();
+            LinkedList<String[]> content = new LinkedList<>();
             content.add(header);
-            for (String[] row : body){
-                content.add(row);
-            }
+            content.addAll(body);
             FileWriter outputFile = new FileWriter(file);
             CSVWriter writer = new CSVWriter(outputFile);
             writer.writeAll(content);

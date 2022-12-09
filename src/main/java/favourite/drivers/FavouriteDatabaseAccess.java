@@ -181,7 +181,7 @@ public class FavouriteDatabaseAccess implements FavouriteDsGateway {
      * Writes all the data into a csv file
      * @param path the path of the csv file being written into
      */
-    private void writeAllLines(Path path, List<String[]> data) throws IOException, CsvException{
+    private void writeAllLines(Path path, List<String[]> data) throws IOException{
         try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))){
             writer.writeAll(data);
         }

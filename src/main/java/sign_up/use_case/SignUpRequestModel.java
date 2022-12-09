@@ -1,7 +1,7 @@
 package sign_up.use_case;
 
 /**
- * The data structure for entering data into the sign up use case interactor
+ * The data structure for entering data into the sign-up use case interactor
  */
 public class SignUpRequestModel {
     // The inputted email for the account

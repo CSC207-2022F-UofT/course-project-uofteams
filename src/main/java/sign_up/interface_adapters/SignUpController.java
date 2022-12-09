@@ -4,7 +4,7 @@ import sign_up.use_case.SignUpInputBoundary;
 import sign_up.use_case.SignUpRequestModel;
 
 /**
- * The Controller for the sign up use case. Takes raw input from the user and passes it through
+ * The Controller for the sign-up use case. Takes raw input from the user and passes it through
  * the input boundary in the most convenient form
  */
 public class SignUpController {

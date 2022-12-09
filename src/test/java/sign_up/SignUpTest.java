@@ -11,7 +11,6 @@ import sign_up.interface_adapters.SignUpUserInputData;
 import sign_up.interface_adapters.SignUpViewModel;
 import sign_up.use_case.*;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +19,7 @@ import static org.junit.Assert.*;
 
 
 /**
- * Test the functionality of the sign up use case
- *
+ * Test the functionality of the sign-up use case
  * Included Test Coverage:
  *  - sign_up.use_case (92% line coverage)
  *  - sign_up.interface_adapters (93% line coverage)
@@ -80,20 +78,17 @@ public class SignUpTest {
     public void teardown(){}
 
     /**
-     * Test that the SignUp use case correctly creates updates the output boundart when it
+     * Test that the SignUp use case correctly creates updates the output boundary when it
      * doesn't check the admin
      */
     @Test
     public void testSignUpNoAdminSuccess() {
-        presenter = new SignUpOutputBoundary() {
-            @Override
-            public void updateViewModel(SignUpResponseModel responseModel) {
-                boolean creation = responseModel.isCreationSuccess();
-                String actual = responseModel.getMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.isCreationSuccess();
+            String actual = responseModel.getMessage();
 
-                assertTrue(creation);
-                assertEquals("", actual);
-            }
+            assertTrue(creation);
+            assertEquals("", actual);
         };
         userFactory = new SignUpUserFactory();
         interactor = new SignUpInteractor(postRepository, presenter, userFactory);
@@ -111,15 +106,12 @@ public class SignUpTest {
      */
     @Test
     public void testSignUpAdminSuccess() {
-        presenter = new SignUpOutputBoundary() {
-            @Override
-            public void updateViewModel(SignUpResponseModel responseModel) {
-                boolean creation = responseModel.isCreationSuccess();
-                String actual = responseModel.getMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.isCreationSuccess();
+            String actual = responseModel.getMessage();
 
-                assertTrue(creation);
-                assertEquals("", actual);
-            }
+            assertTrue(creation);
+            assertEquals("", actual);
         };
         userFactory = new SignUpUserFactory();
         interactor = new SignUpInteractor(postRepository, presenter, userFactory);
@@ -137,15 +129,12 @@ public class SignUpTest {
      */
     @Test
     public void testSignUpAdminFailure() {
-        presenter = new SignUpOutputBoundary() {
-            @Override
-            public void updateViewModel(SignUpResponseModel responseModel) {
-                boolean creation = responseModel.isCreationSuccess();
-                String actual = responseModel.getMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.isCreationSuccess();
+            String actual = responseModel.getMessage();
 
-                assertFalse(creation);
-                assertEquals("admin password", actual);
-            }
+            assertFalse(creation);
+            assertEquals("admin password", actual);
         };
         userFactory = new SignUpUserFactory();
         interactor = new SignUpInteractor(postRepository, presenter, userFactory);
@@ -163,15 +152,12 @@ public class SignUpTest {
      */
     @Test
     public void testSignUpEmailExistsError() {
-        presenter = new SignUpOutputBoundary() {
-            @Override
-            public void updateViewModel(SignUpResponseModel responseModel) {
-                boolean creation = responseModel.isCreationSuccess();
-                String actual = responseModel.getMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.isCreationSuccess();
+            String actual = responseModel.getMessage();
 
-                assertFalse(creation);
-                assertEquals("email exists", actual);
-            }
+            assertFalse(creation);
+            assertEquals("email exists", actual);
         };
         userFactory = new SignUpUserFactory();
         interactor = new SignUpInteractor(postRepository, presenter, userFactory);
@@ -190,15 +176,12 @@ public class SignUpTest {
      */
     @Test
     public void testSignUpIncorrectEmailError() {
-        presenter = new SignUpOutputBoundary() {
-            @Override
-            public void updateViewModel(SignUpResponseModel responseModel) {
-                boolean creation = responseModel.isCreationSuccess();
-                String actual = responseModel.getMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.isCreationSuccess();
+            String actual = responseModel.getMessage();
 
-                assertFalse(creation);
-                assertEquals("incorrect email", actual);
-            }
+            assertFalse(creation);
+            assertEquals("incorrect email", actual);
         };
         userFactory = new SignUpUserFactory();
         interactor = new SignUpInteractor(postRepository, presenter, userFactory);
@@ -215,15 +198,12 @@ public class SignUpTest {
      */
     @Test
     public void testSignUpEmptyFieldError() {
-        presenter = new SignUpOutputBoundary() {
-            @Override
-            public void updateViewModel(SignUpResponseModel responseModel) {
-                boolean creation = responseModel.isCreationSuccess();
-                String actual = responseModel.getMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.isCreationSuccess();
+            String actual = responseModel.getMessage();
 
-                assertFalse(creation);
-                assertEquals("empty field", actual);
-            }
+            assertFalse(creation);
+            assertEquals("empty field", actual);
         };
         userFactory = new SignUpUserFactory();
         interactor = new SignUpInteractor(postRepository, presenter, userFactory);
@@ -242,14 +222,11 @@ public class SignUpTest {
     public void testSignUpWithObserver() {
         SignUpViewModel viewModel = new SignUpViewModel();
         presenter = new SignUpPresenter(viewModel);
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("creation success")) {
-                    assertTrue((boolean) evt.getNewValue());
-                }
-
+        PropertyChangeListener observer = evt -> {
+            if (evt.getPropertyName().equals("creation success")) {
+                assertTrue((boolean) evt.getNewValue());
             }
+
         };
         userFactory = new SignUpUserFactory();
         viewModel.addObserver(observer);

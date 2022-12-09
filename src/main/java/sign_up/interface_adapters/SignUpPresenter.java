@@ -4,7 +4,7 @@ import sign_up.use_case.SignUpOutputBoundary;
 import sign_up.use_case.SignUpResponseModel;
 
 /**
-* The Presenter for the sign up use case. Informs the View Model on how to update the view
+* The Presenter for the sign-up use case. Informs the View Model on how to update the view
 * */
 public class SignUpPresenter implements SignUpOutputBoundary {
     private final SignUpViewModel viewModel;

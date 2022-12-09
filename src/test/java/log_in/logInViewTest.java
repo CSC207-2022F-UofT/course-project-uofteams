@@ -17,7 +17,7 @@ public class logInViewTest {
     public static void main(String[] args) {
         LogInDsGateway gateway = new LogInDsGateway() {
 
-            public final List<User> users = new ArrayList<User>();
+            public final List<User> users = new ArrayList<>();
             @Override
             public boolean checkUserEmailExists(String email) {
                 return false;

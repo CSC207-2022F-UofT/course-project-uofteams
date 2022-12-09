@@ -12,7 +12,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import static org.junit.Assert.*;
  * Tests for the Favourite use case.
  * I did not test the UI (view) because I did not know how to do it in an automated test file.
  * However, I did manually test it in the dev process of the UI ViewPost use case as they are integrated.
- *
  * Line Coverage per Layer/Package
  * drivers: 88% -> didn't test the lines that caught CsvExceptions because I would need to corrupt my database files to
  * trigger the Exception
@@ -38,7 +36,6 @@ public class FavouriteTest {
     FavouriteOutputBoundary presenter;
     FavouriteDatabaseAccess dataAccess;
     FavouriteDsGateway simpleDataAccess;
-    CurrentUser currentUser;
     PropertyChangeListener propertyChangeListener;
     FavouriteViewModel viewModel;
 
@@ -50,8 +47,7 @@ public class FavouriteTest {
         dataAccess = new FavouriteDatabaseAccess(postFactory, userFactory, partialPath);
 
         User user = new User(false, 1, "email@mail.utoronto.ca", "password");
-        currentUser = new CurrentUser();
-        currentUser.setCurrentUser(user);
+        CurrentUser.setCurrentUser(user);
         }
 
     @After
@@ -77,7 +73,7 @@ public class FavouriteTest {
     public void testDataToUser(){
         User actualUser = dataAccess.getUser(2);
         assertEquals("email2@mail.utoronto.ca", actualUser.getEmail());
-        assertEquals(false, actualUser.isAdmin());
+        assertFalse(actualUser.isAdmin());
         assertEquals(1, actualUser.getFavourites().size());
     }
 
@@ -87,43 +83,38 @@ public class FavouriteTest {
      */
     @Test
     public void testFavourite(){
-        presenter = new FavouriteOutputBoundary() {
-            @Override
-            public void present(FavouriteResponseModel responseModel) {
-                assertEquals(true, responseModel.getFavouritedBool());
-                assertEquals(false, responseModel.getUnfavouritedBool());
-            }
+        presenter = responseModel -> {
+            assertTrue(responseModel.getFavouritedBool());
+            assertFalse(responseModel.getUnfavouritedBool());
         };
         simpleDataAccess = new FavouriteDsGateway() {
 
             @Override
             public User getUser(int userid) {
-                User user = new User(false, 1, "email@mail.utoronto.ca", "password");
-                return user;
+                return new User(false, 1, "email@mail.utoronto.ca", "password");
             }
 
             @Override
-            public Post getPostFavourite(int postid) {
+            public Post getPostFavourite(int postId) {
                 ArrayList<String> tags = new ArrayList<>();
                 LocalDate deadline = LocalDate.parse("2022-12-25");
                 LocalDate creationDate = LocalDate.parse("2022-11-30");
-                Post post = new Post(2, "title", "description", tags, "", deadline,
-                        creationDate, 4, new ArrayList<Integer>(), new ArrayList<Integer>());
-                return post;
+                return new Post(2, "title", "description", tags, "", deadline,
+                        creationDate, 4, new ArrayList<>(), new ArrayList<>());
             }
 
             @Override
-            public void saveUserInfo(String[] updateduser, int userid) {
+            public void saveUserInfo(String[] updatedUser, int userid) {
                 String[] expectedArray = {"1", "false", "email@mail.utoronto.ca", "password", "", "4"};
-                assertArrayEquals(expectedArray, updateduser);
+                assertArrayEquals(expectedArray, updatedUser);
             }
 
             @Override
-            public void savePostInfo(String[] updatedpost, int postid) {
+            public void savePostInfo(String[] updatedPost, int postId) {
                 String[] expectedArray = {"4", "2", "title", "description", "", "", "2022-12-25", "2022-11-30", "1", ""};
                 System.out.println(Arrays.toString(expectedArray));
-                System.out.println(Arrays.toString(updatedpost));
-                assertArrayEquals(expectedArray, updatedpost);
+                System.out.println(Arrays.toString(updatedPost));
+                assertArrayEquals(expectedArray, updatedPost);
             }
         };
         interactor = new FavouriteInteractor(simpleDataAccess, presenter);
@@ -134,18 +125,14 @@ public class FavouriteTest {
     /**
      * Tests whether a post is "unfavourited" if the Post is already on the User's favourites list.
      * (Also looks at whether the updated data is property converted to a savable String[] format)
-     *
-     * This test slightly differes from testFavourite() as the sample User & Post have 2 or more items
+     * This test slightly differences from testFavourite() as the sample User & Post have 2 or more items
      * in each array category to expand code line coverage in the interactor.
      */
     @Test
     public void testUnfavourite(){
-        presenter = new FavouriteOutputBoundary() {
-            @Override
-            public void present(FavouriteResponseModel responseModel) {
-                assertEquals(false, responseModel.getFavouritedBool());
-                assertEquals(true, responseModel.getUnfavouritedBool());
-            }
+        presenter = responseModel -> {
+            assertFalse(responseModel.getFavouritedBool());
+            assertTrue(responseModel.getUnfavouritedBool());
         };
         simpleDataAccess = new FavouriteDsGateway() {
 
@@ -164,7 +151,7 @@ public class FavouriteTest {
             }
 
             @Override
-            public Post getPostFavourite(int postid) {
+            public Post getPostFavourite(int postId) {
                 ArrayList<String> tags = new ArrayList<>();
                 tags.add("tag1");
                 tags.add("tag2");
@@ -186,16 +173,16 @@ public class FavouriteTest {
             }
 
             @Override
-            public void saveUserInfo(String[] updateduser, int userid) {
+            public void saveUserInfo(String[] updatedUser, int userid) {
                 String[] expectedArray = {"1", "false", "email@mail.utoronto.ca", "password", "7 8", "3000 25"};
-                assertArrayEquals(expectedArray, updateduser);
+                assertArrayEquals(expectedArray, updatedUser);
             }
 
             @Override
-            public void savePostInfo(String[] updatedpost, int postid) {
+            public void savePostInfo(String[] updatedPost, int postId) {
                 String[] expectedArray = {"4", "2", "title", "description", "tag1 tag2 tag3", "", "2022-12-25",
                         "2022-11-30", "20 30 40", "3 100 123"};
-                assertArrayEquals(expectedArray, updatedpost);
+                assertArrayEquals(expectedArray, updatedPost);
             }
         };
         interactor = new FavouriteInteractor(simpleDataAccess, presenter);
@@ -259,23 +246,14 @@ public class FavouriteTest {
      */
     @Test
     public void testUnfavouritedFirePropertyChange(){
-        interactor = new FavouriteInputBoundary() {
-            @Override
-            public void favouritePost(FavouriteRequestModel requestModel) {
-                FavouriteResponseModel responseModel = new FavouriteResponseModel(false, true);
-                presenter.present(responseModel);
-            }
-
+        interactor = requestModel -> {
+            FavouriteResponseModel responseModel = new FavouriteResponseModel(false, true);
+            presenter.present(responseModel);
         };
 
         // creating a replacement for the FavouriteView with PropertyChangeListener to catch
         // the PropertyChange fired in the View Model
-        propertyChangeListener = new PropertyChangeListener(){
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                assertSame("unfavourited", evt.getPropertyName());
-            }
-        };
+        propertyChangeListener = evt -> assertSame("unfavourited", evt.getPropertyName());
         controller = new FavouriteController(interactor);
         viewModel = new FavouriteViewModel();
         viewModel.addObserver(propertyChangeListener);
@@ -289,22 +267,14 @@ public class FavouriteTest {
      */
     @Test
     public void testFavouritedFirePropertyChange(){
-        interactor = new FavouriteInputBoundary() {
-            @Override
-            public void favouritePost(FavouriteRequestModel requestModel) {
-                FavouriteResponseModel responseModel = new FavouriteResponseModel(true, false);
-                presenter.present(responseModel);
-            }
+        interactor = requestModel -> {
+            FavouriteResponseModel responseModel = new FavouriteResponseModel(true, false);
+            presenter.present(responseModel);
         };
 
         // creating a replacement for the FavouriteView with PropertyChangeListener to catch
         // the PropertyChange fired in the View Model
-        propertyChangeListener = new PropertyChangeListener(){
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                assertSame("favourited", evt.getPropertyName());
-            }
-        };
+        propertyChangeListener = evt -> assertSame("favourited", evt.getPropertyName());
         controller = new FavouriteController(interactor);
         viewModel = new FavouriteViewModel();
         viewModel.addObserver(propertyChangeListener);

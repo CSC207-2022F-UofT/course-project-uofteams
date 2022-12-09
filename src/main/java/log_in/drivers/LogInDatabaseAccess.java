@@ -57,12 +57,7 @@ public class LogInDatabaseAccess implements LogInDsGateway {
         } else {
             return false;
         }
-        if(passwords.get(emailIndex).equals(pass)){
-            return true;
-        }
-       else {
-            return false;
-        }
+        return passwords.get(emailIndex).equals(pass);
     }
 
     /**

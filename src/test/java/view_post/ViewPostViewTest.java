@@ -1,6 +1,6 @@
 package view_post;
 
-import delete_post.UI.DeleteView;
+import delete_post.ui.DeleteView;
 import delete_post.drivers.DeletePostDataAccess;
 import delete_post.interface_adapters.DeletePostController;
 import delete_post.interface_adapters.DeletePostPresenter;
@@ -77,7 +77,7 @@ public class ViewPostViewTest {
         DeletePostViewModel deletePostViewModel = new DeletePostViewModel();
         DeletePostOutputBoundary deletePostPresenter = new DeletePostPresenter(deletePostViewModel);
         DeletePostDsGateway deletePostDataAccess = new DeletePostDataAccess("", postFactory1);
-        DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor((DeletePostPresenter) deletePostPresenter, deletePostDataAccess);
+        DeletePostInputBoundary deletePostInteractor = new DeletePostInteractor(deletePostPresenter, deletePostDataAccess);
         DeletePostController deletePostController = new DeletePostController(deletePostInteractor);
         DeleteView deleteView = new DeleteView(deletePostController);
 

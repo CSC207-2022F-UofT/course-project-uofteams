@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
- * Thw View Model for the sign up use case, which manipulates the view to show success or failure
+ * Thw View Model for the sign-up use case, which manipulates the view to show success or failure
  */
 public class SignUpViewModel {
     private final PropertyChangeSupport observable;

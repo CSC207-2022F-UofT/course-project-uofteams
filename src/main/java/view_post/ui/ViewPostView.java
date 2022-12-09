@@ -1,7 +1,7 @@
 package view_post.ui;
 
 
-import delete_post.UI.DeleteView;
+import delete_post.ui.DeleteView;
 import favourite.ui.FavouriteView;
 import make_comment.ui.MakeCommentView;
 import view_comment.ui.ViewCommentView;

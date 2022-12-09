@@ -1,6 +1,6 @@
 package view_post;
 
-import delete_post.UI.DeleteView;
+import delete_post.ui.DeleteView;
 import delete_post.drivers.DeletePostDataAccess;
 import delete_post.interface_adapters.DeletePostController;
 import delete_post.interface_adapters.DeletePostPresenter;
@@ -48,7 +48,6 @@ import view_post.interface_adapters.ViewPostOutputData;
 import view_post.interface_adapters.ViewPostPresenter;
 import view_post.interface_adapters.ViewPostViewModel;
 import view_post.ui.PostListView;
-import view_post.ui.ViewPostView;
 import view_post.use_case.ViewPostDsGateway;
 import view_post.use_case.ViewPostInputBoundary;
 import view_post.use_case.ViewPostInteractor;
@@ -128,7 +127,6 @@ public class ViewPostTest {
         FilterPostBarView filterPostBarView = new FilterPostBarView(new String[]{"sports", "quantum", "math"}, filterPostController);
         PostListView postListView = new PostListView(viewPostController, filterPostBarView);
 
-        ViewPostView viewPostView = new ViewPostView(favouriteView, makeCommentView, deleteView, viewCommentView, postListView);
 
     }
     @After

@@ -5,7 +5,6 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
-import entities.User;
 import sign_up.use_case.SignUpDsGateway;
 
 import java.io.*;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Database access for the Sign Up use case
+ * Database access for the Sign-Up use case
  */
 public class SignUpDatabaseAccess implements SignUpDsGateway {
     private final String userFilePath;

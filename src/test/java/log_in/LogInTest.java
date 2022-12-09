@@ -156,16 +156,13 @@ public class LogInTest {
 
     @Test
     public void logInSuccess(){
-        presenter = new LogInOutputBoundary() {
-            @Override
-            public void present(LogInResponseModel responseModel) {
-                boolean creation = responseModel.getLogInSuccess();
-                String actual = responseModel.getErrorMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.getLogInSuccess();
+            String actual = responseModel.getErrorMessage();
 
-                assertTrue(creation);
-                assertEquals("", actual);
+            assertTrue(creation);
+            assertEquals("", actual);
 
-            }
         };
         userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
@@ -179,16 +176,13 @@ public class LogInTest {
 
     @Test
     public void logInFailEmptyEmail(){
-        presenter = new LogInOutputBoundary() {
-            @Override
-            public void present(LogInResponseModel responseModel) {
-                boolean creation = responseModel.getLogInSuccess();
-                String actual = responseModel.getErrorMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.getLogInSuccess();
+            String actual = responseModel.getErrorMessage();
 
-                assertFalse(creation);
-                assertEquals("Empty Email or Password", actual);
+            assertFalse(creation);
+            assertEquals("Empty Email or Password", actual);
 
-            }
         };
         userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
@@ -202,16 +196,13 @@ public class LogInTest {
 
     @Test
     public void logInFailEmptyPass(){
-        presenter = new LogInOutputBoundary() {
-            @Override
-            public void present(LogInResponseModel responseModel) {
-                boolean creation = responseModel.getLogInSuccess();
-                String actual = responseModel.getErrorMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.getLogInSuccess();
+            String actual = responseModel.getErrorMessage();
 
-                assertFalse(creation);
-                assertEquals("Empty Email or Password", actual);
+            assertFalse(creation);
+            assertEquals("Empty Email or Password", actual);
 
-            }
         };
         userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
@@ -225,16 +216,13 @@ public class LogInTest {
 
     @Test
     public void logInIncorrectEmail(){
-        presenter = new LogInOutputBoundary() {
-            @Override
-            public void present(LogInResponseModel responseModel) {
-                boolean creation = responseModel.getLogInSuccess();
-                String actual = responseModel.getErrorMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.getLogInSuccess();
+            String actual = responseModel.getErrorMessage();
 
-                assertFalse(creation);
-                assertEquals("Incorrect Email", actual);
+            assertFalse(creation);
+            assertEquals("Incorrect Email", actual);
 
-            }
         };
         userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
@@ -248,16 +236,13 @@ public class LogInTest {
 
     @Test
     public void logInIncorrectPass(){
-        presenter = new LogInOutputBoundary() {
-            @Override
-            public void present(LogInResponseModel responseModel) {
-                boolean creation = responseModel.getLogInSuccess();
-                String actual = responseModel.getErrorMessage();
+        presenter = responseModel -> {
+            boolean creation = responseModel.getLogInSuccess();
+            String actual = responseModel.getErrorMessage();
 
-                assertFalse(creation);
-                assertEquals("Incorrect Password", actual);
+            assertFalse(creation);
+            assertEquals("Incorrect Password", actual);
 
-            }
         };
         userFactory = new LogInUserFactory();
         interactor = new LogInInteractor(repository, presenter, userFactory);
@@ -273,12 +258,9 @@ public class LogInTest {
     public void logInObserver(){
         LogInViewModel viewModel = new LogInViewModel();
         presenter = new LogInPresenter(viewModel);
-        PropertyChangeListener observer = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("Login Success")){
-                    assertTrue((boolean) evt.getNewValue());
-                }
+        PropertyChangeListener observer = evt -> {
+            if (evt.getPropertyName().equals("Login Success")){
+                assertTrue((boolean) evt.getNewValue());
             }
         };
         userFactory = new LogInUserFactory();

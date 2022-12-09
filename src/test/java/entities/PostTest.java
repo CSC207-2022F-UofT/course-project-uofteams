@@ -55,7 +55,6 @@ public class PostTest extends Postable {
 
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         int user = 0;
-        int user2 = 1;
         newPost.addFavouritedUser(user);
         newPost.addFavouritedUser(user);
         assertEquals(user, (int) newPost.getFavouritedUsers().get(0));
@@ -69,7 +68,6 @@ public class PostTest extends Postable {
 
         Post newPost = new Post(poster, title, mainDesc, tags, collaborators, deadline, 0);
         int user = 0;
-        int user2 = 1;
         newPost.addFavouritedUser(user);
         newPost.removeFavouritedUser(user);
 
